@@ -1,0 +1,308 @@
+IF OBJECT_ID('usp_autogen_radiology_insert') IS NOT NULL
+	DROP PROCEDURE usp_autogen_radiology_insert
+GO
+
+CREATE PROCEDURE [dbo].[usp_autogen_radiology_insert]
+(
+	@message_id uniqueidentifier,
+	@claim_id varchar(12),
+	@procedure_code_id int,
+	@clinical_code_id int,
+	@rad_ref_id varchar(12),
+	@admission_id varchar(12)
+)
+AS
+
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_autogen_radiology_insert
+*	Description: Insert a new radiology via autogen.
+*
+*	Date:			Author:		Ref#:		Comments:
+*	10/15/2010		JVillas		7424		Refactoring Requirement: trn_RadInvestigationSet1 (Code) and trn_RadInvestigationSet2 (not-coded)
+*	10/05/2010		JVillas		N/A			Updated to allow to insert/update multiple procedure codes with the same internal code
+*	09/17/2010		JVillas		N/A			Added validation for raising activity 7 - radiologist invoice.
+*	08/09/2010		RDimarucut	N/A			Updated activity id setting from 8 to 9.
+*	08/06/2010		RDimarucut	7245		Added validation AnaesthesiaType for raising activity 9 - anaesthetist invoice.
+*	08/06/2010		RDimarucut	N/A			Updated setting of activit id from 9 to 8 for anaesthetist invoice.
+*	08/06/2010		RDimarucut	7253		Added validation for raising activity 9 - anaesthetist invoice.
+*								7254
+*								7257
+*	07/16/2010		RDimarucut	N/A			Added rad_type of insert on new radiology record.
+*	06/21/2010		RDimarucut	6966		Concatenate Laboratory and Radiology details for Aviva Hospital.
+*	06/18/2010		RDimarucut	N/A			Added rad_type column upon inserting a new record on radinvestigationset1. It will be use for Aviva Outpatient Scan.
+*	05/19/2010		RDimarucut	N/A			Added condition for checking if a procedure is already existing per admission, if yes, it will not insert the procedure.
+*	04/20/2010		RDimarucut	N/A			Updated setting of DiagnosticDetails field and used udf_selective_concatenate function
+*					c/o DGreen
+*	04/01/2010		RDimarucut	N/A			Removed sp call to dbo.usp_autogen_radiology_update and replaced it with check insert/update per table.
+*											Updated RadiologyInvestigation_ID is not NULL to just ELSE statement.
+*											Updated conditon on checking if radiology investigation is already existing. Added RadiologyInvestigation_ID.
+*											Updated tabs and spaces.
+*	03/15/2010		RDimarucut				Removed insert on dbo.Radiology_Investigation table.
+*	12/16/2009		DDulay					Update per Regie/Dominic's advise regarding MRI issue
+*	12/11/2009		DDulay					Removed exam_id in trn_OtherAdmissionDetails select criteria
+*	11/24/2009		GBorja					Added Anaesthesia reason fro Quinn and Hibernian.
+*	11/18/2009		GBorja					Updated to append succeeding data entries
+*	11/17/2009		GBorja					Added Clinical Interpretation of MRI Scan/Diagnosis
+*	11/13/2009		GBorja					Updated to use NEW transactional tables
+*	11/12/2009		DDulay					Updated anaesthesia_type default value
+*	02/19/2009		RDimarucut				Added rad_red_id
+*	02/19/2009		RDimarucut				Removed admission_id
+*	02/17/2009		RDimarucut				Updated insert statement -claim_id and doctor id
+*	02/17/2009		RDimarucut				Added procedure_code_id and clinical_code_id for parameter
+*	02/16/2009		RDimarucut				Updated AnaestheticCode to AnaesthesiaCode
+*	02/11/2009		GBorja					Created.
+*
+**********************************************************************************/
+
+BEGIN
+
+DECLARE	 @GetDate datetime
+		,@User varchar (12)
+		,@patient_id char(12)
+		,@activity_id int
+		,@hasActivity bit
+		,@isValid bit
+		,@AnaesthesiaType varchar(30)
+		,@exam_id varchar(50)
+
+SET	@GetDate = (SELECT GETDATE())
+SET @User = 'autogen'
+SET @AnaesthesiaType = NULL
+
+SELECT	@exam_id = exam_id, @AnaesthesiaType = AnaesthesiaType
+FROM	dbo.stg_RadiologyInvestigation 
+WHERE	message_id = @message_id
+
+--Set 1
+IF NOT EXISTS 
+(
+	SELECT	id
+	FROM	dbo.trn_Procedure
+	WHERE	admission_id = @admission_id
+			AND exam_id = @exam_id
+			AND procedure_code_id = @procedure_code_id
+)
+BEGIN
+	INSERT INTO dbo.trn_Procedure
+	(
+		admission_id
+		,procedure_date
+		,procedure_code_id
+		,clinical_code_id
+		,procedure_type
+		,exam_id
+		,create_user
+		,create_date
+		,update_user
+		,update_date
+	)
+	SELECT
+			@admission_id
+			,rad.ProcedureDate
+			,@procedure_code_id
+			,@clinical_code_id
+			,CASE msg.EventType WHEN 'MRI^REP' THEN 1 WHEN 'CT^REP' THEN 2 ELSE NULL END
+			,rad.Exam_id
+			,@User
+			,@GetDate
+			,@User
+			,@GetDate
+	FROM	dbo.stg_RadiologyInvestigation rad
+			INNER JOIN dbo.stg_MessageDetails msg
+				ON msg.message_id = rad.message_id 
+	WHERE	rad.message_id = @message_id
+
+	SET @activity_id = 7	--Radiologists’ Invoices have been raised/scanned/attached?
+
+	--check if claim activity is already existing.
+	EXEC dbo.usp_autogen_claim_requirements_check  @claim_id, @activity_id, @hasActivity OUTPUT
+				
+	IF (@hasActivity = 0)
+	BEGIN
+		--check if the radiology trigger is enabled for claim's claim type and insurer, then trigger the activity.
+		EXEC dbo.usp_autogen_rad_trigger_check @admission_id, @procedure_code_id, @isValid OUTPUT
+		IF (@isValid = 1)
+		BEGIN
+			EXEC usp_autogen_claim_requirements_update @claim_id, @activity_id
+		END
+	END
+
+	IF EXISTS(SELECT procedure_code_id FROM dbo.Procedure_Code WHERE procedure_code_id = @procedure_code_id AND anaesthesia_required = 1)
+		OR (@AnaesthesiaType IS NOT NULL)
+	BEGIN
+		SET @activity_id = 9	--Anaesthetists’ Invoices have been raised/scanned/attached?
+
+		--check if claim activity is already existing.
+		EXEC dbo.usp_autogen_claim_requirements_check  @claim_id, @activity_id, @hasActivity OUTPUT
+		
+		IF (@hasActivity = 0)
+		BEGIN
+			--check if there anaesthesia trigger is enabled for claim's claim type and insurer, then trigger the activity.
+			EXEC dbo.usp_autogen_anaesthesia_trigger_check @admission_id, @isValid OUTPUT
+			IF (@isValid = 1)
+			BEGIN
+				EXEC usp_autogen_claim_requirements_update @claim_id, @activity_id
+			END
+		END
+	END
+END
+ELSE
+BEGIN
+	UPDATE	dbo.trn_Procedure
+	SET		procedure_date = COALESCE(sri.ProcedureDate, tpr.procedure_date)
+			,procedure_code_id = COALESCE(@procedure_code_id, tpr.procedure_code_id)
+			,clinical_code_id = COALESCE(@clinical_code_id, tpr.clinical_code_id)
+			,update_user = @User
+			,update_date = @GetDate
+	FROM	dbo.trn_Procedure tpr
+			INNER JOIN dbo.stg_RadiologyInvestigation sri 
+				ON sri.Exam_id = tpr.exam_id
+	WHERE	sri.message_id = @message_id
+			AND tpr.procedure_code_id = @procedure_code_id
+END
+
+--Set 2
+IF NOT EXISTS
+(
+	SELECT	id
+	FROM	dbo.trn_RadInvestigation
+	WHERE	admission_id = @admission_id
+			AND exam_id = @exam_id
+)
+BEGIN
+	INSERT INTO dbo.trn_RadInvestigation
+	(
+		admission_id
+		,x_ray
+		,ultrasound
+		,ct_scan
+		,mri
+		,pet_ct
+		,others
+		,diagnostic_tests
+		,rad_tests
+		--,clinical_indication_code1
+		,clinical_indication_date1
+		,other_facility
+		,exam_id
+		,create_user
+		,create_date
+		,update_user
+		,update_date
+	)
+	SELECT  @admission_id 
+			,CASE WHEN Examination = 'RE1' THEN 1 ELSE 0 END --x_ray
+			,CASE WHEN Examination = 'RE2' THEN 1 ELSE 0 END --ultrasound
+			,CASE WHEN Examination = 'RE3' THEN 1 ELSE 0 END --ct_scan
+			,CASE WHEN Examination = 'RE4' THEN 1 ELSE 0 END --mri
+			,CASE WHEN Examination = 'RE5' THEN 1 ELSE 0 END --pet_ct
+			,CASE WHEN Examination = 'RE6' THEN 1 ELSE 0 END --others
+			,TestsSummary
+			,OtherRadTestFacility
+			--,RIQ01
+			,RIQ01Date
+			,RIQ02
+			,Exam_id
+			,@User
+			,@GetDate
+			,@User
+			,@GetDate
+	FROM	dbo.stg_RadiologyInvestigation
+	WHERE	message_id = @message_id
+
+	SET @activity_id = 7	--Radiologists’ Invoices have been raised/scanned/attached?
+
+	--check if claim activity is already existing.
+	EXEC dbo.usp_autogen_claim_requirements_check  @claim_id, @activity_id, @hasActivity OUTPUT
+				
+	IF (@hasActivity = 0)
+	BEGIN
+		--check if the radiology trigger is enabled for claim's claim type and insurer, then trigger the activity.
+		EXEC dbo.usp_autogen_rad_trigger_check @admission_id, @procedure_code_id, @isValid OUTPUT
+		IF (@isValid = 1)
+		BEGIN
+			EXEC usp_autogen_claim_requirements_update @claim_id, @activity_id
+		END
+	END
+END
+ELSE
+BEGIN
+	UPDATE	dbo.trn_RadInvestigation
+	SET		x_ray = CASE WHEN sri.Examination = 'RE1' THEN 1 ELSE tri.x_ray END
+			,ultrasound = CASE WHEN sri.Examination = 'RE2' THEN 1 ELSE tri.ultrasound END
+			,ct_scan = CASE WHEN sri.Examination = 'RE3' THEN 1 ELSE tri.ct_scan END
+			,mri = CASE WHEN sri.Examination = 'RE4' THEN 1 ELSE tri.mri END
+			,pet_ct = CASE WHEN sri.Examination = 'RE5' THEN 1 ELSE tri.pet_ct END
+			,others = CASE WHEN sri.Examination = 'RE6' THEN 1 ELSE tri.others END
+			,diagnostic_tests = dbo.udf_selective_concatenate(tri.diagnostic_tests, sri.TestsSummary)
+			,rad_tests = COALESCE(tri.rad_tests + ', ' + CAST(sri.OtherRadTestFacility AS varchar(4000)), tri.rad_tests)
+			--,clinical_indication_code1 = sri.RIQ01
+			,clinical_indication_date1 = COALESCE(sri.RIQ01Date, tri.clinical_indication_date1)
+			,other_facility = COALESCE(CAST(sri.RIQ02 AS varchar(100)), tri.other_facility)
+			,update_user = @User
+			,update_date = @GetDate
+	FROM	dbo.trn_RadInvestigation tri
+			INNER JOIN dbo.stg_RadiologyInvestigation sri
+				ON sri.message_id = @message_id
+	WHERE	tri.admission_id = @admission_id
+END
+	
+IF NOT EXISTS (SELECT Admission_id FROM dbo.trn_OtherAdmissionDetails WHERE Admission_id = @admission_id)
+BEGIN
+	INSERT INTO dbo.trn_OtherAdmissionDetails
+	(
+		Admission_id
+		,Anaesthesia_type
+		,AnaesthesiaReason
+		,ClinicalInterpretation
+		,Exam_id
+	)
+	SELECT	@admission_id
+			,CASE
+				WHEN AnaesthesiaType IS NULL THEN NULL 
+				WHEN UPPER(LTRIM(RTRIM(AnaesthesiaType))) IN ('GENERAL','1') THEN 0 
+				ELSE 1
+			END
+			,AnaesthesiaReason
+			,MRIClinicalInterpret
+			,Exam_id
+	FROM	dbo.stg_RadiologyInvestigation
+	WHERE	message_id = @message_id
+END
+ELSE
+BEGIN
+	UPDATE	dbo.trn_OtherAdmissionDetails
+	SET		Anaesthesia_type =	CASE
+									WHEN sri.AnaesthesiaType IS NULL THEN Anaesthesia_type
+									WHEN UPPER(LTRIM(RTRIM(sri.AnaesthesiaType))) IN ('GENERAL','1') THEN 0 
+									ELSE 1
+								END
+			,AnaesthesiaReason = COALESCE(sri.AnaesthesiaReason, toad.AnaesthesiaReason)
+			,ClinicalInterpretation =	CASE 
+											WHEN ClinicalInterpretation IS NULL THEN sri.MRIClinicalInterpret
+											ELSE ClinicalInterpretation + COALESCE(', '+ CAST(sri.MRIClinicalInterpret AS varchar), '')
+										END
+	FROM	dbo.trn_RadiologyInvestigation ri 
+			INNER JOIN dbo.trn_OtherAdmissionDetails toad 
+				ON ri.admission_id = toad.admission_id 
+			INNER JOIN dbo.stg_RadiologyInvestigation sri 
+				ON sri.message_id = @message_id
+	WHERE	ri.admission_id = @admission_id
+END
+
+--Aviva Hospital Claim - Concat Lab and Rad
+UPDATE	dbo.Admission
+SET		full_description_treatment = dbo.udf_selective_concatenate(adm.full_description_treatment, rad.TestsSummary)
+FROM	dbo.[Admission] adm 
+		INNER JOIN dbo.stg_RadiologyInvestigation rad ON rad.message_id = @message_id
+WHERE	adm.admission_id = @admission_id
+
+END
+
+
+
+
+
+

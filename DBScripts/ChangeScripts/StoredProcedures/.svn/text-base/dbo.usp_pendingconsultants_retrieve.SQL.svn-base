@@ -1,0 +1,31 @@
+IF OBJECT_ID('dbo.usp_pendingconsultants_retrieve') IS NOT NULL
+	DROP PROCEDURE [dbo].[usp_pendingconsultants_retrieve]
+GO
+
+CREATE PROCEDURE [dbo].[usp_pendingconsultants_retrieve]
+AS    
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_pendingconsultants_retrieve
+*	Description: 
+*
+*	Date:	    Author:		Ref#:		Comments:
+*	10/22/10	EBrosas		7446		Removed reference to status_manual_consultant field
+*
+**********************************************************************************/
+
+SELECT	DISTINCT doc.Doctor_Id
+	,UPPER(ISNULL(doc.Last_Name + ', ','')) + UPPER(RTRIM(ISNULL(doc.First_Name,''))) + ' ' + UPPER(RTRIM(ISNULL(doc.Middle_Initial,''))) AS [Doctor_Name]  
+-- 	,RTRIM(First_Name) AS First_Name
+-- 	,RTRIM(Middle_Initial) AS Middle_Initial
+-- 	,RTRIM(Last_Name) AS Last_Name
+FROM	DOCTOR doc
+--JOIN	CLAIM clm (NOLOCK)
+--	ON clm.status_manual_consultant = doc.doctor_id
+WHERE	doc.Doctor_Id NOT LIKE 'GP%'
+--	AND	clm.status_manual_consultant IS NOT NULL		
+ORDER BY Doctor_Name
+GO
+
+

@@ -1,0 +1,232 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TASDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ContractorRegistry">
+    <Key>
+      <PropertyRef Name="IDNumber" />
+      <PropertyRef Name="ContractStartDate" />
+      <PropertyRef Name="ContractEndDate" />
+    </Key>
+    <Property Name="RegistryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ContractorNo" Type="int" Nullable="false" />
+    <Property Name="RegistrationDate" Type="datetime" />
+    <Property Name="IDNumber" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="IDType" Type="tinyint" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="CompanyName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CompanyID" Type="int" />
+    <Property Name="CompanyCRNo" Type="varchar" MaxLength="20" />
+    <Property Name="PurchaseOrderNo" Type="float" />
+    <Property Name="JobTitle" Type="varchar" MaxLength="10" />
+    <Property Name="MobileNo" Type="varchar" MaxLength="20" />
+    <Property Name="VisitedCostCenter" Type="varchar" MaxLength="12" Nullable="false" />
+    <Property Name="SupervisorEmpNo" Type="int" Nullable="false" />
+    <Property Name="SupervisorEmpName" Type="varchar" MaxLength="100" />
+    <Property Name="PurposeOfVisit" Type="varchar" MaxLength="300" />
+    <Property Name="ContractStartDate" Type="datetime" Nullable="false" />
+    <Property Name="ContractEndDate" Type="datetime" Nullable="false" />
+    <Property Name="BloodGroup" Type="varchar" MaxLength="10" />
+    <Property Name="Remarks" Type="varchar" MaxLength="500" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedByEmpNo" Type="int" Nullable="false" />
+    <Property Name="CreatedByUser" Type="varchar" MaxLength="50" />
+    <Property Name="LastUpdatedDate" Type="datetime" />
+    <Property Name="LastUpdatedByEmpNo" Type="int" />
+    <Property Name="LastUpdatedByUser" Type="varchar" MaxLength="50" />
+    <Property Name="WorkDurationHours" Type="int" />
+    <Property Name="WorkDurationMins" Type="int" />
+    <Property Name="CompanyContactNo" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="IDCardRegistry">
+    <Key>
+      <PropertyRef Name="EmpNo" />
+    </Key>
+    <Property Name="RegistryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpNo" Type="int" Nullable="false" />
+    <Property Name="EmpName" Type="varchar" MaxLength="100" />
+    <Property Name="Position" Type="varchar" MaxLength="50" />
+    <Property Name="CustomCostCenter" Type="varchar" MaxLength="100" />
+    <Property Name="CPRNo" Type="varchar" MaxLength="30" />
+    <Property Name="BloodGroup" Type="varchar" MaxLength="10" />
+    <Property Name="IsContractor" Type="bit" Nullable="false" />
+    <Property Name="EmpPhoto" Type="varbinary(max)" />
+    <Property Name="Base64Photo" Type="varchar(max)" />
+    <Property Name="ImageFileName" Type="varchar" MaxLength="100" />
+    <Property Name="ImageFileExt" Type="varchar" MaxLength="5" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedByEmpNo" Type="int" Nullable="false" />
+    <Property Name="CreatedByUser" Type="varchar" MaxLength="50" />
+    <Property Name="LastUpdatedDate" Type="datetime" />
+    <Property Name="LastUpdatedByEmpNo" Type="int" />
+    <Property Name="LastUpdatedByUser" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="LicenseRegistry">
+    <Key>
+      <PropertyRef Name="EmpNo" />
+      <PropertyRef Name="LicenseNo" />
+      <PropertyRef Name="LicenseTypeCode" />
+      <PropertyRef Name="IssuedDate" />
+      <PropertyRef Name="ExpiryDate" />
+    </Key>
+    <Property Name="RegistryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpNo" Type="int" Nullable="false" />
+    <Property Name="LicenseNo" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="LicenseTypeCode" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="LicenseTypeDesc" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="IssuingAuthority" Type="varchar" MaxLength="200" />
+    <Property Name="IssuedDate" Type="datetime" Nullable="false" />
+    <Property Name="ExpiryDate" Type="datetime" Nullable="false" />
+    <Property Name="Remarks" Type="varchar" MaxLength="300" />
+    <Property Name="LicenseGUID" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedByEmpNo" Type="int" Nullable="false" />
+    <Property Name="CreatedByEmpName" Type="varchar" MaxLength="100" />
+    <Property Name="CreatedByUser" Type="varchar" MaxLength="50" />
+    <Property Name="LastUpdatedDate" Type="datetime" />
+    <Property Name="LastUpdatedByEmpNo" Type="int" />
+    <Property Name="LastUpdatedByEmpName" Type="varchar" MaxLength="100" />
+    <Property Name="LastUpdatedByUser" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'tas2.tas.Vw_Contractor' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Vw_Contractor">
+    <Key>
+      <PropertyRef Name="RegistryID" />
+      <PropertyRef Name="ContractorNo" />
+      <PropertyRef Name="IDNumber" />
+      <PropertyRef Name="IDType" />
+      <PropertyRef Name="FirstName" />
+      <PropertyRef Name="LastName" />
+      <PropertyRef Name="CompanyName" />
+      <PropertyRef Name="VisitedCostCenter" />
+      <PropertyRef Name="SupervisorEmpNo" />
+      <PropertyRef Name="ContractStartDate" />
+      <PropertyRef Name="ContractEndDate" />
+      <PropertyRef Name="CreatedByEmpNo" />
+    </Key>
+    <Property Name="RegistryID" Type="int" Nullable="false" />
+    <Property Name="ContractorNo" Type="int" Nullable="false" />
+    <Property Name="RegistrationDate" Type="datetime" />
+    <Property Name="IDNumber" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="IDType" Type="tinyint" Nullable="false" />
+    <Property Name="FirstName" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="LastName" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="CompanyName" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="CompanyID" Type="int" />
+    <Property Name="CompanyCRNo" Type="varchar" MaxLength="20" />
+    <Property Name="PurchaseOrderNo" Type="float" />
+    <Property Name="JobCode" Type="varchar" MaxLength="10" />
+    <Property Name="JobTitle" Type="varchar" MaxLength="50" />
+    <Property Name="MobileNo" Type="varchar" MaxLength="20" />
+    <Property Name="VisitedCostCenter" Type="varchar" MaxLength="12" Nullable="false" />
+    <Property Name="VisitedCostCenterName" Type="varchar" MaxLength="40" />
+    <Property Name="SupervisorEmpNo" Type="int" Nullable="false" />
+    <Property Name="SupervisorEmpName" Type="varchar" MaxLength="100" />
+    <Property Name="PurposeOfVisit" Type="varchar" MaxLength="300" />
+    <Property Name="ContractStartDate" Type="datetime" Nullable="false" />
+    <Property Name="ContractEndDate" Type="datetime" Nullable="false" />
+    <Property Name="BloodGroup" Type="varchar" MaxLength="10" />
+    <Property Name="BloodGroupDesc" Type="varchar" MaxLength="50" />
+    <Property Name="Remarks" Type="varchar" MaxLength="500" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedByEmpNo" Type="int" Nullable="false" />
+    <Property Name="CreatedByEmpName" Type="varchar" MaxLength="40" />
+    <Property Name="CreatedByUser" Type="varchar" MaxLength="50" />
+    <Property Name="LastUpdatedDate" Type="datetime" />
+    <Property Name="LastUpdatedByEmpNo" Type="int" />
+    <Property Name="LastUpdatedByEmpName" Type="varchar" MaxLength="40" />
+    <Property Name="LastUpdatedByUser" Type="varchar" MaxLength="50" />
+    <Property Name="CardNo" Type="varchar" MaxLength="20" />
+    <Property Name="WorkDurationHours" Type="int" />
+    <Property Name="WorkDurationMins" Type="int" />
+    <Property Name="CompanyContactNo" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'tas2.tas.Vw_IDCardHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Vw_IDCardHistory">
+    <Key>
+      <PropertyRef Name="HistoryID" />
+      <PropertyRef Name="EmpNo" />
+      <PropertyRef Name="IsContractor" />
+      <PropertyRef Name="CardRefNo" />
+      <PropertyRef Name="CreatedByEmpNo" />
+    </Key>
+    <Property Name="HistoryID" Type="int" Nullable="false" />
+    <Property Name="EmpNo" Type="int" Nullable="false" />
+    <Property Name="IsContractor" Type="bit" Nullable="false" />
+    <Property Name="CardRefNo" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Remarks" Type="varchar" MaxLength="300" />
+    <Property Name="CardGUID" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedByEmpNo" Type="int" Nullable="false" />
+    <Property Name="CreatedByEmpName" Type="varchar" MaxLength="40" />
+    <Property Name="CreatedByUser" Type="varchar" MaxLength="50" />
+    <Property Name="LastUpdatedDate" Type="datetime" />
+    <Property Name="LastUpdatedByEmpNo" Type="int" />
+    <Property Name="LastUpdatedByEmpName" Type="varchar" MaxLength="40" />
+    <Property Name="LastUpdatedByUser" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityContainer Name="TASDBModelStoreContainer">
+    <EntitySet Name="ContractorRegistry" EntityType="Self.ContractorRegistry" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="IDCardRegistry" EntityType="Self.IDCardRegistry" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="LicenseRegistry" EntityType="Self.LicenseRegistry" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="Vw_Contractor" EntityType="Self.Vw_Contractor" store:Type="Views" store:Schema="tas">
+      <DefiningQuery>SELECT 
+    [Vw_Contractor].[RegistryID] AS [RegistryID], 
+    [Vw_Contractor].[ContractorNo] AS [ContractorNo], 
+    [Vw_Contractor].[RegistrationDate] AS [RegistrationDate], 
+    [Vw_Contractor].[IDNumber] AS [IDNumber], 
+    [Vw_Contractor].[IDType] AS [IDType], 
+    [Vw_Contractor].[FirstName] AS [FirstName], 
+    [Vw_Contractor].[LastName] AS [LastName], 
+    [Vw_Contractor].[CompanyName] AS [CompanyName], 
+    [Vw_Contractor].[CompanyID] AS [CompanyID], 
+    [Vw_Contractor].[CompanyCRNo] AS [CompanyCRNo], 
+    [Vw_Contractor].[PurchaseOrderNo] AS [PurchaseOrderNo], 
+    [Vw_Contractor].[JobCode] AS [JobCode], 
+    [Vw_Contractor].[JobTitle] AS [JobTitle], 
+    [Vw_Contractor].[MobileNo] AS [MobileNo], 
+    [Vw_Contractor].[VisitedCostCenter] AS [VisitedCostCenter], 
+    [Vw_Contractor].[VisitedCostCenterName] AS [VisitedCostCenterName], 
+    [Vw_Contractor].[SupervisorEmpNo] AS [SupervisorEmpNo], 
+    [Vw_Contractor].[SupervisorEmpName] AS [SupervisorEmpName], 
+    [Vw_Contractor].[PurposeOfVisit] AS [PurposeOfVisit], 
+    [Vw_Contractor].[ContractStartDate] AS [ContractStartDate], 
+    [Vw_Contractor].[ContractEndDate] AS [ContractEndDate], 
+    [Vw_Contractor].[BloodGroup] AS [BloodGroup], 
+    [Vw_Contractor].[BloodGroupDesc] AS [BloodGroupDesc], 
+    [Vw_Contractor].[Remarks] AS [Remarks], 
+    [Vw_Contractor].[CreatedDate] AS [CreatedDate], 
+    [Vw_Contractor].[CreatedByEmpNo] AS [CreatedByEmpNo], 
+    [Vw_Contractor].[CreatedByEmpName] AS [CreatedByEmpName], 
+    [Vw_Contractor].[CreatedByUser] AS [CreatedByUser], 
+    [Vw_Contractor].[LastUpdatedDate] AS [LastUpdatedDate], 
+    [Vw_Contractor].[LastUpdatedByEmpNo] AS [LastUpdatedByEmpNo], 
+    [Vw_Contractor].[LastUpdatedByEmpName] AS [LastUpdatedByEmpName], 
+    [Vw_Contractor].[LastUpdatedByUser] AS [LastUpdatedByUser], 
+    [Vw_Contractor].[CardNo] AS [CardNo], 
+    [Vw_Contractor].[WorkDurationHours] AS [WorkDurationHours], 
+    [Vw_Contractor].[WorkDurationMins] AS [WorkDurationMins], 
+    [Vw_Contractor].[CompanyContactNo] AS [CompanyContactNo]
+    FROM [tas].[Vw_Contractor] AS [Vw_Contractor]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="Vw_IDCardHistory" EntityType="Self.Vw_IDCardHistory" store:Type="Views" store:Schema="tas">
+      <DefiningQuery>SELECT 
+    [Vw_IDCardHistory].[HistoryID] AS [HistoryID], 
+    [Vw_IDCardHistory].[EmpNo] AS [EmpNo], 
+    [Vw_IDCardHistory].[IsContractor] AS [IsContractor], 
+    [Vw_IDCardHistory].[CardRefNo] AS [CardRefNo], 
+    [Vw_IDCardHistory].[Remarks] AS [Remarks], 
+    [Vw_IDCardHistory].[CardGUID] AS [CardGUID], 
+    [Vw_IDCardHistory].[CreatedDate] AS [CreatedDate], 
+    [Vw_IDCardHistory].[CreatedByEmpNo] AS [CreatedByEmpNo], 
+    [Vw_IDCardHistory].[CreatedByEmpName] AS [CreatedByEmpName], 
+    [Vw_IDCardHistory].[CreatedByUser] AS [CreatedByUser], 
+    [Vw_IDCardHistory].[LastUpdatedDate] AS [LastUpdatedDate], 
+    [Vw_IDCardHistory].[LastUpdatedByEmpNo] AS [LastUpdatedByEmpNo], 
+    [Vw_IDCardHistory].[LastUpdatedByEmpName] AS [LastUpdatedByEmpName], 
+    [Vw_IDCardHistory].[LastUpdatedByUser] AS [LastUpdatedByUser]
+    FROM [tas].[Vw_IDCardHistory] AS [Vw_IDCardHistory]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>

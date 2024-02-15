@@ -1,0 +1,82 @@
+IF OBJECT_ID ('usp_trn_procedure_insert') IS NOT NULL
+	DROP PROCEDURE [dbo].usp_trn_procedure_insert
+GO
+
+CREATE PROCEDURE [dbo].usp_trn_procedure_insert
+(
+	 @admission_id char(12)
+	,@procedure_date datetime
+	,@procedure_code_id int
+	,@clinical_code_id int
+	,@doctor_id char(12)
+	,@anaesthesia_type tinyint
+	,@procedure_facility text
+	,@anaesthetist_id char(12)
+	,@procedure_type tinyint
+	,@username varchar(20)
+)
+AS
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_trn_procedure_insert
+*	Description: Inserts a record to the trn_Procedure table
+*
+*	Date:		Author:		Ref#:		Comments:
+*	11/03/10	EBrosas		7429		Change SP call from usp_audit_logging to usp_audit_logging_new.
+*	09/17/10	MLim		7424		Created
+*
+**********************************************************************************/
+
+DECLARE 
+	 @id int
+	,@date datetime
+	,@claim_id varchar(12)
+
+SET @date = (SELECT GETDATE())
+SET @claim_id = 0
+
+INSERT INTO [dbo].trn_Procedure
+(
+	 admission_id
+	,procedure_date
+	,procedure_code_id
+	,clinical_code_id
+	,doctor_id
+	,anaesthesia_type
+	,procedure_facility
+	,anaesthetist_id
+	,procedure_type
+	,create_user
+	,create_date
+	,update_user
+	,update_date
+)
+VALUES
+(
+	 @admission_id 
+	,@procedure_date 
+	,@procedure_code_id 
+	,@clinical_code_id 
+	,@doctor_id 
+	,@anaesthesia_type 
+	,@procedure_facility 
+	,@anaesthetist_id 
+	,@procedure_type 
+	,@username
+	,@date
+	,@username
+	,@date
+)
+
+SET @id = (SELECT SCOPE_IDENTITY())
+
+SELECT @claim_id = claim_id 
+FROM dbo.Admission a 
+	LEFT JOIN dbo.trn_Procedure b ON b.admission_id = a.admission_id
+WHERE b.id = @id
+
+EXEC usp_audit_logging_new @id, @claim_id, 'trn_Procedure', 'Insert', @date, @username, 'CF_Clinical'    
+--EXEC usp_audit_logging @id, @id, 'trn_Procedure', 'Insert', @date, @username
+
+GO

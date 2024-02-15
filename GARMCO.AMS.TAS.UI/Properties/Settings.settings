@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="GARMCO.AMS.TAS.UI.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="GARMCO_AMS_TAS_UI_EmployeeWebService_Employee" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://grmgap01:8080/Employee.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

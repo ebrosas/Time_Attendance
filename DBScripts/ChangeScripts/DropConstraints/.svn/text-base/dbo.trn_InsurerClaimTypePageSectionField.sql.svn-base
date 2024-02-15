@@ -1,0 +1,10 @@
+/*********************************************************************************
+*	Date:		Author:		Ref#:	Comments:
+*	04/15/10	RFernando	5859	Drop [FK_trn_InsurerClaimTypePageSectionField_trn_InsurerClaimTypePageSection]
+**********************************************************************************/
+
+IF OBJECT_ID ('[FK_trn_InsurerClaimTypePageSectionField_trn_InsurerClaimTypePageSection]') IS NOT NULL
+BEGIN
+	ALTER TABLE [dbo].[trn_InsurerClaimTypePageSectionField]  
+	DROP  CONSTRAINT [FK_trn_InsurerClaimTypePageSectionField_trn_InsurerClaimTypePageSection] 
+END

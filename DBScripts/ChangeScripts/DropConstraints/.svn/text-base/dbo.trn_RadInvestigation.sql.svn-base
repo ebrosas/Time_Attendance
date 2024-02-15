@@ -1,0 +1,16 @@
+/********************************************************************************
+*	Revision History
+*	Name: Drop constraints for trn_RadInvestigation table
+*	Description: 
+*
+*	Date:	  	Author:		Ref#:	Comments:
+*	09/27/10	MLim		7424	Created
+*
+**********************************************************************************/
+
+IF OBJECT_ID ('[FK_trn_RadInvestigation_Admission]') IS NOT NULL
+BEGIN
+	ALTER TABLE [dbo].[trn_RadInvestigation]
+	DROP CONSTRAINT [FK_trn_RadInvestigation_Admission]
+END
+GO

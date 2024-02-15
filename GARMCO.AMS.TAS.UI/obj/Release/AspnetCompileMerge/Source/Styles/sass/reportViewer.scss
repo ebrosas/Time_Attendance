@@ -1,0 +1,80 @@
+﻿@use "common";
+
+/*#region Variables */
+$pageTitle-Color: white;
+$fieldTitle-Color: #4b4c4d;
+$fieldLabel-Color: #171810;
+$groupTitle-Color: #DB1F48;
+$groupPanel-Color: #3A5673;
+/*#endregion */
+
+/*#region Template Properties */
+.button-basic {
+   @include common.fontTheme($fontFamily: 'Montserrat-Regular', $fontSize: 13px, $fontWeight: 600, $fontColor: null);
+    letter-spacing: 1px;
+    margin: 0px 4px;
+}
+
+%panel-header-template {
+    font-family: Montserrat-SemiBold !important;
+    color: $pageTitle-Color;
+    text-align: center;
+    border-radius: 5px 5px 0px 0px;
+}
+/*#endregion */
+
+/*#region Mixins */
+@mixin mix-panel-header($fontSize, $height, $bgColor) {
+    @extend %panel-header-template;
+    font-size: $fontSize;
+    height: $height;
+    line-height: $height;
+    color: $pageTitle-Color;
+    background-color: $bgColor;
+}
+/*#endregion */
+
+/*#region Caption Styles*/
+.fieldTitle {
+    @include common.fontTheme($fontFamily: 'Montserrat-Bold', $fontSize: 13px, $fontWeight: 800, $fontColor: $fieldTitle-Color);
+    line-height: 1.5;
+    text-transform: uppercase;
+    text-align: right;
+}
+
+.fieldValue {
+    @include common.fontTheme($fontFamily: 'Montserrat-Regular', $fontSize: 14px, $fontWeight: 500, $fontColor: $fieldLabel-Color);
+}
+
+.groupTitle {
+    @include common.fontTheme($fontFamily: 'Montserrat-Bold', $fontSize: 15px, $fontWeight: null, $fontColor: $groupTitle-Color);
+    letter-spacing: 1px;
+    text-transform: capitalize;
+}
+
+.groupTitle2{
+    @include common.fontTheme($fontFamily: 'Mukta-Bold', $fontSize: 17px, $fontWeight: null, $fontColor: $groupTitle-Color);
+    /*letter-spacing: 1px;*/
+    text-transform: capitalize;
+}
+/*#endregion */
+
+/*#region Panel Styles */
+.groupHeader {
+    @include mix-panel-header($fontSize: 15px, $height: 35px, $bgColor: $groupPanel-Color);
+}
+
+.groupBody {
+    background-color: #f5f5f5;
+    padding: 10px 0px;
+    border: {
+        style: solid;
+        color: $groupPanel-Color;
+        top-style: none;
+        right-style: solid;
+        left-style: solid;
+        bottom-style: solid;
+    }
+    box-shadow: 5px 40px 20px 0px #5B7C70;
+}
+/*#endregion */

@@ -1,0 +1,131 @@
+/********************************************************************************
+*	Date:	  	Author:		Comments:
+*   12/10/10    AMurphy     Added Bed Report to Report Type
+**********************************************************************************/
+
+IF NOT EXISTS(SELECT [type] FROM refData WHERE [type] = 'Report Type' and [code] = 'RT9')
+BEGIN
+	BEGIN TRANSACTION
+
+	INSERT INTO [RefData]
+           ([type]
+           ,[code]
+           ,[desc]
+		   ,[sortorder])
+	SELECT 'Report Type', 'RT9', 'Bed Utilisation Report' ,null
+
+	IF @@error <> 0
+	BEGIN
+		ROLLBACK TRANSACTION
+	END
+	ELSE
+	BEGIN
+		COMMIT TRANSACTION
+	END
+END
+
+/********************************************************************************
+*
+*	Date:	  	Author:		Comments:
+*	10/20/10	RDimarucut	Updated Outstanding Requirements data for Search Criteria
+*
+**********************************************************************************/
+
+BEGIN TRANSACTION
+
+DELETE FROM dbo.RefData WHERE [type] ='Outstanding'
+
+INSERT INTO [RefData]
+           ([type]
+           ,[code]
+           ,[desc]
+           ,[sortorder])
+SELECT 'Outstanding', '1', 'Patient/Policy Data' ,1 UNION
+SELECT 'Outstanding', '2', 'Clinical/Consultant Data',2 UNION
+SELECT 'Outstanding', '3', 'Consultant Signature', 3 UNION
+SELECT 'Outstanding', '4', 'Consultant Invoices', 4 UNION
+SELECT 'Outstanding', '5', 'Hospital Invoices', 5 UNION
+SELECT 'Outstanding', '6', 'Other Supporting Documentation', 6 UNION
+SELECT 'Outstanding', '7', 'Radiology Invoices', 7 UNION
+SELECT 'Outstanding', '8', 'Laboratory Invoices', 8 UNION
+SELECT 'Outstanding', '9', 'Anaesthesiology Invoices', 9 
+
+IF @@ERROR <> 0
+BEGIN
+	ROLLBACK TRANSACTION
+END
+ELSE
+BEGIN
+	COMMIT TRANSACTION
+END
+
+/********************************************************************************
+*	Date:	  	Author:		Comments:
+*	20/10/10	JVillas		Added the following claim status:
+							* 'Referred to Patient'
+							* 'Paid by Patient'
+							* 'Balance Written - Off'
+**********************************************************************************/
+
+IF NOT EXISTS(SELECT [type] FROM dbo.RefData WHERE [type] = 'Claim Status' AND code = 'CS19')
+BEGIN
+	INSERT INTO dbo.RefData
+	(
+		[type]
+		,code
+		,[desc]
+		,sortorder
+	)
+	SELECT
+			'Claim Status'
+			,'CS19'
+			,'Referred to Patient'
+			,(SELECT MAX(sortorder) + 1 FROM dbo.RefData WHERE [type] = 'Claim Status')
+END
+
+IF NOT EXISTS(SELECT [type] FROM dbo.RefData WHERE [type] = 'Claim Status' AND code = 'CS20')
+BEGIN
+	INSERT INTO dbo.RefData
+	(
+		[type]
+		,code
+		,[desc]
+		,sortorder
+	)
+	SELECT
+			'Claim Status'
+			,'CS20'
+			,'Paid by Patient'
+			,(SELECT MAX(sortorder) + 1 FROM dbo.RefData WHERE [type] = 'Claim Status')
+END
+
+IF NOT EXISTS(SELECT [type] FROM dbo.RefData WHERE [type] = 'Claim Status' AND code = 'CS21')
+BEGIN
+	INSERT INTO dbo.RefData
+	(
+		[type]
+		,code
+		,[desc]
+		,sortorder
+	)
+	SELECT
+			'Claim Status'
+			,'CS21'
+			,'Balance Written - Off'
+			,(SELECT MAX(sortorder) + 1 FROM dbo.RefData WHERE [type] = 'Claim Status')
+END
+
+/********************************************************************************
+*	Date:	  	Author:		Comments:
+*	21/10/10	JVillas		Added claim payment transaction types.
+**********************************************************************************/
+
+IF NOT EXISTS(SELECT [type] FROM dbo.RefData WHERE [type] = 'Claim Payment Type')
+BEGIN
+	INSERT [dbo].[RefData] ([type], [code], [desc], [SortOrder]) VALUES (N'Claim Payment Type', N'CPT1', N'Payment (Patient)', NULL)
+	INSERT [dbo].[RefData] ([type], [code], [desc], [SortOrder]) VALUES (N'Claim Payment Type', N'CPT2', N'Payment (Insurer)', NULL)
+	INSERT [dbo].[RefData] ([type], [code], [desc], [SortOrder]) VALUES (N'Claim Payment Type', N'CPT3', N'Write-Off (Partial Balance)', NULL)
+	INSERT [dbo].[RefData] ([type], [code], [desc], [SortOrder]) VALUES (N'Claim Payment Type', N'CPT4', N'Write-Off (Full Balance)', NULL)
+	INSERT [dbo].[RefData] ([type], [code], [desc], [SortOrder]) VALUES (N'Claim Payment Type', N'CPT5', N'Payment (Cancellation)', NULL)
+	INSERT [dbo].[RefData] ([type], [code], [desc], [SortOrder]) VALUES (N'Claim Payment Type', N'CPT6', N'Write-Off (Cancellation)', NULL)
+END

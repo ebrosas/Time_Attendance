@@ -1,0 +1,840 @@
+USE [tas2]
+GO
+
+/****** Object:  View [tas].[Vw_EmployeeAttendanceHistory]    Script Date: 22/08/2022 08:19:58 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+/***************************************************************************************************************************************************************************************************
+*	Revision History
+*
+*	Name: tas.Vw_EmployeeAttendanceHistory
+*	Description: Get the employee attendance history records
+*
+*	Date:			Author:		Rev. #:		Comments:
+*	08/11/2016		Ervin		1.0			Created
+*	17/11/2016		Ervin		1.1			Modified the code in calculating the "DayOffDuration" and "WorkDurationMinutes"
+*	19/11/2016		Ervin		1.2			Added union join to "EmployeeContractorMapping" table
+*	31/01/2017		Ervin		1.3			Fetch the Time IN/OUT in the workplace readers
+*	15/02/2017		Ervin		1.4			Added code to display "Day In Lieu" in the Remarks field if LeaveType = 'DD'
+*	22/02/2017		Ervin		1.5			Added "IsLastRow" and "ShiftSpan"
+*	26/02/2017		Ervin		1.6			Display the correction in workplace Time In/Out only when approved by HR
+*	28/02/2017		Ervin		1.7			Added condition that will show the value of "TimeInWP" and "TimeOutWP" fields only when correction is approved and workflow is closed
+*	05/03/2017		Ervin		1.8			Added join to "Tran_ManualAttendance" table to check for manual attendance
+*	17/05/2017		Ervin		1.9			Added "LastUpdateUser" and "LastUpdateTime" fields	
+*	16/08/2017		Ervin		2.0			Fixed the bug in the calculation of overtime duration
+*	08/07/2018		Ervin		2.1			Enabled fetching attendance records from year 2004 to 2013
+*	14/11/2018		Ervin		2.2			Added condition to fetch the ShiftCode in "Tran_ShiftPatternUpdates" table if it is null in "Tran_Timesheet" table
+*	06/01/2019		Ervin		2.3			Enabled fetching the data from the archive table
+*	15/01/2019		Ervin		2.4			Added "IsPublicHoliday" in the result set
+*	02/07/2019		Ervin		2.5			Added "RelativeTypeName" and "DeathRemarks" fields
+*	20/08/2019		Ervin		2.6			Modified the logic for setting the Remarks field if it is DIL
+*	12/09/2019		Ervin		2.7			Disabled fetching the attendance of Contractors because it takes too much time to load the data
+*	17/08/2020		Ervin		2.8			Added join to fetch the attendance record of emp. #10003200 from year 2000
+*	29/03/2021		Ervin		2.9			Added union to 2015 attendance records for emp. #10001307
+*	18/11/2021		Ervin		3.0			Refactored the logic in fetching data for "TimeInWP" and "TimeOutWP" fields
+*	23/02/2022		Ervin		3.1			Fetch the time in/out from the workplace readers if shift code is 'O' or 'N'
+*	24/02/2022		Ervin		3.2			Modified the condition for fetching the workplace timing
+*	21/04/2022		Ervin		3.3			Implemented the logic to fetch swipe data from Admin Bldg.readers
+*****************************************************************************************************************************************************************************************************/
+
+ALTER VIEW [tas].[Vw_EmployeeAttendanceHistory]
+AS
+	
+	SELECT	a.AutoID,
+			a.EmpNo,
+			a.BusinessUnit,
+			a.DT,
+			a.dtIn,
+			a.dtOut,
+			a.ShiftPatCode,
+			CASE WHEN ISNULL(a.ShiftCode, '') = ''
+				THEN RTRIM(f.Effective_ShiftCode)
+				ELSE RTRIM(a.ShiftCode)
+			END AS ShiftCode,
+			a.Actual_ShiftCode,
+			
+			CASE WHEN ISNULL(a.Duration_Worked_Cumulative, 0) > 0
+				THEN a.Duration_Worked_Cumulative 
+				ELSE 0
+			END AS WorkDurationCumulative,
+			CASE WHEN a.dtIN IS NOT NULL AND a.dtOUT IS NOT NULL 
+				THEN DATEDIFF(n, a.dtIN, a.dtOUT) 
+				ELSE 0
+			END AS WorkDurationMinutes,
+			CASE WHEN ISNULL(a.Duration_Worked_Cumulative, 0) > 0
+				THEN tas.fmtMIN_HHmm(a.Duration_Worked_Cumulative) 
+				ELSE ''
+			END AS WorkDurationHours,
+			
+			CASE WHEN a.Shaved_IN IS NOT NULL AND a.Shaved_OUT IS NOT NULL 
+				THEN DATEDIFF(n, a.Shaved_IN, a.Shaved_OUT) 
+				ELSE 0
+			END AS ShavedWorkDurationMinutes,
+			CASE WHEN a.Shaved_IN IS NOT NULL AND a.Shaved_OUT IS NOT NULL 
+				THEN tas.fmtMIN_HHmm(DATEDIFF(n, a.Shaved_IN, a.Shaved_OUT)) 
+				ELSE ''
+			END AS ShavedWorkDurationHours,
+
+			CASE WHEN a.OTStartTime IS NOT NULL AND a.OTEndTime IS NOT NULL 
+				THEN 
+					CASE WHEN DATEDIFF(n, a.OTStartTime, a.OTEndTime) < 0	--Rev. #2.0
+						THEN 1440 + DATEDIFF(n, a.OTStartTime, a.OTEndTime)
+						ELSE DATEDIFF(n, a.OTStartTime, a.OTEndTime)
+					END 
+				ELSE 0
+			END AS OTDurationMinutes,			
+			CASE WHEN a.OTStartTime IS NOT NULL AND a.OTEndTime IS NOT NULL 
+				THEN tas.fmtMIN_HHmm
+					(
+						CASE WHEN DATEDIFF(n, a.OTStartTime, a.OTEndTime) < 0	--Rev. #2.0
+							THEN 1440 + DATEDIFF(n, a.OTStartTime, a.OTEndTime)
+							ELSE DATEDIFF(n, a.OTStartTime, a.OTEndTime)
+						END 
+					) 
+				ELSE ''
+			END AS OTDurationHours,
+			a.NoPayHours,
+			tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), RTRIM(ISNULL(a.Actual_ShiftCode, a.ShiftCode))) AS Duration_Required,
+
+			CASE WHEN RTRIM(a.ShiftCode) = 'O' AND (a.dtIN IS NULL AND a.dtOUT IS NULL) 
+				THEN 
+					CASE WHEN ISNULL(a.IsDayWorker_OR_Shifter, 0) = 0 
+						THEN tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), 'M')
+						ELSE tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), 'D')
+					END 
+				ELSE 0
+			END AS DayOffDuration,
+
+			b.LVDesc + b.RMdesc + b.RAdesc + b.TxDesc + b.H_P_desc + b.H_D_desc + b.H_R_desc + b.TxtShiftSpan + b.DayOff + b.OtherRemarks +
+			(
+				CASE ISNULL(a.DIL_Entitlement, '')
+					WHEN 'EA' THEN ' - DIL Entitled by Admin'
+					WHEN 'ES' THEN ' - DIL Entitled by System'
+					WHEN 'UA' THEN ' - DIL used by Admin'
+					WHEN 'UD' THEN ' - DIL used by System'
+					WHEN 'AD' THEN ' - DIL Approved'
+					ELSE ''
+				END
+			) +
+			(CASE WHEN RTRIM(ISNULL(a.LeaveType, '')) = 'DD' OR RTRIM(ISNULL(a.AbsenceReasonCode, '')) = 'DD' THEN 'Day In Lieu' ELSE '' END) AS Remarks,
+				
+			CASE WHEN k.IsWorkplaceEnabled = 1 AND k.IsSyncTimesheet = 1 AND a.DT >= l.EffectiveDate THEN 1 ELSE 0 END AS RequiredToSwipeAtWorkplace,
+				
+			CASE WHEN ISNULL(e.timeIN, '') <> ''
+				THEN DATEADD(MINUTE, tas.fmtHHmm_Min(e.timeIn), e.dtIN)
+				ELSE d.TimeInMG
+			END AS TimeInMG,
+
+			CASE WHEN d.CorrectionType IN (1, 3)	--(Note: 1 = Workplace Time In; 3 = Both)
+				THEN
+					CASE WHEN d.IsCorrected = 1 /*AND d.IsClosed = 1*/ AND RTRIM(ISNULL(d.StatusHandlingCode, '')) NOT IN ('Cancelled', 'Rejected') THEN d.TimeInWP ELSE i.SwipeTime END 
+				ELSE
+					CASE WHEN RTRIM(f.Effective_ShiftCode) = 'O' 
+						THEN CASE WHEN ISNULL(a.Actual_ShiftCode, '') NOT IN ('', 'N') 
+							THEN CASE WHEN i.SwipeTime = j.SwipeTime THEN a.dtIn ELSE i.SwipeTime END 
+							ELSE d.TimeOutWP 
+						END 
+						WHEN RTRIM(f.Effective_ShiftCode) = 'N' OR RTRIM(a.Actual_ShiftCode) = 'N' THEN d.TimeInWP 
+						ELSE i.SwipeTime 
+					END 
+			END AS TimeInWP,
+			CASE WHEN d.CorrectionType IN (2, 3)	--(Note: 2 = Workplace Time Out; 3 = Both)
+				THEN
+					CASE WHEN d.IsCorrected = 1 /*AND d.IsClosed = 1*/ AND RTRIM(ISNULL(d.StatusHandlingCode, '')) NOT IN ('Cancelled', 'Rejected') THEN d.TimeOutWP ELSE j.SwipeTime  END 
+				ELSE
+					CASE WHEN RTRIM(f.Effective_ShiftCode) = 'O' 
+						THEN CASE WHEN ISNULL(a.Actual_ShiftCode, '')  NOT IN ('', 'N') 
+							THEN CASE WHEN j.SwipeTime = i.SwipeTime THEN a.dtOut ELSE j.SwipeTime END 
+							ELSE d.TimeOutWP 
+						END 
+						WHEN RTRIM(f.Effective_ShiftCode) = 'N' OR RTRIM(a.Actual_ShiftCode) = 'N' THEN d.TimeOutWP 
+						ELSE j.SwipeTime 
+					END 
+			END AS TimeOutWP,
+			CASE WHEN ISNULL(e.[timeOUT], '') <> ''
+				THEN DATEADD(MINUTE, tas.fmtHHmm_Min(e.[timeOUT]), e.dtOUT)
+				ELSE d.TimeOutMG
+			END AS TimeOutMG,
+			a.IsLastRow,
+			a.ShiftSpan,
+			a.LastUpdateUser,
+			a.LastUpdateTime,
+			a.IsPublicHoliday,
+			a.CorrectionCode,
+			CASE 
+				WHEN RTRIM(a.CorrectionCode) = 'RAD0' THEN g.OtherRelativeType
+				WHEN RTRIM(a.CorrectionCode) IN ('RAD1', 'RAD2', 'RAD3', 'RAD4') THEN h.RelativeTypeName
+				ELSE NULL
+			END AS RelativeTypeName,	
+			g.Remarks AS DeathRemarks				
+	FROM (
+			SELECT * FROM tas.Tran_Timesheet WITH (NOLOCK)
+			WHERE DT BETWEEN CONVERT(DATETIME, CONVERT(VARCHAR, DATEADD(YEAR, -3, GETDATE()), 12)) AND CONVERT(DATETIME, CONVERT(VARCHAR, GETDATE(), 12))
+		) a	
+		LEFT JOIN tas.GetRemark02 b WITH (NOLOCK) ON a.AutoId = b.AutoId
+		LEFT JOIN tas.Master_ShiftPatternTitles c WITH (NOLOCK) ON RTRIM(a.ShiftPatCode) = RTRIM(c.ShiftPatCode) 	
+		LEFT JOIN tas.Tran_WorkplaceSwipe d WITH (NOLOCK) ON a.EmpNo = d.EmpNo AND a.DT = d.SwipeDate
+		OUTER APPLY
+		(
+			SELECT TOP 1 * FROM tas.Tran_ManualAttendance WITH (NOLOCK)
+			WHERE EmpNo = a.EmpNo
+				AND a.DT BETWEEN dtIN AND dtOUT
+			ORDER BY AutoID DESC 
+		) e
+		LEFT JOIN tas.Tran_ShiftPatternUpdates f WITH (NOLOCK) ON a.EmpNo = f.EmpNo AND a.DT = f.DateX	--Rev. #2.2
+		LEFT JOIN tas.DeathReasonOfAbsence g WITH (NOLOCK) ON a.EmpNo = g.EmpNo AND a.DT = g.DT AND RTRIM(a.BusinessUnit) = RTRIM(g.CostCenter) AND RTRIM(a.CorrectionCode) = RTRIM(g.CorrectionCode)
+		LEFT JOIN tas.FamilyRelativeSetting h WITH (NOLOCK) ON RTRIM(g.RelativeTypeCode) = RTRIM(h.RelativeTypeCode)
+		OUTER APPLY 
+		(
+			SELECT TOP 1 x.SwipeTime 
+			FROM tas.Vw_WorplaceSwipeRawData x WITH (NOLOCK)
+				INNER JOIN tas.Master_AccessReaders y WITH (NOLOCK) ON x.LocationCode = y.LocationCode AND x.ReaderNo = y.ReaderNo AND UPPER(RTRIM(y.UsedForTS)) = 'Y'	
+			WHERE x.EmpNo = a.EmpNo
+				AND x.SwipeDate = a.DT
+			ORDER BY SwipeTime ASC
+		) i
+		OUTER APPLY 
+		(
+			SELECT TOP 1 x.SwipeTime 
+			FROM tas.Vw_WorplaceSwipeRawData x WITH (NOLOCK)
+				INNER JOIN tas.Master_AccessReaders y WITH (NOLOCK) ON x.LocationCode = y.LocationCode AND x.ReaderNo = y.ReaderNo AND UPPER(RTRIM(y.UsedForTS)) = 'Y'	
+			WHERE x.EmpNo = a.EmpNo
+				AND x.SwipeDate = a.DT
+			ORDER BY SwipeTime DESC
+		) j
+		OUTER APPLY		--Rev. #3.3
+        (
+			SELECT * FROM tas.fnCheckWorkplaceEnabled(a.EmpNo)
+		) k
+		OUTER APPLY		--Rev. #3.3
+		(
+			SELECT TOP 1 EffectiveDate FROM tas.WorkplaceReaderSetting WITH (NOLOCK)  
+			WHERE IsActive = 1 
+				AND RTRIM(CostCenter) = RTRIM(a.BusinessUnit)
+		) l
+	WHERE a.EmpNo NOT IN  
+		(
+			SELECT EmpNo FROM tas.EmployeeContractorMapping  WITH (NOLOCK)
+			WHERE PrimaryIDNoType = 1
+		)
+
+	/*	Note: Disabled the attendance of Contractors because it takes too much time to load the data
+	UNION
+
+	--Rev. #1.2 - Get attendance record of the Contractor using the mapping configuration
+	SELECT	a.AutoID,
+			c.EmpNo,
+			RTRIM(c.CostCenter) AS BusinessUnit,
+			a.DT,
+			a.dtIn,
+			a.dtOut,
+			a.ShiftPatCode,
+			a.ShiftCode,
+			a.Actual_ShiftCode,
+			
+			CASE WHEN ISNULL(a.Duration_Worked_Cumulative, 0) > 0
+				THEN a.Duration_Worked_Cumulative 
+				ELSE 0
+			END AS WorkDurationCumulative,
+			CASE WHEN a.dtIN IS NOT NULL AND a.dtOUT IS NOT NULL 
+				THEN DATEDIFF(n, a.dtIN, a.dtOUT) 
+				ELSE 0
+			END AS WorkDurationMinutes,
+
+			CASE WHEN ISNULL(a.Duration_Worked_Cumulative, 0) > 0
+				THEN tas.fmtMIN_HHmm(a.Duration_Worked_Cumulative) 
+				ELSE ''
+			END AS WorkDurationHours,
+
+			CASE WHEN a.Shaved_IN IS NOT NULL AND a.Shaved_OUT IS NOT NULL 
+				THEN DATEDIFF(n, a.Shaved_IN, a.Shaved_OUT) 
+				ELSE 0
+			END AS ShavedWorkDurationMinutes,
+			CASE WHEN a.Shaved_IN IS NOT NULL AND a.Shaved_OUT IS NOT NULL 
+				THEN tas.fmtMIN_HHmm(DATEDIFF(n, a.Shaved_IN, a.Shaved_OUT)) 
+				ELSE ''
+			END AS ShavedWorkDurationHours,
+
+			CASE WHEN a.OTStartTime IS NOT NULL AND a.OTEndTime IS NOT NULL 
+				THEN 
+					CASE WHEN DATEDIFF(n, a.OTStartTime, a.OTEndTime) < 0	--Rev. #2.0
+						THEN 1440 + DATEDIFF(n, a.OTStartTime, a.OTEndTime)
+						ELSE DATEDIFF(n, a.OTStartTime, a.OTEndTime)
+					END 
+				ELSE 0
+			END AS OTDurationMinutes,
+			CASE WHEN a.OTStartTime IS NOT NULL AND a.OTEndTime IS NOT NULL 
+				THEN tas.fmtMIN_HHmm
+					(
+						CASE WHEN DATEDIFF(n, a.OTStartTime, a.OTEndTime) < 0	--Rev. #2.0
+							THEN 1440 + DATEDIFF(n, a.OTStartTime, a.OTEndTime)
+							ELSE DATEDIFF(n, a.OTStartTime, a.OTEndTime)
+						END 
+					) 
+				ELSE ''
+			END AS OTDurationHours,
+			a.NoPayHours,
+			tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), RTRIM(ISNULL(a.Actual_ShiftCode, a.ShiftCode))) AS Duration_Required,
+
+			CASE WHEN RTRIM(a.ShiftCode) = 'O' AND (a.dtIN IS NULL AND a.dtOUT IS NULL) 
+				THEN 
+					CASE WHEN ISNULL(a.IsDayWorker_OR_Shifter, 0) = 0 
+						THEN tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), 'M')
+						ELSE tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), 'D')
+					END 
+				ELSE 0
+			END AS DayOffDuration,
+
+			b.LVDesc + b.RMdesc + b.RAdesc + b.TxDesc + b.H_P_desc + b.H_D_desc + b.H_R_desc + b.TxtShiftSpan + b.DayOff + b.OtherRemarks +
+			(
+				CASE ISNULL(a.DIL_Entitlement, '')
+					WHEN 'EA' THEN ' - DIL Entitled by Admin'
+					WHEN 'ES' THEN ' - DIL Entitled by System'
+					WHEN 'UA' THEN ' - DIL used by Admin'
+					WHEN 'UD' THEN ' - DIL used by System'
+					WHEN 'AD' THEN ' - DIL Approved'
+					ELSE ''
+				END
+			) +
+			(CASE WHEN RTRIM(ISNULL(a.LeaveType, '')) = 'DD' OR RTRIM(ISNULL(a.AbsenceReasonCode, '')) = 'DD' THEN 'Day In Lieu' ELSE '' END) AS Remarks,
+			0 AS RequiredToSwipeAtWorkplace,
+			NULL AS TimeInMG,
+			NULL AS TimeInWP,
+			NULL AS TimeOutWP,
+			NULL AS TimeOutMG,
+			a.IsLastRow,
+			a.ShiftSpan,
+			a.LastUpdateUser,
+			a.LastUpdateTime,
+			a.IsPublicHoliday,
+			a.CorrectionCode,
+			NULL AS RelativeTypeName,
+			NULL AS DeathRemarks				
+	FROM tas.EmployeeContractorMapping c WITH (NOLOCK)
+		INNER JOIN tas.Tran_Timesheet a WITH (NOLOCK) ON c.ContractorNo = a.EmpNo
+		LEFT JOIN tas.GetRemark02 b WITH (NOLOCK) ON a.AutoId = b.AutoId		
+	WHERE c.PrimaryIDNoType = 1
+	*/
+	
+	/*	Note: Uncomment this block of code to fetch attendance records from the Timesheet archive table from year 2013 and below
+	UNION
+
+	SELECT	a.AutoID,
+			a.EmpNo,
+			a.BusinessUnit,
+			a.DT,
+			a.dtIn,
+			a.dtOut,
+			a.ShiftPatCode,
+			a.ShiftCode,
+			a.Actual_ShiftCode,
+			CASE WHEN ISNULL(a.Duration_Worked_Cumulative, 0) > 0
+				THEN a.Duration_Worked_Cumulative 
+				ELSE 0
+			END AS WorkDurationCumulative,
+			CASE WHEN a.dtIN IS NOT NULL AND a.dtOUT IS NOT NULL 
+				--THEN SUM(DATEDIFF(n, a.dtIN, a.dtOUT)) OVER(ORDER BY a.AutoID ROWS UNBOUNDED PRECEDING) 
+				THEN DATEDIFF(n, a.dtIN, a.dtOUT) 
+				ELSE 0
+			END AS WorkDurationMinutes,
+			CASE WHEN ISNULL(a.Duration_Worked_Cumulative, 0) > 0
+				THEN tas.fmtMIN_HHmm(a.Duration_Worked_Cumulative) 
+				ELSE ''
+			END AS WorkDurationHours,
+			CASE WHEN a.Shaved_IN IS NOT NULL AND a.Shaved_OUT IS NOT NULL 
+				THEN DATEDIFF(n, a.Shaved_IN, a.Shaved_OUT) 
+				ELSE 0
+			END AS ShavedWorkDurationMinutes,
+			CASE WHEN a.Shaved_IN IS NOT NULL AND a.Shaved_OUT IS NOT NULL 
+				THEN tas.fmtMIN_HHmm(DATEDIFF(n, a.Shaved_IN, a.Shaved_OUT)) 
+				ELSE ''
+			END AS ShavedWorkDurationHours,
+
+			CASE WHEN a.OTStartTime IS NOT NULL AND a.OTEndTime IS NOT NULL 
+				THEN DATEDIFF(n, a.OTStartTime, a.OTEndTime) 
+				ELSE 0
+			END AS OTDurationMinutes,
+			CASE WHEN a.OTStartTime IS NOT NULL AND a.OTEndTime IS NOT NULL 
+				THEN tas.fmtMIN_HHmm(DATEDIFF(n, a.OTStartTime, a.OTEndTime)) 
+				ELSE ''
+			END AS OTDurationHours,
+			a.NoPayHours,
+			tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), RTRIM(ISNULL(a.Actual_ShiftCode, a.ShiftCode))) AS Duration_Required,
+
+			CASE WHEN RTRIM(a.ShiftCode) = 'O' AND (a.dtIN IS NULL AND a.dtOUT IS NULL) 
+				THEN 
+					CASE WHEN ISNULL(a.IsDayWorker_OR_Shifter, 0) = 0 
+						THEN tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), 'M')
+						ELSE tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), 'D')
+					END 
+				ELSE 0
+			END AS DayOffDuration,
+
+			b.LVDesc + b.RMdesc + b.RAdesc + b.TxDesc + b.H_P_desc + b.H_D_desc + b.H_R_desc + b.TxtShiftSpan + b.DayOff + b.OtherRemarks +
+			(
+				CASE ISNULL(a.DIL_Entitlement, '')
+					WHEN 'EA' THEN ' - DIL Entitled by Admin'
+					WHEN 'ES' THEN ' - DIL Entitled by System'
+					WHEN 'UA' THEN ' - DIL used by Admin'
+					WHEN 'UD' THEN ' - DIL used by System'
+					WHEN 'AD' THEN ' - DIL Approved'
+					ELSE ''
+				END
+			) AS Remarks,
+			CASE WHEN RTRIM(a.BusinessUnit) IN (SELECT DISTINCT CostCenter FROM tas.WorkplaceReaderSetting WHERE IsActive = 1) AND CAST(a.GradeCode AS INT) <= 8 AND c.IsDayShift = 0 THEN 1 ELSE 0 END AS RequiredToSwipeAtWorkplace,
+			d.TimeInMG,
+			d.TimeInWP,
+			d.TimeOutWP,
+			d.TimeOutMG,
+			a.IsLastRow,
+			a.ShiftSpan,
+			a.LastUpdateUser,
+			a.LastUpdateTime,
+			a.IsPublicHoliday,
+			a.CorrectionCode,
+			NULL AS RelativeTypeName,
+			NULL AS DeathRemarks													
+	FROM tas.sy_TimesheetArchive a WITH (NOLOCK)
+		LEFT JOIN tas.GetRemark02 b WITH (NOLOCK) ON a.AutoId = b.AutoId
+		LEFT JOIN tas.Master_ShiftPatternTitles c WITH (NOLOCK) ON RTRIM(a.ShiftPatCode) = RTRIM(c.ShiftPatCode) 	
+		LEFT JOIN tas.Tran_WorkplaceSwipe d WITH (NOLOCK) ON a.EmpNo = d.EmpNo AND a.DT = d.SwipeDate
+	*/
+
+	/*	Note: Uncomment this block of code to fetch attendance records from the Timesheet archive table for year 2011
+	UNION
+
+	SELECT	a.AutoID,
+			a.EmpNo,
+			a.BusinessUnit,
+			a.DT,
+			a.dtIn,
+			a.dtOut,
+			a.ShiftPatCode,
+			a.ShiftCode,
+			a.Actual_ShiftCode,
+			
+			CASE WHEN ISNULL(a.Duration_Worked_Cumulative, 0) > 0
+				THEN a.Duration_Worked_Cumulative 
+				ELSE 0
+			END AS WorkDurationCumulative,
+			CASE WHEN a.dtIN IS NOT NULL AND a.dtOUT IS NOT NULL 
+				--THEN SUM(DATEDIFF(n, a.dtIN, a.dtOUT)) OVER(ORDER BY a.AutoID ROWS UNBOUNDED PRECEDING) 
+				THEN DATEDIFF(n, a.dtIN, a.dtOUT) 
+				ELSE 0
+			END AS WorkDurationMinutes,
+
+			CASE WHEN ISNULL(a.Duration_Worked_Cumulative, 0) > 0
+				THEN tas.fmtMIN_HHmm(a.Duration_Worked_Cumulative) 
+				ELSE ''
+			END AS WorkDurationHours,
+			CASE WHEN a.Shaved_IN IS NOT NULL AND a.Shaved_OUT IS NOT NULL 
+				THEN DATEDIFF(n, a.Shaved_IN, a.Shaved_OUT) 
+				ELSE 0
+			END AS ShavedWorkDurationMinutes,
+			CASE WHEN a.Shaved_IN IS NOT NULL AND a.Shaved_OUT IS NOT NULL 
+				THEN tas.fmtMIN_HHmm(DATEDIFF(n, a.Shaved_IN, a.Shaved_OUT)) 
+				ELSE ''
+			END AS ShavedWorkDurationHours,
+
+			CASE WHEN a.OTStartTime IS NOT NULL AND a.OTEndTime IS NOT NULL 
+				THEN DATEDIFF(n, a.OTStartTime, a.OTEndTime) 
+				ELSE 0
+			END AS OTDurationMinutes,
+			CASE WHEN a.OTStartTime IS NOT NULL AND a.OTEndTime IS NOT NULL 
+				THEN tas.fmtMIN_HHmm(DATEDIFF(n, a.OTStartTime, a.OTEndTime)) 
+				ELSE ''
+			END AS OTDurationHours,
+			a.NoPayHours,
+			tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), RTRIM(ISNULL(a.Actual_ShiftCode, a.ShiftCode))) AS Duration_Required,
+
+			CASE WHEN RTRIM(a.ShiftCode) = 'O' AND (a.dtIN IS NULL AND a.dtOUT IS NULL) 
+				THEN 
+					CASE WHEN ISNULL(a.IsDayWorker_OR_Shifter, 0) = 0 
+						THEN tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), 'M')
+						ELSE tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), 'D')
+					END 
+				ELSE 0
+			END AS DayOffDuration,
+
+			b.LVDesc + b.RMdesc + b.RAdesc + b.TxDesc + b.H_P_desc + b.H_D_desc + b.H_R_desc + b.TxtShiftSpan + b.DayOff + b.OtherRemarks +
+			(
+				CASE ISNULL(a.DIL_Entitlement, '')
+					WHEN 'EA' THEN ' - DIL Entitled by Admin'
+					WHEN 'ES' THEN ' - DIL Entitled by System'
+					WHEN 'UA' THEN ' - DIL used by Admin'
+					WHEN 'UD' THEN ' - DIL used by System'
+					WHEN 'AD' THEN ' - DIL Approved'
+					ELSE ''
+				END
+			) AS Remarks,
+			CASE WHEN RTRIM(a.BusinessUnit) IN (SELECT DISTINCT CostCenter FROM tas.WorkplaceReaderSetting WHERE IsActive = 1) AND CAST(a.GradeCode AS INT) <= 8 AND c.IsDayShift = 0 THEN 1 ELSE 0 END AS RequiredToSwipeAtWorkplace,
+			d.TimeInMG,
+			d.TimeInWP,
+			d.TimeOutWP,
+			d.TimeOutMG,
+			a.IsLastRow,
+			a.ShiftSpan,
+			a.LastUpdateUser,
+			a.LastUpdateTime,
+			a.IsPublicHoliday,
+			a.CorrectionCode,
+			NULL AS RelativeTypeName,
+			NULL AS DeathRemarks													
+	FROM Archive.dbo.tas2_Tran_Timesheet_2011 a WITH (NOLOCK)
+		LEFT JOIN tas.GetRemark02 b WITH (NOLOCK) ON a.AutoId = b.AutoId
+		LEFT JOIN tas.Master_ShiftPatternTitles c WITH (NOLOCK) ON RTRIM(a.ShiftPatCode) = RTRIM(c.ShiftPatCode) 	
+		LEFT JOIN tas.Tran_WorkplaceSwipe d WITH (NOLOCK) ON a.EmpNo = d.EmpNo AND a.DT = d.SwipeDate
+	*/
+
+	/*	Note: Uncomment this block of code to fetch attendance records from the Timesheet archive table for year 2012
+	UNION
+
+	SELECT	a.AutoID,
+			a.EmpNo,
+			a.BusinessUnit,
+			a.DT,
+			a.dtIn,
+			a.dtOut,
+			a.ShiftPatCode,
+			a.ShiftCode,
+			a.Actual_ShiftCode,
+			
+			CASE WHEN ISNULL(a.Duration_Worked_Cumulative, 0) > 0
+				THEN a.Duration_Worked_Cumulative 
+				ELSE 0
+			END AS WorkDurationCumulative,
+			CASE WHEN a.dtIN IS NOT NULL AND a.dtOUT IS NOT NULL 
+				--THEN SUM(DATEDIFF(n, a.dtIN, a.dtOUT)) OVER(ORDER BY a.AutoID ROWS UNBOUNDED PRECEDING) 
+				THEN DATEDIFF(n, a.dtIN, a.dtOUT) 
+				ELSE 0
+			END AS WorkDurationMinutes,
+
+			CASE WHEN ISNULL(a.Duration_Worked_Cumulative, 0) > 0
+				THEN tas.fmtMIN_HHmm(a.Duration_Worked_Cumulative) 
+				ELSE ''
+			END AS WorkDurationHours,
+			CASE WHEN a.Shaved_IN IS NOT NULL AND a.Shaved_OUT IS NOT NULL 
+				THEN DATEDIFF(n, a.Shaved_IN, a.Shaved_OUT) 
+				ELSE 0
+			END AS ShavedWorkDurationMinutes,
+			CASE WHEN a.Shaved_IN IS NOT NULL AND a.Shaved_OUT IS NOT NULL 
+				THEN tas.fmtMIN_HHmm(DATEDIFF(n, a.Shaved_IN, a.Shaved_OUT)) 
+				ELSE ''
+			END AS ShavedWorkDurationHours,
+
+			CASE WHEN a.OTStartTime IS NOT NULL AND a.OTEndTime IS NOT NULL 
+				THEN DATEDIFF(n, a.OTStartTime, a.OTEndTime) 
+				ELSE 0
+			END AS OTDurationMinutes,
+			CASE WHEN a.OTStartTime IS NOT NULL AND a.OTEndTime IS NOT NULL 
+				THEN tas.fmtMIN_HHmm(DATEDIFF(n, a.OTStartTime, a.OTEndTime)) 
+				ELSE ''
+			END AS OTDurationHours,
+			a.NoPayHours,
+			tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), RTRIM(ISNULL(a.Actual_ShiftCode, a.ShiftCode))) AS Duration_Required,
+
+			CASE WHEN RTRIM(a.ShiftCode) = 'O' AND (a.dtIN IS NULL AND a.dtOUT IS NULL) 
+				THEN 
+					CASE WHEN ISNULL(a.IsDayWorker_OR_Shifter, 0) = 0 
+						THEN tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), 'M')
+						ELSE tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), 'D')
+					END 
+				ELSE 0
+			END AS DayOffDuration,
+
+			b.LVDesc + b.RMdesc + b.RAdesc + b.TxDesc + b.H_P_desc + b.H_D_desc + b.H_R_desc + b.TxtShiftSpan + b.DayOff + b.OtherRemarks +
+			(
+				CASE ISNULL(a.DIL_Entitlement, '')
+					WHEN 'EA' THEN ' - DIL Entitled by Admin'
+					WHEN 'ES' THEN ' - DIL Entitled by System'
+					WHEN 'UA' THEN ' - DIL used by Admin'
+					WHEN 'UD' THEN ' - DIL used by System'
+					WHEN 'AD' THEN ' - DIL Approved'
+					ELSE ''
+				END
+			) AS Remarks,
+			CASE WHEN RTRIM(a.BusinessUnit) IN (SELECT DISTINCT CostCenter FROM tas.WorkplaceReaderSetting WHERE IsActive = 1) AND CAST(a.GradeCode AS INT) <= 8 AND c.IsDayShift = 0 THEN 1 ELSE 0 END AS RequiredToSwipeAtWorkplace,
+			d.TimeInMG,
+			d.TimeInWP,
+			d.TimeOutWP,
+			d.TimeOutMG,
+			a.IsLastRow,
+			a.ShiftSpan,
+			a.LastUpdateUser,
+			a.LastUpdateTime,
+			a.IsPublicHoliday,
+			a.CorrectionCode,
+			NULL AS RelativeTypeName,
+			NULL AS DeathRemarks													
+	FROM Archive.dbo.tas2_Tran_Timesheet_2012 a WITH (NOLOCK)
+		LEFT JOIN tas.GetRemark02 b WITH (NOLOCK) ON a.AutoId = b.AutoId
+		LEFT JOIN tas.Master_ShiftPatternTitles c WITH (NOLOCK) ON RTRIM(a.ShiftPatCode) = RTRIM(c.ShiftPatCode) 	
+		LEFT JOIN tas.Tran_WorkplaceSwipe d WITH (NOLOCK) ON a.EmpNo = d.EmpNo AND a.DT = d.SwipeDate
+	*/
+
+	/*	Note: Uncomment this block of code to fetch attendance records from the Timesheet archive table for year 2013
+	UNION
+
+	SELECT	a.AutoID,
+			a.EmpNo,
+			a.BusinessUnit,
+			a.DT,
+			a.dtIn,
+			a.dtOut,
+			a.ShiftPatCode,
+			a.ShiftCode,
+			a.Actual_ShiftCode,
+			
+			CASE WHEN ISNULL(a.Duration_Worked_Cumulative, 0) > 0
+				THEN a.Duration_Worked_Cumulative 
+				ELSE 0
+			END AS WorkDurationCumulative,
+			CASE WHEN a.dtIN IS NOT NULL AND a.dtOUT IS NOT NULL 
+				--THEN SUM(DATEDIFF(n, a.dtIN, a.dtOUT)) OVER(ORDER BY a.AutoID ROWS UNBOUNDED PRECEDING) 
+				THEN DATEDIFF(n, a.dtIN, a.dtOUT) 
+				ELSE 0
+			END AS WorkDurationMinutes,
+
+			CASE WHEN ISNULL(a.Duration_Worked_Cumulative, 0) > 0
+				THEN tas.fmtMIN_HHmm(a.Duration_Worked_Cumulative) 
+				ELSE ''
+			END AS WorkDurationHours,
+			CASE WHEN a.Shaved_IN IS NOT NULL AND a.Shaved_OUT IS NOT NULL 
+				THEN DATEDIFF(n, a.Shaved_IN, a.Shaved_OUT) 
+				ELSE 0
+			END AS ShavedWorkDurationMinutes,
+			CASE WHEN a.Shaved_IN IS NOT NULL AND a.Shaved_OUT IS NOT NULL 
+				THEN tas.fmtMIN_HHmm(DATEDIFF(n, a.Shaved_IN, a.Shaved_OUT)) 
+				ELSE ''
+			END AS ShavedWorkDurationHours,
+
+			CASE WHEN a.OTStartTime IS NOT NULL AND a.OTEndTime IS NOT NULL 
+				THEN DATEDIFF(n, a.OTStartTime, a.OTEndTime) 
+				ELSE 0
+			END AS OTDurationMinutes,
+			CASE WHEN a.OTStartTime IS NOT NULL AND a.OTEndTime IS NOT NULL 
+				THEN tas.fmtMIN_HHmm(DATEDIFF(n, a.OTStartTime, a.OTEndTime)) 
+				ELSE ''
+			END AS OTDurationHours,
+			a.NoPayHours,
+			tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), RTRIM(ISNULL(a.Actual_ShiftCode, a.ShiftCode))) AS Duration_Required,
+
+			CASE WHEN RTRIM(a.ShiftCode) = 'O' AND (a.dtIN IS NULL AND a.dtOUT IS NULL) 
+				THEN 
+					CASE WHEN ISNULL(a.IsDayWorker_OR_Shifter, 0) = 0 
+						THEN tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), 'M')
+						ELSE tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), 'D')
+					END 
+				ELSE 0
+			END AS DayOffDuration,
+
+			b.LVDesc + b.RMdesc + b.RAdesc + b.TxDesc + b.H_P_desc + b.H_D_desc + b.H_R_desc + b.TxtShiftSpan + b.DayOff + b.OtherRemarks +
+			(
+				CASE ISNULL(a.DIL_Entitlement, '')
+					WHEN 'EA' THEN ' - DIL Entitled by Admin'
+					WHEN 'ES' THEN ' - DIL Entitled by System'
+					WHEN 'UA' THEN ' - DIL used by Admin'
+					WHEN 'UD' THEN ' - DIL used by System'
+					WHEN 'AD' THEN ' - DIL Approved'
+					ELSE ''
+				END
+			) AS Remarks,
+			CASE WHEN RTRIM(a.BusinessUnit) IN (SELECT DISTINCT CostCenter FROM tas.WorkplaceReaderSetting WHERE IsActive = 1) AND CAST(a.GradeCode AS INT) <= 8 AND c.IsDayShift = 0 THEN 1 ELSE 0 END AS RequiredToSwipeAtWorkplace,
+			d.TimeInMG,
+			d.TimeInWP,
+			d.TimeOutWP,
+			d.TimeOutMG,
+			a.IsLastRow,
+			a.ShiftSpan,
+			a.LastUpdateUser,
+			a.LastUpdateTime,
+			a.IsPublicHoliday,
+			a.CorrectionCode,
+			NULL AS RelativeTypeName,
+			NULL AS DeathRemarks													
+	FROM Archive.dbo.tas2_Tran_Timesheet_2013 a WITH (NOLOCK)
+		LEFT JOIN tas.GetRemark02 b WITH (NOLOCK) ON a.AutoId = b.AutoId
+		LEFT JOIN tas.Master_ShiftPatternTitles c WITH (NOLOCK) ON RTRIM(a.ShiftPatCode) = RTRIM(c.ShiftPatCode) 	
+		LEFT JOIN tas.Tran_WorkplaceSwipe d WITH (NOLOCK) ON a.EmpNo = d.EmpNo AND a.DT = d.SwipeDate
+	*/
+
+	/*	Note: Added join to fetch the attendance record of emp. #10003200 from year 2000
+	
+	UNION
+    
+	SELECT	a.AutoID,
+			a.EmplNo AS EmpNo,
+			LTRIM(RTRIM(a.BusinessUnit)) AS BusinessUnit,
+			a.TransDate AS DT,
+			CASE WHEN a.TimeIn > 0
+				THEN a.TransDate + CONVERT(DATETIME, RIGHT('0' + CONVERT(VARCHAR, a.TimeIn / 100 ), 2) + ':' + RIGHT('0' + CONVERT(VARCHAR, a.TimeIn % 100), 2), 108)
+				ELSE NULL
+			END AS dtIN,
+			CASE WHEN a.[TimeOut] > 0 
+				THEN a.TransDate + CONVERT(DATETIME, RIGHT('0' + CONVERT(VARCHAR, a.[TimeOut] / 100 ), 2) + ':' + RIGHT('0' + CONVERT(VARCHAR, a.[TimeOut] % 100), 2), 108)
+				ELSE NULL
+			END AS dtOUT,
+			LTRIM(RTRIM(a.ShiftPatternCode)) AS ShiftPatCode,
+			LTRIM(RTRIM(a.ShiftSchedule)) AS ShiftCode,
+			LTRIM(RTRIM(a.ShiftActual)) AS Actual_ShiftCode,
+			0 AS WorkDurationCumulative,
+			CASE WHEN a.TimeIn > 0 AND a.TimeOut > 0
+				THEN DATEDIFF
+					(
+						MINUTE,
+						RIGHT('0' + CONVERT(VARCHAR, a.TimeIn / 100 ), 2) + ':' + RIGHT('0' + CONVERT(VARCHAR, a.TimeIn % 100), 2),
+						RIGHT('0' + CONVERT(VARCHAR, a.[TimeOut] / 100 ), 2) + ':' + RIGHT('0' + CONVERT(VARCHAR, a.[TimeOut] % 100), 2)
+					)
+				ELSE 0 
+			END AS WorkDurationMinutes,
+			'' AS WorkDurationHours,
+			CASE WHEN a.TimeIn > 0 AND a.TimeOut > 0
+				THEN DATEDIFF
+					(
+						MINUTE,
+						RIGHT('0' + CONVERT(VARCHAR, a.TimeIn / 100 ), 2) + ':' + RIGHT('0' + CONVERT(VARCHAR, a.TimeIn % 100), 2),
+						RIGHT('0' + CONVERT(VARCHAR, a.[TimeOut] / 100 ), 2) + ':' + RIGHT('0' + CONVERT(VARCHAR, a.[TimeOut] % 100), 2)
+					)
+				ELSE 0 
+			END AS ShavedWorkDurationMinutes,
+			'' AS ShavedWorkDurationHours,
+			0 AS OTDurationMinutes,
+			'' AS OTDurationHours,
+			a.NoPayHour AS NoPayHours,
+			510 AS Duration_Required,
+			0 AS DayOffDuration,
+			CASE WHEN LTRIM(RTRIM(a.ShiftSchedule)) = 'O' THEN 'Day Off'
+				WHEN ISNULL(c.HolidayDesc, '') <> '' THEN c.HolidayDesc
+				WHEN ISNULL(d.HolidayDesc, '') <> '' THEN d.HolidayDesc
+				ELSE b.LVDesc + b.RMdesc + b.RAdesc + b.TxDesc + b.H_P_desc + b.H_D_desc + b.H_R_desc + b.TxtShiftSpan + b.DayOff + b.OtherRemarks
+			END AS Remarks,
+			0 AS RequiredToSwipeAtWorkplace,
+			NULL AS TimeInMG,
+			NULL AS TimeInWP,
+			NULL AS TimeOutWP,
+			NULL AS TimeOutMG,
+			0 AS IsLastRow,
+			NULL AS ShiftSpan,
+			NULL AS LastUpdateUser,
+			NULL AS LastUpdateTime,
+			NULL AS IsPublicHoliday,
+			NULL AS CorrectionCode,
+			NULL AS RelativeTypeName,
+			NULL AS DeathRemarks
+	FROM [AMS_HISTORY].[PAYOLD].[TRAN_TimeSheetDailyAttendance] a WITH (NOLOCK)
+		LEFT JOIN tas2.tas.GetRemark02 b WITH (NOLOCK) ON a.AutoId = b.AutoId		
+		OUTER APPLY
+		(
+			--Public Holiday  (applicable to all)
+			SELECT CONVERT(DATETIME, HolidayDate) AS HolidayDate, 'Public Holiday' AS HolidayDesc
+			FROM [AMS_HISTORY].[PAYOLD].[MASTER_GARMCOCalendar] WITH (NOLOCK)
+			WHERE RTRIM(HolidayType) IN ('H', 'HE')		
+				AND CONVERT(DATETIME, HolidayDate) = a.TransDate
+		) c
+		OUTER APPLY
+		(
+			--Ramadan
+			SELECT CONVERT(DATETIME, HolidayDate) AS HolidayDate, 'Ramadan' AS HolidayDesc
+			FROM [AMS_HISTORY].[PAYOLD].[MASTER_GARMCOCalendar] WITH (NOLOCK)
+			WHERE RTRIM(HolidayType) IN ('R')		
+				AND CONVERT(DATETIME, HolidayDate) = a.TransDate
+		) d
+	WHERE a.EmplNo = 10003200 
+		AND YEAR(a.TransDate) = 2000
+	*/
+
+	/*
+	UNION	--Rev. #2.9
+    
+	SELECT	a.AutoID,
+			a.EmpNo,
+			a.BusinessUnit,
+			a.DT,
+			a.dtIn,
+			a.dtOut,
+			a.ShiftPatCode,
+			a.ShiftCode,
+			a.Actual_ShiftCode,
+			
+			CASE WHEN ISNULL(a.Duration_Worked_Cumulative, 0) > 0
+				THEN a.Duration_Worked_Cumulative 
+				ELSE 0
+			END AS WorkDurationCumulative,
+			CASE WHEN a.dtIN IS NOT NULL AND a.dtOUT IS NOT NULL 
+				--THEN SUM(DATEDIFF(n, a.dtIN, a.dtOUT)) OVER(ORDER BY a.AutoID ROWS UNBOUNDED PRECEDING) 
+				THEN DATEDIFF(n, a.dtIN, a.dtOUT) 
+				ELSE 0
+			END AS WorkDurationMinutes,
+
+			CASE WHEN ISNULL(a.Duration_Worked_Cumulative, 0) > 0
+				THEN tas.fmtMIN_HHmm(a.Duration_Worked_Cumulative) 
+				ELSE ''
+			END AS WorkDurationHours,
+			CASE WHEN a.Shaved_IN IS NOT NULL AND a.Shaved_OUT IS NOT NULL 
+				THEN DATEDIFF(n, a.Shaved_IN, a.Shaved_OUT) 
+				ELSE 0
+			END AS ShavedWorkDurationMinutes,
+			CASE WHEN a.Shaved_IN IS NOT NULL AND a.Shaved_OUT IS NOT NULL 
+				THEN tas.fmtMIN_HHmm(DATEDIFF(n, a.Shaved_IN, a.Shaved_OUT)) 
+				ELSE ''
+			END AS ShavedWorkDurationHours,
+
+			CASE WHEN a.OTStartTime IS NOT NULL AND a.OTEndTime IS NOT NULL 
+				THEN DATEDIFF(n, a.OTStartTime, a.OTEndTime) 
+				ELSE 0
+			END AS OTDurationMinutes,
+			CASE WHEN a.OTStartTime IS NOT NULL AND a.OTEndTime IS NOT NULL 
+				THEN tas.fmtMIN_HHmm(DATEDIFF(n, a.OTStartTime, a.OTEndTime)) 
+				ELSE ''
+			END AS OTDurationHours,
+			a.NoPayHours,
+			tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), RTRIM(ISNULL(a.Actual_ShiftCode, a.ShiftCode))) AS Duration_Required,
+
+			CASE WHEN RTRIM(a.ShiftCode) = 'O' AND (a.dtIN IS NULL AND a.dtOUT IS NULL) 
+				THEN 
+					CASE WHEN ISNULL(a.IsDayWorker_OR_Shifter, 0) = 0 
+						THEN tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), 'M')
+						ELSE tas.fnGetRequiredWorkDuration(RTRIM(a.ShiftPatCode), 'D')
+					END 
+				ELSE 0
+			END AS DayOffDuration,
+
+			b.LVDesc + b.RMdesc + b.RAdesc + b.TxDesc + b.H_P_desc + b.H_D_desc + b.H_R_desc + b.TxtShiftSpan + b.DayOff + b.OtherRemarks +
+			(
+				CASE ISNULL(a.DIL_Entitlement, '')
+					WHEN 'EA' THEN ' - DIL Entitled by Admin'
+					WHEN 'ES' THEN ' - DIL Entitled by System'
+					WHEN 'UA' THEN ' - DIL used by Admin'
+					WHEN 'UD' THEN ' - DIL used by System'
+					WHEN 'AD' THEN ' - DIL Approved'
+					ELSE ''
+				END
+			) AS Remarks,
+			CASE WHEN RTRIM(a.BusinessUnit) IN (SELECT DISTINCT CostCenter FROM tas.WorkplaceReaderSetting WHERE IsActive = 1) AND CAST(a.GradeCode AS INT) <= 8 AND c.IsDayShift = 0 THEN 1 ELSE 0 END AS RequiredToSwipeAtWorkplace,
+			d.TimeInMG,
+			d.TimeInWP,
+			d.TimeOutWP,
+			d.TimeOutMG,
+			a.IsLastRow,
+			a.ShiftSpan,
+			a.LastUpdateUser,
+			a.LastUpdateTime,
+			a.IsPublicHoliday,
+			a.CorrectionCode,
+			NULL AS RelativeTypeName,
+			NULL AS DeathRemarks													
+	FROM Archive.dbo.tas2_Tran_Timesheet_2015 a WITH (NOLOCK)
+		LEFT JOIN tas.GetRemark02 b WITH (NOLOCK) ON a.AutoId = b.AutoId
+		LEFT JOIN tas.Master_ShiftPatternTitles c WITH (NOLOCK) ON RTRIM(a.ShiftPatCode) = RTRIM(c.ShiftPatCode) 	
+		LEFT JOIN tas.Tran_WorkplaceSwipe d WITH (NOLOCK) ON a.EmpNo = d.EmpNo AND a.DT = d.SwipeDate
+	WHERE a.EmpNo = 10001307
+
+	*/
+
+GO
+
+

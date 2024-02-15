@@ -1,0 +1,93 @@
+A. USER FUNCTIONS ENTRY:
+
+Forms: 9
+
+Employee Attendance Dashboard
+Employee's Self Service
+
+Duty ROTA Entry
+Shift Projection
+View Current Shift Pattern
+
+Dependents Information			- NEW
+Personal Legal Documents Expiry		- NEW
+
+Emergency Response Team 
+
+Visitor's Pass Module
+- Visitor's Pass Entry			- NEW
+- Visitor's Visit Inquiry
+  
+
+Reports: 6
+
+Daily Attendance Report
+Attendance History Report
+Duty ROTA Report
+Day In Lieu Report
+DIL Due to Late Entry of Duty ROTA Report
+Visitors Entry History Report
+
+
+2. HR FUNCTIONS:
+
+Forms: 16
+
+Reason of Absence Entry
+Timesheet Correction
+Timesheet Exceptional (By Pay Period)
+
+Manual Attendance Entry
+Overtime and Meal Voucher Approval Form
+Shift Pattern Changes (Employee, Contractor, Fire Team)
+Working Cost Center Entry
+
+Employee Exceptional 
+Long Absences Inquiry
+On Annual Leave But Swiped 
+Resigned But Swiped 
+Timesheet Integrity by Correction Code 
+
+Employee Directory			- NEW
+GARMCO Calendar 			- NEW
+Supervisors List 			- NEW
+Cost Center Manager List 		- NEW
+
+
+
+
+Reports: 5
+
+Punctuality Report
+Contractor Attendance History
+Absence Reason Report
+Weekly Overtime Report
+Aspire Employees Payroll Report
+
+
+
+3. ADMINISTRATION FUNCTIONS:
+
+Forms: 3
+
+Cost Center Security Setup
+Form Security Setup
+Master Shift Pattern Setup
+
+
+4. MIS FUNCTIONS:
+
+Forms: 5
+
+Timesheet Processing Log History
+Shift Pattern Update Log History
+Site Visitor's Log
+Master Tables Setup
+Timesheet Validations Setup
+
+
+
+
+
+
+

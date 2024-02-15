@@ -1,0 +1,158 @@
+IF OBJECT_ID('[dbo].[usp_autogen_patient_policy_activity_trigger]') IS NOT NULL
+	DROP PROCEDURE dbo.usp_autogen_patient_policy_activity_trigger
+GO
+
+CREATE PROCEDURE dbo.usp_autogen_patient_policy_activity_trigger
+(
+	@claim_id varchar(30)
+	,@old_insurance_member_number varchar(30)
+)
+AS
+
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_autogen_patient_policy_activity_trigger
+*	Description: For validating and raising claim activity 1
+*
+*	Date:			Author:		Ref#:		Comments:
+*	10/07/2010		JVillas					Creation
+*
+**********************************************************************************/
+
+BEGIN
+
+	DECLARE @insurance_member_number varchar(30)
+			,@insurer_code varchar(10)
+			,@isMembershipNumRequired bit
+			,@hasDataRequirement bit
+			,@doc_name varchar(100)
+			,@validate_membership_id bit
+			,@hasMermbershipNo bit
+			,@hasSubscriberSignature bit
+			,@hasAttachedDocument bit
+			,@hasScannedDocument bit
+			,@hasCompletedReqs bit
+			,@activity_date datetime
+			,@user varchar(10)
+
+	SET	@user = 'autogen'
+	SET @activity_date = GETDATE()
+
+	SELECT	@insurance_member_number = clm.insurance_member_number
+			,@insurer_code = ins.insurer_code
+			,@validate_membership_id = ins.validate_membership_id
+	FROM	dbo.Claim clm
+			INNER JOIN dbo.Insurer ins
+				ON ins.system_insurer_id = clm.system_insurer_id
+	WHERE	clm.claim_id = @claim_id
+
+	IF @insurance_member_number = @old_insurance_member_number
+		RETURN
+
+	SELECT	@isMembershipNumRequired = isMembershipNumRequired
+			,@hasDataRequirement = hasDataRequirement
+			,@doc_name = doc_name
+	FROM	dbo.Activity
+	WHERE	activity_id = 1
+	
+	SET @hasMermbershipNo = 0
+	SET @hasSubscriberSignature = 0
+	SET @hasAttachedDocument = 0
+	SET @hasScannedDocument = 0
+	SET @hasCompletedReqs = 0
+
+	IF @isMembershipNumRequired = 1
+	BEGIN
+		IF LEN(ISNULL(@insurance_member_number, '')) > 0
+		BEGIN
+			SET @hasMermbershipNo = 1
+
+			IF @validate_membership_id = 1
+			BEGIN
+				IF (@insurer_code = 'V') AND (LEN(ISNULL(@insurance_member_number, '')) < 5 OR LEN(ISNULL(@insurance_member_number, '')) > 8)
+					SET @hasMermbershipNo = 0
+				ELSE IF (@insurer_code = 'B') AND (LEN(ISNULL(@insurance_member_number, '')) > 10)
+					SET @hasMermbershipNo = 0
+				ELSE IF (@insurer_code = 'I') AND (LEN(ISNULL(@insurance_member_number, '')) < 5 OR LEN(ISNULL(@insurance_member_number, '')) > 7)
+					SET @hasMermbershipNo = 0
+			END
+		END
+
+		IF EXISTS
+		(
+			SELECT	[file_id]
+			FROM	dbo.SubscriberSignature
+			WHERE	claim_id = @claim_id
+					AND signature_type = 'ST3'
+		)
+			SET @hasSubscriberSignature = 1
+	END
+
+	--Check for attached documents
+	IF EXISTS
+	(
+		SELECT	[id]
+		FROM	dbo.Attachment
+		WHERE	claim_id = @claim_id
+				AND attachment_type = @doc_name
+	)
+		SET @hasAttachedDocument = 1
+
+	--Check for scanned documents
+	IF EXISTS
+	(
+		SELECT	[id]
+		FROM	dbo.Scanned_Doc
+		WHERE	claim_id = @claim_id
+				AND doc_type = @doc_name
+	)
+		SET	@hasScannedDocument = 1
+
+	--Check for the completed requirements
+	IF @isMembershipNumRequired = 1
+	BEGIN
+		IF @insurer_code = 'N' AND @hasMermbershipNo = 1
+			SET @hasCompletedReqs = 1
+		ELSE 
+		BEGIN
+			IF (@hasMermbershipNo = 1) AND (@hasSubscriberSignature = 1 OR @hasAttachedDocument = 1 OR @hasScannedDocument = 1)
+				SET @hasCompletedReqs = 1
+		END
+	END
+	ELSE
+	BEGIN
+		IF @hasAttachedDocument = 1 OR @hasScannedDocument = 1
+			SET @hasCompletedReqs = 1
+	END
+
+	DELETE FROM dbo.Claim_Activity WHERE claim_id = @claim_id AND activity_id = 1
+
+	IF @hasCompletedReqs = 1
+	BEGIN
+		INSERT INTO dbo.Claim_Activity
+		(
+			activity_id
+			,claim_id
+			,activity_date
+			,create_date
+			,create_user
+			,update_date
+			,update_user
+		)
+		VALUES
+		(
+			1
+			,@claim_id
+			,@activity_date
+			,@activity_date
+			,@user
+			,@activity_date
+			,@user
+		)
+
+		EXEC dbo.usp_audit_logging @claim_id, @claim_id, 'Claim_Activity', 'Insert', @activity_date, @user
+	END
+
+	EXEC dbo.usp_autogen_claim_status_update @claim_id
+END

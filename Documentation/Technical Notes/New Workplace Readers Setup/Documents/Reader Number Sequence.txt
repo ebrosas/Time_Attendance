@@ -1,0 +1,4 @@
+Location Code	Location Name		Reader No. Sequence
+1		Main Mill 		1 - 30
+2		Foil Mill		31 - 40
+8		Workplace		41 - 70

@@ -1,0 +1,40 @@
+IF OBJECT_ID ('usp_trn_patientcaresubactivity_retrieve_by_claimid_doctorid_typeofcareid') IS NOT NULL
+	DROP PROCEDURE [dbo].usp_trn_patientcaresubactivity_retrieve_by_claimid_doctorid_typeofcareid
+GO
+
+CREATE PROCEDURE [dbo].usp_trn_patientcaresubactivity_retrieve_by_claimid_doctorid_typeofcareid
+(
+	 @claim_id char(12)
+	,@doctor_id char(12)
+	,@type_of_care_id int
+)
+AS
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_trn_patientcaresubactivity_retrieve_by_claimid_doctorid_typeofcareid
+*	Description: Retrieves the list of subactivities per claim, doctor id and
+*				 type of care id
+*
+*	Date:			Author:		Ref#:		Comments:
+*	11/03/2010  	MLim		7446	    Created
+*	
+**********************************************************************************/
+
+SELECT
+	 pc.patientcare_id
+	,pc.type_of_care_id
+	,pcsa.activity_id
+	,pcsa.subactivity_id
+	,pcsa.subactivity_name
+	,pcsa.subactivity_date
+	,pcsa.isRequired	
+FROM
+	[dbo].trn_PatientCareSubActivity pcsa INNER JOIN
+	[dbo].trn_PatientCare pc ON pcsa.patientcare_id = pc.patientcare_id
+WHERE
+	pc.claim_id = @claim_id
+	AND pc.doctor_id = @doctor_id
+	AND pc.type_of_care_id = @type_of_care_id
+
+GO

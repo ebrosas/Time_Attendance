@@ -1,0 +1,1216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TASModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="DeathReasonOfAbsence">
+    <Key>
+      <PropertyRef Name="EmpNo" />
+      <PropertyRef Name="DT" />
+      <PropertyRef Name="CostCenter" />
+      <PropertyRef Name="CorrectionCode" />
+    </Key>
+    <Property Name="ReasonAbsenceID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpNo" Type="int" Nullable="false" />
+    <Property Name="DT" Type="datetime" Nullable="false" />
+    <Property Name="CostCenter" Type="varchar" MaxLength="12" Nullable="false" />
+    <Property Name="CorrectionCode" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="ShiftPatCode" Type="varchar" MaxLength="2" />
+    <Property Name="ShiftCode" Type="varchar" MaxLength="10" />
+    <Property Name="RelativeTypeCode" Type="varchar" MaxLength="15" />
+    <Property Name="OtherRelativeType" Type="varchar" MaxLength="200" />
+    <Property Name="Remarks" Type="varchar" MaxLength="200" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedByEmpNo" Type="int" />
+    <Property Name="CreatedByEmpName" Type="varchar" MaxLength="150" />
+    <Property Name="CreatedByUserID" Type="varchar" MaxLength="50" />
+    <Property Name="LastUpdateDate" Type="datetime" />
+    <Property Name="LastUpdateEmpNo" Type="int" />
+    <Property Name="LastUpdateEmpName" Type="varchar" MaxLength="150" />
+    <Property Name="LastUpdateUserID" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Master_ContractEmployee">
+    <Key>
+      <PropertyRef Name="EmpNo" />
+    </Key>
+    <Property Name="AutoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpNo" Type="int" Nullable="false" />
+    <Property Name="ContractorEmpName" Type="char" MaxLength="40" />
+    <Property Name="GroupCode" Type="char" MaxLength="10" />
+    <Property Name="ContractorNumber" Type="float" />
+    <Property Name="DateJoined" Type="datetime" />
+    <Property Name="DateResigned" Type="datetime" />
+    <Property Name="ShiftPatCode" Type="char" MaxLength="2" />
+    <Property Name="ShiftPointer" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="ReligionCode" Type="char" MaxLength="10" />
+    <Property Name="LastUpdateUser" Type="char" MaxLength="50" />
+    <Property Name="LastUpdateTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Master_DutyType">
+    <Key>
+      <PropertyRef Name="DutyType" />
+    </Key>
+    <Property Name="AutoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DutyType" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="Description" Type="char" MaxLength="40" Nullable="false" />
+    <Property Name="DutyAllowance" Type="float" Nullable="false" />
+    <Property Name="WrkHrsThrday" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="WrkHrsFriday" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="LastUpdateUser" Type="char" MaxLength="10" />
+    <Property Name="LastUpdateTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Master_EmployeeAdditional">
+    <Key>
+      <PropertyRef Name="EmpNo" />
+    </Key>
+    <Property Name="AutoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpNo" Type="int" Nullable="false" />
+    <Property Name="ShiftPatCode" Type="char" MaxLength="2" />
+    <Property Name="ShiftPointer" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="WorkingBusinessUnit" Type="char" MaxLength="12" />
+    <Property Name="SpecialJobCatg" Type="char" MaxLength="10" />
+    <Property Name="LastUpdateUser" Type="char" MaxLength="50" />
+    <Property Name="LastUpdateTime" Type="datetime" />
+    <Property Name="CatgEffectiveDate" Type="datetime" />
+    <Property Name="CatgEndingDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Master_ProcessLocks">
+    <Key>
+      <PropertyRef Name="AutoID" />
+    </Key>
+    <Property Name="AutoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TimesheetProcessing" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Master_ShiftPattern">
+    <Key>
+      <PropertyRef Name="AutoID" />
+    </Key>
+    <Property Name="AutoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ShiftPatCode" Type="char" MaxLength="2" Nullable="false" />
+    <Property Name="ShiftPointer" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="ShiftCode" Type="char" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Master_ShiftPatternTitles">
+    <Key>
+      <PropertyRef Name="ShiftPatCode" />
+    </Key>
+    <Property Name="AutoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ShiftPatCode" Type="char" MaxLength="2" Nullable="false" />
+    <Property Name="ShiftPatDescription" Type="varchar" MaxLength="50" />
+    <Property Name="IsDayShift" Type="bit" Nullable="false" />
+    <Property Name="LastUpdateUser" Type="char" MaxLength="50" />
+    <Property Name="LastUpdateTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Master_ShiftTimes">
+    <Key>
+      <PropertyRef Name="ShiftPatCode" />
+      <PropertyRef Name="ShiftCode" />
+    </Key>
+    <Property Name="AutoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ShiftPatCode" Type="char" MaxLength="2" Nullable="false" />
+    <Property Name="ShiftCode" Type="char" MaxLength="10" Nullable="false" />
+    <Property Name="xxxxxx1" Type="bit" />
+    <Property Name="ArrivalFrom" Type="datetime" />
+    <Property Name="ArrivalTo" Type="datetime" />
+    <Property Name="DepartFrom" Type="datetime" />
+    <Property Name="DepartTo" Type="datetime" />
+    <Property Name="TotalHrs" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="xxxxxx2" Type="bit" />
+    <Property Name="RArrivalFrom" Type="datetime" />
+    <Property Name="RArrivalTo" Type="datetime" />
+    <Property Name="RDepartFrom" Type="datetime" />
+    <Property Name="RDepartTo" Type="datetime" />
+    <Property Name="RTotalHrs" Type="numeric" Precision="18" Scale="0" />
+    <Property Name="xxxxxx3" Type="bit" />
+    <Property Name="LastUpdateUser" Type="char" MaxLength="50" />
+    <Property Name="LastUpdateTime" Type="datetime" />
+    <Property Name="CreatedByEmpNo" Type="int" />
+    <Property Name="CreatedByEmpName" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedByUser" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="LastUpdateEmpNo" Type="int" />
+    <Property Name="LastUpdateEmpName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="OvertimeRequest">
+    <Key>
+      <PropertyRef Name="EmpNo" />
+      <PropertyRef Name="DT" />
+      <PropertyRef Name="TS_AutoID" />
+      <PropertyRef Name="SubmittedDate" />
+    </Key>
+    <Property Name="OTRequestNo" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpNo" Type="int" Nullable="false" />
+    <Property Name="DT" Type="datetime" Nullable="false" />
+    <Property Name="TS_AutoID" Type="int" Nullable="false" />
+    <Property Name="CostCenter" Type="varchar" MaxLength="12" Nullable="false" />
+    <Property Name="OTStartTime" Type="datetime" />
+    <Property Name="OTEndTime" Type="datetime" />
+    <Property Name="OTType" Type="varchar" MaxLength="10" />
+    <Property Name="CorrectionCode" Type="varchar" MaxLength="10" />
+    <Property Name="MealVoucherEligibility" Type="varchar" MaxLength="10" />
+    <Property Name="StatusID" Type="int" />
+    <Property Name="StatusCode" Type="varchar" MaxLength="10" />
+    <Property Name="StatusDesc" Type="varchar" MaxLength="50" />
+    <Property Name="StatusHandlingCode" Type="varchar" MaxLength="50" />
+    <Property Name="IsClosed" Type="bit" />
+    <Property Name="ClosedDate" Type="datetime" />
+    <Property Name="IsSubmittedForApproval" Type="bit" />
+    <Property Name="SubmittedDate" Type="datetime" Nullable="false" />
+    <Property Name="CurrentlyAssignedEmpNo" Type="int" />
+    <Property Name="CurrentlyAssignedEmpName" Type="varchar" MaxLength="50" />
+    <Property Name="CurrentlyAssignedEmpEmail" Type="varchar" MaxLength="50" />
+    <Property Name="ServiceProviderTypeCode" Type="varchar" MaxLength="10" />
+    <Property Name="DistListCode" Type="varchar" MaxLength="10" />
+    <Property Name="IsModifiedByHR" Type="bit" />
+    <Property Name="OTApproved" Type="varchar" MaxLength="1" />
+    <Property Name="OTReason" Type="varchar" MaxLength="10" />
+    <Property Name="OTComment" Type="varchar" MaxLength="1000" />
+    <Property Name="OTStartTime_Orig" Type="datetime" />
+    <Property Name="OTEndTime_Orig" Type="datetime" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedByEmpNo" Type="int" Nullable="false" />
+    <Property Name="CreatedByUserID" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedByEmpName" Type="varchar" MaxLength="100" />
+    <Property Name="CreatedByEmail" Type="varchar" MaxLength="50" />
+    <Property Name="LastUpdateTime" Type="datetime" />
+    <Property Name="LastUpdateEmpNo" Type="int" />
+    <Property Name="LastUpdateUserID" Type="varchar" MaxLength="50" />
+    <Property Name="LastUpdateEmpName" Type="varchar" MaxLength="100" />
+    <Property Name="IsOTCommentModified" Type="bit" />
+    <Property Name="IsHold" Type="bit" />
+  </EntityType>
+  <EntityType Name="OvertimeWFApprovalHistory">
+    <Key>
+      <PropertyRef Name="AutoID" />
+      <PropertyRef Name="OTRequestNo" />
+      <PropertyRef Name="TS_AutoID" />
+      <PropertyRef Name="RequestSubmissionDate" />
+    </Key>
+    <Property Name="AutoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OTRequestNo" Type="bigint" Nullable="false" />
+    <Property Name="TS_AutoID" Type="int" Nullable="false" />
+    <Property Name="RequestSubmissionDate" Type="datetime" Nullable="false" />
+    <Property Name="AppApproved" Type="bit" Nullable="false" />
+    <Property Name="AppRemarks" Type="varchar" MaxLength="300" />
+    <Property Name="AppRoutineSeq" Type="int" />
+    <Property Name="AppCreatedBy" Type="int" Nullable="false" />
+    <Property Name="AppCreatedName" Type="varchar" MaxLength="50" />
+    <Property Name="AppCreatedDate" Type="datetime" />
+    <Property Name="AppModifiedBy" Type="int" />
+    <Property Name="AppModifiedName" Type="varchar" MaxLength="50" />
+    <Property Name="AppModifiedDate" Type="datetime" />
+    <Property Name="ApprovalRole" Type="varchar" MaxLength="500" />
+    <Property Name="ActionRole" Type="int" />
+  </EntityType>
+  <EntityType Name="OvertimeWFEmailDelivery">
+    <Key>
+      <PropertyRef Name="OTRequestNo" />
+      <PropertyRef Name="TS_AutoID" />
+      <PropertyRef Name="RequestSubmissionDate" />
+      <PropertyRef Name="CurrentlyAssignedEmpNo" />
+      <PropertyRef Name="ActivityCode" />
+    </Key>
+    <Property Name="DeliveryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OTRequestNo" Type="bigint" Nullable="false" />
+    <Property Name="TS_AutoID" Type="int" Nullable="false" />
+    <Property Name="RequestSubmissionDate" Type="datetime" Nullable="false" />
+    <Property Name="CurrentlyAssignedEmpNo" Type="int" Nullable="false" />
+    <Property Name="CurrentlyAssignedEmpName" Type="varchar" MaxLength="50" />
+    <Property Name="CurrentlyAssignedEmpEmail" Type="varchar" MaxLength="50" />
+    <Property Name="ActivityCode" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="ActionMemberCode" Type="varchar" MaxLength="10" />
+    <Property Name="EmailSourceName" Type="varchar" MaxLength="30" />
+    <Property Name="EmailCCRecipient" Type="varchar" MaxLength="200" />
+    <Property Name="EmailCCRecipientType" Type="int" />
+    <Property Name="IsDelivered" Type="bit" Nullable="false" />
+    <Property Name="CreatedByEmpNo" Type="int" Nullable="false" />
+    <Property Name="CreatedByEmpName" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="LastUpdateEmpNo" Type="int" />
+    <Property Name="LastUpdateEmpName" Type="varchar" MaxLength="50" />
+    <Property Name="LastUpdateTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="OvertimeWFRoutineHistory">
+    <Key>
+      <PropertyRef Name="AutoID" />
+      <PropertyRef Name="OTRequestNo" />
+      <PropertyRef Name="TS_AutoID" />
+      <PropertyRef Name="RequestSubmissionDate" />
+    </Key>
+    <Property Name="AutoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OTRequestNo" Type="bigint" Nullable="false" />
+    <Property Name="TS_AutoID" Type="int" Nullable="false" />
+    <Property Name="RequestSubmissionDate" Type="datetime" Nullable="false" />
+    <Property Name="HistDesc" Type="varchar" MaxLength="300" />
+    <Property Name="HistCreatedBy" Type="int" Nullable="false" />
+    <Property Name="HistCreatedName" Type="varchar" MaxLength="50" />
+    <Property Name="HistCreatedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="OvertimeWFTransactionActivity">
+    <Key>
+      <PropertyRef Name="OTRequestNo" />
+      <PropertyRef Name="TS_AutoID" />
+      <PropertyRef Name="WFModuleCode" />
+      <PropertyRef Name="ActivityCode" />
+      <PropertyRef Name="RequestSubmissionDate" />
+    </Key>
+    <Property Name="WorkflowTransactionID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OTRequestNo" Type="bigint" Nullable="false" />
+    <Property Name="TS_AutoID" Type="int" Nullable="false" />
+    <Property Name="WFModuleCode" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="ActivityCode" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="NextActivityCode" Type="varchar" MaxLength="20" />
+    <Property Name="ActivityDesc1" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="ActivityDesc2" Type="varchar" MaxLength="500" />
+    <Property Name="WFActivityTypeCode" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="SequenceNo" Type="int" Nullable="false" />
+    <Property Name="SequenceType" Type="int" />
+    <Property Name="ApprovalType" Type="int" />
+    <Property Name="ActionRole" Type="int" />
+    <Property Name="ActionMemberCode" Type="varchar" MaxLength="10" />
+    <Property Name="ActionMemberType" Type="tinyint" />
+    <Property Name="ServiceProviderTypeCode" Type="varchar" MaxLength="10" />
+    <Property Name="ParameterSourceTable" Type="varchar" MaxLength="50" />
+    <Property Name="ParameterName" Type="varchar" MaxLength="50" />
+    <Property Name="ParameterDataType" Type="varchar" MaxLength="50" />
+    <Property Name="ConditionCheckValue" Type="varchar" MaxLength="50" />
+    <Property Name="ConditionCheckDataType" Type="varchar" MaxLength="50" />
+    <Property Name="EmailSourceName" Type="varchar" MaxLength="30" />
+    <Property Name="EmailCCRecipient" Type="varchar" MaxLength="200" />
+    <Property Name="EmailCCRecipientType" Type="int" />
+    <Property Name="IsCurrent" Type="bit" />
+    <Property Name="IsCompleted" Type="bit" />
+    <Property Name="IsFinalAct" Type="bit" />
+    <Property Name="ActStatusID" Type="int" />
+    <Property Name="RequestSubmissionDate" Type="datetime" Nullable="false" />
+    <Property Name="BypassIfAlreadyApproved" Type="bit" />
+    <Property Name="CreatedByUser" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedByUserEmpNo" Type="int" />
+    <Property Name="CreatedByUserEmpName" Type="varchar" MaxLength="50" />
+    <Property Name="LastUpdateUser" Type="varchar" MaxLength="50" />
+    <Property Name="LastUpdateTime" Type="datetime" />
+    <Property Name="LastUpdateEmpNo" Type="int" />
+    <Property Name="LastUpdateEmpName" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="System_Values">
+    <Key>
+      <PropertyRef Name="AutoID" />
+    </Key>
+    <Property Name="AutoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="XXXXXXXXXXXXXXX0200" Type="bit" />
+    <Property Name="CODE_UDC_AbsenceReasonCode" Type="char" MaxLength="10" />
+    <Property Name="CODE_UDC_ChangeType" Type="char" MaxLength="10" />
+    <Property Name="CODE_UDC_DayOfWeek" Type="char" MaxLength="10" />
+    <Property Name="CODE_UDC_GroupCode" Type="char" MaxLength="10" />
+    <Property Name="CODE_UDC_LeaveType" Type="char" MaxLength="10" />
+    <Property Name="CODE_UDC_ReligionCode" Type="char" MaxLength="10" />
+    <Property Name="CODE_UDC_ShiftCode" Type="char" MaxLength="10" />
+    <Property Name="XXXXXXXXXXXXXXX0300" Type="bit" />
+    <Property Name="CODE_Shift_Morning" Type="char" MaxLength="10" />
+    <Property Name="CODE_Shift_Evening" Type="char" MaxLength="10" />
+    <Property Name="CODE_Shift_Night" Type="char" MaxLength="10" />
+    <Property Name="CODE_Shift_Off" Type="char" MaxLength="10" />
+    <Property Name="XXXXXXXXXXXXXXX0305" Type="bit" />
+    <Property Name="CODE_SpecialShift_Pat" Type="char" MaxLength="10" />
+    <Property Name="CODE_TimeResolution" Type="char" MaxLength="10" />
+    <Property Name="XXXXXXXXXXXXXXX0310" Type="bit" />
+    <Property Name="CODE_Remark_Absent" Type="char" MaxLength="10" />
+    <Property Name="CODE_SystemSuppliedIN" Type="char" MaxLength="10" />
+    <Property Name="CODE_SystemSuppliedOUT" Type="char" MaxLength="10" />
+    <Property Name="XXXXXXXXXXXXXXX0350" Type="bit" />
+    <Property Name="DT_SwipeLastProcessed" Type="datetime" />
+    <Property Name="DT_SwipeNewProcess" Type="datetime" />
+    <Property Name="DT_ManualTimeSheetLastEntered" Type="datetime" />
+    <Property Name="DT_ShiftPatternLastUpdated" Type="datetime" />
+    <Property Name="XXXXXXXXXXXXXXX0400" Type="bit" />
+    <Property Name="Code_EnabledUserLogin" Type="char" MaxLength="2" />
+    <Property Name="Code_ApplicationSecurityType" Type="char" MaxLength="10" />
+    <Property Name="Code_BusinessUnitSecurityType" Type="char" MaxLength="10" />
+    <Property Name="XXXXXXXXXXXXXXX0450" Type="bit" />
+    <Property Name="Code_AdminUserID1" Type="varchar" MaxLength="20" />
+    <Property Name="Code_AdminUserID2" Type="varchar" MaxLength="20" />
+    <Property Name="Code_AdminUserID3" Type="varchar" MaxLength="20" />
+    <Property Name="XXXXXXXXXXXXXXX0500" Type="bit" />
+    <Property Name="Code_DefaultShiftPat" Type="char" MaxLength="2" />
+    <Property Name="Code_DefaultShiftCode" Type="char" MaxLength="10" />
+    <Property Name="Code_FirstShiftOfDay" Type="char" MaxLength="10" />
+    <Property Name="Code_ChangeTypeDeffered" Type="char" MaxLength="10" />
+    <Property Name="Code_ChangeTypeTemporary" Type="char" MaxLength="10" />
+    <Property Name="XXXXXXXXXXXXXXX0600" Type="bit" />
+    <Property Name="Code_MuslimReligion" Type="char" MaxLength="10" />
+    <Property Name="XXXXXXXXXXXXXXX0700" Type="bit" />
+    <Property Name="Code_JobCategory_SalaryStaff" Type="char" MaxLength="10" />
+    <Property Name="Code_JobCategory_NonSalaryStaff" Type="char" MaxLength="10" />
+    <Property Name="Code_JobCategory_Driver" Type="char" MaxLength="10" />
+    <Property Name="Code_JobCategory_Hedger" Type="char" MaxLength="10" />
+    <Property Name="XXXXXXXXXXXXXXX0800" Type="bit" />
+    <Property Name="Code_ReaderManualLocation" Type="char" MaxLength="1" />
+    <Property Name="Code_ReaderManualOut" Type="int" />
+    <Property Name="Code_ReaderManuaIn" Type="int" />
+    <Property Name="Code_ReaderAccessGranted" Type="char" MaxLength="10" />
+    <Property Name="XXXXXXXXXXXXXXX0850" Type="bit" />
+    <Property Name="Code_SwipeSource_Manual" Type="char" MaxLength="10" />
+    <Property Name="Code_SwipeSource_Automatic" Type="char" MaxLength="10" />
+    <Property Name="Code_SwipeSource_Absent" Type="char" MaxLength="10" />
+    <Property Name="Code_SwipeSource_ShiftSpan" Type="char" MaxLength="10" />
+    <Property Name="XXXXXXXXXXXXXXX0900" Type="bit" />
+    <Property Name="Code_ROA_BusinessTrip" Type="char" MaxLength="10" />
+    <Property Name="Code_ROA_MaternityBenifit" Type="char" MaxLength="10" />
+    <Property Name="Code_ROA_TrainingLocal" Type="char" MaxLength="10" />
+    <Property Name="Code_ROA_TrainingForeign" Type="char" MaxLength="10" />
+    <Property Name="Code_ROA_DIL_Used_Dept" Type="char" MaxLength="10" />
+    <Property Name="Code_ROA_DIL_Used_HR" Type="char" MaxLength="10" />
+    <Property Name="XXXXXX0950" Type="bit" />
+    <Property Name="Code_DayInLieu_Entitiled_System" Type="char" MaxLength="10" />
+    <Property Name="Code_DayInLieu_Entitiled_HR" Type="char" MaxLength="10" />
+    <Property Name="Code_DayInLieu_USED_Admin" Type="char" MaxLength="10" />
+    <Property Name="Code_DayInLieu_USED_Dept" Type="char" MaxLength="10" />
+    <Property Name="XXXXXXXXXXXXXXX1000" Type="bit" />
+    <Property Name="Code_PublicHolidy" Type="char" MaxLength="10" />
+    <Property Name="Code_Ramadan" Type="char" MaxLength="10" />
+    <Property Name="Code_DIL_DayWorker" Type="char" MaxLength="10" />
+    <Property Name="XXXXXXXXXXXXXXX1100" Type="bit" />
+    <Property Name="Code_ContGroup_Sal" Type="char" MaxLength="10" />
+    <Property Name="Code_ContGroup_NonSal" Type="char" MaxLength="10" />
+    <Property Name="Code_ContGroup_Seasonal" Type="char" MaxLength="10" />
+    <Property Name="Code_ContGroup_Visitor" Type="char" MaxLength="10" />
+    <Property Name="XXXXXXXXXXXXXXX1200" Type="bit" />
+    <Property Name="Minutes_GracePeriod" Type="int" />
+    <Property Name="Minutes_MinOT_NSS" Type="int" />
+    <Property Name="Minutes_MinOT_SS" Type="int" />
+    <Property Name="Minutes_MinShiftAllowance" Type="int" />
+    <Property Name="Minutes_MaternityAbsence" Type="int" />
+    <Property Name="Minutes_MinDILentitlement" Type="int" />
+    <Property Name="Minutes_AbsenceCutOff" Type="int" />
+    <Property Name="XXXXXXXXXXXXXXX1220" Type="bit" />
+    <Property Name="Hours_MaxWorking" Type="int" />
+    <Property Name="XXXXXXXXXXXXXXX1230" Type="bit" />
+    <Property Name="Days_minEditTimeSheet" Type="int" />
+    <Property Name="Days_MaxBusTrip" Type="int" />
+    <Property Name="XXXXXXXXXXXXXXX1240" Type="bit" />
+    <Property Name="Months_DILexpiry" Type="int" />
+    <Property Name="XXXXXXXXXXXXXXX1400" Type="bit" />
+    <Property Name="Project_URL_prefix" Type="varchar" MaxLength="100" />
+    <Property Name="Report_URL_prefix" Type="varchar" MaxLength="100" />
+    <Property Name="SPU_URL_Prefix" Type="varchar" MaxLength="100" />
+    <Property Name="Download_URL_prefix" Type="varchar" MaxLength="100" />
+    <Property Name="XXXXXXXXXXXXXXX1500" Type="bit" />
+    <Property Name="Code_OTtype_Regular" Type="char" MaxLength="10" />
+    <Property Name="Code_OTtype_PublicHoliday" Type="char" MaxLength="10" />
+    <Property Name="Code_OTtype_DILdw" Type="char" MaxLength="10" />
+    <Property Name="Code_OTtype_DayOff" Type="char" MaxLength="10" />
+    <Property Name="XXXXXXXXXXXXXXX1600" Type="bit" />
+    <Property Name="CODE_AbsenceColumn_ROA" Type="char" MaxLength="10" />
+    <Property Name="CODE_AbsenceColumn_Leave" Type="char" MaxLength="10" />
+    <Property Name="CODE_AbsenceColumn_Cal_Holiday" Type="char" MaxLength="10" />
+    <Property Name="CODE_AbsenceColumn_Cal_DILdw" Type="char" MaxLength="10" />
+    <Property Name="CODE_AbsenceColumn_DayOff" Type="char" MaxLength="10" />
+    <Property Name="CODE_AbsenceColumn_ShiftSpan" Type="char" MaxLength="10" />
+    <Property Name="XXXXXXXXXXXXXXX1700" Type="bit" />
+    <Property Name="EMAILs_Alert_System" Type="varchar" MaxLength="200" />
+    <Property Name="EMAILs_Alert_HR" Type="varchar" MaxLength="200" />
+    <Property Name="SMTPServerName" Type="varchar" MaxLength="20" />
+    <Property Name="XXXXXXXXXXXXXXX1800" Type="bit" />
+    <Property Name="DummyColumn" Type="bit" />
+    <Property Name="LastUpdateUser" Type="char" MaxLength="10" />
+    <Property Name="LastUpdateTime" Type="datetime" />
+    <Property Name="MarqueeText" Type="varchar" MaxLength="200" />
+    <Property Name="BackupDBbeforeProcessingTS" Type="bit" />
+    <Property Name="SystemDownMsg" Type="varchar" MaxLength="400" />
+    <Property Name="SystemDownFlg" Type="bit" />
+    <Property Name="TrainingSec1" Type="varchar" MaxLength="20" />
+    <Property Name="TrainingSec2" Type="varchar" MaxLength="20" />
+    <Property Name="TrainingSec3" Type="varchar" MaxLength="20" />
+    <Property Name="CODE_Shift_Day" Type="char" MaxLength="10" />
+    <Property Name="IsMedicalNurse1" Type="varchar" MaxLength="20" />
+    <Property Name="IsMedicalNurse2" Type="varchar" MaxLength="20" />
+    <Property Name="IsMedicalNurse3" Type="varchar" MaxLength="20" />
+    <Property Name="IsMedicalNurse4" Type="varchar" MaxLength="20" />
+    <Property Name="IsMedicalNurse5" Type="varchar" MaxLength="20" />
+    <Property Name="IsMedicalNurse6" Type="varchar" MaxLength="20" />
+    <Property Name="DW_EndOfDay_From" Type="varchar" MaxLength="5" />
+    <Property Name="DW_EndOfDay_To" Type="varchar" MaxLength="5" />
+    <Property Name="XXXXXXXXXXXXXXX1900" Type="bit" />
+    <Property Name="HRuser1" Type="varchar" MaxLength="20" />
+    <Property Name="HRuser2" Type="varchar" MaxLength="20" />
+    <Property Name="HRuser3" Type="varchar" MaxLength="20" />
+    <Property Name="XXXXXXXXXXXXXXX2000" Type="bit" />
+    <Property Name="Minutes_Min_ShiftSpanOT_Full" Type="int" />
+    <Property Name="Minutes_Min_ShiftSpanOT_Day1" Type="int" />
+    <Property Name="Minutes_Min_ShiftSpanOT_Day2" Type="int" />
+    <Property Name="XXXXXXXXXXXXXXX2100" Type="bit" />
+    <Property Name="Upload_ID" Type="int" />
+    <Property Name="DIL_switch_date" Type="datetime" />
+    <Property Name="WeekEndDay1" Type="varchar" MaxLength="3" />
+    <Property Name="WeekEndDay2" Type="varchar" MaxLength="3" />
+    <Property Name="CommandTimeout" Type="int" />
+    <Property Name="Minutes_MinOT_SS_Ramadan" Type="int" />
+    <Property Name="Hide_OT_From" Type="datetime" />
+    <Property Name="Hide_OT_To" Type="datetime" />
+    <Property Name="AllowTimesheetProcessing" Type="bit" />
+    <Property Name="LIST_of_Timesheet_Users" Type="varchar" MaxLength="100" />
+    <Property Name="LIST_of_Timesheet_developers" Type="varchar" MaxLength="100" />
+    <Property Name="CheckSwipeValidation" Type="bit" Nullable="false" />
+    <Property Name="MealVoucherEligibleMins" Type="int" />
+  </EntityType>
+  <EntityType Name="SystemErrorLog">
+    <Key>
+      <PropertyRef Name="LogID" />
+      <PropertyRef Name="ErrorCode" />
+      <PropertyRef Name="CreatedDate" />
+    </Key>
+    <Property Name="LogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RequisitionNo" Type="bigint" />
+    <Property Name="ErrorCode" Type="tinyint" Nullable="false" />
+    <Property Name="ErrorDscription" Type="varchar" MaxLength="2000" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+    <Property Name="CreatedByEmpNo" Type="int" Nullable="false" />
+    <Property Name="CreatedByUserID" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Tran_Absence">
+    <Key>
+      <PropertyRef Name="AutoID" />
+    </Key>
+    <Property Name="AutoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpNo" Type="int" Nullable="false" />
+    <Property Name="EffectiveDate" Type="datetime" Nullable="false" />
+    <Property Name="EndingDate" Type="datetime" Nullable="false" />
+    <Property Name="StartTime" Type="varchar" MaxLength="4" />
+    <Property Name="EndTime" Type="varchar" MaxLength="4" />
+    <Property Name="DayOfWeek" Type="char" MaxLength="10" />
+    <Property Name="AbsenceReasonCode" Type="char" MaxLength="10" Nullable="false" />
+    <Property Name="XID_TS_DIL_ENT" Type="int" />
+    <Property Name="XID_TS_DIL_USD" Type="int" />
+    <Property Name="LastUpdateUser" Type="char" MaxLength="50" />
+    <Property Name="LastUpdateTime" Type="datetime" />
+    <Property Name="DIL_ENT_CODE" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Tran_DutyRota">
+    <Key>
+      <PropertyRef Name="AutoID" />
+    </Key>
+    <Property Name="AutoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpNo" Type="int" Nullable="false" />
+    <Property Name="EffectiveDate" Type="datetime" Nullable="false" />
+    <Property Name="EndingDate" Type="datetime" Nullable="false" />
+    <Property Name="DutyType" Type="char" MaxLength="1" />
+    <Property Name="LastUpdateUser" Type="char" MaxLength="50" />
+    <Property Name="LastUpdateTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Tran_ManualAttendance">
+    <Key>
+      <PropertyRef Name="AutoID" />
+    </Key>
+    <Property Name="AutoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpNo" Type="int" Nullable="false" />
+    <Property Name="dtIN" Type="datetime" />
+    <Property Name="timeIN" Type="varchar" MaxLength="4" />
+    <Property Name="dtOUT" Type="datetime" />
+    <Property Name="timeOUT" Type="varchar" MaxLength="4" />
+    <Property Name="xxxxxxxxxxxxxx" Type="bit" />
+    <Property Name="LastUpdateUser" Type="varchar" MaxLength="50" />
+    <Property Name="LastUpdateTime" Type="datetime" />
+    <Property Name="CreatedUser" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Tran_ShiftPatternChanges">
+    <Key>
+      <PropertyRef Name="AutoID" />
+    </Key>
+    <Property Name="AutoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpNo" Type="int" Nullable="false" />
+    <Property Name="EffectiveDate" Type="datetime" Nullable="false" />
+    <Property Name="EndingDate" Type="datetime" />
+    <Property Name="ShiftPatCode" Type="char" MaxLength="2" Nullable="false" />
+    <Property Name="ShiftPointer" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="ChangeType" Type="char" MaxLength="10" Nullable="false" />
+    <Property Name="LastUpdateUser" Type="char" MaxLength="50" />
+    <Property Name="LastUpdateTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Tran_Timesheet">
+    <Key>
+      <PropertyRef Name="AutoID" />
+    </Key>
+    <Property Name="AutoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="EmpNo" Type="int" Nullable="false" />
+    <Property Name="DT" Type="datetime" />
+    <Property Name="dtIN" Type="datetime" />
+    <Property Name="dtOUT" Type="datetime" />
+    <Property Name="ShiftPatCode" Type="char" MaxLength="2" />
+    <Property Name="ShiftCode" Type="char" MaxLength="10" />
+    <Property Name="Actual_ShiftCode" Type="char" MaxLength="10" />
+    <Property Name="ShiftAllowance" Type="bit" />
+    <Property Name="OTType" Type="char" MaxLength="10" />
+    <Property Name="OTStartTime" Type="datetime" />
+    <Property Name="OTEndTime" Type="datetime" />
+    <Property Name="NoPayHours" Type="int" />
+    <Property Name="BusinessUnit" Type="char" MaxLength="12" />
+    <Property Name="GradeCode" Type="char" MaxLength="10" />
+    <Property Name="AbsenceReasonCode" Type="char" MaxLength="10" />
+    <Property Name="LeaveType" Type="char" MaxLength="10" />
+    <Property Name="RemarkCode" Type="char" MaxLength="10" />
+    <Property Name="DIL_Entitlement" Type="char" MaxLength="10" />
+    <Property Name="AbsenceReasonColumn" Type="char" MaxLength="10" />
+    <Property Name="CorrectionCode" Type="char" MaxLength="10" />
+    <Property Name="Processed" Type="bit" />
+    <Property Name="OnCallOut" Type="bit" />
+    <Property Name="OnDuty" Type="bit" />
+    <Property Name="ShiftSpanDate" Type="datetime" />
+    <Property Name="ShiftSpan" Type="bit" />
+    <Property Name="ProcessID" Type="int" />
+    <Property Name="LastUpdateUser" Type="char" MaxLength="20" />
+    <Property Name="LastUpdateTime" Type="datetime" />
+    <Property Name="XXXXXXXXXXXX_100" Type="bit" />
+    <Property Name="JobCategoryCode" Type="char" MaxLength="6" />
+    <Property Name="isMuslim" Type="bit" />
+    <Property Name="isRamadan" Type="bit" />
+    <Property Name="IsPublicHoliday" Type="bit" />
+    <Property Name="IsDILdayWorker" Type="bit" />
+    <Property Name="XXXXXXXXXXXX_200" Type="bit" />
+    <Property Name="In1" Type="char" MaxLength="4" />
+    <Property Name="In2" Type="char" MaxLength="4" />
+    <Property Name="Out1" Type="char" MaxLength="4" />
+    <Property Name="Out2" Type="char" MaxLength="4" />
+    <Property Name="Sch_A2" Type="char" MaxLength="4" />
+    <Property Name="Sch_D1" Type="char" MaxLength="4" />
+    <Property Name="Is_InOut_in_Shaving" Type="bit" />
+    <Property Name="XXXXXXXXXXXX_300" Type="bit" />
+    <Property Name="dtA1" Type="datetime" />
+    <Property Name="dtA2" Type="datetime" />
+    <Property Name="dtD1" Type="datetime" />
+    <Property Name="dtD2" Type="datetime" />
+    <Property Name="XXXXXXXXXXXX_400" Type="bit" />
+    <Property Name="Shaved_IN" Type="datetime" />
+    <Property Name="Shaved_OUT" Type="datetime" />
+    <Property Name="XXXXXXXXXXXX_500" Type="bit" />
+    <Property Name="IsEmployee_OR_Contractor" Type="bit" />
+    <Property Name="IsResigned" Type="bit" />
+    <Property Name="IsSalStaff" Type="bit" />
+    <Property Name="IsDayWorker_OR_Shifter" Type="bit" />
+    <Property Name="IsDriver" Type="bit" />
+    <Property Name="IsLiasonOfficer" Type="bit" />
+    <Property Name="IsHedger" Type="bit" />
+    <Property Name="IsOnDutyRota" Type="bit" />
+    <Property Name="ContractorGroupCode" Type="char" MaxLength="10" />
+    <Property Name="XXXXXXXXXXXX_600" Type="bit" />
+    <Property Name="IsLastRow" Type="bit" />
+    <Property Name="Duration_SubID" Type="int" />
+    <Property Name="Duration_Shift" Type="int" />
+    <Property Name="Duration_MaternityLeave" Type="int" />
+    <Property Name="Duration_ROA" Type="int" />
+    <Property Name="Duration_Required" Type="int" />
+    <Property Name="Duration_Worked" Type="int" />
+    <Property Name="Duration_Worked_Cumulative" Type="int" />
+    <Property Name="XXXXXXXXXXXX_700" Type="bit" />
+    <Property Name="SwipeSource" Type="char" MaxLength="1" />
+    <Property Name="XXXXXXXXXXXX_800" Type="bit" />
+    <Property Name="Duration_ShiftAllowance_Evening" Type="int" />
+    <Property Name="Duration_ShiftAllowance_Night" Type="int" />
+    <Property Name="XXXXXXXXXXXX_900" Type="bit" />
+    <Property Name="ShiftSpan_XID" Type="int" />
+    <Property Name="ShiftSpan_HoursDay1" Type="int" />
+    <Property Name="ShiftSpan_HoursDay2" Type="int" />
+    <Property Name="ShiftSpan_AwardOT" Type="int" />
+    <Property Name="ShiftSpan_2ndDayFullOT" Type="int" />
+    <Property Name="XXXXXXXXXXXX_1000" Type="bit" />
+    <Property Name="NetMinutes" Type="int" />
+    <Property Name="Upload_ID" Type="int" />
+    <Property Name="MealVoucherEligibility" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Tran_Timesheet_Extra">
+    <Key>
+      <PropertyRef Name="XID_AutoID" />
+    </Key>
+    <Property Name="XID_AutoID" Type="int" Nullable="false" />
+    <Property Name="OTstartTime" Type="datetime" />
+    <Property Name="OTendTime" Type="datetime" />
+    <Property Name="OTtype" Type="char" MaxLength="10" />
+    <Property Name="Approved" Type="bit" />
+    <Property Name="LastUpdateUser" Type="varchar" MaxLength="30" />
+    <Property Name="LastUpdateTime" Type="datetime" />
+    <Property Name="Comment" Type="varchar" MaxLength="1000" />
+    <Property Name="OTApproved" Type="char" MaxLength="1" />
+    <Property Name="OTReason" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="VisitorPassLog">
+    <Key>
+      <PropertyRef Name="VisitorCardNo" />
+      <PropertyRef Name="IDNumber" />
+      <PropertyRef Name="VisitDate" />
+    </Key>
+    <Property Name="LogID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VisitorName" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="VisitorCardNo" Type="int" Nullable="false" />
+    <Property Name="IDNumber" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="VisitEmpNo" Type="int" Nullable="false" />
+    <Property Name="VisitDate" Type="datetime" Nullable="false" />
+    <Property Name="VisitTimeIn" Type="datetime" />
+    <Property Name="VisitTimeOut" Type="datetime" />
+    <Property Name="Remarks" Type="varchar" MaxLength="3000" />
+    <Property Name="IsBlock" Type="bit" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedByEmpNo" Type="int" Nullable="false" />
+    <Property Name="CreatedByUserID" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedByEmpName" Type="varchar" MaxLength="100" />
+    <Property Name="CreatedByEmpEmail" Type="varchar" MaxLength="50" />
+    <Property Name="LastUpdateTime" Type="datetime" />
+    <Property Name="LastUpdateEmpNo" Type="int" />
+    <Property Name="LastUpdateUserID" Type="varchar" MaxLength="50" />
+    <Property Name="LastUpdateEmpName" Type="varchar" MaxLength="100" />
+    <Property Name="LastUpdateEmpEmail" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="VisitorSwipeLog">
+    <Key>
+      <PropertyRef Name="LogID" />
+      <PropertyRef Name="SwipeDate" />
+      <PropertyRef Name="SwipeTime" />
+    </Key>
+    <Property Name="SwipeID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LogID" Type="bigint" Nullable="false" />
+    <Property Name="SwipeDate" Type="datetime" Nullable="false" />
+    <Property Name="SwipeTime" Type="datetime" Nullable="false" />
+    <Property Name="SwipeTypeCode" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="CreatedByEmpNo" Type="int" Nullable="false" />
+    <Property Name="CreatedByUserID" Type="varchar" MaxLength="50" />
+    <Property Name="CreatedByEmpName" Type="varchar" MaxLength="100" />
+    <Property Name="CreatedByEmpEmail" Type="varchar" MaxLength="50" />
+    <Property Name="LastUpdateTime" Type="datetime" />
+    <Property Name="LastUpdateEmpNo" Type="int" />
+    <Property Name="LastUpdateUserID" Type="varchar" MaxLength="50" />
+    <Property Name="LastUpdateEmpName" Type="varchar" MaxLength="100" />
+    <Property Name="LastUpdateEmpEmail" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'tas2.tas.Vw_MainGateSwipeRawData' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Vw_MainGateSwipeRawData">
+    <Key>
+      <PropertyRef Name="SwipeType" />
+      <PropertyRef Name="LocationCode" />
+      <PropertyRef Name="ReaderNo" />
+      <PropertyRef Name="SwipeCode" />
+      <PropertyRef Name="LName" />
+    </Key>
+    <Property Name="EmpNo" Type="int" />
+    <Property Name="SwipeDate" Type="datetime" />
+    <Property Name="SwipeTime" Type="datetime" />
+    <Property Name="SwipeLocation" Type="varchar" MaxLength="83" />
+    <Property Name="SwipeType" Type="varchar" MaxLength="3" Nullable="false" />
+    <Property Name="LocationCode" Type="int" Nullable="false" />
+    <Property Name="ReaderNo" Type="int" Nullable="false" />
+    <Property Name="SwipeCode" Type="varchar" MaxLength="8" Nullable="false" />
+    <Property Name="LocationName" Type="char" MaxLength="40" />
+    <Property Name="ReaderName" Type="char" MaxLength="40" />
+    <Property Name="LName" Type="nvarchar" MaxLength="30" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Master_ShiftPattern_Master_ShiftPatternTitles">
+    <End Role="Master_ShiftPatternTitles" Type="Self.Master_ShiftPatternTitles" Multiplicity="1" />
+    <End Role="Master_ShiftPattern" Type="Self.Master_ShiftPattern" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Master_ShiftPatternTitles">
+        <PropertyRef Name="ShiftPatCode" />
+      </Principal>
+      <Dependent Role="Master_ShiftPattern">
+        <PropertyRef Name="ShiftPatCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Master_ShiftTimes_Master_ShiftPatternTitles">
+    <End Role="Master_ShiftPatternTitles" Type="Self.Master_ShiftPatternTitles" Multiplicity="1" />
+    <End Role="Master_ShiftTimes" Type="Self.Master_ShiftTimes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Master_ShiftPatternTitles">
+        <PropertyRef Name="ShiftPatCode" />
+      </Principal>
+      <Dependent Role="Master_ShiftTimes">
+        <PropertyRef Name="ShiftPatCode" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_TA_Master_Contrator_TA_Master_ShiftPattern' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_TA_Master_Contrator_TA_Master_ShiftPattern" />-->
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_TA_Master_EmployeeAddtional_TA_Master_ShiftPattern' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_TA_Master_EmployeeAddtional_TA_Master_ShiftPattern" />-->
+  <Association Name="FK_TA_Tran_DutyRota_TA_Master_DutyType">
+    <End Role="Master_DutyType" Type="Self.Master_DutyType" Multiplicity="0..1" />
+    <End Role="Tran_DutyRota" Type="Self.Tran_DutyRota" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Master_DutyType">
+        <PropertyRef Name="DutyType" />
+      </Principal>
+      <Dependent Role="Tran_DutyRota">
+        <PropertyRef Name="DutyType" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fnCanAccessDependentInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="IsAllowedAccess" Type="bit" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fnCanAccessEmergencyContact" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="IsAllowedAccess" Type="bit" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fnCheckIfPayrollProcessing" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="IsPayrollProcessing" Type="bit" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fnCheckIfPayrollProcessingByEmpNo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="IsPayrollProcessing" Type="bit" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fnGetAssignedCostCenter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="CompanyCode" Type="varchar" MaxLength="5" />
+          <Property Name="CompanyName" Type="varchar" MaxLength="20" />
+          <Property Name="CostCenter" Type="varchar" MaxLength="12" />
+          <Property Name="CostCenterName" Type="varchar" MaxLength="30" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fnGetContractorWorkDuration" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="swipeDate" Type="datetime" Mode="In" />
+    <Parameter Name="requiredWorkDuration" Type="int" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="SwipeDate" Type="datetime" />
+          <Property Name="SwipeIn" Type="datetime" />
+          <Property Name="SwipeOut" Type="datetime" />
+          <Property Name="NetMinutes" Type="int" />
+          <Property Name="Overtime" Type="int" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fnIsAllowedToViewOTBudget" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="CanViewOTBudget" Type="bit" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="fnIsHROTApprover" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="IsHRApprover" Type="bit" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="Pr_Get_Permitted_CostCenter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="EmpNo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Pr_Get_Permitted_CostCenter_V2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="appCode" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_Get_UserDefinedCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="UDCGCode" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetAbsenceReasonReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+    <Parameter Name="employeeType" Type="tinyint" Mode="In" />
+    <Parameter Name="costCenter" Type="varchar" Mode="In" />
+    <Parameter Name="empNo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetAbsencesHistory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetAccessReaders" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="loadType" Type="int" Mode="In" />
+    <Parameter Name="locationCode" Type="int" Mode="In" />
+    <Parameter Name="readerNo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetAnnualLeaveButSwiped" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="costCenter" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetAspirePayrollReportData_V2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+    <Parameter Name="processType" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetAttendanceHistory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetAttendanceWithOT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+    <Parameter Name="costCenter" Type="varchar" Mode="In" />
+    <Parameter Name="empNo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetContractors" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="empName" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetCostCenter_V2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="loadType" Type="tinyint" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetCostCenterManager" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="costCenter" Type="varchar" Mode="In" />
+    <Parameter Name="companyCode" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetCostCenterOTAllowed" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="userEmpNo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetDailyAttendanceReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="employeeType" Type="tinyint" Mode="In" />
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+    <Parameter Name="costCenterList" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetDailyAttendanceSalaryStaff" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+    <Parameter Name="costCenterList" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetDependentInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetDILDueToLateEntryDutyROTA" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+    <Parameter Name="costCenter" Type="varchar" Mode="In" />
+    <Parameter Name="empNo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetDILEntitlement" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="loadType" Type="tinyint" Mode="In" />
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetDILReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="costCenter" Type="varchar" Mode="In" />
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetDutyROTAReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+    <Parameter Name="costCenterList" Type="varchar" Mode="In" />
+    <Parameter Name="empNo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetEmpAttendanceHistory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+    <Parameter Name="costCenter" Type="varchar" Mode="In" />
+    <Parameter Name="empNo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetEmployeeDirectory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="costCenter" Type="varchar" Mode="In" />
+    <Parameter Name="searchString" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetEmployeeEmailAddress" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="costCenter" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetEmployeeInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="EmpNo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetEmployeeInfo_JDE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="costCenter" Type="varchar" Mode="In" />
+    <Parameter Name="isActiveOnly" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetEmployeeSwipeInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="costCenter" Type="varchar" Mode="In" />
+    <Parameter Name="locationName" Type="varchar" Mode="In" />
+    <Parameter Name="readerName" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetFamilyRelativeSetting" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="degreeLevel" Type="tinyint" Mode="In" />
+    <Parameter Name="relativeTypeCode" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetFireTeamAttendance_V2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="loadType" Type="tinyint" Mode="In" />
+    <Parameter Name="processDate" Type="datetime" Mode="In" />
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="costCenter" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetFireTeamMember" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas" />
+  <Function Name="Pr_GetGARMCOCalendar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="year" Type="int" Mode="In" />
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetLeaveHistory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetLeaveInformation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetMainGateSwipe" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="date" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetOTApprovalHistory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="otRequestNo" Type="bigint" Mode="In" />
+    <Parameter Name="tsAutoID" Type="int" Mode="In" />
+    <Parameter Name="requestSubmissionDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetOTReason" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="loadType" Type="tinyint" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetOvertimeByPeriod" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="currentUserEmpNo" Type="int" Mode="In" />
+    <Parameter Name="dataFilterID" Type="tinyint" Mode="In" />
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+    <Parameter Name="costCenter" Type="varchar" Mode="In" />
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="otRequestNo" Type="bigint" Mode="In" />
+    <Parameter Name="pageNumber" Type="int" Mode="In" />
+    <Parameter Name="pageSize" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetPunctualityReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+    <Parameter Name="costCenter" Type="varchar" Mode="In" />
+    <Parameter Name="showDayOff" Type="bit" Mode="In" />
+    <Parameter Name="showCount" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetRequisitionApprover" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="otRequestNo" Type="bigint" Mode="In" />
+    <Parameter Name="tsAutoID" Type="int" Mode="In" />
+    <Parameter Name="requestSubmissionDate" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetResignedButSwiped" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="costCenter" Type="varchar" Mode="In" />
+    <Parameter Name="pageNumber" Type="int" Mode="In" />
+    <Parameter Name="pageSize" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetResignedButSwiped_V2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="costCenter" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetShiftCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="shiftCode" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetShiftPatternChanges" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="autoID" Type="int" Mode="In" />
+    <Parameter Name="loadType" Type="tinyint" Mode="In" />
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="changeType" Type="varchar" Mode="In" />
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+    <Parameter Name="pageNumber" Type="int" Mode="In" />
+    <Parameter Name="pageSize" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetShiftPatternCodes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="shiftPatCode" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetShiftPatternCodes_V2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="shiftPatCode" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetShiftPatternInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetShiftPointer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="shiftPatCode" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetTASForms" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="formCode" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetTASJDEComparisonReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas" />
+  <Function Name="Pr_GetTimesheetIntegrity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="actionCode" Type="varchar" Mode="In" />
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="costCenter" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetTimesheetUDCCodes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="actionType" Type="tinyint" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetUDCListItem" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="udcKey" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetWeeklyOvertimeReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+    <Parameter Name="costCenterList" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetWorkingCostCenter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="autoID" Type="int" Mode="In" />
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="costCenter" Type="varchar" Mode="In" />
+    <Parameter Name="specialJobCatg" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_GetWorkingCostCenterHistory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Pr_InsertUpdateDeleteOvertime" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="autoID" Type="int" Mode="In" />
+    <Parameter Name="otReason" Type="varchar" Mode="In" />
+    <Parameter Name="comment" Type="varchar" Mode="In" />
+    <Parameter Name="userID" Type="varchar" Mode="In" />
+    <Parameter Name="otApproved" Type="varchar" Mode="In" />
+    <Parameter Name="mealVoucherEligibilityCode" Type="varchar" Mode="In" />
+    <Parameter Name="otDuration" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Pr_Master_ContractEmployee_CRUD" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="actionType" Type="int" Mode="In" />
+    <Parameter Name="autoID" Type="int" Mode="In" />
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="contractorEmpName" Type="varchar" Mode="In" />
+    <Parameter Name="groupCode" Type="varchar" Mode="In" />
+    <Parameter Name="contractorNumber" Type="float" Mode="In" />
+    <Parameter Name="dateJoined" Type="datetime" Mode="In" />
+    <Parameter Name="dateResigned" Type="datetime" Mode="In" />
+    <Parameter Name="shiftPatCode" Type="varchar" Mode="In" />
+    <Parameter Name="shiftPointer" Type="int" Mode="In" />
+    <Parameter Name="religionCode" Type="varchar" Mode="In" />
+    <Parameter Name="lastUpdateUser" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_Master_ShiftPattern_CRUD" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="actionType" Type="tinyint" Mode="In" />
+    <Parameter Name="shiftPatCode" Type="varchar" Mode="In" />
+    <Parameter Name="shiftPointer" Type="int" Mode="In" />
+    <Parameter Name="shiftCode" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="Pr_PunctualitySummaryReport" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="loadType" Type="tinyint" Mode="In" />
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+    <Parameter Name="costCenter" Type="varchar" Mode="In" />
+    <Parameter Name="occurenceLimit" Type="int" Mode="In" />
+    <Parameter Name="lateAttendanceThreshold" Type="int" Mode="In" />
+    <Parameter Name="earlyLeavingThreshold" Type="int" Mode="In" />
+    <Parameter Name="hideDayOffHoliday" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="Pr_Retrieve_EmpCostCenter" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="empNo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Pr_Retrieve_VisitorPassLog" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="logID" Type="bigint" Mode="In" />
+    <Parameter Name="visitorName" Type="varchar" Mode="In" />
+    <Parameter Name="idNumber" Type="varchar" Mode="In" />
+    <Parameter Name="visitorCardNo" Type="int" Mode="In" />
+    <Parameter Name="visitEmpNo" Type="int" Mode="In" />
+    <Parameter Name="visitCostCenter" Type="varchar" Mode="In" />
+    <Parameter Name="startDate" Type="datetime" Mode="In" />
+    <Parameter Name="endDate" Type="datetime" Mode="In" />
+    <Parameter Name="blockOption" Type="tinyint" Mode="In" />
+    <Parameter Name="createdByEmpNo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Pr_Tran_ManualAttendance_CRUD" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="actionType" Type="int" Mode="In" />
+    <Parameter Name="autoID" Type="int" Mode="In" />
+    <Parameter Name="empNo" Type="int" Mode="In" />
+    <Parameter Name="dtIN" Type="datetime" Mode="In" />
+    <Parameter Name="timeIN" Type="datetime" Mode="In" />
+    <Parameter Name="dtOUT" Type="datetime" Mode="In" />
+    <Parameter Name="timeOUT" Type="datetime" Mode="In" />
+    <Parameter Name="userID" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="prGetEmployeeAttendance_V2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="tas">
+    <Parameter Name="EmpName" Type="varchar" Mode="In" />
+    <Parameter Name="CostCenter" Type="varchar" Mode="In" />
+    <Parameter Name="Date" Type="datetime" Mode="In" />
+  </Function>
+  <EntityContainer Name="TASModelStoreContainer">
+    <EntitySet Name="DeathReasonOfAbsence" EntityType="Self.DeathReasonOfAbsence" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="Master_ContractEmployee" EntityType="Self.Master_ContractEmployee" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="Master_DutyType" EntityType="Self.Master_DutyType" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="Master_EmployeeAdditional" EntityType="Self.Master_EmployeeAdditional" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="Master_ProcessLocks" EntityType="Self.Master_ProcessLocks" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="Master_ShiftPattern" EntityType="Self.Master_ShiftPattern" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="Master_ShiftPatternTitles" EntityType="Self.Master_ShiftPatternTitles" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="Master_ShiftTimes" EntityType="Self.Master_ShiftTimes" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="OvertimeRequest" EntityType="Self.OvertimeRequest" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="OvertimeWFApprovalHistory" EntityType="Self.OvertimeWFApprovalHistory" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="OvertimeWFEmailDelivery" EntityType="Self.OvertimeWFEmailDelivery" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="OvertimeWFRoutineHistory" EntityType="Self.OvertimeWFRoutineHistory" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="OvertimeWFTransactionActivity" EntityType="Self.OvertimeWFTransactionActivity" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="System_Values" EntityType="Self.System_Values" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="SystemErrorLog" EntityType="Self.SystemErrorLog" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="Tran_Absence" EntityType="Self.Tran_Absence" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="Tran_DutyRota" EntityType="Self.Tran_DutyRota" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="Tran_ManualAttendance" EntityType="Self.Tran_ManualAttendance" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="Tran_ShiftPatternChanges" EntityType="Self.Tran_ShiftPatternChanges" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="Tran_Timesheet" EntityType="Self.Tran_Timesheet" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="Tran_Timesheet_Extra" EntityType="Self.Tran_Timesheet_Extra" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="VisitorPassLog" EntityType="Self.VisitorPassLog" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="VisitorSwipeLog" EntityType="Self.VisitorSwipeLog" Schema="tas" store:Type="Tables" />
+    <EntitySet Name="Vw_MainGateSwipeRawData" EntityType="Self.Vw_MainGateSwipeRawData" store:Type="Views" store:Schema="tas">
+      <DefiningQuery>SELECT 
+    [Vw_MainGateSwipeRawData].[EmpNo] AS [EmpNo], 
+    [Vw_MainGateSwipeRawData].[SwipeDate] AS [SwipeDate], 
+    [Vw_MainGateSwipeRawData].[SwipeTime] AS [SwipeTime], 
+    [Vw_MainGateSwipeRawData].[SwipeLocation] AS [SwipeLocation], 
+    [Vw_MainGateSwipeRawData].[SwipeType] AS [SwipeType], 
+    [Vw_MainGateSwipeRawData].[LocationCode] AS [LocationCode], 
+    [Vw_MainGateSwipeRawData].[ReaderNo] AS [ReaderNo], 
+    [Vw_MainGateSwipeRawData].[SwipeCode] AS [SwipeCode], 
+    [Vw_MainGateSwipeRawData].[LocationName] AS [LocationName], 
+    [Vw_MainGateSwipeRawData].[ReaderName] AS [ReaderName], 
+    [Vw_MainGateSwipeRawData].[LName] AS [LName]
+    FROM [tas].[Vw_MainGateSwipeRawData] AS [Vw_MainGateSwipeRawData]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Master_ShiftPattern_Master_ShiftPatternTitles" Association="Self.FK_Master_ShiftPattern_Master_ShiftPatternTitles">
+      <End Role="Master_ShiftPatternTitles" EntitySet="Master_ShiftPatternTitles" />
+      <End Role="Master_ShiftPattern" EntitySet="Master_ShiftPattern" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Master_ShiftTimes_Master_ShiftPatternTitles" Association="Self.FK_Master_ShiftTimes_Master_ShiftPatternTitles">
+      <End Role="Master_ShiftPatternTitles" EntitySet="Master_ShiftPatternTitles" />
+      <End Role="Master_ShiftTimes" EntitySet="Master_ShiftTimes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TA_Tran_DutyRota_TA_Master_DutyType" Association="Self.FK_TA_Tran_DutyRota_TA_Master_DutyType">
+      <End Role="Master_DutyType" EntitySet="Master_DutyType" />
+      <End Role="Tran_DutyRota" EntitySet="Tran_DutyRota" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

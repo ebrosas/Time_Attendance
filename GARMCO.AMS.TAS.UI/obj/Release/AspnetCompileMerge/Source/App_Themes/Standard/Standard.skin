@@ -1,0 +1,75 @@
+﻿<%--
+Default skin template. The following skins are provided as examples only.
+
+1. Named control skin. The SkinId should be uniquely defined because
+   duplicate SkinId's per control type are not allowed in the same theme.
+
+<asp:GridView runat="server" SkinId="gridviewSkin" BackColor="White" >
+   <AlternatingRowStyle BackColor="Blue" />
+</asp:GridView>
+
+2. Default skin. The SkinId is not defined. Only one default 
+   control skin per control type is allowed in the same theme.
+
+<asp:Image runat="server" ImageUrl="~/images/image1.jpg" />
+--%>
+
+<%-- Label Control --%>
+<asp:Label runat="server" cssclass="TextLeft" skinid="TextLeft" />
+<asp:Label runat="server" cssclass="TextRight" skinid="TextRight" />
+<asp:Label runat="server" cssclass="TextCapital" skinid="TextCapital" />
+<asp:Label runat="server" cssclass="TextUpper" skinid="TextUpper" />
+<asp:Label runat="server" cssclass="TextLower" skinid="TextLower" />
+<asp:Label runat="server" cssclass="TextCapitalDisabled" skinid="TextCapitalDisabled" />
+<asp:Label runat="server" cssclass="TextCapitalHiglighted" skinid="TextCapitalHiglighted" />
+<asp:Label runat="server" cssclass="TextNormal" skinid="TextNormal" />
+<asp:Label runat="server" cssclass="TextCapitalNormal" skinid="TextCapitalNormal" />
+<asp:Label runat="server" cssclass="TextBold" skinid="TextBold" />
+<asp:Label runat="server" cssclass="WizardActionLabel" skinid="TextWizardHeaderNormal" />
+<asp:Label runat="server" cssclass="WizardActionHighlightLabel" skinid="TextWizardHeaderBold" />
+<asp:Label runat="server" cssclass="ServiceTitle" skinid="ServiceTitle" />
+<asp:Label runat="server" cssclass="EmphasizeLabel" skinid="EmphasizeLabel" />
+<asp:Label runat="server" cssclass="WizardSequenceLabel" skinid="WizardSequenceLabel" />
+<asp:Label runat="server" cssclass="WizardSequenceLabelHighlight" skinid="WizardSequenceLabelHighlight" />
+<%-- Label --%>
+
+<%-- TextBox Control --%>
+<asp:TextBox runat="server" cssclass="TextLeft" skinid="TextLeft" />
+<asp:TextBox runat="server" cssclass="TextRight" skinid="TextRight" />
+<asp:TextBox runat="server" cssclass="TextCapital" skinid="TextCapital" />
+<asp:TextBox runat="server" cssclass="TextUpper" skinid="TextUpper" />
+<asp:TextBox runat="server" cssclass="TextLower" skinid="TextLower" />
+<asp:TextBox runat="server" cssclass="TextLeftMandatory" skinid="TextLeftMandatory" />
+<asp:TextBox runat="server" cssclass="TextLeftDataEntry" skinid="TextLeftDataEntry" />
+<asp:TextBox runat="server" cssclass="TextRightMandatory" skinid="TextRightMandatory" />
+<asp:TextBox runat="server" cssclass="TextCapitalMandatory" skinid="TextCapitalMandatory" />
+<asp:TextBox runat="server" cssclass="TextUpperMandatory" skinid="TextUpperMandatory" />
+<asp:TextBox runat="server" cssclass="TextDisabled" skinid="TextDisabled" />
+<asp:TextBox runat="server" cssclass="TextEnabled" skinid="TextEnabled" />
+<asp:TextBox runat="server" cssclass="TextDateTime" skinid="TextDateTime" />
+<asp:TextBox runat="server" cssclass="TextNormal" skinid="TextNormal" />
+<%-- TextBox --%>
+
+<%-- LinkButton Control --%>
+<asp:LinkButton runat="server" cssclass="ServiceDescriptionHeader" skinid="HeaderLink" />
+<%-- LinkButton --%>
+
+
+<%-- DropDownList Control --%>
+<asp:DropDownList runat="server" cssclass="Combo" skinid="Combo" />
+<asp:DropDownList runat="server" cssclass="ComboMandatory" skinid="ComboMandatory" />
+<%-- DropDownList --%>
+
+<%-- CheckBox Control --%>
+<asp:CheckBox runat="server" cssclass="CheckBold" skinid="CheckBold" />
+<asp:CheckBox runat="server" cssclass="CheckBoldRight" skinid="CheckBoldRight" />
+<asp:CheckBox runat="server" cssclass="CheckBoldBPI" skinid="CheckBoldBPI" />
+<%-- CheckBox --%>
+
+<%-- ImageButton Control --%>
+<asp:ImageButton runat="server" cssclass="ImageCalendar" skinid="ImageCalendar" />
+<%-- ImageButton --%>
+
+<%-- RadioButtonList --%>
+<asp:RadioButtonList runat="server" cssclass="RadioButtonListBold" skinid="RadioButtonListBold" />
+<%-- RadioButtonList --%>

@@ -1,0 +1,303 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="TASMaster.master.cs" Inherits="GARMCO.AMS.TAS.UI.Views.Shared.TASMaster" %>
+
+<%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <title>Time & Attendance System</title>
+
+    <link href="../../Styles/main.css" rel="stylesheet" type="text/css" />
+    <script src="../../Content/lib/jquery/jquery-3.6.0.min.js"></script>
+
+    <%--<script src="http://cdn/JQueryScripts/1.6.4/jquery-1.6.4.js" type="text/javascript"></script> --%>
+	<%--<script src="http://cdn/JQueryPlugins/ScrollableGridPlugin.js" type="text/javascript"></script>--%>
+    <script src="../../Scripts/main.js"></script>
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body onload="SetWindowSize();" onresize="SetWindowSize();">
+    <script type = "text/javascript">
+        function positionFooter() {
+            $("#pageFooterOuter").css({ position: "absolute", top: ($(window).scrollTop() + $(window).height() - $("#pageFooterOuter").height()) + "px" });
+        }
+
+        $(function () {
+            positionFooter();
+
+            $(window)
+				.scroll(positionFooter)
+				.resize(positionFooter);
+        });
+	</script>
+
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="scriptManager" runat="server" AsyncPostBackTimeout="360000" EnablePageMethods="true" ScriptMode="Release" LoadScriptsBeforeUI="true" />
+        <telerik:RadFormDecorator ID="formDecorCombo" runat="server" DecoratedControls="Select" Skin="Vista" />
+        <telerik:RadFormDecorator ID="formDecorCheckBox" runat="server" DecoratedControls="CheckBoxes" Skin="Vista" />
+        <telerik:RadFormDecorator ID="formDecorTextbox" runat="server" DecoratedControls="Textbox" Skin="Vista" />
+        <telerik:RadFormDecorator ID="formDecorRadioButtons" runat="server" DecoratedControls="RadioButtons" Skin="Vista" />
+
+        <div id="currentDateTime" class="SystemDateTimeStyle" runat="server" style="z-index: 9000100;">
+            Saturday, 05 March 2011 09:10 am (GMT +3)
+        </div>
+
+        <div style="background-color: #000000; float: right; vertical-align: top; width: 100%; z-index: 9000000;">
+            <telerik:RadMenu ID="mainMenu" runat="server" Skin="Black" Font-Bold="True" Font-Names="Verdana" Font-Size="8pt" class="RadMenuStyle" RenderMode="Lightweight" style="top: 0px; left: 0px">
+                <Items>
+                    <telerik:RadMenuItem Text="Home" Font-Bold="True" Selected="False" Font-Names="Verdana" Width="100px" ImageUrl="../../Images/home_icon.png" Visible="true" Value="Home" />
+                    <telerik:RadMenuItem Text="User Functions" Font-Bold="True" Font-Names="Verdana" Width="160px" ImageUrl="../../Images/services_icon.png" Value="UserFunction">
+                        <Items>                                                                                                                          
+                            <telerik:RadMenuItem Text="Employee Attendance Dashboard" NavigateUrl="../UserFunctions/AttendanceDashboard.aspx" Font-Names="Verdana" ForeColor="GhostWhite" /> 
+                            <telerik:RadMenuItem Text="Employee's Self Service" NavigateUrl="../UserFunctions/EmployeeSelfService.aspx" Font-Names="Verdana" ForeColor="GhostWhite"  />                               
+                            <telerik:RadMenuItem Text="Cost Center Managers" NavigateUrl="../HRFunctions/ManagerList.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />   
+                            <telerik:RadMenuItem Text="GARMCO Calendar" NavigateUrl="../HRFunctions/GARMCOCalendar.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />     
+                            <telerik:RadMenuItem IsSeparator="True" />
+                            <telerik:RadMenuItem Text="Emergency Response Team" NavigateUrl="../SecurityModule/EmergencyResponseTeam.aspx" Font-Names="Verdana" ForeColor="GhostWhite"/>  
+                            <telerik:RadMenuItem Text="Employee Emergency Contact" NavigateUrl="../UserFunctions/EmployeeEmergencyContact.aspx" Font-Names="Verdana" ForeColor="GhostWhite"/>  
+                            <telerik:RadMenuItem IsSeparator="True" />
+                            <telerik:RadMenuItem Text="View Attendance History" NavigateUrl="../Reports/ViewAttendanceHistory.aspx" Font-Names="Verdana" />   
+                            <telerik:RadMenuItem Text="View Day In Lieu History" NavigateUrl="../Reports/ViewDILHistory.aspx" Font-Names="Verdana" />   
+                            <telerik:RadMenuItem Text="Personal Legal Documents Expiry" NavigateUrl="UnderConstruction.aspx" Font-Names="Verdana" Visible="false" />                                                          
+                        </Items>
+                    </telerik:RadMenuItem>
+
+                    <telerik:RadMenuItem Text="Secretary Functions" Font-Bold="True" Font-Names="Verdana" Width="190px" ImageUrl="../../Images/HRMenuIcon.png" Value="UserFunction">
+                        <Items>                                                                  
+                            <telerik:RadMenuItem Text="Duty Rota Entry" NavigateUrl="../UserFunctions/DutyROTAInq.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />                                                                                                                                     
+                            <telerik:RadMenuItem Text="Employee Overtime Entry" NavigateUrl="../UserFunctions/OvertimeMealVoucherEntry.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />                                                                             
+                            <telerik:RadMenuItem IsSeparator="True" />
+                            <telerik:RadMenuItem Text="View Current Shift Pattern" NavigateUrl="../UserFunctions/EmpShiftPatternInq.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />                                                       
+                            <telerik:RadMenuItem Text="Department Daily Attendance" NavigateUrl="../Reports/DailyAttendanceReportFilter.aspx?ViewType=2" Font-Names="Verdana" ForeColor="GhostWhite" />                               
+                        </Items>
+                    </telerik:RadMenuItem>
+
+                    <telerik:RadMenuItem Text="HR Functions" Font-Bold="True" Font-Names="Verdana" Width="145px" ImageUrl="../../Images/HRMenuIcon.png">
+                        <Items>                               
+                            <telerik:RadMenuItem Text="Overtime Module" Font-Names="Verdana" ForeColor="GhostWhite">     
+                                <Items>   
+                                    <telerik:RadMenuItem Text="Overtime Requisition Inquiry" NavigateUrl="../HRFunctions/OTRequisitionInquiry.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />                                                                             
+                                    <telerik:RadMenuItem Text="Overtime & Meal Voucher Approval" NavigateUrl="../HRFunctions/OTMealVoucherApproval.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />                                                                             
+                                    <telerik:RadMenuItem Text="Overtime & Meal Voucher Approval" NavigateUrl="../HRFunctions/OvertimeApproval.aspx" Font-Names="Verdana" ForeColor="GhostWhite" Visible="false" />     
+                                </Items>
+                            </telerik:RadMenuItem>
+                            <telerik:RadMenuItem IsSeparator="True" />    
+                            <telerik:RadMenuItem Text="Timesheet Exceptional (By Pay Period)" NavigateUrl="../HRFunctions/TimesheetByPeriodInq.aspx" Font-Names="Verdana" ForeColor="GhostWhite" /> 
+                            <telerik:RadMenuItem Text="Timesheet Correction" NavigateUrl="../HRFunctions/TimesheetCorrectionInq.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />                             
+                            <telerik:RadMenuItem Text="Reason of Absence Entry" NavigateUrl="../HRFunctions/ReasonOfAbsenceInq.aspx" Font-Names="Verdana" ForeColor="GhostWhite" /> 
+                            <telerik:RadMenuItem IsSeparator="True" />                                                                                                                                            
+                            <telerik:RadMenuItem Text="Manual Timesheet Entry" NavigateUrl="../HRFunctions/ManualTimesheetInq.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />     
+                            <telerik:RadMenuItem Text="Shift Pattern Changes" Font-Names="Verdana" ForeColor="GhostWhite">     
+                                <Items>   
+                                    <telerik:RadMenuItem Text="Employee" NavigateUrl="../HRFunctions/ShiftPatternChanges.aspx?ShiftPatternType=1" Font-Names="Verdana" ForeColor="GhostWhite" /> 
+                                    <telerik:RadMenuItem Text="Fire Team Member" NavigateUrl="../HRFunctions/ShiftPatternChanges.aspx?ShiftPatternType=2" Font-Names="Verdana" ForeColor="GhostWhite" />     
+                                </Items>
+                            </telerik:RadMenuItem>
+                            <telerik:RadMenuItem Text="Assign Contractor's Shift Pattern" NavigateUrl="../HRFunctions/ContractorShiftPatternInq.aspx" Font-Names="Verdana" ForeColor="GhostWhite"/>     
+                            <telerik:RadMenuItem Text="Assign Working Cost Center & Special Job Catg." NavigateUrl="../HRFunctions/AssignWorkingCostCenterInq.aspx" Font-Names="Verdana" ForeColor="GhostWhite"/>     
+                            <telerik:RadMenuItem IsSeparator="True" />
+                            <telerik:RadMenuItem Text="Employee Exceptional Inquiry" NavigateUrl="../HRFunctions/EmployeeExceptionalInq.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />     
+                            <telerik:RadMenuItem Text="Long Absences Inquiry" NavigateUrl="../HRFunctions/LongAbsenceInq.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />     
+                            <telerik:RadMenuItem Text="On Annual Leave But Swiped" NavigateUrl="../HRFunctions/OnLeaveButSwipedInq.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />     
+                            <telerik:RadMenuItem Text="Resigned But Swiped" NavigateUrl="../HRFunctions/ResignedButSwipedInq.aspx" Font-Names="Verdana" ForeColor="GhostWhite"/>     
+                            <telerik:RadMenuItem Text="Timesheet Integrity by Correction Code" NavigateUrl="../HRFunctions/TimesheetIntegrity.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />     
+                            <telerik:RadMenuItem Text="TAS and JDE Comparison Report" NavigateUrl="../HRFunctions/TASJDEComparisonReport.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />     
+                            <telerik:RadMenuItem Text="Employee Directory" NavigateUrl="../HRFunctions/EmployeeDirectoryInq.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />                                 
+                            <telerik:RadMenuItem Text="Supervisors' List" NavigateUrl="UnderConstruction.aspx" Font-Names="Verdana" Visible="false" ForeColor="GhostWhite" />                                 
+                        </Items>
+                    </telerik:RadMenuItem>  
+                    
+                    <telerik:RadMenuItem Text="Security Functions" Font-Bold="True" Font-Names="Verdana" Width="180px" ImageUrl="../../Images/security_icon.png">
+                        <Items>  
+                            <telerik:RadMenuItem Text="Manual Attendance" NavigateUrl="../SecurityModule/ManualAttendance.aspx" Font-Names="Verdana" ForeColor="GhostWhite"/>                             
+                            <telerik:RadMenuItem IsSeparator="True" />
+                            <telerik:RadMenuItem Text="Visitor Pass" Font-Names="Verdana" ForeColor="GhostWhite">
+                                <Items>
+                                    <telerik:RadMenuItem Text="Visitor Entry" NavigateUrl="../UserFunctions/VisitorPassEntry.aspx?FormLoadTypeKey=0" Font-Names="Verdana" />
+                                    <telerik:RadMenuItem Text="Visitor Inquiry" NavigateUrl="../UserFunctions/VisitorPassInquiry.aspx" Font-Names="Verdana" />
+                                </Items>        
+                            </telerik:RadMenuItem>                                                                                    
+                            <telerik:RadMenuItem Text="Contractor" Font-Names="Verdana" ForeColor="GhostWhite">
+                                <Items>
+                                    <telerik:RadMenuItem Text="Contractor Registration" NavigateUrl="../SecurityModule/ContractorMaster.aspx?formName=register" Font-Names="Verdana" />
+                                    <telerik:RadMenuItem Text="Contractor Inquiry" NavigateUrl="../SecurityModule/ContractorMaster.aspx?formName=inquiry" Font-Names="Verdana" />                                    
+                                </Items>        
+                            </telerik:RadMenuItem>  
+                            <telerik:RadMenuItem Text="ID Card Generator" NavigateUrl="../SecurityModule/ContractorMaster.aspx?formName=idcard" Font-Names="Verdana" />
+                        </Items>
+                    </telerik:RadMenuItem>
+
+                    <telerik:RadMenuItem Text="Administration" Font-Bold="True" Font-Names="Verdana" Width="160px" ImageUrl="../../Images/admin_icon.png">
+                        <Items>   
+                            <telerik:RadMenuItem Text="Cost Center Security" NavigateUrl="../AdminFunctions/CostCenterPermission.aspx" Font-Names="Verdana" ForeColor="GhostWhite" /> 
+                            <telerik:RadMenuItem Text="User Form Access" NavigateUrl="../AdminFunctions/UserFormAccessInq.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />                                 
+                            <telerik:RadMenuItem Text="Master Shift Pattern Setup" NavigateUrl="../AdminFunctions/MasterShiftPatternSetup.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />     
+                            <telerik:RadMenuItem Text="Master Table Setup" NavigateUrl="UnderConstruction.aspx" Font-Names="Verdana" ForeColor="GhostWhite" Visible="false" /> 
+                            <telerik:RadMenuItem Text="Timesheet Validations Setup" NavigateUrl="UnderConstruction.aspx" Font-Names="Verdana" ForeColor="GhostWhite" Visible="false" />     
+                            <telerik:RadMenuItem Text="Site Visitor's Log" NavigateUrl="UnderConstruction.aspx" Font-Names="Verdana" ForeColor="GhostWhite" Visible="false" />                                 
+                            <telerik:RadMenuItem Text="Timesheet Process / SPU Log Analysis" NavigateUrl="../AdminFunctions/TimesheetProcessAnalysis.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />    
+                            <telerik:RadMenuItem Text="Shift Pattern Update Service Log" NavigateUrl="UnderConstruction.aspx" Font-Names="Verdana" ForeColor="GhostWhite" Visible="false" />     
+                        </Items>
+                    </telerik:RadMenuItem>
+
+                    <telerik:RadMenuItem Text="Reports" Font-Bold="True" Font-Names="Verdana" Width="110px" ImageUrl="../../Images/reports_icon.png">
+                        <Items>
+                            <telerik:RadMenuItem Text="Absence Reason Report" NavigateUrl="../Reports/AbsenceReasonReportFilter.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />
+                            <telerik:RadMenuItem Text="Shift Projection Report" NavigateUrl="../Reports/ShiftProjection.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />                               
+                            <telerik:RadMenuItem IsSeparator="True" />
+                            <telerik:RadMenuItem Text="Contractor Attendance History" NavigateUrl="../Reports/ContractorAttendanceInq.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />
+                            <telerik:RadMenuItem Text="Employee Attendance History" NavigateUrl="../Reports/EmpAttendanceHistory.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />
+                            <telerik:RadMenuItem Text="Employee Daily Attendance" NavigateUrl="../Reports/DailyAttendanceReportFilter.aspx?ViewType=3" Font-Names="Verdana" ForeColor="GhostWhite" />
+                            <telerik:RadMenuItem Text="Daily Attendance for Salary Staff" NavigateUrl="../Reports/DailyAttendanceReportSL.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />                            
+                            <telerik:RadMenuItem IsSeparator="True" />
+                            <telerik:RadMenuItem Text="Punctuality Statistics Report" NavigateUrl="../Reports/PunctualityReportFilter.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />
+                            <telerik:RadMenuItem Text="Weekly Punctuality Report" NavigateUrl="../Reports/WeeklyEmpPunctualityFilter.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />
+                            <telerik:RadMenuItem Text="Unpunctual Employees Summary Report" NavigateUrl="../Reports/EmpPunctualityByPeriod.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />
+                            <telerik:RadMenuItem Text="Employee Absences Summary Report" NavigateUrl="../Reports/EmpAbsencesReportFilter.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />
+                            <telerik:RadMenuItem IsSeparator="True" />
+                            <telerik:RadMenuItem Text="Day In Lieu Report" NavigateUrl="../Reports/DILReportFilter.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />
+                            <telerik:RadMenuItem Text="Duty Rota Report" NavigateUrl="../Reports/DutyROTAReportFilter.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />                            
+                            <telerik:RadMenuItem Text="DIL Due to Late Entry of Duty Rota" NavigateUrl="../Reports/LateEntryDutyROTAReportFilter.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />
+                            <telerik:RadMenuItem IsSeparator="True" />
+                            <telerik:RadMenuItem Text="Aspire Employees Payroll Report" NavigateUrl="../HRFunctions/AspirePayrollInq.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />
+                            <telerik:RadMenuItem Text="Weekly Overtime Report" NavigateUrl="../Reports/WeeklyOvertimeReportFilter.aspx" Font-Names="Verdana" ForeColor="GhostWhite" />                            
+                        </Items>
+                    </telerik:RadMenuItem>
+
+                    <telerik:RadMenuItem Text="Help" Font-Bold="True" Font-Names="Verdana" Width="85px" ImageUrl="../../Images/help_icon.png">
+                        <Items>                            
+                            <telerik:RadMenuItem Text="User Manuals" Font-Names="Verdana" Visible="true">
+                                <Items>
+                                    <telerik:RadMenuItem Text="Emergency Response Team" NavigateUrl="UserGuide.aspx?UserGuide=2" Font-Names="Verdana" Target="_blank" />
+                                    <telerik:RadMenuItem Text="Overtime Online Approval" NavigateUrl="UserGuide.aspx?UserGuide=1" Font-Names="Verdana" Target="_blank" />
+                                </Items>
+                            </telerik:RadMenuItem>
+                            <telerik:RadMenuItem Text="FAQ" NavigateUrl="UnderConstruction.aspx" Font-Names="Verdana" ToolTip="Frequently Asked Questions" ForeColor="GhostWhite" Visible="false" />                            
+                        </Items>
+                    </telerik:RadMenuItem>
+                </Items>               
+                <WebServiceSettings>
+                    <ODataSettings InitialContainerName=""></ODataSettings>
+                </WebServiceSettings>
+            </telerik:RadMenu>
+	    </div>
+
+        <table border="0" class="HeadStyle2">
+		    <tr>
+			    <td rowspan="2" style="width: 80px; padding-left: 8px;">
+				    <img alt="" border="0" src="../../Images/garmco_logo.png" />
+			    </td>
+			    <td class="LabelApplication2" style="width: 600px; vertical-align: top; padding-top: 19px; color: midnightblue">
+				    Time & Attendance System
+			    </td>
+			    <td style="vertical-align: top; padding-top: 5px;">
+				    
+			    </td>
+		    </tr>
+		    <tr>
+			    <td class="LabelCompany" style="vertical-align: top; padding-left: 5px;">
+				    GULF ALUMINIUM ROLLING MILL B.S.C. (c)
+			    </td>
+			    <td>
+                    <table border="0" style="width: 100%; text-align: left;">
+                        <tr>                           
+                            <td style="width: auto; text-align: right; padding-right: 6px; font-family: Verdana; 
+                                font-size: 8pt; color: antiquewhite; font-weight: normal;">
+                                Search Page:
+                            </td>
+                            <td style="width: 170px;">
+                                <telerik:RadSearchBox ID="searchBox" runat="server" Skin="Outlook" Width="100%" 
+                                    EmptyMessage="Enter page name"
+                                    OnSearch="searchBox_Search" HighlightFirstMatch="True" MinFilterLength="2" ToolTip="(Note: Search begins after entering 2 chars. Press Cancel keyboard key to clear the search string.)" EnableDirectionDetection="True">
+                                    <DropDownSettings Width="300" />
+                                </telerik:RadSearchBox>
+                            </td>
+                            <td style="width: 8px;" />
+                        </tr>
+                    </table>             
+			    </td>
+		    </tr>
+	    </table>     
+
+        <div class="HeadBottomStyle" style="height: 5px; vertical-align: top;">&nbsp;</div>
+
+        <div class="TitleHead"></div>
+
+        <div class="TitleHeadBackground" style="display: none;"></div>
+
+        <div class="PageTitle">
+			<asp:Literal ID="litPageTitle" Text="FormName" runat="server"></asp:Literal>
+		</div>
+
+        <div class="WindowsUser">
+			<asp:Literal ID="litUser" runat="server" Text="" />
+		</div>
+
+        <div class="WindowsUserInfo">
+			<asp:Literal ID="litUserInfo" runat="server" Text="" />
+		</div>
+
+        <div class="MenuBarStyle" style="z-index: 9000200; display: none;">
+            <asp:LinkButton ID="lnkMenuRenderMode" runat="server" CssClass="Menulink" 
+             Text="Switch to Mobile Menu" ToolTip="Toggle menu bar render mode" OnClick="lnkMenuRenderMode_Click" /> &nbsp;|
+		</div>
+
+        <div class="LogoffStyle" style="z-index: 9000300;">
+            <asp:HyperLink ID="linkLogoff" runat="server" CssClass="Menulink" 
+            NavigateUrl="~/Views/Shared/Login.aspx?CallerFormKey=~/Views/UserFunctions/EmployeeSelfService.aspx" Text="Log Out" ToolTip="Click here to logon as different user" /> 
+		</div>
+
+        <div id="mainBody" class="BodyStyle">
+            <asp:ContentPlaceHolder ID="mainContent" runat="server">
+        
+            </asp:ContentPlaceHolder>
+        </div>
+       
+        <div id="pageFooterOuter" class="FooterStyle">
+		    <table border="0" style="width: 100%; margin: 0px; padding: 0px;">
+               <tr style="padding: 0px; margin: 0px;">
+				    <%--<td colspan="3" style="height: 5px; background-color: darkslategray; padding: 0px; margin: 0px;" />--%>
+                   <td colspan="3" style="height: 5px; background-color: black; padding: 0px; margin: 0px;" />
+			    </tr>
+                <tr>
+                    <td style="text-align: left; vertical-align: middle; padding-left: 7px; width: 20%">Environment : 
+                        <asp:Literal runat="server" ID="litEnvironment" Text="TEST" />
+                    </td>
+                    <td style="text-align: center; vertical-align: middle; width: auto;">
+                        This application is for authorized use only and all user activities are subject to be monitored and recorded. <br />
+                        Individuals using this application without authority or in excess of their authority will be subjected to legal and necessary actions.
+                    </td>
+                    <td id="tdCopyright" runat="server" style="text-align: right; padding-right: 10px; width: 27%">Copyright &copy; 2016 Gulf Aluminium Rolling Mill B.S.C. (c)<br />
+                        Powered By GARMCO ICT Department   
+                    </td>
+                </tr>
+            </table>   
+	    </div>
+
+        <div id="HiddenButtons">
+            <input type="hidden" id="hidFormAccess" runat="server" value="" />
+		    <input type="hidden" id="hidSearchUrl" runat="server" value="" />
+        </div>
+
+        <div id="ObjectDS">
+            <asp:ObjectDataSource ID="objUserFormAccess" runat="server" OldValuesParameterFormatString="" OnSelected="objUserFormAccess_Selected" SelectMethod="GetUserFormAccess" TypeName="GARMCO.Common.DAL.WebCommonSetup.UserFormAccessBLL">
+				<SelectParameters>
+					<asp:Parameter DefaultValue="1" Name="mode" Type="Int32" />
+					<asp:Parameter DefaultValue="275" Name="userFrmFormAppID" Type="Int32" />
+					<asp:Parameter DefaultValue="" Name="userFrmFormCode" Type="String" />
+					<asp:Parameter Name="userFrmCostCenter" Type="String" />
+					<asp:SessionParameter DefaultValue="0" Name="userFrmEmpNo" SessionField="GARMCO_UserID" Type="Int32" />
+					<asp:Parameter Name="userFrmEmpName" Type="String" />
+					<asp:Parameter Name="sort" Type="String" />
+				</SelectParameters>
+			</asp:ObjectDataSource>
+        </div>
+    </form>
+</body>
+</html>

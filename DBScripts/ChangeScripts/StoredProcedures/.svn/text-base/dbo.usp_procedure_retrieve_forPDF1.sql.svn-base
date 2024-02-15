@@ -1,0 +1,46 @@
+IF OBJECT_ID('dbo.usp_procedure_retrieve_forPDF1') IS NOT NULL
+	DROP PROCEDURE [dbo].[usp_procedure_retrieve_forPDF1]
+GO
+
+create PROCEDURE [dbo].[usp_procedure_retrieve_forPDF1]            
+ @admissionid char(12)            
+              
+AS            
+/************************************************************************************************            
+* Revision History            
+*            
+* Name: [usp_procedure_retrieve_forPDF1]            
+* Description: Retrieve radiology investigation set1 record.            
+*            
+* Date:    Author:  Ref#:  Comments:  
+* 10/15/10 DGVasquez N/A   Refactor of set 1 and set 2          
+* 5/18/10   LLL N/A      Created.            
+*            
+**************************************************************************************************/            
+        SELECT      
+  p.id      
+ ,p.procedure_date as rad_investigation_date     
+ ,p.procedure_code_id      
+ ,pc.reference_code   
+ ,pc.description AS procedure_description      
+ ,pc.icd_9_code      
+ ,pc.service_type_id      
+ ,p.clinical_code_id      
+ ,pc2.description AS clinical_description      
+ ,p.doctor_id      
+ ,p.anaesthesia_type      
+ ,p.procedure_facility      
+ ,p.anaesthetist_id      
+ ,p.procedure_type      
+FROM      
+ [dbo].trn_Procedure p INNER JOIN      
+ [dbo].Admission a ON p.admission_id = a.admission_id INNER JOIN      
+ [dbo].Claim c ON a.claim_id = c.claim_id LEFT JOIN      
+ [dbo].trn_InsurerClaimTypeServiceType ictst ON (c.system_insurer_id = ictst.systeminsurerid AND c.claim_type = ictst.claimtypecode) INNER JOIN      
+ [dbo].Procedure_Code pc ON (p.procedure_code_id = pc.procedure_code_id AND ictst.servicetypeid = pc.service_type_id) LEFT JOIN      
+ [dbo].Procedure_Code pc2 ON p.clinical_code_id = pc2.procedure_code_id      
+WHERE      
+ p.admission_id = @admissionid 
+GO
+
+

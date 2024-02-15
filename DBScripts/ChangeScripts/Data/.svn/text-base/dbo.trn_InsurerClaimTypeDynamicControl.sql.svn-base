@@ -1,0 +1,98 @@
+/********************************************************************************
+*	Date:	  	Author:		Comments:
+*	10/05/10	RDimarucut	Updated dynamic controls for Garda, MPF and Pomas.
+*	09/28/09	RDimarucut	Added dynamic controls for Garda insurer.
+*	09/22/10	EBrosas		Populate dynamic controls for POA insurer
+**********************************************************************************/
+DECLARE	@P int, 
+		@G int,
+		@M int,
+		@HospitalPopUpScript varchar(1000), 
+		@HospitalWithCodePopUpScript varchar(1000), 
+		@InvoiceClientScript varchar(1000),
+		@TreatmentSettingClientScript varchar(1000)
+
+SELECT @P = [system_insurer_id] FROM [dbo].[Insurer] WHERE [insurer_code] = 'P'
+SELECT @G = [system_insurer_id] FROM [dbo].[Insurer] WHERE [insurer_code] = 'G'
+SELECT @M = [system_insurer_id] FROM [dbo].[Insurer] WHERE [insurer_code] = 'M'
+
+SET @HospitalWithCodePopUpScript='GetHospitalDetails(''ctl00$ContentPlaceHolder1$ctl00$hdnHospitalCode'',''ctl00$ContentPlaceHolder1$ctl00$txtHospitalCode'',''ctl00$ContentPlaceHolder1$ctl00$txtHospitalName'',''PLAIN'')'
+SET @HospitalPopUpScript='GetHospitalDetails(''ctl00$ContentPlaceHolder1$ctl00$hdnHospitalCode'','''',''ctl00$ContentPlaceHolder1$ctl00$txtHospitalName'',''PLAIN'')'
+SET @InvoiceClientScript='return SetInvoiceValueHasChangedFlag(this)'
+SET @TreatmentSettingClientScript='if (this.parentNode.childNodes[1].innerText == ''Others'') EnableTextBox(''ctl00_ContentPlaceHolder1_ctl00_txtOtherTreatmentSetting'', this.checked);'
+
+--POMAS
+DELETE FROM [dbo].[trn_InsurerClaimTypeDynamicControl]
+WHERE SystemInsurerId = @P
+
+INSERT INTO [dbo].[trn_InsurerClaimTypeDynamicControl]
+	([SystemInsurerId], 
+	[ClaimTypeCode], 
+	[ControlId], 
+	[ContainerId], 
+	[Label], 
+	[LookupScript], 
+	[ClientScript], 
+	[LabelCssClass], 
+	[CheckBoxListRepeatColumns])
+
+SELECT @P,'HCT1','cpAdmissionDate','container12','Date of Admission',NULL,NULL,'LabelCell',0 UNION
+SELECT @P,'HCT1','cpDischargeDate','container22','Date of Discharge',NULL,NULL,'LabelCell',0 UNION
+SELECT @P,'HCT1','UCBedTransfer','subContainer2',NULL,NULL,NULL,NULL,0 UNION
+SELECT @P,'HCT1','hdnHospitalCode',NULL,NULL,NULL,NULL,NULL,0 UNION
+SELECT @P,'HCT1','txtHospitalCode','container21','Hospital Code',NULL,NULL, 'LabelCell',0 UNION
+SELECT @P,'HCT1','txtHospitalName','container11','Hospital Name',@HospitalWithCodePopUpScript,NULL,'LabelCell',0 UNION
+SELECT @P,'HCT1','txtInvoiceValue','container31','Hospital Invoice Value',NULL,'MoneyOnly(this)','LabelCell',0 UNION
+SELECT @P,'HCT1','chkOverrideComputedCV','container41','Override',NULL,@InvoiceClientScript,'LabelCell',0 
+
+--GARDA
+DELETE FROM [dbo].[trn_InsurerClaimTypeDynamicControl]
+WHERE SystemInsurerId = @G
+
+INSERT INTO [dbo].[trn_InsurerClaimTypeDynamicControl]
+	([SystemInsurerId], 
+	[ClaimTypeCode], 
+	[ControlId], 
+	[ContainerId], 
+	[Label], 
+	[LookupScript], 
+	[ClientScript], 
+	[LabelCssClass], 
+	[CheckBoxListRepeatColumns])
+
+SELECT @G,'HCT1','cpAdmissionDate','container12','Date of Admission',NULL,NULL,'LabelCell',0 UNION
+SELECT @G,'HCT1','cpDischargeDate','container22','Date of Discharge',NULL,NULL,'LabelCell',0 UNION
+SELECT @G,'HCT1','UCBedTransfer','subContainer2',NULL,NULL,NULL,NULL,0 UNION
+SELECT @G,'HCT1','hdnHospitalCode',NULL,NULL,NULL,NULL,NULL,0 UNION
+SELECT @G,'HCT1','txtHospitalCode','container21','Hospital Code',NULL,NULL, 'LabelCell',0 UNION
+SELECT @G,'HCT1','txtHospitalName','container11','Hospital Name',@HospitalWithCodePopUpScript,NULL,'LabelCell',0 UNION
+SELECT @G,'HCT1','txtInvoiceValue','container31','Hospital Invoice Value',NULL,'MoneyOnly(this)','LabelCell',0 UNION
+SELECT @G,'HCT1','chkOverrideComputedCV','container41','Override',NULL,@InvoiceClientScript,'LabelCell',0 
+
+--MPF
+DELETE FROM [dbo].[trn_InsurerClaimTypeDynamicControl]
+WHERE SystemInsurerId = @M
+
+INSERT INTO [dbo].[trn_InsurerClaimTypeDynamicControl]
+	([SystemInsurerId], 
+	[ClaimTypeCode], 
+	[ControlId], 
+	[ContainerId], 
+	[Label], 
+	[LookupScript], 
+	[ClientScript], 
+	[LabelCssClass], 
+	[CheckBoxListRepeatColumns])
+
+SELECT @M,'HCT1','cpAdmissionDate','container12','Date of Admission',NULL,NULL,'LabelCell',0 UNION
+SELECT @M,'HCT1','cpDischargeDate','container22','Date of Discharge',NULL,NULL,'LabelCell',0 UNION
+SELECT @M,'HCT1','UCBedTransfer','subContainer2',NULL,NULL,NULL,NULL,0 UNION
+SELECT @M,'HCT1','hdnHospitalCode',NULL,NULL,NULL,NULL,NULL,0 UNION
+SELECT @M,'HCT1','txtHospitalCode','container21','Hospital Code',NULL,NULL, 'LabelCell',0 UNION
+SELECT @M,'HCT1','txtHospitalName','container11','Hospital Name',@HospitalWithCodePopUpScript,NULL,'LabelCell',0 UNION
+SELECT @M,'HCT1','txtInvoiceValue','container31','Hospital Invoice Value',NULL,'MoneyOnly(this)','LabelCell',0 UNION
+SELECT @M,'HCT1','chkOverrideComputedCV','container41','Override',NULL,@InvoiceClientScript,'LabelCell',0 UNION
+SELECT @M,'HCT1','chkListTypeOfStay','subContainer6','Please tick one',NULL,NULL,'SubLabelCellFull2',4
+
+GO
+

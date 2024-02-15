@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9d187b5243ac41a2bc88e437dcae7f19" Name="Diagram1" ZoomLevel="100">
+        <EntityTypeShape EntityType="TASModel.Tran_Timesheet" Width="1.5" PointX="0.625" PointY="0.625" IsExpanded="false" />
+        <EntityTypeShape EntityType="TASModel.Tran_Timesheet_Extra" Width="1.5" PointX="2.5" PointY="0.625" IsExpanded="false" />
+        <EntityTypeShape EntityType="TASModel.Tran_ShiftPatternChanges" Width="1.5" PointX="6.25" PointY="0.625" IsExpanded="false" />
+        <EntityTypeShape EntityType="TASModel.Tran_ManualAttendance" Width="1.5" PointX="0.625" PointY="1.5" IsExpanded="false" />
+        <EntityTypeShape EntityType="TASModel.Tran_Absence" Width="1.5" PointX="2.5" PointY="1.5" IsExpanded="false" />
+        <EntityTypeShape EntityType="TASModel.VisitorPassLog" Width="1.5" PointX="4.375" PointY="1.5" IsExpanded="false" />
+        <EntityTypeShape EntityType="TASModel.VisitorSwipeLog" Width="1.5" PointX="6.25" PointY="1.5" IsExpanded="false" />
+        <EntityTypeShape EntityType="TASModel.Vw_MainGateSwipeRawData" Width="1.5" PointX="8" PointY="0.625" IsExpanded="false" />
+        <EntityTypeShape EntityType="TASModel.Master_DutyType" Width="1.5" PointX="3" PointY="2.625" IsExpanded="false" />
+        <EntityTypeShape EntityType="TASModel.Tran_DutyRota" Width="1.5" PointX="6.125" PointY="2.625" IsExpanded="false" />
+        <AssociationConnector Association="TASModel.FK_TA_Tran_DutyRota_TA_Master_DutyType" />
+        <EntityTypeShape EntityType="TASModel.Master_ContractEmployee" Width="1.5" PointX="0.5" PointY="7" IsExpanded="false" />
+        <EntityTypeShape EntityType="TASModel.Master_ProcessLocks" Width="1.5" PointX="11.125" PointY="1" IsExpanded="false" />
+        <EntityTypeShape EntityType="TASModel.OvertimeWFEmailDelivery" Width="1.5" PointX="0.5" PointY="3.875" IsExpanded="false" />
+        <EntityTypeShape EntityType="TASModel.OvertimeWFApprovalHistory" Width="1.5" PointX="0.5" PointY="3.25" IsExpanded="false" />
+        <EntityTypeShape EntityType="TASModel.OvertimeWFRoutineHistory" Width="1.5" PointX="0.5" PointY="4.5" IsExpanded="false" />
+        <EntityTypeShape EntityType="TASModel.OvertimeWFTransactionActivity" Width="1.5" PointX="0.5" PointY="5.125" IsExpanded="false" />
+        <EntityTypeShape EntityType="TASModel.SystemErrorLog" Width="1.5" PointX="0.5" PointY="2.5" IsExpanded="false" />
+        <EntityTypeShape EntityType="TASModel.Master_EmployeeAdditional" Width="1.5" PointX="4.375" PointY="0.625" IsExpanded="false" />
+        <EntityTypeShape EntityType="TASModel.OvertimeRequest" Width="1.5" PointX="0.5" PointY="6.375" IsExpanded="false" />
+        <EntityTypeShape EntityType="TASModel.Master_ShiftPatternTitles" Width="1.5" PointX="7.375" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TASModel.Master_ShiftTimes" Width="1.5" PointX="9.625" PointY="11.125" />
+        <AssociationConnector Association="TASModel.FK_Master_ShiftTimes_Master_ShiftPatternTitles" />
+        <EntityTypeShape EntityType="TASModel.Master_ShiftPattern" Width="1.5" PointX="9.625" PointY="8" />
+        <AssociationConnector Association="TASModel.FK_Master_ShiftPattern_Master_ShiftPatternTitles" />
+        <EntityTypeShape EntityType="TASModel.System_Values" Width="1.5" PointX="0.5" PointY="5.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="TASModel.DeathReasonOfAbsence" Width="1.5" PointX="3" PointY="3.375" IsExpanded="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

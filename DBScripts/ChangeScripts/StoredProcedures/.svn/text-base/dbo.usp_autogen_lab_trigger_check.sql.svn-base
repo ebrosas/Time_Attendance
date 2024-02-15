@@ -1,0 +1,84 @@
+IF OBJECT_ID('[dbo].[usp_autogen_lab_trigger_check]') IS NOT NULL
+	DROP PROCEDURE [dbo].[usp_autogen_lab_trigger_check]
+GO
+
+CREATE PROCEDURE [dbo].[usp_autogen_lab_trigger_check]
+(
+	@admission_id varchar(12)
+	,@procedure_code_id int
+	,@IsValid bit OUTPUT
+)	
+AS 
+
+/***************************************************************************************************************
+*	Revision History
+*
+*	Name: usp_autogen_lab_trigger_check
+*	Description: 
+*
+*	Date:			Author:		Ref#:		Comments:
+*	10/15/2010		JVillas		7424		Refactoring Requirement: trn_RadInvestigationSet1 (Code) and trn_RadInvestigationSet2 (not-coded)
+*	09/17/2010		JVillas		N/A			Created
+*
+****************************************************************************************************************/
+
+BEGIN
+
+	DECLARE @system_insurer_id int
+			,@insurer_code char(12)
+			,@claim_type char(12)
+
+	SET @IsValid = 0
+
+	SELECT	TOP 1 
+			@system_insurer_id = clm.system_insurer_id
+			,@insurer_code = ins.insurer_code
+			,@claim_type = clm.claim_type
+	FROM	dbo.Claim clm
+			INNER JOIN dbo.Admission adm
+				ON adm.claim_id = clm.claim_id
+			INNER JOIN dbo.ref_InsurerClaimType ict
+				ON ict.system_insurer_id = clm.system_insurer_id
+				AND ict.claim_type_code = clm.claim_type
+			INNER JOIN dbo.Insurer ins
+				ON ins.system_insurer_id = clm.system_insurer_id
+	WHERE	adm.admission_id = @admission_id
+			AND ict.trigger_lab_activity = 1
+
+	--VHI Hospital Claim / VHI Oncology/Radiotherapy Claim
+	IF @insurer_code = 'V' AND @claim_type IN ('HCT1', 'HCT2')
+		BEGIN
+			SELECT	TOP 1
+					@IsValid =	CASE
+									WHEN DiagnosticSummary IS NOT NULL THEN 1
+									WHEN Biochemistry = 1 THEN 1
+									WHEN Hispathology = 1 THEN 1
+									WHEN Microbiology = 1 THEN 1
+									WHEN Immunology = 1 THEN 1
+									WHEN Haematology = 1 THEN 1
+									WHEN Endocrinology = 1 THEN 1
+									WHEN OtherLabType = 1 THEN 1
+									ELSE 0
+								END
+			FROM	dbo.trn_LaboratoryInvestigation
+			WHERE	admission_id = @admission_id
+			ORDER BY create_date DESC
+		END
+	--QUINN Hospital Claim / AVIVA Hospital Claim
+	ELSE IF (@insurer_code = 'B' AND @claim_type IN ('HCT1')) OR (@insurer_code = 'I' AND @claim_type IN ('HCT1'))
+		BEGIN
+			IF EXISTS
+			(
+				SELECT	tpr.id
+				FROM	dbo.trn_Procedure tpr
+						INNER JOIN dbo.Procedure_Code prc
+							ON prc.procedure_code_id = tpr.procedure_code_id
+				WHERE	tpr.admission_id = @admission_id
+						AND tpr.procedure_date IS NOT NULL
+						AND prc.procedure_code_id = @procedure_code_id
+						AND prc.service_type_id = 2	-- Service type for Laboratory
+			)
+				SET @IsValid = 1
+		END
+
+END

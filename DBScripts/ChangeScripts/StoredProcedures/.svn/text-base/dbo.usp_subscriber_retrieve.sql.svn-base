@@ -1,0 +1,66 @@
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[usp_subscriber_retrieve]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[usp_subscriber_retrieve]
+GO
+set ANSI_NULLS ON
+set QUOTED_IDENTIFIER ON
+go    
+  
+CREATE PROCEDURE [dbo].[usp_subscriber_retrieve]
+	@claim_id char(12)
+AS
+  
+/********************************************************************************  
+* Revision History  
+* Name: usp_subscriber_retrieve  
+* Description: Retrieves subscriber data from Claims table  
+*  
+* Date:			Author:			Comments:
+* 09/27/10		JVillas			Added membership_scheme
+* 27/09/10		AEstrella		Added subs_station,subs_civil_status
+* 22/12/09		JVillas			Added partner_first_name, partner_last_name 
+* 22/12/09		LLuchavez		Bug fix 5726 added isnull in address  
+* 11/11/09		SNgo			Print Preview Mapping  
+* 08/25/09		RFernando		Added insurance_member_number_update_date  
+* 1/13/09		SPostrado		Updated to add insurance member no.  
+* 1/7/2009		SPostrado		Updated  
+* 12/10/08		TMalana			Added Admission and Discharge Dates  
+* 10/29/08		FIbañez			Created for CCF#013MD - Enabling of Claimsure Fields   
+*  
+**********************************************************************************/  
+  
+SET NOCOUNT ON  
+  
+SELECT  
+		[patient_id],  
+		[subs_lastname],  
+		[subs_firstname],  
+		[subs_MI],  
+		[subs_title],  
+		[subs_birthdate],  
+		[subs_email_add],  
+		[subs_address1],  
+		[subs_address2],  
+		[subs_address3],  
+		[subs_telephone1],  
+		[subs_telephone2],  
+		CASE ISNULL([subs_telephone2],'')  
+		WHEN ''   
+		THEN [subs_telephone1]     
+		ELSE [subs_telephone1] +';'+[subs_telephone2]   
+		END AS TelephoneNos,  
+		ISNULL([subs_address1]+', ',' ') + ISNULL([subs_address2]+', ',' ')+ISNULL([subs_address3],' ') AS Address,  
+		[admission_date],  
+		[discharge_date_time],  
+		[member_relation_type],  
+		[insurance_member_number],  
+		[insurance_member_number_update_date],
+		[partner_first_name],
+		[partner_last_name],
+		[subs_station],
+		[subs_civil_status],
+		[membership_scheme]
+FROM  
+		[dbo].[Claim]  
+WHERE  
+		rtrim([claim_id]) = rtrim(@claim_id)  
+  

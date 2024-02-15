@@ -1,0 +1,57 @@
+IF OBJECT_ID('[dbo].[usp_trn_newborndetails_retrieve_children_forPDF]') IS NOT NULL
+	DROP PROCEDURE [dbo].[usp_trn_newborndetails_retrieve_children_forPDF]
+GO
+
+CREATE PROCEDURE [dbo].[usp_trn_newborndetails_retrieve_children_forPDF]
+(
+	@claim_id char(12)
+)
+AS
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_trn_newborndetails_retrieve_children_forPDF
+*	Description: Retrieve children per claim, returning it as a single row of data
+*
+*	Date:			Author:		Ref#:		Comments:
+*	09/29/2010		JVillas		N/A			Creation
+*
+**********************************************************************************/
+
+BEGIN
+
+DECLARE @child_no int
+		,@child_count int
+		,@children nvarchar(1000)
+		,@child_name varchar(200)
+
+DECLARE @newborndetails TABLE
+(
+	id int IDENTITY(1, 1)
+	,first_name varchar(100)
+	,last_name varchar(100)
+)
+
+INSERT INTO @newborndetails
+SELECT	FirstName, LastName
+FROM	dbo.trn_newborndetails
+WHERE	claim_id = @claim_id
+
+SET @child_count  = (SELECT COUNT(id) FROM @newborndetails)
+SET @child_no = 1
+SET @children = 'SELECT claim_id = ''' + RTRIM(@claim_id) + ''''
+
+WHILE (@child_no <= @child_count)
+	BEGIN
+		SELECT	@child_name = LTRIM(ISNULL(first_name, '') + ISNULL(' ' + last_name, ''))
+		FROM	@newborndetails
+		WHERE	id = @child_no
+
+		SET @children = @children + ',child' + CAST(@child_no AS varchar(3)) + '_name = ''' + @child_name + ''''
+
+		SET @child_no = @child_no + 1
+	END
+
+EXEC sp_executesql @children
+
+END

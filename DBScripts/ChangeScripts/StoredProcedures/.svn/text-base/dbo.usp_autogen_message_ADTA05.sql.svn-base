@@ -1,0 +1,209 @@
+
+IF OBJECT_ID('usp_autogen_message_ADTA05') IS NOT NULL
+	DROP PROCEDURE usp_autogen_message_ADTA05
+GO
+
+CREATE PROCEDURE [dbo].[usp_autogen_message_ADTA05]
+	@message_id uniqueidentifier
+AS
+
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_autogen_message_ADTA05
+*	Description: Execute all SPs related to ADT^A05 message.
+*
+*	Date:			Author:		Ref#:		Comments:
+*	10/12/2010		RDimarucut	7621		Updated hospital_id to system_hospital_id.
+*	07/13/2010		RDimarucut	N/A			Removed call on obsolete stored procedure usp_autogen_autoready_execute; new sp for handling claim requirements and statuses is usp_autogen_claim_requirements_check
+*	07/09/2010		RDimarucut	6325		Added checking for insert/update of maternity details.
+*	06/01/2010		RDimarucut	6827		Added condition on override_computed_claim_value for recaculating claim values.
+*	05/26/2010		RDimarucut	N/A			Removed HL7 14 day history logging.
+*	03/25/2010		RDimarucut	N/A			Added patient care transfer log check on insert.
+*	03/08/2010		RDimarucuct	N/A			Added logging for patient care transfer
+*	01/08/2010		GBorja		5796		Modified to Accomodate a 14-day History.
+*	11/26/2009		GBorja					Deleted claim updates scripts.
+*	11/18/2009		DDulay					Fix doctor first full address
+*	11/05/09		DDulay					Updated. Allowing updates on claim/accident fields
+*	10/05/2009		GBorja					Fixed  Duration of Symptoms and Similar Illness and Discharge Date.
+*	10/01/2009		GBorja					Added Accident Details, Patient transfer of Care, Medical History and Illness history.
+*	08/06/2009		RDimarucut				Created additional condition on creating patient care transfer.
+*	04/29/2009		RDimarucut				Added audit logging
+*	03/06/2009		SPostrado				Added claim value
+*	02/25/2009		SPostrado				Remove claim value update
+*	02/12/2009		SPostrado				Added SPs to be executed and doctor details on the
+*											select statement
+*	02/11/2009		RDimarucut				Added details HL7 message process flow
+*	02/05/2009		GBorja					Created.
+*
+**********************************************************************************/
+
+DECLARE  @claim_id varchar(30)
+		,@mrn_id varchar(30)
+		,@admitting_doctor_id varchar(30)
+		,@insurer_code varchar(30)
+		,@transferofcare_doctor_id varchar(30)
+		,@patient_id varchar(12)
+		,@admission_id varchar(12)
+		,@admission_date smalldatetime
+		,@patient_transfer_id int
+		,@system_bed_id int
+		,@transferofcare_doctor_firstname varchar(30)
+		,@transferofcare_doctor_lastname varchar(30)
+		,@transferofcare_doctor_middleinitial char(3)
+		,@admitting_doctor_lastname varchar(30)
+		,@admitting_doctor_firstname varchar(30)
+		,@admitting_doctor_middleinitial char(3)
+		,@GetDate datetime
+		,@User varchar(10)
+		,@system_hospital_id int
+
+SET	@GetDate = (SELECT GETDATE())
+SET @User = 'autogen'
+
+SELECT 
+	 @claim_id = a.episode_id
+	,@mrn_id = a.mrn_id 
+	,@admitting_doctor_id = b.admittingconsultantcode
+	,@admitting_doctor_lastname = b.admittingconsultantlastname
+	,@admitting_doctor_firstname = b.admittingconsultantfirstname
+	,@admitting_doctor_middleinitial = b.admittingconsultantmiddleinitial
+	,@system_hospital_id = c.system_hospital_id
+	,@insurer_code = d.insurer_id
+	,@transferofcare_doctor_id = e.consultanthospitalcode
+	,@transferofcare_doctor_lastname = e.consultantlastname
+	,@transferofcare_doctor_firstname = e.consultantfirstname
+	,@transferofcare_doctor_middleinitial = e.consultantmiddleinitial
+
+FROM dbo.stg_base a
+LEFT JOIN dbo.stg_admittingconsultantdetails b
+	ON a.message_id = b.message_id 
+LEFT JOIN dbo.stg_hospital c
+	ON a.message_id = c.message_id
+LEFT JOIN dbo.stg_insurer d
+	ON a.message_id = d.message_id
+LEFT JOIN dbo.stg_patientcaretransfer e
+	ON a.message_id = e.message_id
+WHERE a.message_id = @message_id
+
+
+--check claim
+IF NOT EXISTS(SELECT claim_id FROM dbo.Claim WHERE claim_id = @claim_id)
+	BEGIN
+	
+		--check patient
+		IF EXISTS(SELECT mrn_number FROM dbo.Patient WHERE mrn_number = @mrn_id)
+			BEGIN
+				EXEC usp_autogen_patient_update @message_id, @patient_id output
+				EXEC usp_audit_logging @claim_id, @claim_id, 'Patient', 'Update', @GetDate, @User
+			END
+		ELSE
+			BEGIN
+				EXEC usp_autogen_patient_insert @message_id, @patient_id output
+				EXEC usp_audit_logging @claim_id, @claim_id, 'Patient', 'Insert', @GetDate, @User
+			END
+		
+		--check admitting doctor
+		IF EXISTS(SELECT doctor_id FROM dbo.Doctor WHERE doctor_id = @admitting_doctor_id)
+			BEGIN
+				EXEC usp_autogen_doctor_update @admitting_doctor_id, @admitting_doctor_lastname,
+						@admitting_doctor_firstname, @admitting_doctor_middleinitial
+				EXEC usp_audit_logging @claim_id, @claim_id, 'Doctor', 'Update', @GetDate, @User
+			END
+		ELSE
+			BEGIN
+				EXEC usp_autogen_doctor_insert @admitting_doctor_id, @admitting_doctor_lastname,
+						@admitting_doctor_firstname, @admitting_doctor_middleinitial
+				EXEC usp_audit_logging @claim_id, @claim_id, 'Doctor', 'Insert', @GetDate, @User
+			END
+		
+		--check hospital
+		IF EXISTS(SELECT system_hospital_id FROM dbo.Hospital WHERE system_hospital_id = @system_hospital_id)
+			BEGIN
+				EXEC usp_autogen_hospital_update @message_id
+				EXEC usp_audit_logging @claim_id, @claim_id, 'Hospital', 'Update', @GetDate, @User
+			END
+		ELSE
+			BEGIN
+				EXEC usp_autogen_hospital_insert @message_id
+				EXEC usp_audit_logging @claim_id, @claim_id, 'Hospital', 'Insert', @GetDate, @User
+			END
+		
+		--check insurer
+		IF EXISTS(SELECT insurer_code FROM dbo.Insurer WHERE insurer_code = @insurer_code)
+			BEGIN
+				EXEC usp_autogen_insurer_update @message_id
+				EXEC usp_audit_logging @claim_id, @claim_id, 'Insurer', 'Update', @GetDate, @User
+			END
+		ELSE
+			BEGIN
+				EXEC usp_autogen_insurer_insert @message_id
+				EXEC usp_audit_logging @claim_id, @claim_id, 'Insurer', 'Insert', @GetDate, @User
+			END
+		
+		--insert new claim
+		EXEC usp_autogen_claim_insert @message_id, @patient_id
+		EXEC usp_audit_logging @claim_id, @claim_id, 'Claim', 'Insert', @GetDate, @User
+
+		--insert accident details
+		EXEC usp_autogen_accident_insert @message_id
+		EXEC usp_audit_logging @claim_id, @claim_id, 'Accident', 'Insert', @GetDate, @User
+		
+		--insert doctor admission - Primary doctor
+		EXEC usp_autogen_patient_care_transfer_insert @message_id, @claim_id, @admitting_doctor_id,
+								'PRIMARY', @admission_id output
+		EXEC usp_audit_logging @claim_id, @claim_id, 'Admission', 'Insert', @GetDate, @User
+
+		--insert thirdparty details - ThirdpartySet1
+		EXEC usp_autogen_thirdpartyset1_insert @message_id, @claim_id
+
+		--check if data is available from the Maternity staging table
+		IF EXISTS(SELECT (1) FROM dbo.stg_Maternity WHERE message_id = @message_id)
+		BEGIN
+			EXEC usp_autogen_maternity_check @message_id, @admission_id
+		END
+
+		--check transfer of care doctor
+		IF (@transferofcare_doctor_id IS NOT NULL)
+		BEGIN
+			--check doctor
+			IF EXISTS(SELECT doctor_id FROM dbo.Doctor WHERE doctor_id = @transferofcare_doctor_id)
+				BEGIN
+					EXEC usp_autogen_doctor_update @transferofcare_doctor_id, @transferofcare_doctor_lastname,
+							@transferofcare_doctor_firstname, @transferofcare_doctor_middleinitial
+					EXEC usp_audit_logging @claim_id, @claim_id, 'Doctor', 'Update', @GetDate, @User
+				END
+			ELSE
+				BEGIN
+					EXEC usp_autogen_doctor_insert @transferofcare_doctor_id, @transferofcare_doctor_lastname,
+							@transferofcare_doctor_firstname, @transferofcare_doctor_middleinitial
+					EXEC usp_audit_logging @claim_id, @claim_id, 'Doctor', 'Insert', @GetDate, @User
+				END
+			
+			--check doctor admission
+			IF NOT EXISTS(SELECT admission_id FROM dbo.Admission WHERE doctor_id = @transferofcare_doctor_id AND claim_id = @claim_id)
+			BEGIN
+				EXEC usp_autogen_patient_care_transfer_insert @message_id, @claim_id, @transferofcare_doctor_id,
+						'SECONDARY', @admission_id output
+
+				EXEC usp_audit_logging @claim_id, @claim_id, 'Admission', 'Insert', @GetDate, @User
+
+				--create a log for this patient care transfer
+				EXEC usp_autogen_patientcaretransferlog_insert @claim_id, @admission_id, @transferofcare_doctor_id,'ADT'
+			END
+			ELSE
+			BEGIN
+				SELECT @admission_id = admission_id 
+				FROM dbo.Admission 
+				WHERE doctor_id = @transferofcare_doctor_id AND claim_id = @claim_id
+			END
+		END
+
+		IF NOT EXISTS(SELECT (1) FROM dbo.Claim WHERE claim_id = @claim_id AND override_computed_claim_value = 1)
+		BEGIN
+			--update claim value
+			EXEC usp_autogen_claim_value_update @claim_id
+		END
+	END
+
+GO

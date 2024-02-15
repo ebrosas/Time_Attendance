@@ -1,0 +1,47 @@
+IF OBJECT_ID ('usp_trn_procedure_retrieve_by_admissionid') IS NOT NULL
+	DROP PROCEDURE [dbo].usp_trn_procedure_retrieve_by_admissionid
+GO
+
+CREATE PROCEDURE [dbo].usp_trn_procedure_retrieve_by_admissionid
+(
+	@admission_id char(12)
+)
+AS
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_trn_procedure_retrieve_by_admissionid
+*	Description: Retrieves records from the trn_Procedure table by admission id
+*
+*	Date:		Author:		Ref#:		Comments:
+*	10/14/10	MLim		7424		Added retrieval of reference codes
+*	09/20/10	MLim		7424		Created
+*
+**********************************************************************************/
+
+SELECT
+	 p.id
+	,p.procedure_date
+	,p.procedure_code_id
+	,pc.description AS procedure_description
+	,pc.reference_code AS procedure_reference_code
+	,pc.icd_9_code
+	,pc.service_type_id
+	,p.clinical_code_id
+	,pc2.description AS clinical_description
+	,pc2.reference_code AS clinical_reference_code
+	,p.doctor_id
+	,p.anaesthesia_type
+	,p.procedure_facility
+	,p.anaesthetist_id
+	,p.procedure_type
+FROM
+	[dbo].trn_Procedure p INNER JOIN
+	[dbo].Admission a ON p.admission_id = a.admission_id INNER JOIN
+	[dbo].Claim c ON a.claim_id = c.claim_id LEFT JOIN
+	[dbo].trn_InsurerClaimTypeServiceType ictst ON (c.system_insurer_id = ictst.systeminsurerid AND c.claim_type = ictst.claimtypecode) INNER JOIN
+	[dbo].Procedure_Code pc ON (p.procedure_code_id = pc.procedure_code_id AND ictst.servicetypeid = pc.service_type_id) LEFT JOIN
+	[dbo].Procedure_Code pc2 ON p.clinical_code_id = pc2.procedure_code_id
+WHERE
+	p.admission_id = @admission_id
+GO

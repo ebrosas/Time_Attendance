@@ -1,0 +1,41 @@
+IF OBJECT_ID ('usp_trn_procedure_delete') IS NOT NULL
+	DROP PROCEDURE [dbo].usp_trn_procedure_delete
+GO
+
+CREATE PROCEDURE [dbo].usp_trn_procedure_delete
+(
+	 @id int
+	,@username varchar(20)
+)
+AS
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_trn_procedure_delete
+*	Description: Deletes a record from the trn_Procedure table
+*
+*	Date:		Author:		Ref#:		Comments:
+*	11/03/10	EBrosas		7429		Changed SP call from usp_audit_logging to usp_audit_logging_new.
+*	09/20/10	MLim		7424		Created
+*
+**********************************************************************************/
+
+DECLARE @date datetime,
+		@claim_id varchar(12)
+
+SET @date = (SELECT GETDATE())
+
+SELECT @claim_id = claim_id 
+FROM dbo.Admission a 
+	LEFT JOIN dbo.trn_Procedure b ON b.admission_id = a.admission_id
+WHERE b.id = @id
+
+DELETE FROM
+	[dbo].trn_Procedure
+WHERE
+	id = @id
+
+EXEC usp_audit_logging_new @id, @claim_id, 'trn_Procedure', 'Delete', @date, @username, 'CF_Clinical'    
+--EXEC usp_audit_logging @id, @id, 'trn_Procedure', 'Delete', @date, @username
+
+GO

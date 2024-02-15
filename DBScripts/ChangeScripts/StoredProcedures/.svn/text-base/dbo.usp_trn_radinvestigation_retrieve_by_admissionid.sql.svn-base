@@ -1,0 +1,44 @@
+IF OBJECT_ID ('usp_trn_radinvestigation_retrieve_by_admissionid') IS NOT NULL
+	DROP PROCEDURE [dbo].usp_trn_radinvestigation_retrieve_by_admissionid
+GO
+
+CREATE PROCEDURE [dbo].usp_trn_radinvestigation_retrieve_by_admissionid
+(
+	@admission_id char(12)
+)
+AS
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_trn_radinvestigation_retrieve_by_admissionid
+*	Description: Retrieves records from the trn_RadInvestigation table by admission id
+*
+*	Date:		Author:		Ref#:		Comments:
+*	10/13/10	MLim		7424		Changed join type to left join
+*	09/20/10	MLim		7424		Created
+*
+**********************************************************************************/
+
+SELECT
+	 ri.x_ray
+	,ri.ultrasound
+	,ri.ct_scan
+	,ri.mri
+	,ri.pet_ct
+	,ri.others
+	,ri.diagnostic_tests
+	,ri.rad_tests
+	,ri.clinical_indication_code1
+	,pc.description AS clinical_indication_description1
+	,ri.clinical_indication_date1
+	,ri.clinical_indication_code2
+	,pc2.description AS clinical_indication_description2
+	,ri.clinical_indication_date2
+	,ri.other_facility
+FROM
+	[dbo].trn_RadInvestigation ri LEFT JOIN
+	[dbo].Procedure_Code pc ON ri.clinical_indication_code1 = pc.procedure_code_id LEFT JOIN
+	[dbo].Procedure_Code pc2 ON ri.clinical_indication_code2 = pc2.procedure_code_id
+WHERE
+	admission_id = @admission_id
+GO	

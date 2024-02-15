@@ -1,0 +1,154 @@
+Overtime & Meal Voucher Entry Form 
+Business Rules:
+- Clerk specify the overtime duration and reason then submit it for approval to initiate the workflow.
+- Upon submission, the system will create record in the "OvertimeRequest" table. Set the value of the following fields in the "Tran_Timesheet_Extra" table:
+  * OTApproved = Y (Approved) or N (Rejected)
+  * LastUpdateUser = @userID,
+  * LastUpdateTime = current system date
+  * Comment = value entered in the "Remarks" textbox column in the grid
+  * OTReason = selected value of the "OT Reason" drop-down list column in the grid
+  * Approved = 0 (Note: The value of this field will be updated after closure of the workflow)
+
+- The submitted overtime records will be removed on the screen since the default view type is "Show unprocessed overtime"
+- Tran_Timesheet_Extra record should not be updated upon submission and should be updated only once the workflow is finished.
+
+UI Design:
+- Add "Submit for Approval" button
+- Add "Display Option" field where values include the following: 
+  * Show unprocessed overtime (default) - set row background color to normal
+  * Show submitted overtime - set row background color to blue; show "View History" link; disable "Submit for Approval" button
+  * Show approved overtime - set row background color to green; show "View History" link; disable "Submit for Approval" button
+  * Show rejected overtime - set row background color to red; show "View History" link; disable "Submit for Approval" button
+  * Show All
+
+Meal Voucher Eligibility: 
+Table Name: Tran_Timesheet
+Field Name: MealVoucherEligibility
+
+Flags:
+YA = Approved
+N = Rejected
+Y = No action taken
+
+---------------------------------------------------------------------
+
+Overtime Approval: 
+Table Name: Tran_Timesheet_Extra
+Field Name: OTApproved
+
+Flags:
+Y = Approved
+N = Rejected
+0 = No action taken
+
+Business Rules: 
+- If "OTApproved" = 'Y' then "Approved" = 1 
+- If "OTApproved" = 'N' then "Approved" = 0
+
+Workflow Approval Process:
+
+Production:
+1. Approval by Head of Department / Shift Supervisor
+2. Approval by Department Manager
+3. Approval by Senior Production Manager
+4. Approval by GM Operations
+5. Validation by HR
+6. Final Approval by HR
+
+Workflow Distribution Group Codes:
+Distribution Code: TASADMIN
+Distribution Description: System Administrators of TAS
+Distribution Member: 10003653 (Test); 10001668 (Live)
+
+Distribution Code: HEADNSUPER (Note: Built-in group)
+Distribution Description: Head of Department / Shift Supervsior
+Distribution Member: 10003632 (Test); 10001668 (Live)
+
+Distribution Code: SRENGMANGR
+Distribution Description: Senior Engineering Manager
+Distribution Member: 10003632 (Test); 10001668 (Live)
+
+Workflow Distribution Group Codes:
+Distribution Code: SRPRODMNGR
+Distribution Description: Senior Production Manager 
+Distribution Member: 10003653 (Test); 10001841 (Live)
+
+Distribution Code: SRQCMANGR
+Distribution Description: Senior QC Manager
+Distribution Member: 10003632 (Test); 10003713 (Live)
+
+Distribution Code: HRMANAGER
+Distribution Description: Senior HR and Admin Manager
+Distribution Member: 10003632 (Test); 10003666 (Live)
+
+Distribution Code: OPGENMNGR
+Distribution Description: Operation Gen. Manager
+Distribution Member: 10003673 (Test); 10001668 (Live)
+
+Distribution Code: OTHRVALIDR
+Distribution Description: HR Validator for OT and Meal Voucher Request
+Distribution Member: 10003656 (Test); 10001988 (Live)
+
+Distribution Code: OTHRAPROVE
+Distribution Description: HR Final Approver for OT and Meal Voucher Request
+Distribution Member: 10003512 (Test); 10003636 (Live)
+
+List of Shift Supervisors:
+MGPSUPERV	Engineering and Production Shift Supervisors
+MECHSUPERV	Allocated Area Supervisors (5200 - Mechanical Engineering)
+
+Query String Parameters:
+
+Workflow Completed:
+IsLoadRequest = True
+EmpNo = 10001415
+StartDate = 30/03/2016 (Format: dd/MM/yyyy)
+DisplayOption = OTAPPROVED
+
+Sample Query String: 
+http://localhost:62170/Views/UserFunctions/OvertimeMealVoucherEntry.aspx?IsLoadRequest=True&OTRequestNo=11&DisplayOption=OTSUBMITED
+http://localhost:62170/Views/UserFunctions/OvertimeMealVoucherEntry.aspx?IsLoadRequest=True&EmpNo=10001415&StartDate=30/03/2016&DisplayOption=OTAPPROVED&OTRequestNo=11
+http://localhost:62170/Views/UserFunctions/OvertimeMealVoucherEntry.aspx?IsLoadRequest=True&EmpNo=10001415&StartDate=30/03/2016&DisplayOption=OTAPPROVED
+
+
+Overtime Approval History Form
+Fields:
+Employee No.				OT Requisition No.
+Employe Name				Date Submitted
+Position				Attendance Date
+Pay Grade				OT Start Time
+Cost Center				OT End Time
+Shift Pat. Code				OT Type
+Sched. Shift / Actual Shift		Current Status
+
+OTUNPROCSD = 1,     // Show unprocessed overtime
+OTSUBMITED,         // Show submitted overtime
+OTAPPROVED,         // Show approved overtime 
+OTREJECTED,         // Show rejected overtime
+OTCANCELED,         // Show cancelled overtime
+OTSHOWALL           // Show all
+
+Draft URL:
+http://localhost:62170/Views/UserFunctions/OvertimeMealVoucherEntry.aspx?IsLoadRequest=True&DisplayOption=OTUNPROCSD
+
+Open URL:
+http://localhost:62170/Views/UserFunctions/OvertimeMealVoucherEntry.aspx?IsLoadRequest=True&DisplayOption=OTSUBMITED
+
+Closed URL:
+http://localhost:62170/Views/UserFunctions/OvertimeMealVoucherEntry.aspx?IsLoadRequest=True&DisplayOption=OTAPPROVED
+
+Assigned URL:
+http://localhost:62170/Views/HRFunctions/OTMealVoucherApproval.aspx?IsAssignedKey=True
+
+Bypassed Senior Production Manager (SHOUKAT ALI KHAN) - Already approved the request
+Bypassed SHOUKAT ALI KHAN (Employee already approved the request)
+
+Cost Center Group Code that checks if the creator is a Shift Supervisor:
+- PRD
+- ENG
+- QC
+- S&M
+
+Test Shift Supervisor Emp. No: 10003344
+
+

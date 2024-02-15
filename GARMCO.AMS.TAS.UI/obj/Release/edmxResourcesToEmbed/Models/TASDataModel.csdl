@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TASDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="TASDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="LicenseRegistries" EntityType="TASDBModel.LicenseRegistry" />
+    <EntitySet Name="Vw_IDCardHistory" EntityType="TASDBModel.Vw_IDCardHistory" />
+    <EntitySet Name="IDCardRegistries" EntityType="TASDBModel.IDCardRegistry" />
+    <EntitySet Name="ContractorRegistries" EntityType="TASDBModel.ContractorRegistry" />
+    <EntitySet Name="Vw_Contractor" EntityType="TASDBModel.Vw_Contractor" />
+  </EntityContainer>
+  <EntityType Name="LicenseRegistry">
+    <Key>
+      <PropertyRef Name="EmpNo" />
+      <PropertyRef Name="LicenseNo" />
+      <PropertyRef Name="LicenseTypeCode" />
+      <PropertyRef Name="IssuedDate" />
+      <PropertyRef Name="ExpiryDate" />
+    </Key>
+    <Property Name="RegistryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmpNo" Type="Int32" Nullable="false" />
+    <Property Name="LicenseNo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="LicenseTypeCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="LicenseTypeDesc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="IssuingAuthority" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="IssuedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ExpiryDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Remarks" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="LicenseGUID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedByEmpNo" Type="Int32" Nullable="false" />
+    <Property Name="CreatedByEmpName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LastUpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="LastUpdatedByEmpNo" Type="Int32" />
+    <Property Name="LastUpdatedByEmpName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="LastUpdatedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Vw_IDCardHistory">
+    <Key>
+      <PropertyRef Name="HistoryID" />
+      <PropertyRef Name="EmpNo" />
+      <PropertyRef Name="IsContractor" />
+      <PropertyRef Name="CardRefNo" />
+      <PropertyRef Name="CreatedByEmpNo" />
+    </Key>
+    <Property Name="HistoryID" Type="Int32" Nullable="false" />
+    <Property Name="EmpNo" Type="Int32" Nullable="false" />
+    <Property Name="IsContractor" Type="Boolean" Nullable="false" />
+    <Property Name="CardRefNo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Remarks" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="CardGUID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedByEmpNo" Type="Int32" Nullable="false" />
+    <Property Name="CreatedByEmpName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LastUpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="LastUpdatedByEmpNo" Type="Int32" />
+    <Property Name="LastUpdatedByEmpName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="LastUpdatedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="IDCardRegistry">
+    <Key>
+      <PropertyRef Name="EmpNo" />
+    </Key>
+    <Property Name="RegistryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmpNo" Type="Int32" Nullable="false" />
+    <Property Name="IsContractor" Type="Boolean" Nullable="false" />
+    <Property Name="EmpPhoto" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="ImageFileName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ImageFileExt" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedByEmpNo" Type="Int32" Nullable="false" />
+    <Property Name="CreatedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LastUpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="LastUpdatedByEmpNo" Type="Int32" />
+    <Property Name="LastUpdatedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Base64Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="EmpName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Position" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CustomCostCenter" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CPRNo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="BloodGroup" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="ContractorRegistry">
+    <Key>
+      <PropertyRef Name="IDNumber" />
+      <PropertyRef Name="ContractStartDate" />
+      <PropertyRef Name="ContractEndDate" />
+    </Key>
+    <Property Name="RegistryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ContractorNo" Type="Int32" Nullable="false" />
+    <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
+    <Property Name="IDNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="IDType" Type="Byte" Nullable="false" />
+    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CompanyID" Type="Int32" />
+    <Property Name="CompanyCRNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="PurchaseOrderNo" Type="Double" />
+    <Property Name="JobTitle" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="MobileNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="VisitedCostCenter" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="SupervisorEmpNo" Type="Int32" Nullable="false" />
+    <Property Name="SupervisorEmpName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PurposeOfVisit" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="ContractStartDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ContractEndDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="BloodGroup" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedByEmpNo" Type="Int32" Nullable="false" />
+    <Property Name="CreatedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LastUpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="LastUpdatedByEmpNo" Type="Int32" />
+    <Property Name="LastUpdatedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="WorkDurationHours" Type="Int32" />
+    <Property Name="WorkDurationMins" Type="Int32" />
+    <Property Name="CompanyContactNo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Vw_Contractor">
+    <Key>
+      <PropertyRef Name="RegistryID" />
+      <PropertyRef Name="ContractorNo" />
+      <PropertyRef Name="IDNumber" />
+      <PropertyRef Name="IDType" />
+      <PropertyRef Name="FirstName" />
+      <PropertyRef Name="LastName" />
+      <PropertyRef Name="CompanyName" />
+      <PropertyRef Name="VisitedCostCenter" />
+      <PropertyRef Name="SupervisorEmpNo" />
+      <PropertyRef Name="ContractStartDate" />
+      <PropertyRef Name="ContractEndDate" />
+      <PropertyRef Name="CreatedByEmpNo" />
+    </Key>
+    <Property Name="RegistryID" Type="Int32" Nullable="false" />
+    <Property Name="ContractorNo" Type="Int32" Nullable="false" />
+    <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
+    <Property Name="IDNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="IDType" Type="Byte" Nullable="false" />
+    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CompanyID" Type="Int32" />
+    <Property Name="CompanyCRNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="PurchaseOrderNo" Type="Double" />
+    <Property Name="JobCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="JobTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="MobileNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="VisitedCostCenter" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+    <Property Name="VisitedCostCenterName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="SupervisorEmpNo" Type="Int32" Nullable="false" />
+    <Property Name="SupervisorEmpName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PurposeOfVisit" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="ContractStartDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ContractEndDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="BloodGroup" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="BloodGroupDesc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedByEmpNo" Type="Int32" Nullable="false" />
+    <Property Name="CreatedByEmpName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LastUpdatedDate" Type="DateTime" Precision="3" />
+    <Property Name="LastUpdatedByEmpNo" Type="Int32" />
+    <Property Name="LastUpdatedByEmpName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="LastUpdatedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CardNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="WorkDurationHours" Type="Int32" />
+    <Property Name="WorkDurationMins" Type="Int32" />
+    <Property Name="CompanyContactNo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+  </EntityType>
+</Schema>

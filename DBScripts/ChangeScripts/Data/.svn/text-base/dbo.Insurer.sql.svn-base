@@ -1,0 +1,255 @@
+/********************************************************************************
+*	Date:	  	Author:		Comments:
+*	09/28/10	RDimarucut	Created an insert/update for Garda insurer.
+*	09/24/10	JVillas		Add/Update field values for MPF insurer
+*	09/22/10	EBrosas		Populate and update field values for POMAS insurer
+**********************************************************************************/
+
+DECLARE @systemInsurerId int
+
+IF EXISTS (SELECT [insurer_code] FROM [dbo].[Insurer] WHERE [insurer_code] = 'P')
+BEGIN
+	UPDATE [dbo].[Insurer]
+	SET  [logo_url] = '~/Images/pomas_logo.gif'
+		,[has_own_form] = 1
+		,insurer_desc = 'POMAS'
+		,[update_user] = 'System'
+		,[update_date] = GETDATE()
+	WHERE [insurer_code] = 'P'
+
+	SELECT @systemInsurerId = system_insurer_id 
+	FROM [dbo].[Insurer]
+	WHERE [insurer_code] = 'P'
+	
+	-- Checks if HCT1 claim type exists
+	IF EXISTS (SELECT [system_insurer_id] FROM [dbo].[ref_InsurerClaimType] 
+		WHERE [system_insurer_id] = @systemInsurerId AND [claim_type_code] = 'HCT1')
+	BEGIN
+		UPDATE [dbo].[ref_InsurerClaimType]
+		SET [description] = 'Hospital Claim - Direct Payment'
+		WHERE [system_insurer_id] = @systemInsurerId AND [claim_type_code] = 'HCT1'
+	END
+	ELSE
+	BEGIN
+		INSERT INTO [dbo].[ref_InsurerClaimType] (
+			 [system_insurer_id]
+			,[claim_type_code]
+			,[description]
+			,[create_user]
+			,[create_date] )
+		VALUES (
+			 @systemInsurerId
+			,'HCT1'
+			,'Hospital Claim - Direct Payment'
+			,'System'
+			,GETDATE())
+	END
+
+	-- Set all existing claims claim type to 'HCT1' 
+	IF EXISTS (SELECT [claim_id] FROM [dbo].[Claim] 
+		WHERE [system_insurer_id] = @systemInsurerId)
+	BEGIN
+		UPDATE [dbo].Claim
+		SET	[claim_type] = 'HCT1',
+			[update_date] = GETDATE(),
+			[update_user] = 'System'	
+		WHERE [system_insurer_id] = @systemInsurerId
+	END
+END
+ELSE
+BEGIN
+	INSERT INTO [dbo].[Insurer] (
+		 [insurer_code]
+		,[create_date]
+		,[create_user]
+		,[update_date]
+		,[update_user]
+		,[exempt_insurer]
+		,[insurer_desc]
+		,[logo_url]
+		,[has_own_form] )
+	VALUES (
+		 'P'
+		,GETDATE()
+		,'System'
+		,GETDATE()
+		,'System'
+		,0
+		,'POMAS'
+		,'~/Images/pomas_logo.gif'
+		,1)
+	
+	SELECT @systemInsurerId = SCOPE_IDENTITY()
+
+	INSERT INTO [dbo].[ref_InsurerClaimType] (
+		 [system_insurer_id]
+		,[claim_type_code]
+		,[description]
+		,[create_user]
+		,[create_date] )
+	VALUES (
+		 @systemInsurerId
+		,'HCT1'
+		,'Hospital Claim - Direct Payment'
+		,'System'
+		,GETDATE())
+END
+
+--MPF
+
+SET @systemInsurerId = (SELECT system_insurer_id FROM dbo.Insurer WHERE insurer_code = 'E' AND insurer_desc = 'ESB')
+IF ISNULL(@systemInsurerId, 0) <> 0
+BEGIN
+	UPDATE	[dbo].[Insurer]
+	SET		[logo_url] = '~/Images/mpf_logo.gif'
+			,[has_own_form] = 1
+			,[insurer_code] = 'M'
+			,[insurer_desc] = 'MPF'
+			,[update_user] = 'System'
+			,[update_date] = GETDATE()
+	WHERE	system_insurer_id = @systemInsurerId
+END
+ELSE
+BEGIN
+	SET @systemInsurerId = (SELECT TOP 1 system_insurer_id FROM dbo.Insurer WHERE insurer_code = 'M')
+
+	IF ISNULL(@systemInsurerId, 0) = 0
+	BEGIN	
+		INSERT INTO [dbo].[Insurer] 
+		(
+			[insurer_code]
+			,[create_date]
+			,[create_user]
+			,[update_date]
+			,[update_user]
+			,[exempt_insurer]
+			,[insurer_desc]
+			,[logo_url]
+			,[has_own_form]
+		)
+		VALUES 
+		(
+			 'P'
+			,GETDATE()
+			,'System'
+			,GETDATE()
+			,'System'
+			,0
+			,'MPF'
+			,'~/Images/mpf_logo.gif'
+			,1
+		)
+	
+		SET @systemInsurerId = SCOPE_IDENTITY()
+	END
+END
+
+IF NOT EXISTS(SELECT [system_insurer_id] FROM [dbo].[ref_InsurerClaimType] WHERE [system_insurer_id] = @systemInsurerId AND [claim_type_code] = 'HCT1')
+BEGIN
+	INSERT INTO [dbo].[ref_InsurerClaimType]
+	(
+		[system_insurer_id]
+		,[claim_type_code]
+		,[description]
+		,[create_user]
+		,[create_date] 
+	)
+	VALUES 
+	(
+		@systemInsurerId
+		,'HCT1'
+		,'Hospital Claim - Direct Payment'
+		,'System'
+		,GETDATE()
+	)
+END
+
+--Garda
+IF EXISTS (SELECT [insurer_code] FROM [dbo].[Insurer] WHERE [insurer_code] = 'G')
+BEGIN
+	UPDATE [dbo].[Insurer]
+	SET  [logo_url] = '~/Images/garda_logo.gif'
+		,[has_own_form] = 1
+		,insurer_desc = 'GARDA'
+		,[update_user] = 'System'
+		,[update_date] = GETDATE()
+	WHERE [insurer_code] = 'G'
+
+	SELECT @systemInsurerId = system_insurer_id 
+	FROM [dbo].[Insurer]
+	WHERE [insurer_code] = 'G'
+	
+	-- Checks if HCT1 claim type exists
+	IF EXISTS (SELECT [system_insurer_id] FROM [dbo].[ref_InsurerClaimType] 
+		WHERE [system_insurer_id] = @systemInsurerId AND [claim_type_code] = 'HCT1')
+	BEGIN
+		UPDATE [dbo].[ref_InsurerClaimType]
+		SET [description] = 'Hospital Claim - Direct Payment'
+		WHERE [system_insurer_id] = @systemInsurerId AND [claim_type_code] = 'HCT1'
+	END
+	ELSE
+	BEGIN
+		INSERT INTO [dbo].[ref_InsurerClaimType] (
+			 [system_insurer_id]
+			,[claim_type_code]
+			,[description]
+			,[create_user]
+			,[create_date] )
+		VALUES (
+			 @systemInsurerId
+			,'HCT1'
+			,'Hospital Claim - Direct Payment'
+			,'System'
+			,GETDATE())
+	END
+
+	-- Set all existing claims claim type to 'HCT1' 
+	IF EXISTS (SELECT [claim_id] FROM [dbo].[Claim] 
+		WHERE [system_insurer_id] = @systemInsurerId)
+	BEGIN
+		UPDATE [dbo].Claim
+		SET	[claim_type] = 'HCT1',
+			[update_date] = GETDATE(),
+			[update_user] = 'System'	
+		WHERE [system_insurer_id] = @systemInsurerId
+	END
+END
+ELSE
+BEGIN
+	INSERT INTO [dbo].[Insurer] (
+		 [insurer_code]
+		,[create_date]
+		,[create_user]
+		,[update_date]
+		,[update_user]
+		,[exempt_insurer]
+		,[insurer_desc]
+		,[logo_url]
+		,[has_own_form] )
+	VALUES (
+		 'G'
+		,GETDATE()
+		,'System'
+		,GETDATE()
+		,'System'
+		,0
+		,'GARDA'
+		,'~/Images/garda_logo.gif'
+		,1)
+	
+	SELECT @systemInsurerId = SCOPE_IDENTITY()
+
+	INSERT INTO [dbo].[ref_InsurerClaimType] (
+		 [system_insurer_id]
+		,[claim_type_code]
+		,[description]
+		,[create_user]
+		,[create_date] )
+	VALUES (
+		 @systemInsurerId
+		,'HCT1'
+		,'Hospital Claim - Direct Payment'
+		,'System'
+		,GETDATE())
+END
+

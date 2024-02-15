@@ -1,0 +1,1761 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TASModelStoreContainer" CdmEntityContainer="TASEntities">
+    <EntitySetMapping Name="Tran_Timesheet">
+      <EntityTypeMapping TypeName="TASModel.Tran_Timesheet">
+        <MappingFragment StoreEntitySet="Tran_Timesheet">
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="DT" ColumnName="DT" />
+          <ScalarProperty Name="dtIN" ColumnName="dtIN" />
+          <ScalarProperty Name="dtOUT" ColumnName="dtOUT" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="ShiftCode" ColumnName="ShiftCode" />
+          <ScalarProperty Name="Actual_ShiftCode" ColumnName="Actual_ShiftCode" />
+          <ScalarProperty Name="ShiftAllowance" ColumnName="ShiftAllowance" />
+          <ScalarProperty Name="OTType" ColumnName="OTType" />
+          <ScalarProperty Name="OTStartTime" ColumnName="OTStartTime" />
+          <ScalarProperty Name="OTEndTime" ColumnName="OTEndTime" />
+          <ScalarProperty Name="NoPayHours" ColumnName="NoPayHours" />
+          <ScalarProperty Name="BusinessUnit" ColumnName="BusinessUnit" />
+          <ScalarProperty Name="GradeCode" ColumnName="GradeCode" />
+          <ScalarProperty Name="AbsenceReasonCode" ColumnName="AbsenceReasonCode" />
+          <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
+          <ScalarProperty Name="RemarkCode" ColumnName="RemarkCode" />
+          <ScalarProperty Name="DIL_Entitlement" ColumnName="DIL_Entitlement" />
+          <ScalarProperty Name="AbsenceReasonColumn" ColumnName="AbsenceReasonColumn" />
+          <ScalarProperty Name="CorrectionCode" ColumnName="CorrectionCode" />
+          <ScalarProperty Name="Processed" ColumnName="Processed" />
+          <ScalarProperty Name="OnCallOut" ColumnName="OnCallOut" />
+          <ScalarProperty Name="OnDuty" ColumnName="OnDuty" />
+          <ScalarProperty Name="ShiftSpanDate" ColumnName="ShiftSpanDate" />
+          <ScalarProperty Name="ShiftSpan" ColumnName="ShiftSpan" />
+          <ScalarProperty Name="ProcessID" ColumnName="ProcessID" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="XXXXXXXXXXXX_100" ColumnName="XXXXXXXXXXXX_100" />
+          <ScalarProperty Name="JobCategoryCode" ColumnName="JobCategoryCode" />
+          <ScalarProperty Name="isMuslim" ColumnName="isMuslim" />
+          <ScalarProperty Name="isRamadan" ColumnName="isRamadan" />
+          <ScalarProperty Name="IsPublicHoliday" ColumnName="IsPublicHoliday" />
+          <ScalarProperty Name="IsDILdayWorker" ColumnName="IsDILdayWorker" />
+          <ScalarProperty Name="XXXXXXXXXXXX_200" ColumnName="XXXXXXXXXXXX_200" />
+          <ScalarProperty Name="In1" ColumnName="In1" />
+          <ScalarProperty Name="In2" ColumnName="In2" />
+          <ScalarProperty Name="Out1" ColumnName="Out1" />
+          <ScalarProperty Name="Out2" ColumnName="Out2" />
+          <ScalarProperty Name="Sch_A2" ColumnName="Sch_A2" />
+          <ScalarProperty Name="Sch_D1" ColumnName="Sch_D1" />
+          <ScalarProperty Name="Is_InOut_in_Shaving" ColumnName="Is_InOut_in_Shaving" />
+          <ScalarProperty Name="XXXXXXXXXXXX_300" ColumnName="XXXXXXXXXXXX_300" />
+          <ScalarProperty Name="dtA1" ColumnName="dtA1" />
+          <ScalarProperty Name="dtA2" ColumnName="dtA2" />
+          <ScalarProperty Name="dtD1" ColumnName="dtD1" />
+          <ScalarProperty Name="dtD2" ColumnName="dtD2" />
+          <ScalarProperty Name="XXXXXXXXXXXX_400" ColumnName="XXXXXXXXXXXX_400" />
+          <ScalarProperty Name="Shaved_IN" ColumnName="Shaved_IN" />
+          <ScalarProperty Name="Shaved_OUT" ColumnName="Shaved_OUT" />
+          <ScalarProperty Name="XXXXXXXXXXXX_500" ColumnName="XXXXXXXXXXXX_500" />
+          <ScalarProperty Name="IsEmployee_OR_Contractor" ColumnName="IsEmployee_OR_Contractor" />
+          <ScalarProperty Name="IsResigned" ColumnName="IsResigned" />
+          <ScalarProperty Name="IsSalStaff" ColumnName="IsSalStaff" />
+          <ScalarProperty Name="IsDayWorker_OR_Shifter" ColumnName="IsDayWorker_OR_Shifter" />
+          <ScalarProperty Name="IsDriver" ColumnName="IsDriver" />
+          <ScalarProperty Name="IsLiasonOfficer" ColumnName="IsLiasonOfficer" />
+          <ScalarProperty Name="IsHedger" ColumnName="IsHedger" />
+          <ScalarProperty Name="IsOnDutyRota" ColumnName="IsOnDutyRota" />
+          <ScalarProperty Name="ContractorGroupCode" ColumnName="ContractorGroupCode" />
+          <ScalarProperty Name="XXXXXXXXXXXX_600" ColumnName="XXXXXXXXXXXX_600" />
+          <ScalarProperty Name="IsLastRow" ColumnName="IsLastRow" />
+          <ScalarProperty Name="Duration_SubID" ColumnName="Duration_SubID" />
+          <ScalarProperty Name="Duration_Shift" ColumnName="Duration_Shift" />
+          <ScalarProperty Name="Duration_MaternityLeave" ColumnName="Duration_MaternityLeave" />
+          <ScalarProperty Name="Duration_ROA" ColumnName="Duration_ROA" />
+          <ScalarProperty Name="Duration_Required" ColumnName="Duration_Required" />
+          <ScalarProperty Name="Duration_Worked" ColumnName="Duration_Worked" />
+          <ScalarProperty Name="Duration_Worked_Cumulative" ColumnName="Duration_Worked_Cumulative" />
+          <ScalarProperty Name="XXXXXXXXXXXX_700" ColumnName="XXXXXXXXXXXX_700" />
+          <ScalarProperty Name="SwipeSource" ColumnName="SwipeSource" />
+          <ScalarProperty Name="XXXXXXXXXXXX_800" ColumnName="XXXXXXXXXXXX_800" />
+          <ScalarProperty Name="Duration_ShiftAllowance_Evening" ColumnName="Duration_ShiftAllowance_Evening" />
+          <ScalarProperty Name="Duration_ShiftAllowance_Night" ColumnName="Duration_ShiftAllowance_Night" />
+          <ScalarProperty Name="XXXXXXXXXXXX_900" ColumnName="XXXXXXXXXXXX_900" />
+          <ScalarProperty Name="ShiftSpan_XID" ColumnName="ShiftSpan_XID" />
+          <ScalarProperty Name="ShiftSpan_HoursDay1" ColumnName="ShiftSpan_HoursDay1" />
+          <ScalarProperty Name="ShiftSpan_HoursDay2" ColumnName="ShiftSpan_HoursDay2" />
+          <ScalarProperty Name="ShiftSpan_AwardOT" ColumnName="ShiftSpan_AwardOT" />
+          <ScalarProperty Name="ShiftSpan_2ndDayFullOT" ColumnName="ShiftSpan_2ndDayFullOT" />
+          <ScalarProperty Name="XXXXXXXXXXXX_1000" ColumnName="XXXXXXXXXXXX_1000" />
+          <ScalarProperty Name="NetMinutes" ColumnName="NetMinutes" />
+          <ScalarProperty Name="Upload_ID" ColumnName="Upload_ID" />
+          <ScalarProperty Name="MealVoucherEligibility" ColumnName="MealVoucherEligibility" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tran_Timesheet_Extra">
+      <EntityTypeMapping TypeName="TASModel.Tran_Timesheet_Extra">
+        <MappingFragment StoreEntitySet="Tran_Timesheet_Extra">
+          <ScalarProperty Name="XID_AutoID" ColumnName="XID_AutoID" />
+          <ScalarProperty Name="OTstartTime" ColumnName="OTstartTime" />
+          <ScalarProperty Name="OTendTime" ColumnName="OTendTime" />
+          <ScalarProperty Name="OTtype" ColumnName="OTtype" />
+          <ScalarProperty Name="Approved" ColumnName="Approved" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="OTApproved" ColumnName="OTApproved" />
+          <ScalarProperty Name="OTReason" ColumnName="OTReason" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetEmployeeInfo" FunctionName="TASModel.Store.Pr_GetEmployeeInfo">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetEmployeeInfo_Result">
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="BusinessUnit" ColumnName="BusinessUnit" />
+          <ScalarProperty Name="BusinessUnitName" ColumnName="BusinessUnitName" />
+          <ScalarProperty Name="SupervisorNo" ColumnName="SupervisorNo" />
+          <ScalarProperty Name="SupervisorName" ColumnName="SupervisorName" />
+          <ScalarProperty Name="ManagerNo" ColumnName="ManagerNo" />
+          <ScalarProperty Name="ManagerName" ColumnName="ManagerName" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="Extension" ColumnName="Extension" />
+          <ScalarProperty Name="WorkingCostCenter" ColumnName="WorkingCostCenter" />
+          <ScalarProperty Name="WorkingCostCenterName" ColumnName="WorkingCostCenterName" />
+          <ScalarProperty Name="GradeCode" ColumnName="GradeCode" />
+          <ScalarProperty Name="EmpStatus" ColumnName="EmpStatus" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetPermittedCostCenter" FunctionName="TASModel.Store.Pr_Get_Permitted_CostCenter">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_Get_Permitted_CostCenter_Result">
+          <ScalarProperty Name="PermitID" ColumnName="PermitID" />
+          <ScalarProperty Name="PermitEmpNo" ColumnName="PermitEmpNo" />
+          <ScalarProperty Name="PermitCostCenter" ColumnName="PermitCostCenter" />
+          <ScalarProperty Name="PermitAppID" ColumnName="PermitAppID" />
+          <ScalarProperty Name="PermitCreatedBy" ColumnName="PermitCreatedBy" />
+          <ScalarProperty Name="PermitCreatedDate" ColumnName="PermitCreatedDate" />
+          <ScalarProperty Name="PermitModifiedBy" ColumnName="PermitModifiedBy" />
+          <ScalarProperty Name="PermitModifiedDate" ColumnName="PermitModifiedDate" />
+          <ScalarProperty Name="UDCID" ColumnName="UDCID" />
+          <ScalarProperty Name="UDCUDCGID" ColumnName="UDCUDCGID" />
+          <ScalarProperty Name="UDCCode" ColumnName="UDCCode" />
+          <ScalarProperty Name="UDCDesc1" ColumnName="UDCDesc1" />
+          <ScalarProperty Name="UDCDesc2" ColumnName="UDCDesc2" />
+          <ScalarProperty Name="UDCSpecialHandlingCode" ColumnName="UDCSpecialHandlingCode" />
+          <ScalarProperty Name="UDCDate" ColumnName="UDCDate" />
+          <ScalarProperty Name="UDCAmount" ColumnName="UDCAmount" />
+          <ScalarProperty Name="UDCField" ColumnName="UDCField" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetEmployeeSwipeHistory" FunctionName="TASModel.Store.Pr_GetEmployeeSwipeInfo">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetEmployeeSwipeInfo_Result">
+          <ScalarProperty Name="SwipeDate" ColumnName="SwipeDate" />
+          <ScalarProperty Name="SwipeTime" ColumnName="SwipeTime" />
+          <ScalarProperty Name="SwipeLocation" ColumnName="SwipeLocation" />
+          <ScalarProperty Name="SwipeType" ColumnName="SwipeType" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="CostCenter" ColumnName="CostCenter" />
+          <ScalarProperty Name="CostCenterName" ColumnName="CostCenterName" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="ShiftPointer" ColumnName="ShiftPointer" />
+          <ScalarProperty Name="ShiftCode" ColumnName="ShiftCode" />
+          <ScalarProperty Name="SupervisorNo" ColumnName="SupervisorNo" />
+          <ScalarProperty Name="SupervisorName" ColumnName="SupervisorName" />
+          <ScalarProperty Name="ManagerNo" ColumnName="ManagerNo" />
+          <ScalarProperty Name="ManagerName" ColumnName="ManagerName" />
+          <ScalarProperty Name="IsContractor" ColumnName="IsContractor" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetAccessReaders" FunctionName="TASModel.Store.Pr_GetAccessReaders">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetAccessReaders_Result">
+          <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+          <ScalarProperty Name="ReaderName" ColumnName="ReaderName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetAbsencesHistory" FunctionName="TASModel.Store.Pr_GetAbsencesHistory">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetAbsencesHistory_Result2">
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+          <ScalarProperty Name="Processed" ColumnName="Processed" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="DT" ColumnName="DT" />
+          <ScalarProperty Name="RemarkCode" ColumnName="RemarkCode" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetLeaveHistory" FunctionName="TASModel.Store.Pr_GetLeaveHistory">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetLeaveHistory_Result2">
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="LeaveNo" ColumnName="LeaveNo" />
+          <ScalarProperty Name="LeaveStartDate" ColumnName="LeaveStartDate" />
+          <ScalarProperty Name="LeaveEndDate" ColumnName="LeaveEndDate" />
+          <ScalarProperty Name="RequisitionDate" ColumnName="RequisitionDate" />
+          <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
+          <ScalarProperty Name="LeaveTypeDesc" ColumnName="LeaveTypeDesc" />
+          <ScalarProperty Name="LeaveDuration" ColumnName="LeaveDuration" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetAttendanceHistory" FunctionName="TASModel.Store.Pr_GetAttendanceHistory">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetAttendanceHistory_Result1">
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="BusinessUnit" ColumnName="BusinessUnit" />
+          <ScalarProperty Name="IsLastRow" ColumnName="IsLastRow" />
+          <ScalarProperty Name="Processed" ColumnName="Processed" />
+          <ScalarProperty Name="CorrectionCode" ColumnName="CorrectionCode" />
+          <ScalarProperty Name="DT" ColumnName="DT" />
+          <ScalarProperty Name="dtIN" ColumnName="dtIN" />
+          <ScalarProperty Name="dtOUT" ColumnName="dtOUT" />
+          <ScalarProperty Name="Shaved_IN" ColumnName="Shaved_IN" />
+          <ScalarProperty Name="Shaved_OUT" ColumnName="Shaved_OUT" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="ShiftCode" ColumnName="ShiftCode" />
+          <ScalarProperty Name="Actual_ShiftCode" ColumnName="Actual_ShiftCode" />
+          <ScalarProperty Name="OTtype" ColumnName="OTtype" />
+          <ScalarProperty Name="OTstartTime" ColumnName="OTstartTime" />
+          <ScalarProperty Name="OTendTime" ColumnName="OTendTime" />
+          <ScalarProperty Name="NoPayHours" ColumnName="NoPayHours" />
+          <ScalarProperty Name="AbsenceReasonCode" ColumnName="AbsenceReasonCode" />
+          <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
+          <ScalarProperty Name="DIL_Entitlement" ColumnName="DIL_Entitlement" />
+          <ScalarProperty Name="RemarkCode" ColumnName="RemarkCode" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetLeaveInformation" FunctionName="TASModel.Store.Pr_GetLeaveInformation">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetLeaveInformation_Result3">
+          <ScalarProperty Name="LeaveEmpNo" ColumnName="LeaveEmpNo" />
+          <ScalarProperty Name="LeaveOpeningDate" ColumnName="LeaveOpeningDate" />
+          <ScalarProperty Name="LeaveEndingDate" ColumnName="LeaveEndingDate" />
+          <ScalarProperty Name="LeaveEmpServiceDate" ColumnName="LeaveEmpServiceDate" />
+          <ScalarProperty Name="LeaveEntitlement" ColumnName="LeaveEntitlement" />
+          <ScalarProperty Name="LeaveTakenAsOfDate" ColumnName="LeaveTakenAsOfDate" />
+          <ScalarProperty Name="LeaveTakenCurrentYear" ColumnName="LeaveTakenCurrentYear" />
+          <ScalarProperty Name="LeaveCurrentBal" ColumnName="LeaveCurrentBal" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetDILEntitlements" FunctionName="TASModel.Store.Pr_GetDILEntitlement">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetDILEntitlement_Result">
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+          <ScalarProperty Name="EntitlementDate" ColumnName="EntitlementDate" />
+          <ScalarProperty Name="SpendDate" ColumnName="SpendDate" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="DILcode" ColumnName="DILcode" />
+          <ScalarProperty Name="XID_TS_DIL_ENT" ColumnName="XID_TS_DIL_ENT" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetShiftPatternInfo" FunctionName="TASModel.Store.Pr_GetShiftPatternInfo">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetShiftPatternInfo_Result2">
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="ShiftCode" ColumnName="ShiftCode" />
+          <ScalarProperty Name="ShiftCodeArray" ColumnName="ShiftCodeArray" />
+          <ScalarProperty Name="ShiftPointer" ColumnName="ShiftPointer" />
+          <ScalarProperty Name="WorkingBusinessUnit" ColumnName="WorkingBusinessUnit" />
+          <ScalarProperty Name="WorkingBusinessUnitName" ColumnName="WorkingBusinessUnitName" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetDependentInfo" FunctionName="TASModel.Store.Pr_GetDependentInfo">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetDependentInfo_Result">
+          <ScalarProperty Name="DependentNo" ColumnName="DependentNo" />
+          <ScalarProperty Name="DependentName" ColumnName="DependentName" />
+          <ScalarProperty Name="Relationship" ColumnName="Relationship" />
+          <ScalarProperty Name="RelationshipID" ColumnName="RelationshipID" />
+          <ScalarProperty Name="Sex" ColumnName="Sex" />
+          <ScalarProperty Name="DOB" ColumnName="DOB" />
+          <ScalarProperty Name="CPRNo" ColumnName="CPRNo" />
+          <ScalarProperty Name="CPRExpDate" ColumnName="CPRExpDate" />
+          <ScalarProperty Name="ResPermitExpDate" ColumnName="ResPermitExpDate" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Tran_ShiftPatternChanges">
+      <EntityTypeMapping TypeName="TASModel.Tran_ShiftPatternChanges">
+        <MappingFragment StoreEntitySet="Tran_ShiftPatternChanges">
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="ChangeType" ColumnName="ChangeType" />
+          <ScalarProperty Name="ShiftPointer" ColumnName="ShiftPointer" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="EndingDate" ColumnName="EndingDate" />
+          <ScalarProperty Name="EffectiveDate" ColumnName="EffectiveDate" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetShiftPatternCodes" FunctionName="TASModel.Store.Pr_GetShiftPatternCodes">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetShiftPatternCodes_Result">
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetShiftPointer" FunctionName="TASModel.Store.Pr_GetShiftPointer">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetShiftPointer_Result">
+          <ScalarProperty Name="ShiftPointer" ColumnName="ShiftPointer" />
+          <ScalarProperty Name="PointerCode" ColumnName="PointerCode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetFireTeamMember" FunctionName="TASModel.Store.Pr_GetFireTeamMember">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetFireTeamMember_Result">
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetShiftPatternChanges" FunctionName="TASModel.Store.Pr_GetShiftPatternChanges" />
+    <FunctionImportMapping FunctionImportName="GetUDCListItem" FunctionName="TASModel.Store.Pr_GetUDCListItem">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetUDCListItem_Result">
+          <ScalarProperty Name="UDCKey" ColumnName="UDCKey" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="FieldRef" ColumnName="FieldRef" />
+          <ScalarProperty Name="Description2" ColumnName="Description2" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetPermittedCostCenterV2" FunctionName="TASModel.Store.Pr_Get_Permitted_CostCenter_V2">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_Get_Permitted_CostCenter_V2_Result1">
+          <ScalarProperty Name="PermitEmpNo" ColumnName="PermitEmpNo" />
+          <ScalarProperty Name="PermitCostCenter" ColumnName="PermitCostCenter" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetAnnualLeaveButSwiped" FunctionName="TASModel.Store.Pr_GetAnnualLeaveButSwiped">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetAnnualLeaveButSwiped_Result1">
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="CostCenter" ColumnName="CostCenter" />
+          <ScalarProperty Name="CostCenterName" ColumnName="CostCenterName" />
+          <ScalarProperty Name="DT" ColumnName="DT" />
+          <ScalarProperty Name="dtIN" ColumnName="dtIN" />
+          <ScalarProperty Name="dtOUT" ColumnName="dtOUT" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="HasMultipleSwipe" ColumnName="HasMultipleSwipe" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="ShiftCode" ColumnName="ShiftCode" />
+          <ScalarProperty Name="Actual_ShiftCode" ColumnName="Actual_ShiftCode" />
+          <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
+          <ScalarProperty Name="LeaveTypeDesc" ColumnName="LeaveTypeDesc" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetResignedButSwiped" FunctionName="TASModel.Store.Pr_GetResignedButSwiped">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetResignedButSwiped_Result1">
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="BusinessUnit" ColumnName="BusinessUnit" />
+          <ScalarProperty Name="BusinessUnitName" ColumnName="BusinessUnitName" />
+          <ScalarProperty Name="DT" ColumnName="DT" />
+          <ScalarProperty Name="dtIN" ColumnName="dtIN" />
+          <ScalarProperty Name="dtOUT" ColumnName="dtOUT" />
+          <ScalarProperty Name="DateResigned" ColumnName="DateResigned" />
+          <ScalarProperty Name="PayStatus" ColumnName="PayStatus" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetResignedButSwipedV2" FunctionName="TASModel.Store.Pr_GetResignedButSwiped_V2">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetResignedButSwiped_V2_Result">
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+          <ScalarProperty Name="RunDate" ColumnName="RunDate" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="BusinessUnit" ColumnName="BusinessUnit" />
+          <ScalarProperty Name="BusinessUnitName" ColumnName="BusinessUnitName" />
+          <ScalarProperty Name="DateResigned" ColumnName="DateResigned" />
+          <ScalarProperty Name="AttendanceRemarks" ColumnName="AttendanceRemarks" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetUserDefinedCode" FunctionName="TASModel.Store.Pr_Get_UserDefinedCode">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_Get_UserDefinedCode_Result">
+          <ScalarProperty Name="UDCID" ColumnName="UDCID" />
+          <ScalarProperty Name="UDCUDCGID" ColumnName="UDCUDCGID" />
+          <ScalarProperty Name="UDCCode" ColumnName="UDCCode" />
+          <ScalarProperty Name="UDCDesc1" ColumnName="UDCDesc1" />
+          <ScalarProperty Name="UDCDesc2" ColumnName="UDCDesc2" />
+          <ScalarProperty Name="UDCSpecialHandlingCode" ColumnName="UDCSpecialHandlingCode" />
+          <ScalarProperty Name="UDCDate" ColumnName="UDCDate" />
+          <ScalarProperty Name="UDCAmount" ColumnName="UDCAmount" />
+          <ScalarProperty Name="UDCField" ColumnName="UDCField" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetTimesheetIntegrity" FunctionName="TASModel.Store.Pr_GetTimesheetIntegrity">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetTimesheetIntegrity_Result">
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+          <ScalarProperty Name="CorrectionCode" ColumnName="CorrectionCode" />
+          <ScalarProperty Name="CorrectionDesc" ColumnName="CorrectionDesc" />
+          <ScalarProperty Name="DT" ColumnName="DT" />
+          <ScalarProperty Name="dtIN" ColumnName="dtIN" />
+          <ScalarProperty Name="dtOUT" ColumnName="dtOUT" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="BusinessUnit" ColumnName="BusinessUnit" />
+          <ScalarProperty Name="BusinessUnitName" ColumnName="BusinessUnitName" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="ShiftCode" ColumnName="ShiftCode" />
+          <ScalarProperty Name="Actual_ShiftCode" ColumnName="Actual_ShiftCode" />
+          <ScalarProperty Name="ShiftAllowance" ColumnName="ShiftAllowance" />
+          <ScalarProperty Name="Duration_ShiftAllowance_Evening" ColumnName="Duration_ShiftAllowance_Evening" />
+          <ScalarProperty Name="Duration_ShiftAllowance_Night" ColumnName="Duration_ShiftAllowance_Night" />
+          <ScalarProperty Name="OTType" ColumnName="OTType" />
+          <ScalarProperty Name="OTStartTime" ColumnName="OTStartTime" />
+          <ScalarProperty Name="OTEndTime" ColumnName="OTEndTime" />
+          <ScalarProperty Name="NoPayHours" ColumnName="NoPayHours" />
+          <ScalarProperty Name="AbsenceReasonCode" ColumnName="AbsenceReasonCode" />
+          <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
+          <ScalarProperty Name="DIL_Entitlement" ColumnName="DIL_Entitlement" />
+          <ScalarProperty Name="RemarkCode" ColumnName="RemarkCode" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="Processed" ColumnName="Processed" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Tran_ManualAttendance">
+      <EntityTypeMapping TypeName="TASModel.Tran_ManualAttendance">
+        <MappingFragment StoreEntitySet="Tran_ManualAttendance">
+          <ScalarProperty Name="CreatedTime" ColumnName="CreatedTime" />
+          <ScalarProperty Name="CreatedUser" ColumnName="CreatedUser" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="xxxxxxxxxxxxxx" ColumnName="xxxxxxxxxxxxxx" />
+          <ScalarProperty Name="timeOUT" ColumnName="timeOUT" />
+          <ScalarProperty Name="dtOUT" ColumnName="dtOUT" />
+          <ScalarProperty Name="timeIN" ColumnName="timeIN" />
+          <ScalarProperty Name="dtIN" ColumnName="dtIN" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetContractors" FunctionName="TASModel.Store.Pr_GetContractors">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetContractors_Result3">
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="ContractorEmpName" ColumnName="ContractorEmpName" />
+          <ScalarProperty Name="GroupCode" ColumnName="GroupCode" />
+          <ScalarProperty Name="ContractorNumber" ColumnName="ContractorNumber" />
+          <ScalarProperty Name="DateJoined" ColumnName="DateJoined" />
+          <ScalarProperty Name="DateResigned" ColumnName="DateResigned" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="ShiftPointer" ColumnName="ShiftPointer" />
+          <ScalarProperty Name="ReligionCode" ColumnName="ReligionCode" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetTimesheetUDCCodes" FunctionName="TASModel.Store.Pr_GetTimesheetUDCCodes">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetTimesheetUDCCodes_Result2">
+          <ScalarProperty Name="UDCCode" ColumnName="UDCCode" />
+          <ScalarProperty Name="UDCDesc1" ColumnName="UDCDesc1" />
+          <ScalarProperty Name="UDCDesc2" ColumnName="UDCDesc2" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Tran_Absence">
+      <EntityTypeMapping TypeName="TASModel.Tran_Absence">
+        <MappingFragment StoreEntitySet="Tran_Absence">
+          <ScalarProperty Name="DIL_ENT_CODE" ColumnName="DIL_ENT_CODE" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="XID_TS_DIL_USD" ColumnName="XID_TS_DIL_USD" />
+          <ScalarProperty Name="XID_TS_DIL_ENT" ColumnName="XID_TS_DIL_ENT" />
+          <ScalarProperty Name="AbsenceReasonCode" ColumnName="AbsenceReasonCode" />
+          <ScalarProperty Name="DayOfWeek" ColumnName="DayOfWeek" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="EndingDate" ColumnName="EndingDate" />
+          <ScalarProperty Name="EffectiveDate" ColumnName="EffectiveDate" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetVisitorPassLog" FunctionName="TASModel.Store.Pr_Retrieve_VisitorPassLog">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_Retrieve_VisitorPassLog_Result1">
+          <ScalarProperty Name="LogID" ColumnName="LogID" />
+          <ScalarProperty Name="VisitorName" ColumnName="VisitorName" />
+          <ScalarProperty Name="IDNumber" ColumnName="IDNumber" />
+          <ScalarProperty Name="VisitorCardNo" ColumnName="VisitorCardNo" />
+          <ScalarProperty Name="VisitEmpNo" ColumnName="VisitEmpNo" />
+          <ScalarProperty Name="VisitEmpName" ColumnName="VisitEmpName" />
+          <ScalarProperty Name="VisitEmpPosition" ColumnName="VisitEmpPosition" />
+          <ScalarProperty Name="VisitEmpExtension" ColumnName="VisitEmpExtension" />
+          <ScalarProperty Name="VisitEmpCostCenter" ColumnName="VisitEmpCostCenter" />
+          <ScalarProperty Name="VisitEmpCostCenterName" ColumnName="VisitEmpCostCenterName" />
+          <ScalarProperty Name="VisitEmpSupervisorNo" ColumnName="VisitEmpSupervisorNo" />
+          <ScalarProperty Name="VisitEmpSupervisorName" ColumnName="VisitEmpSupervisorName" />
+          <ScalarProperty Name="VisitEmpManagerNo" ColumnName="VisitEmpManagerNo" />
+          <ScalarProperty Name="VisitEmpManagerName" ColumnName="VisitEmpManagerName" />
+          <ScalarProperty Name="VisitDate" ColumnName="VisitDate" />
+          <ScalarProperty Name="VisitTimeIn" ColumnName="VisitTimeIn" />
+          <ScalarProperty Name="VisitTimeOut" ColumnName="VisitTimeOut" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="IsBlock" ColumnName="IsBlock" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedByEmpNo" ColumnName="CreatedByEmpNo" />
+          <ScalarProperty Name="CreatedByUserID" ColumnName="CreatedByUserID" />
+          <ScalarProperty Name="CreatedByEmpName" ColumnName="CreatedByEmpName" />
+          <ScalarProperty Name="CreatedByEmpEmail" ColumnName="CreatedByEmpEmail" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="LastUpdateEmpNo" ColumnName="LastUpdateEmpNo" />
+          <ScalarProperty Name="LastUpdateUserID" ColumnName="LastUpdateUserID" />
+          <ScalarProperty Name="LastUpdateEmpName" ColumnName="LastUpdateEmpName" />
+          <ScalarProperty Name="LastUpdateEmpEmail" ColumnName="LastUpdateEmpEmail" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="VisitorPassLogs">
+      <EntityTypeMapping TypeName="TASModel.VisitorPassLog">
+        <MappingFragment StoreEntitySet="VisitorPassLog">
+          <ScalarProperty Name="LastUpdateEmpEmail" ColumnName="LastUpdateEmpEmail" />
+          <ScalarProperty Name="LastUpdateEmpName" ColumnName="LastUpdateEmpName" />
+          <ScalarProperty Name="LastUpdateUserID" ColumnName="LastUpdateUserID" />
+          <ScalarProperty Name="LastUpdateEmpNo" ColumnName="LastUpdateEmpNo" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="CreatedByEmpEmail" ColumnName="CreatedByEmpEmail" />
+          <ScalarProperty Name="CreatedByEmpName" ColumnName="CreatedByEmpName" />
+          <ScalarProperty Name="CreatedByUserID" ColumnName="CreatedByUserID" />
+          <ScalarProperty Name="CreatedByEmpNo" ColumnName="CreatedByEmpNo" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="IsBlock" ColumnName="IsBlock" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="VisitTimeOut" ColumnName="VisitTimeOut" />
+          <ScalarProperty Name="VisitTimeIn" ColumnName="VisitTimeIn" />
+          <ScalarProperty Name="VisitDate" ColumnName="VisitDate" />
+          <ScalarProperty Name="VisitEmpNo" ColumnName="VisitEmpNo" />
+          <ScalarProperty Name="IDNumber" ColumnName="IDNumber" />
+          <ScalarProperty Name="VisitorCardNo" ColumnName="VisitorCardNo" />
+          <ScalarProperty Name="VisitorName" ColumnName="VisitorName" />
+          <ScalarProperty Name="LogID" ColumnName="LogID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VisitorSwipeLogs">
+      <EntityTypeMapping TypeName="TASModel.VisitorSwipeLog">
+        <MappingFragment StoreEntitySet="VisitorSwipeLog">
+          <ScalarProperty Name="LastUpdateEmpEmail" ColumnName="LastUpdateEmpEmail" />
+          <ScalarProperty Name="LastUpdateEmpName" ColumnName="LastUpdateEmpName" />
+          <ScalarProperty Name="LastUpdateUserID" ColumnName="LastUpdateUserID" />
+          <ScalarProperty Name="LastUpdateEmpNo" ColumnName="LastUpdateEmpNo" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="CreatedByEmpEmail" ColumnName="CreatedByEmpEmail" />
+          <ScalarProperty Name="CreatedByEmpName" ColumnName="CreatedByEmpName" />
+          <ScalarProperty Name="CreatedByUserID" ColumnName="CreatedByUserID" />
+          <ScalarProperty Name="CreatedByEmpNo" ColumnName="CreatedByEmpNo" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="SwipeTypeCode" ColumnName="SwipeTypeCode" />
+          <ScalarProperty Name="SwipeTime" ColumnName="SwipeTime" />
+          <ScalarProperty Name="SwipeDate" ColumnName="SwipeDate" />
+          <ScalarProperty Name="LogID" ColumnName="LogID" />
+          <ScalarProperty Name="SwipeID" ColumnName="SwipeID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vw_MainGateSwipeRawData">
+      <EntityTypeMapping TypeName="TASModel.Vw_MainGateSwipeRawData">
+        <MappingFragment StoreEntitySet="Vw_MainGateSwipeRawData">
+          <ScalarProperty Name="LName" ColumnName="LName" />
+          <ScalarProperty Name="ReaderName" ColumnName="ReaderName" />
+          <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+          <ScalarProperty Name="SwipeCode" ColumnName="SwipeCode" />
+          <ScalarProperty Name="ReaderNo" ColumnName="ReaderNo" />
+          <ScalarProperty Name="LocationCode" ColumnName="LocationCode" />
+          <ScalarProperty Name="SwipeType" ColumnName="SwipeType" />
+          <ScalarProperty Name="SwipeLocation" ColumnName="SwipeLocation" />
+          <ScalarProperty Name="SwipeTime" ColumnName="SwipeTime" />
+          <ScalarProperty Name="SwipeDate" ColumnName="SwipeDate" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetContractorWorkDuration" FunctionName="TASModel.Store.fnGetContractorWorkDuration">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.fnGetContractorWorkDuration_Result1">
+          <ScalarProperty Name="SwipeDate" ColumnName="SwipeDate" />
+          <ScalarProperty Name="SwipeIn" ColumnName="SwipeIn" />
+          <ScalarProperty Name="SwipeOut" ColumnName="SwipeOut" />
+          <ScalarProperty Name="NetMinutes" ColumnName="NetMinutes" />
+          <ScalarProperty Name="Overtime" ColumnName="Overtime" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetMainGateSwipe" FunctionName="TASModel.Store.Pr_GetMainGateSwipe">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetMainGateSwipe_Result">
+          <ScalarProperty Name="DT" ColumnName="DT" />
+          <ScalarProperty Name="SwipeType" ColumnName="SwipeType" />
+          <ScalarProperty Name="SwipeLocation" ColumnName="SwipeLocation" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetManagedCostCenter" FunctionName="TASModel.Store.Pr_Retrieve_EmpCostCenter">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_Retrieve_EmpCostCenter_Result">
+          <ScalarProperty Name="CostCenter" ColumnName="CostCenter" />
+          <ScalarProperty Name="CostCenterName" ColumnName="CostCenterName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetAttendanceWithOT" FunctionName="TASModel.Store.Pr_GetAttendanceWithOT">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetAttendanceWithOT_Result3">
+          <ScalarProperty Name="DT" ColumnName="DT" />
+          <ScalarProperty Name="BusinessUnit" ColumnName="BusinessUnit" />
+          <ScalarProperty Name="BusinessUnitName" ColumnName="BusinessUnitName" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="GradeCode" ColumnName="GradeCode" />
+          <ScalarProperty Name="dtIN" ColumnName="dtIN" />
+          <ScalarProperty Name="dtOUT" ColumnName="dtOUT" />
+          <ScalarProperty Name="OTstartTime" ColumnName="OTstartTime" />
+          <ScalarProperty Name="OTendTime" ColumnName="OTendTime" />
+          <ScalarProperty Name="OTtype" ColumnName="OTtype" />
+          <ScalarProperty Name="OTDurationMinute" ColumnName="OTDurationMinute" />
+          <ScalarProperty Name="OTDurationHour" ColumnName="OTDurationHour" />
+          <ScalarProperty Name="Approved" ColumnName="Approved" />
+          <ScalarProperty Name="MealVoucherEligibility" ColumnName="MealVoucherEligibility" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="OTApproved" ColumnName="OTApproved" />
+          <ScalarProperty Name="OTReasonCode" ColumnName="OTReasonCode" />
+          <ScalarProperty Name="OTReason" ColumnName="OTReason" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+          <ScalarProperty Name="XID_AutoID" ColumnName="XID_AutoID" />
+          <ScalarProperty Name="Processed" ColumnName="Processed" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="InsertUpdateDeleteOvertime" FunctionName="TASModel.Store.Pr_InsertUpdateDeleteOvertime">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_InsertUpdateDeleteOvertime_Result">
+          <ScalarProperty Name="In_" ColumnName="In_" />
+          <ScalarProperty Name="Out_" ColumnName="Out_" />
+          <ScalarProperty Name="x_OT1" ColumnName="x_OT1" />
+          <ScalarProperty Name="X_OT2" ColumnName="X_OT2" />
+          <ScalarProperty Name="X_Duration" ColumnName="X_Duration" />
+          <ScalarProperty Name="T_OT1" ColumnName="T_OT1" />
+          <ScalarProperty Name="T_OT2" ColumnName="T_OT2" />
+          <ScalarProperty Name="T_Duration" ColumnName="T_Duration" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetOTReason" FunctionName="TASModel.Store.Pr_GetOTReason">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetOTReason_Result">
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Master_DutyType">
+      <EntityTypeMapping TypeName="TASModel.Master_DutyType">
+        <MappingFragment StoreEntitySet="Master_DutyType">
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="WrkHrsFriday" ColumnName="WrkHrsFriday" />
+          <ScalarProperty Name="WrkHrsThrday" ColumnName="WrkHrsThrday" />
+          <ScalarProperty Name="DutyAllowance" ColumnName="DutyAllowance" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="DutyType" ColumnName="DutyType" />
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tran_DutyRota">
+      <EntityTypeMapping TypeName="TASModel.Tran_DutyRota">
+        <MappingFragment StoreEntitySet="Tran_DutyRota">
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="DutyType" ColumnName="DutyType" />
+          <ScalarProperty Name="EndingDate" ColumnName="EndingDate" />
+          <ScalarProperty Name="EffectiveDate" ColumnName="EffectiveDate" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetTASForms" FunctionName="TASModel.Store.Pr_GetTASForms">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetTASForms_Result">
+          <ScalarProperty Name="FormCode" ColumnName="FormCode" />
+          <ScalarProperty Name="FormName" ColumnName="FormName" />
+          <ScalarProperty Name="FormAppID" ColumnName="FormAppID" />
+          <ScalarProperty Name="FormMenuID" ColumnName="FormMenuID" />
+          <ScalarProperty Name="FormFilename" ColumnName="FormFilename" />
+          <ScalarProperty Name="FormPublic" ColumnName="FormPublic" />
+          <ScalarProperty Name="FormImgMouseOut" ColumnName="FormImgMouseOut" />
+          <ScalarProperty Name="FormImgMouseOver" ColumnName="FormImgMouseOver" />
+          <ScalarProperty Name="FormSeq" ColumnName="FormSeq" />
+          <ScalarProperty Name="FormCreatedBy" ColumnName="FormCreatedBy" />
+          <ScalarProperty Name="FormCreatedDate" ColumnName="FormCreatedDate" />
+          <ScalarProperty Name="FormModifiedBy" ColumnName="FormModifiedBy" />
+          <ScalarProperty Name="FormModifiedDate" ColumnName="FormModifiedDate" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetDutyROTAReport" FunctionName="TASModel.Store.Pr_GetDutyROTAReport">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetDutyROTAReport_Result">
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="BusinessUnit" ColumnName="BusinessUnit" />
+          <ScalarProperty Name="BusinessUnitName" ColumnName="BusinessUnitName" />
+          <ScalarProperty Name="EffectiveDate" ColumnName="EffectiveDate" />
+          <ScalarProperty Name="EndingDate" ColumnName="EndingDate" />
+          <ScalarProperty Name="DutyType" ColumnName="DutyType" />
+          <ScalarProperty Name="DutyDescription" ColumnName="DutyDescription" />
+          <ScalarProperty Name="DutyAllowance" ColumnName="DutyAllowance" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetDailyAttendanceReport" FunctionName="TASModel.Store.Pr_GetDailyAttendanceReport">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetDailyAttendanceReport_Result2">
+          <ScalarProperty Name="BusinessUnit" ColumnName="BusinessUnit" />
+          <ScalarProperty Name="BusinessUnitName" ColumnName="BusinessUnitName" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="DT" ColumnName="DT" />
+          <ScalarProperty Name="dtIN" ColumnName="dtIN" />
+          <ScalarProperty Name="dtOUT" ColumnName="dtOUT" />
+          <ScalarProperty Name="NetMinutes" ColumnName="NetMinutes" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="ShiftCode" ColumnName="ShiftCode" />
+          <ScalarProperty Name="Actual_ShiftCode" ColumnName="Actual_ShiftCode" />
+          <ScalarProperty Name="OTStartTime" ColumnName="OTStartTime" />
+          <ScalarProperty Name="OTEndTime" ColumnName="OTEndTime" />
+          <ScalarProperty Name="OTType" ColumnName="OTType" />
+          <ScalarProperty Name="NoPayHours" ColumnName="NoPayHours" />
+          <ScalarProperty Name="ShiftAllowance" ColumnName="ShiftAllowance" />
+          <ScalarProperty Name="ShiftAllowanceDesc" ColumnName="ShiftAllowanceDesc" />
+          <ScalarProperty Name="Duration_ShiftAllowance_Evening" ColumnName="Duration_ShiftAllowance_Evening" />
+          <ScalarProperty Name="Duration_ShiftAllowance_Night" ColumnName="Duration_ShiftAllowance_Night" />
+          <ScalarProperty Name="IsSalStaff" ColumnName="IsSalStaff" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="ShiftTiming" ColumnName="ShiftTiming" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetAbsenceReasonReport" FunctionName="TASModel.Store.Pr_GetAbsenceReasonReport">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetAbsenceReasonReport_Result2">
+          <ScalarProperty Name="DT" ColumnName="DT" />
+          <ScalarProperty Name="CostCenter" ColumnName="CostCenter" />
+          <ScalarProperty Name="CostCenterName" ColumnName="CostCenterName" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="GradeCode" ColumnName="GradeCode" />
+          <ScalarProperty Name="RemarkCode" ColumnName="RemarkCode" />
+          <ScalarProperty Name="CorrectionCode" ColumnName="CorrectionCode" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetDILDueToLateEntryDutyROTA" FunctionName="TASModel.Store.Pr_GetDILDueToLateEntryDutyROTA">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetDILDueToLateEntryDutyROTA_Result">
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+          <ScalarProperty Name="BusinessUnit" ColumnName="BusinessUnit" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="DT" ColumnName="DT" />
+          <ScalarProperty Name="DIL_Entitlement" ColumnName="DIL_Entitlement" />
+          <ScalarProperty Name="DIL_Desc" ColumnName="DIL_Desc" />
+          <ScalarProperty Name="IsPublicHoliday" ColumnName="IsPublicHoliday" />
+          <ScalarProperty Name="IsHedger" ColumnName="IsHedger" />
+          <ScalarProperty Name="EffectiveDate" ColumnName="EffectiveDate" />
+          <ScalarProperty Name="EndingDate" ColumnName="EndingDate" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="EntryAfterDays" ColumnName="EntryAfterDays" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetDILReport" FunctionName="TASModel.Store.Pr_GetDILReport">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetDILReport_Result">
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+          <ScalarProperty Name="BusinessUnit" ColumnName="BusinessUnit" />
+          <ScalarProperty Name="BusinessUnitName" ColumnName="BusinessUnitName" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="DT" ColumnName="DT" />
+          <ScalarProperty Name="DIL_Entitlement" ColumnName="DIL_Entitlement" />
+          <ScalarProperty Name="DIL_Desc" ColumnName="DIL_Desc" />
+          <ScalarProperty Name="AbsenceReasonCode" ColumnName="AbsenceReasonCode" />
+          <ScalarProperty Name="DateUsed" ColumnName="DateUsed" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetWeeklyOvertimeReport" FunctionName="TASModel.Store.Pr_GetWeeklyOvertimeReport">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetWeeklyOvertimeReport_Result">
+          <ScalarProperty Name="BusinessUnit" ColumnName="BusinessUnit" />
+          <ScalarProperty Name="BusinessUnitName" ColumnName="BusinessUnitName" />
+          <ScalarProperty Name="TotalOTMinutes" ColumnName="TotalOTMinutes" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetAspirePayrollReport" FunctionName="TASModel.Store.Pr_GetAspirePayrollReportData_V2">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetAspirePayrollReportData_V2_Result1">
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="DT" ColumnName="DT" />
+          <ScalarProperty Name="PayGrade" ColumnName="PayGrade" />
+          <ScalarProperty Name="PayHour" ColumnName="PayHour" />
+          <ScalarProperty Name="PayMinute" ColumnName="PayMinute" />
+          <ScalarProperty Name="PayDescription" ColumnName="PayDescription" />
+          <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetPunctualityReport" FunctionName="TASModel.Store.Pr_GetPunctualityReport">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetPunctualityReport_Result2">
+          <ScalarProperty Name="BusinessUnit" ColumnName="BusinessUnit" />
+          <ScalarProperty Name="AttendanceDate" ColumnName="AttendanceDate" />
+          <ScalarProperty Name="Total_0700_Below" ColumnName="Total_0700_Below" />
+          <ScalarProperty Name="Total_0700_0710" ColumnName="Total_0700_0710" />
+          <ScalarProperty Name="Total_0710_0720" ColumnName="Total_0710_0720" />
+          <ScalarProperty Name="Total_0720_0730" ColumnName="Total_0720_0730" />
+          <ScalarProperty Name="Total_0730_0740" ColumnName="Total_0730_0740" />
+          <ScalarProperty Name="Total_0740_0750" ColumnName="Total_0740_0750" />
+          <ScalarProperty Name="Total_0750_0800" ColumnName="Total_0750_0800" />
+          <ScalarProperty Name="Total_0800_Above" ColumnName="Total_0800_Above" />
+          <ScalarProperty Name="Total_Absent" ColumnName="Total_Absent" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetEmployeeInfoJDE" FunctionName="TASModel.Store.Pr_GetEmployeeInfo_JDE">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetEmployeeInfo_JDE_Result4">
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="ReligionCode" ColumnName="ReligionCode" />
+          <ScalarProperty Name="JobCategoryCode" ColumnName="JobCategoryCode" />
+          <ScalarProperty Name="SexCode" ColumnName="SexCode" />
+          <ScalarProperty Name="CostCenter" ColumnName="CostCenter" />
+          <ScalarProperty Name="CostCenterName" ColumnName="CostCenterName" />
+          <ScalarProperty Name="Company" ColumnName="Company" />
+          <ScalarProperty Name="GradeCode" ColumnName="GradeCode" />
+          <ScalarProperty Name="DateJoined" ColumnName="DateJoined" />
+          <ScalarProperty Name="DateResigned" ColumnName="DateResigned" />
+          <ScalarProperty Name="PayStatus" ColumnName="PayStatus" />
+          <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+          <ScalarProperty Name="ActualCostCenter" ColumnName="ActualCostCenter" />
+          <ScalarProperty Name="YearsOfService" ColumnName="YearsOfService" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetTASJDEComparisonReport" FunctionName="TASModel.Store.Pr_GetTASJDEComparisonReport">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetTASJDEComparisonReport_Result">
+          <ScalarProperty Name="PDBA" ColumnName="PDBA" />
+          <ScalarProperty Name="PDBA_Name" ColumnName="PDBA_Name" />
+          <ScalarProperty Name="TAS_cnt" ColumnName="TAS_cnt" />
+          <ScalarProperty Name="Diff_TAS" ColumnName="Diff_TAS" />
+          <ScalarProperty Name="JDE_cnt" ColumnName="JDE_cnt" />
+          <ScalarProperty Name="Diff_JDE" ColumnName="Diff_JDE" />
+          <ScalarProperty Name="Diff" ColumnName="Diff" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Master_ContractEmployee">
+      <EntityTypeMapping TypeName="TASModel.Master_ContractEmployee">
+        <MappingFragment StoreEntitySet="Master_ContractEmployee">
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="ReligionCode" ColumnName="ReligionCode" />
+          <ScalarProperty Name="ShiftPointer" ColumnName="ShiftPointer" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="DateResigned" ColumnName="DateResigned" />
+          <ScalarProperty Name="DateJoined" ColumnName="DateJoined" />
+          <ScalarProperty Name="ContractorNumber" ColumnName="ContractorNumber" />
+          <ScalarProperty Name="GroupCode" ColumnName="GroupCode" />
+          <ScalarProperty Name="ContractorEmpName" ColumnName="ContractorEmpName" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="InsertUpdateDeleteContractEmployee" FunctionName="TASModel.Store.Pr_Master_ContractEmployee_CRUD">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_Master_ContractEmployee_CRUD_Result">
+          <ScalarProperty Name="NewIdentityID" ColumnName="NewIdentityID" />
+          <ScalarProperty Name="RowsAffected" ColumnName="RowsAffected" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetGARMCOCalendar" FunctionName="TASModel.Store.Pr_GetGARMCOCalendar">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetGARMCOCalendar_Result1">
+          <ScalarProperty Name="HolidayDate" ColumnName="HolidayDate" />
+          <ScalarProperty Name="DOW" ColumnName="DOW" />
+          <ScalarProperty Name="HolidayName" ColumnName="HolidayName" />
+          <ScalarProperty Name="HolidayType" ColumnName="HolidayType" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetCostCenterManager" FunctionName="TASModel.Store.Pr_GetCostCenterManager">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetCostCenterManager_Result1">
+          <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="CostCenter" ColumnName="CostCenter" />
+          <ScalarProperty Name="CostCenterName" ColumnName="CostCenterName" />
+          <ScalarProperty Name="SuperintendentEmpNo" ColumnName="SuperintendentEmpNo" />
+          <ScalarProperty Name="SuperintendentEmpName" ColumnName="SuperintendentEmpName" />
+          <ScalarProperty Name="ManagerEmpNo" ColumnName="ManagerEmpNo" />
+          <ScalarProperty Name="ManagerEmpName" ColumnName="ManagerEmpName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetCostCenter" FunctionName="TASModel.Store.Pr_GetCostCenter_V2">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetCostCenter_V2_Result">
+          <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+          <ScalarProperty Name="BusinessUnit" ColumnName="BusinessUnit" />
+          <ScalarProperty Name="BusinessUnitName" ColumnName="BusinessUnitName" />
+          <ScalarProperty Name="ParentBU" ColumnName="ParentBU" />
+          <ScalarProperty Name="Superintendent" ColumnName="Superintendent" />
+          <ScalarProperty Name="CostCenterManager" ColumnName="CostCenterManager" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Master_ProcessLocks">
+      <EntityTypeMapping TypeName="TASModel.Master_ProcessLocks">
+        <MappingFragment StoreEntitySet="Master_ProcessLocks">
+          <ScalarProperty Name="TimesheetProcessing" ColumnName="TimesheetProcessing" />
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetEmployeeDirectory" FunctionName="TASModel.Store.Pr_GetEmployeeDirectory">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetEmployeeDirectory_Result3">
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="SupervisorNo" ColumnName="SupervisorNo" />
+          <ScalarProperty Name="SupervisorName" ColumnName="SupervisorName" />
+          <ScalarProperty Name="BusinessUnit" ColumnName="BusinessUnit" />
+          <ScalarProperty Name="BusinessUnitName" ColumnName="BusinessUnitName" />
+          <ScalarProperty Name="Religion" ColumnName="Religion" />
+          <ScalarProperty Name="JobCategory" ColumnName="JobCategory" />
+          <ScalarProperty Name="Sex" ColumnName="Sex" />
+          <ScalarProperty Name="GradeCode" ColumnName="GradeCode" />
+          <ScalarProperty Name="PayStatus" ColumnName="PayStatus" />
+          <ScalarProperty Name="DateJoined" ColumnName="DateJoined" />
+          <ScalarProperty Name="YearsOfService" ColumnName="YearsOfService" />
+          <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+          <ScalarProperty Name="Age" ColumnName="Age" />
+          <ScalarProperty Name="TelephoneExt" ColumnName="TelephoneExt" />
+          <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+          <ScalarProperty Name="TelNo" ColumnName="TelNo" />
+          <ScalarProperty Name="FaxNo" ColumnName="FaxNo" />
+          <ScalarProperty Name="EmpEmail" ColumnName="EmpEmail" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetDailyAttendanceSalaryStaff" FunctionName="TASModel.Store.Pr_GetDailyAttendanceSalaryStaff">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetDailyAttendanceSalaryStaff_Result">
+          <ScalarProperty Name="BusinessUnit" ColumnName="BusinessUnit" />
+          <ScalarProperty Name="BusinessUnitName" ColumnName="BusinessUnitName" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="DT" ColumnName="DT" />
+          <ScalarProperty Name="dtIN" ColumnName="dtIN" />
+          <ScalarProperty Name="dtOUT" ColumnName="dtOUT" />
+          <ScalarProperty Name="NetMinutes" ColumnName="NetMinutes" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="ShiftCode" ColumnName="ShiftCode" />
+          <ScalarProperty Name="Actual_ShiftCode" ColumnName="Actual_ShiftCode" />
+          <ScalarProperty Name="OTStartTime" ColumnName="OTStartTime" />
+          <ScalarProperty Name="OTEndTime" ColumnName="OTEndTime" />
+          <ScalarProperty Name="OTType" ColumnName="OTType" />
+          <ScalarProperty Name="NoPayHours" ColumnName="NoPayHours" />
+          <ScalarProperty Name="ShiftAllowance" ColumnName="ShiftAllowance" />
+          <ScalarProperty Name="ShiftAllowanceDesc" ColumnName="ShiftAllowanceDesc" />
+          <ScalarProperty Name="Duration_ShiftAllowance_Evening" ColumnName="Duration_ShiftAllowance_Evening" />
+          <ScalarProperty Name="Duration_ShiftAllowance_Night" ColumnName="Duration_ShiftAllowance_Night" />
+          <ScalarProperty Name="IsSalStaff" ColumnName="IsSalStaff" />
+          <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <ScalarProperty Name="ShiftTiming" ColumnName="ShiftTiming" />
+          <ScalarProperty Name="GradeCode" ColumnName="GradeCode" />
+          <ScalarProperty Name="IsDayWorker_OR_Shifter" ColumnName="IsDayWorker_OR_Shifter" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="InsertUpdateDeleteManualAttendance" FunctionName="TASModel.Store.Pr_Tran_ManualAttendance_CRUD">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_Tran_ManualAttendance_CRUD_Result1">
+          <ScalarProperty Name="NewIdentityID" ColumnName="NewIdentityID" />
+          <ScalarProperty Name="RowsAffected" ColumnName="RowsAffected" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetEmpAttendanceHistory" FunctionName="TASModel.Store.Pr_GetEmpAttendanceHistory">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetEmpAttendanceHistory_Result7">
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="BusinessUnit" ColumnName="BusinessUnit" />
+          <ScalarProperty Name="BusinessUnitName" ColumnName="BusinessUnitName" />
+          <ScalarProperty Name="DT" ColumnName="DT" />
+          <ScalarProperty Name="dtIn" ColumnName="dtIn" />
+          <ScalarProperty Name="dtOut" ColumnName="dtOut" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="ShiftCode" ColumnName="ShiftCode" />
+          <ScalarProperty Name="Actual_ShiftCode" ColumnName="Actual_ShiftCode" />
+          <ScalarProperty Name="WorkDurationCumulative" ColumnName="WorkDurationCumulative" />
+          <ScalarProperty Name="WorkDurationMinutes" ColumnName="WorkDurationMinutes" />
+          <ScalarProperty Name="WorkDurationHours" ColumnName="WorkDurationHours" />
+          <ScalarProperty Name="ShavedWorkDurationMinutes" ColumnName="ShavedWorkDurationMinutes" />
+          <ScalarProperty Name="ShavedWorkDurationHours" ColumnName="ShavedWorkDurationHours" />
+          <ScalarProperty Name="OTDurationMinutes" ColumnName="OTDurationMinutes" />
+          <ScalarProperty Name="OTDurationHours" ColumnName="OTDurationHours" />
+          <ScalarProperty Name="NoPayHours" ColumnName="NoPayHours" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="Duration_Required" ColumnName="Duration_Required" />
+          <ScalarProperty Name="DayOffDuration" ColumnName="DayOffDuration" />
+          <ScalarProperty Name="RequiredToSwipeAtWorkplace" ColumnName="RequiredToSwipeAtWorkplace" />
+          <ScalarProperty Name="TimeInMG" ColumnName="TimeInMG" />
+          <ScalarProperty Name="TimeInWP" ColumnName="TimeInWP" />
+          <ScalarProperty Name="TimeOutWP" ColumnName="TimeOutWP" />
+          <ScalarProperty Name="TimeOutMG" ColumnName="TimeOutMG" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetPunctualitySummaryReport" FunctionName="TASModel.Store.Pr_PunctualitySummaryReport">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_PunctualitySummaryReport_Result3">
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="ShiftCode" ColumnName="ShiftCode" />
+          <ScalarProperty Name="Actual_ShiftCode" ColumnName="Actual_ShiftCode" />
+          <ScalarProperty Name="CostCenter" ColumnName="CostCenter" />
+          <ScalarProperty Name="CostCenterName" ColumnName="CostCenterName" />
+          <ScalarProperty Name="DT" ColumnName="DT" />
+          <ScalarProperty Name="dtIN" ColumnName="dtIN" />
+          <ScalarProperty Name="dtOUT" ColumnName="dtOUT" />
+          <ScalarProperty Name="MaxArrivalTime" ColumnName="MaxArrivalTime" />
+          <ScalarProperty Name="RequiredTimeOut" ColumnName="RequiredTimeOut" />
+          <ScalarProperty Name="ArrivalTimeDiff" ColumnName="ArrivalTimeDiff" />
+          <ScalarProperty Name="DepartureTimeDiff" ColumnName="DepartureTimeDiff" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="LeaveType" ColumnName="LeaveType" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetOvertimeByPeriod" FunctionName="TASModel.Store.Pr_GetOvertimeByPeriod">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetOvertimeByPeriod_Result">
+          <ScalarProperty Name="DT" ColumnName="DT" />
+          <ScalarProperty Name="BusinessUnit" ColumnName="BusinessUnit" />
+          <ScalarProperty Name="BusinessUnitName" ColumnName="BusinessUnitName" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="GradeCode" ColumnName="GradeCode" />
+          <ScalarProperty Name="dtIN" ColumnName="dtIN" />
+          <ScalarProperty Name="dtOUT" ColumnName="dtOUT" />
+          <ScalarProperty Name="OTstartTime" ColumnName="OTstartTime" />
+          <ScalarProperty Name="OTendTime" ColumnName="OTendTime" />
+          <ScalarProperty Name="OTtype" ColumnName="OTtype" />
+          <ScalarProperty Name="OTDurationMinute" ColumnName="OTDurationMinute" />
+          <ScalarProperty Name="OTDurationHour" ColumnName="OTDurationHour" />
+          <ScalarProperty Name="Approved" ColumnName="Approved" />
+          <ScalarProperty Name="MealVoucherEligibility" ColumnName="MealVoucherEligibility" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+          <ScalarProperty Name="OTApproved" ColumnName="OTApproved" />
+          <ScalarProperty Name="OTReasonCode" ColumnName="OTReasonCode" />
+          <ScalarProperty Name="OTReason" ColumnName="OTReason" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+          <ScalarProperty Name="XID_AutoID" ColumnName="XID_AutoID" />
+          <ScalarProperty Name="Processed" ColumnName="Processed" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetEmployeeEmailAddress" FunctionName="TASModel.Store.Pr_GetEmployeeEmailAddress">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetEmployeeEmailAddress_Result">
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="EmpEmail" ColumnName="EmpEmail" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetOTApprovalHistory" FunctionName="TASModel.Store.Pr_GetOTApprovalHistory">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetOTApprovalHistory_Result">
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+          <ScalarProperty Name="OTRequestNo" ColumnName="OTRequestNo" />
+          <ScalarProperty Name="TS_AutoID" ColumnName="TS_AutoID" />
+          <ScalarProperty Name="RequestSubmissionDate" ColumnName="RequestSubmissionDate" />
+          <ScalarProperty Name="AppApproved" ColumnName="AppApproved" />
+          <ScalarProperty Name="AppRemarks" ColumnName="AppRemarks" />
+          <ScalarProperty Name="AppRoutineSeq" ColumnName="AppRoutineSeq" />
+          <ScalarProperty Name="AppCreatedBy" ColumnName="AppCreatedBy" />
+          <ScalarProperty Name="AppCreatedName" ColumnName="AppCreatedName" />
+          <ScalarProperty Name="AppCreatedDate" ColumnName="AppCreatedDate" />
+          <ScalarProperty Name="AppCreatedPosition" ColumnName="AppCreatedPosition" />
+          <ScalarProperty Name="AppModifiedBy" ColumnName="AppModifiedBy" />
+          <ScalarProperty Name="AppModifiedName" ColumnName="AppModifiedName" />
+          <ScalarProperty Name="AppModifiedDate" ColumnName="AppModifiedDate" />
+          <ScalarProperty Name="ApprovalRole" ColumnName="ApprovalRole" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetRequisitionApprover" FunctionName="TASModel.Store.Pr_GetRequisitionApprover">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetRequisitionApprover_Result">
+          <ScalarProperty Name="ApprovedByEmpNo" ColumnName="ApprovedByEmpNo" />
+          <ScalarProperty Name="ApprovedByEmpName" ColumnName="ApprovedByEmpName" />
+          <ScalarProperty Name="ApprovedByEmpEmail" ColumnName="ApprovedByEmpEmail" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="OvertimeWFEmailDeliveries">
+      <EntityTypeMapping TypeName="TASModel.OvertimeWFEmailDelivery">
+        <MappingFragment StoreEntitySet="OvertimeWFEmailDelivery">
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="LastUpdateEmpName" ColumnName="LastUpdateEmpName" />
+          <ScalarProperty Name="LastUpdateEmpNo" ColumnName="LastUpdateEmpNo" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedByEmpName" ColumnName="CreatedByEmpName" />
+          <ScalarProperty Name="CreatedByEmpNo" ColumnName="CreatedByEmpNo" />
+          <ScalarProperty Name="IsDelivered" ColumnName="IsDelivered" />
+          <ScalarProperty Name="EmailCCRecipientType" ColumnName="EmailCCRecipientType" />
+          <ScalarProperty Name="EmailCCRecipient" ColumnName="EmailCCRecipient" />
+          <ScalarProperty Name="EmailSourceName" ColumnName="EmailSourceName" />
+          <ScalarProperty Name="ActionMemberCode" ColumnName="ActionMemberCode" />
+          <ScalarProperty Name="ActivityCode" ColumnName="ActivityCode" />
+          <ScalarProperty Name="CurrentlyAssignedEmpEmail" ColumnName="CurrentlyAssignedEmpEmail" />
+          <ScalarProperty Name="CurrentlyAssignedEmpName" ColumnName="CurrentlyAssignedEmpName" />
+          <ScalarProperty Name="CurrentlyAssignedEmpNo" ColumnName="CurrentlyAssignedEmpNo" />
+          <ScalarProperty Name="RequestSubmissionDate" ColumnName="RequestSubmissionDate" />
+          <ScalarProperty Name="TS_AutoID" ColumnName="TS_AutoID" />
+          <ScalarProperty Name="OTRequestNo" ColumnName="OTRequestNo" />
+          <ScalarProperty Name="DeliveryID" ColumnName="DeliveryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OvertimeWFApprovalHistories">
+      <EntityTypeMapping TypeName="TASModel.OvertimeWFApprovalHistory">
+        <MappingFragment StoreEntitySet="OvertimeWFApprovalHistory">
+          <ScalarProperty Name="ActionRole" ColumnName="ActionRole" />
+          <ScalarProperty Name="ApprovalRole" ColumnName="ApprovalRole" />
+          <ScalarProperty Name="AppModifiedDate" ColumnName="AppModifiedDate" />
+          <ScalarProperty Name="AppModifiedName" ColumnName="AppModifiedName" />
+          <ScalarProperty Name="AppModifiedBy" ColumnName="AppModifiedBy" />
+          <ScalarProperty Name="AppCreatedDate" ColumnName="AppCreatedDate" />
+          <ScalarProperty Name="AppCreatedName" ColumnName="AppCreatedName" />
+          <ScalarProperty Name="AppCreatedBy" ColumnName="AppCreatedBy" />
+          <ScalarProperty Name="AppRoutineSeq" ColumnName="AppRoutineSeq" />
+          <ScalarProperty Name="AppRemarks" ColumnName="AppRemarks" />
+          <ScalarProperty Name="AppApproved" ColumnName="AppApproved" />
+          <ScalarProperty Name="RequestSubmissionDate" ColumnName="RequestSubmissionDate" />
+          <ScalarProperty Name="TS_AutoID" ColumnName="TS_AutoID" />
+          <ScalarProperty Name="OTRequestNo" ColumnName="OTRequestNo" />
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OvertimeWFRoutineHistories">
+      <EntityTypeMapping TypeName="TASModel.OvertimeWFRoutineHistory">
+        <MappingFragment StoreEntitySet="OvertimeWFRoutineHistory">
+          <ScalarProperty Name="HistCreatedDate" ColumnName="HistCreatedDate" />
+          <ScalarProperty Name="HistCreatedName" ColumnName="HistCreatedName" />
+          <ScalarProperty Name="HistCreatedBy" ColumnName="HistCreatedBy" />
+          <ScalarProperty Name="HistDesc" ColumnName="HistDesc" />
+          <ScalarProperty Name="RequestSubmissionDate" ColumnName="RequestSubmissionDate" />
+          <ScalarProperty Name="TS_AutoID" ColumnName="TS_AutoID" />
+          <ScalarProperty Name="OTRequestNo" ColumnName="OTRequestNo" />
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OvertimeWFTransactionActivities">
+      <EntityTypeMapping TypeName="TASModel.OvertimeWFTransactionActivity">
+        <MappingFragment StoreEntitySet="OvertimeWFTransactionActivity">
+          <ScalarProperty Name="LastUpdateEmpName" ColumnName="LastUpdateEmpName" />
+          <ScalarProperty Name="LastUpdateEmpNo" ColumnName="LastUpdateEmpNo" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="CreatedByUserEmpName" ColumnName="CreatedByUserEmpName" />
+          <ScalarProperty Name="CreatedByUserEmpNo" ColumnName="CreatedByUserEmpNo" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedByUser" ColumnName="CreatedByUser" />
+          <ScalarProperty Name="BypassIfAlreadyApproved" ColumnName="BypassIfAlreadyApproved" />
+          <ScalarProperty Name="RequestSubmissionDate" ColumnName="RequestSubmissionDate" />
+          <ScalarProperty Name="ActStatusID" ColumnName="ActStatusID" />
+          <ScalarProperty Name="IsFinalAct" ColumnName="IsFinalAct" />
+          <ScalarProperty Name="IsCompleted" ColumnName="IsCompleted" />
+          <ScalarProperty Name="IsCurrent" ColumnName="IsCurrent" />
+          <ScalarProperty Name="EmailCCRecipientType" ColumnName="EmailCCRecipientType" />
+          <ScalarProperty Name="EmailCCRecipient" ColumnName="EmailCCRecipient" />
+          <ScalarProperty Name="EmailSourceName" ColumnName="EmailSourceName" />
+          <ScalarProperty Name="ConditionCheckDataType" ColumnName="ConditionCheckDataType" />
+          <ScalarProperty Name="ConditionCheckValue" ColumnName="ConditionCheckValue" />
+          <ScalarProperty Name="ParameterDataType" ColumnName="ParameterDataType" />
+          <ScalarProperty Name="ParameterName" ColumnName="ParameterName" />
+          <ScalarProperty Name="ParameterSourceTable" ColumnName="ParameterSourceTable" />
+          <ScalarProperty Name="ServiceProviderTypeCode" ColumnName="ServiceProviderTypeCode" />
+          <ScalarProperty Name="ActionMemberType" ColumnName="ActionMemberType" />
+          <ScalarProperty Name="ActionMemberCode" ColumnName="ActionMemberCode" />
+          <ScalarProperty Name="ActionRole" ColumnName="ActionRole" />
+          <ScalarProperty Name="ApprovalType" ColumnName="ApprovalType" />
+          <ScalarProperty Name="SequenceType" ColumnName="SequenceType" />
+          <ScalarProperty Name="SequenceNo" ColumnName="SequenceNo" />
+          <ScalarProperty Name="WFActivityTypeCode" ColumnName="WFActivityTypeCode" />
+          <ScalarProperty Name="ActivityDesc2" ColumnName="ActivityDesc2" />
+          <ScalarProperty Name="ActivityDesc1" ColumnName="ActivityDesc1" />
+          <ScalarProperty Name="NextActivityCode" ColumnName="NextActivityCode" />
+          <ScalarProperty Name="ActivityCode" ColumnName="ActivityCode" />
+          <ScalarProperty Name="WFModuleCode" ColumnName="WFModuleCode" />
+          <ScalarProperty Name="TS_AutoID" ColumnName="TS_AutoID" />
+          <ScalarProperty Name="OTRequestNo" ColumnName="OTRequestNo" />
+          <ScalarProperty Name="WorkflowTransactionID" ColumnName="WorkflowTransactionID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetCostCenterOTAllowed" FunctionName="TASModel.Store.Pr_GetCostCenterOTAllowed">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetCostCenterOTAllowed_Result1">
+          <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+          <ScalarProperty Name="BusinessUnit" ColumnName="BusinessUnit" />
+          <ScalarProperty Name="BusinessUnitName" ColumnName="BusinessUnitName" />
+          <ScalarProperty Name="ParentBU" ColumnName="ParentBU" />
+          <ScalarProperty Name="Superintendent" ColumnName="Superintendent" />
+          <ScalarProperty Name="CostCenterManager" ColumnName="CostCenterManager" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="SystemErrorLogs">
+      <EntityTypeMapping TypeName="TASModel.SystemErrorLog">
+        <MappingFragment StoreEntitySet="SystemErrorLog">
+          <ScalarProperty Name="CreatedByUserID" ColumnName="CreatedByUserID" />
+          <ScalarProperty Name="CreatedByEmpNo" ColumnName="CreatedByEmpNo" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ErrorDscription" ColumnName="ErrorDscription" />
+          <ScalarProperty Name="ErrorCode" ColumnName="ErrorCode" />
+          <ScalarProperty Name="RequisitionNo" ColumnName="RequisitionNo" />
+          <ScalarProperty Name="LogID" ColumnName="LogID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetShiftPatternCodesV2" FunctionName="TASModel.Store.Pr_GetShiftPatternCodes_V2">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetShiftPatternCodes_V2_Result1">
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="RestrictionType" ColumnName="RestrictionType" />
+          <ScalarProperty Name="RestrictedEmpNoArray" ColumnName="RestrictedEmpNoArray" />
+          <ScalarProperty Name="RestrictedCostCenterArray" ColumnName="RestrictedCostCenterArray" />
+          <ScalarProperty Name="RestrictionMessage" ColumnName="RestrictionMessage" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="IsHROTApprover" FunctionName="TASModel.Store.fnIsHROTApprover" />
+    <FunctionImportMapping FunctionImportName="GetWorkingCostCenter" FunctionName="TASModel.Store.Pr_GetWorkingCostCenter">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetWorkingCostCenter_Result6">
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="CostCenter" ColumnName="CostCenter" />
+          <ScalarProperty Name="CostCenterName" ColumnName="CostCenterName" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="ShiftPointer" ColumnName="ShiftPointer" />
+          <ScalarProperty Name="WorkingBusinessUnit" ColumnName="WorkingBusinessUnit" />
+          <ScalarProperty Name="WorkingBusinessUnitName" ColumnName="WorkingBusinessUnitName" />
+          <ScalarProperty Name="SpecialJobCatg" ColumnName="SpecialJobCatg" />
+          <ScalarProperty Name="SpecialJobCatgDesc" ColumnName="SpecialJobCatgDesc" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="CatgEffectiveDate" ColumnName="CatgEffectiveDate" />
+          <ScalarProperty Name="CatgEndingDate" ColumnName="CatgEndingDate" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Master_EmployeeAdditional">
+      <EntityTypeMapping TypeName="TASModel.Master_EmployeeAdditional">
+        <MappingFragment StoreEntitySet="Master_EmployeeAdditional">
+          <ScalarProperty Name="CatgEndingDate" ColumnName="CatgEndingDate" />
+          <ScalarProperty Name="CatgEffectiveDate" ColumnName="CatgEffectiveDate" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="SpecialJobCatg" ColumnName="SpecialJobCatg" />
+          <ScalarProperty Name="WorkingBusinessUnit" ColumnName="WorkingBusinessUnit" />
+          <ScalarProperty Name="ShiftPointer" ColumnName="ShiftPointer" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OvertimeRequests">
+      <EntityTypeMapping TypeName="TASModel.OvertimeRequest">
+        <MappingFragment StoreEntitySet="OvertimeRequest">
+          <ScalarProperty Name="IsHold" ColumnName="IsHold" />
+          <ScalarProperty Name="IsOTCommentModified" ColumnName="IsOTCommentModified" />
+          <ScalarProperty Name="LastUpdateEmpName" ColumnName="LastUpdateEmpName" />
+          <ScalarProperty Name="LastUpdateUserID" ColumnName="LastUpdateUserID" />
+          <ScalarProperty Name="LastUpdateEmpNo" ColumnName="LastUpdateEmpNo" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="CreatedByEmail" ColumnName="CreatedByEmail" />
+          <ScalarProperty Name="CreatedByEmpName" ColumnName="CreatedByEmpName" />
+          <ScalarProperty Name="CreatedByUserID" ColumnName="CreatedByUserID" />
+          <ScalarProperty Name="CreatedByEmpNo" ColumnName="CreatedByEmpNo" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="OTEndTime_Orig" ColumnName="OTEndTime_Orig" />
+          <ScalarProperty Name="OTStartTime_Orig" ColumnName="OTStartTime_Orig" />
+          <ScalarProperty Name="OTComment" ColumnName="OTComment" />
+          <ScalarProperty Name="OTReason" ColumnName="OTReason" />
+          <ScalarProperty Name="OTApproved" ColumnName="OTApproved" />
+          <ScalarProperty Name="IsModifiedByHR" ColumnName="IsModifiedByHR" />
+          <ScalarProperty Name="DistListCode" ColumnName="DistListCode" />
+          <ScalarProperty Name="ServiceProviderTypeCode" ColumnName="ServiceProviderTypeCode" />
+          <ScalarProperty Name="CurrentlyAssignedEmpEmail" ColumnName="CurrentlyAssignedEmpEmail" />
+          <ScalarProperty Name="CurrentlyAssignedEmpName" ColumnName="CurrentlyAssignedEmpName" />
+          <ScalarProperty Name="CurrentlyAssignedEmpNo" ColumnName="CurrentlyAssignedEmpNo" />
+          <ScalarProperty Name="SubmittedDate" ColumnName="SubmittedDate" />
+          <ScalarProperty Name="IsSubmittedForApproval" ColumnName="IsSubmittedForApproval" />
+          <ScalarProperty Name="ClosedDate" ColumnName="ClosedDate" />
+          <ScalarProperty Name="IsClosed" ColumnName="IsClosed" />
+          <ScalarProperty Name="StatusHandlingCode" ColumnName="StatusHandlingCode" />
+          <ScalarProperty Name="StatusDesc" ColumnName="StatusDesc" />
+          <ScalarProperty Name="StatusCode" ColumnName="StatusCode" />
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+          <ScalarProperty Name="MealVoucherEligibility" ColumnName="MealVoucherEligibility" />
+          <ScalarProperty Name="CorrectionCode" ColumnName="CorrectionCode" />
+          <ScalarProperty Name="OTType" ColumnName="OTType" />
+          <ScalarProperty Name="OTEndTime" ColumnName="OTEndTime" />
+          <ScalarProperty Name="OTStartTime" ColumnName="OTStartTime" />
+          <ScalarProperty Name="CostCenter" ColumnName="CostCenter" />
+          <ScalarProperty Name="TS_AutoID" ColumnName="TS_AutoID" />
+          <ScalarProperty Name="DT" ColumnName="DT" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="OTRequestNo" ColumnName="OTRequestNo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="CheckIfPayrollProcessing" FunctionName="TASModel.Store.fnCheckIfPayrollProcessing" />
+    <FunctionImportMapping FunctionImportName="GetFireTeamAttendanceV2" FunctionName="TASModel.Store.Pr_GetFireTeamAttendance_V2">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetFireTeamAttendance_V2_Result">
+          <ScalarProperty Name="SwipeDate" ColumnName="SwipeDate" />
+          <ScalarProperty Name="SwipeTime" ColumnName="SwipeTime" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="Extension" ColumnName="Extension" />
+          <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+          <ScalarProperty Name="GradeCode" ColumnName="GradeCode" />
+          <ScalarProperty Name="PayStatus" ColumnName="PayStatus" />
+          <ScalarProperty Name="CostCenter" ColumnName="CostCenter" />
+          <ScalarProperty Name="CostCenterName" ColumnName="CostCenterName" />
+          <ScalarProperty Name="SupervisorEmpNo" ColumnName="SupervisorEmpNo" />
+          <ScalarProperty Name="SupervisorEmpName" ColumnName="SupervisorEmpName" />
+          <ScalarProperty Name="SuperintendentEmpNo" ColumnName="SuperintendentEmpNo" />
+          <ScalarProperty Name="SuperintendentEmpName" ColumnName="SuperintendentEmpName" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="ShiftPointer" ColumnName="ShiftPointer" />
+          <ScalarProperty Name="ShiftCode" ColumnName="ShiftCode" />
+          <ScalarProperty Name="SwipeLocation" ColumnName="SwipeLocation" />
+          <ScalarProperty Name="SwipeType" ColumnName="SwipeType" />
+          <ScalarProperty Name="LocationCode" ColumnName="LocationCode" />
+          <ScalarProperty Name="ReaderNo" ColumnName="ReaderNo" />
+          <ScalarProperty Name="SwipeCode" ColumnName="SwipeCode" />
+          <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+          <ScalarProperty Name="ReaderName" ColumnName="ReaderName" />
+          <ScalarProperty Name="Event" ColumnName="Event" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="GetAssignedCostCenter" FunctionName="TASModel.Store.fnGetAssignedCostCenter">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.fnGetAssignedCostCenter_Result">
+          <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="CostCenter" ColumnName="CostCenter" />
+          <ScalarProperty Name="CostCenterName" ColumnName="CostCenterName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="IsOTBudgetAdmin" FunctionName="TASModel.Store.fnIsAllowedToViewOTBudget" />
+    <FunctionImportMapping FunctionImportName="GetWorkingCostCenterHistory" FunctionName="TASModel.Store.Pr_GetWorkingCostCenterHistory">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetWorkingCostCenterHistory_Result">
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="ShiftPointer" ColumnName="ShiftPointer" />
+          <ScalarProperty Name="WorkingBusinessUnit" ColumnName="WorkingBusinessUnit" />
+          <ScalarProperty Name="WorkingBusinessUnitName" ColumnName="WorkingBusinessUnitName" />
+          <ScalarProperty Name="SpecialJobCatg" ColumnName="SpecialJobCatg" />
+          <ScalarProperty Name="SpecialJobCatgDesc" ColumnName="SpecialJobCatgDesc" />
+          <ScalarProperty Name="CatgEffectiveDate" ColumnName="CatgEffectiveDate" />
+          <ScalarProperty Name="CatgEndingDate" ColumnName="CatgEndingDate" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Master_ShiftPatternTitles">
+      <EntityTypeMapping TypeName="TASModel.Master_ShiftPatternTitles">
+        <MappingFragment StoreEntitySet="Master_ShiftPatternTitles">
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="IsDayShift" ColumnName="IsDayShift" />
+          <ScalarProperty Name="ShiftPatDescription" ColumnName="ShiftPatDescription" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="GetShiftCode" FunctionName="TASModel.Store.Pr_GetShiftCode">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetShiftCode_Result2">
+          <ScalarProperty Name="ShiftCode" ColumnName="ShiftCode" />
+          <ScalarProperty Name="ShiftDesc" ColumnName="ShiftDesc" />
+          <ScalarProperty Name="ArrivalFrom" ColumnName="ArrivalFrom" />
+          <ScalarProperty Name="ArrivalTo" ColumnName="ArrivalTo" />
+          <ScalarProperty Name="DepartFrom" ColumnName="DepartFrom" />
+          <ScalarProperty Name="DepartTo" ColumnName="DepartTo" />
+          <ScalarProperty Name="DurationNormalDay" ColumnName="DurationNormalDay" />
+          <ScalarProperty Name="RArrivalFrom" ColumnName="RArrivalFrom" />
+          <ScalarProperty Name="RArrivalTo" ColumnName="RArrivalTo" />
+          <ScalarProperty Name="RDepartFrom" ColumnName="RDepartFrom" />
+          <ScalarProperty Name="RDepartTo" ColumnName="RDepartTo" />
+          <ScalarProperty Name="DurationRamadanDay" ColumnName="DurationRamadanDay" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="Master_ShiftTimes">
+      <EntityTypeMapping TypeName="TASModel.Master_ShiftTimes">
+        <MappingFragment StoreEntitySet="Master_ShiftTimes">
+          <ScalarProperty Name="LastUpdateEmpName" ColumnName="LastUpdateEmpName" />
+          <ScalarProperty Name="LastUpdateEmpNo" ColumnName="LastUpdateEmpNo" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedByUser" ColumnName="CreatedByUser" />
+          <ScalarProperty Name="CreatedByEmpName" ColumnName="CreatedByEmpName" />
+          <ScalarProperty Name="CreatedByEmpNo" ColumnName="CreatedByEmpNo" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="xxxxxx3" ColumnName="xxxxxx3" />
+          <ScalarProperty Name="RTotalHrs" ColumnName="RTotalHrs" />
+          <ScalarProperty Name="RDepartTo" ColumnName="RDepartTo" />
+          <ScalarProperty Name="RDepartFrom" ColumnName="RDepartFrom" />
+          <ScalarProperty Name="RArrivalTo" ColumnName="RArrivalTo" />
+          <ScalarProperty Name="RArrivalFrom" ColumnName="RArrivalFrom" />
+          <ScalarProperty Name="xxxxxx2" ColumnName="xxxxxx2" />
+          <ScalarProperty Name="TotalHrs" ColumnName="TotalHrs" />
+          <ScalarProperty Name="DepartTo" ColumnName="DepartTo" />
+          <ScalarProperty Name="DepartFrom" ColumnName="DepartFrom" />
+          <ScalarProperty Name="ArrivalTo" ColumnName="ArrivalTo" />
+          <ScalarProperty Name="ArrivalFrom" ColumnName="ArrivalFrom" />
+          <ScalarProperty Name="xxxxxx1" ColumnName="xxxxxx1" />
+          <ScalarProperty Name="ShiftCode" ColumnName="ShiftCode" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Master_ShiftPattern">
+      <EntityTypeMapping TypeName="TASModel.Master_ShiftPattern">
+        <MappingFragment StoreEntitySet="Master_ShiftPattern">
+          <ScalarProperty Name="ShiftCode" ColumnName="ShiftCode" />
+          <ScalarProperty Name="ShiftPointer" ColumnName="ShiftPointer" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="InsertUpdateDeleteMasterShiftPattern" FunctionName="TASModel.Store.Pr_Master_ShiftPattern_CRUD">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_Master_ShiftPattern_CRUD_Result1">
+          <ScalarProperty Name="NewIdentityID" ColumnName="NewIdentityID" />
+          <ScalarProperty Name="RowsAffected" ColumnName="RowsAffected" />
+          <ScalarProperty Name="HasError" ColumnName="HasError" />
+          <ScalarProperty Name="ErrorCode" ColumnName="ErrorCode" />
+          <ScalarProperty Name="ErrorDescription" ColumnName="ErrorDescription" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="System_Values">
+      <EntityTypeMapping TypeName="TASModel.System_Values">
+        <MappingFragment StoreEntitySet="System_Values">
+          <ScalarProperty Name="MealVoucherEligibleMins" ColumnName="MealVoucherEligibleMins" />
+          <ScalarProperty Name="CheckSwipeValidation" ColumnName="CheckSwipeValidation" />
+          <ScalarProperty Name="LIST_of_Timesheet_developers" ColumnName="LIST_of_Timesheet_developers" />
+          <ScalarProperty Name="LIST_of_Timesheet_Users" ColumnName="LIST_of_Timesheet_Users" />
+          <ScalarProperty Name="AllowTimesheetProcessing" ColumnName="AllowTimesheetProcessing" />
+          <ScalarProperty Name="Hide_OT_To" ColumnName="Hide_OT_To" />
+          <ScalarProperty Name="Hide_OT_From" ColumnName="Hide_OT_From" />
+          <ScalarProperty Name="Minutes_MinOT_SS_Ramadan" ColumnName="Minutes_MinOT_SS_Ramadan" />
+          <ScalarProperty Name="CommandTimeout" ColumnName="CommandTimeout" />
+          <ScalarProperty Name="WeekEndDay2" ColumnName="WeekEndDay2" />
+          <ScalarProperty Name="WeekEndDay1" ColumnName="WeekEndDay1" />
+          <ScalarProperty Name="DIL_switch_date" ColumnName="DIL_switch_date" />
+          <ScalarProperty Name="Upload_ID" ColumnName="Upload_ID" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX2100" ColumnName="XXXXXXXXXXXXXXX2100" />
+          <ScalarProperty Name="Minutes_Min_ShiftSpanOT_Day2" ColumnName="Minutes_Min_ShiftSpanOT_Day2" />
+          <ScalarProperty Name="Minutes_Min_ShiftSpanOT_Day1" ColumnName="Minutes_Min_ShiftSpanOT_Day1" />
+          <ScalarProperty Name="Minutes_Min_ShiftSpanOT_Full" ColumnName="Minutes_Min_ShiftSpanOT_Full" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX2000" ColumnName="XXXXXXXXXXXXXXX2000" />
+          <ScalarProperty Name="HRuser3" ColumnName="HRuser3" />
+          <ScalarProperty Name="HRuser2" ColumnName="HRuser2" />
+          <ScalarProperty Name="HRuser1" ColumnName="HRuser1" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX1900" ColumnName="XXXXXXXXXXXXXXX1900" />
+          <ScalarProperty Name="DW_EndOfDay_To" ColumnName="DW_EndOfDay_To" />
+          <ScalarProperty Name="DW_EndOfDay_From" ColumnName="DW_EndOfDay_From" />
+          <ScalarProperty Name="IsMedicalNurse6" ColumnName="IsMedicalNurse6" />
+          <ScalarProperty Name="IsMedicalNurse5" ColumnName="IsMedicalNurse5" />
+          <ScalarProperty Name="IsMedicalNurse4" ColumnName="IsMedicalNurse4" />
+          <ScalarProperty Name="IsMedicalNurse3" ColumnName="IsMedicalNurse3" />
+          <ScalarProperty Name="IsMedicalNurse2" ColumnName="IsMedicalNurse2" />
+          <ScalarProperty Name="IsMedicalNurse1" ColumnName="IsMedicalNurse1" />
+          <ScalarProperty Name="CODE_Shift_Day" ColumnName="CODE_Shift_Day" />
+          <ScalarProperty Name="TrainingSec3" ColumnName="TrainingSec3" />
+          <ScalarProperty Name="TrainingSec2" ColumnName="TrainingSec2" />
+          <ScalarProperty Name="TrainingSec1" ColumnName="TrainingSec1" />
+          <ScalarProperty Name="SystemDownFlg" ColumnName="SystemDownFlg" />
+          <ScalarProperty Name="SystemDownMsg" ColumnName="SystemDownMsg" />
+          <ScalarProperty Name="BackupDBbeforeProcessingTS" ColumnName="BackupDBbeforeProcessingTS" />
+          <ScalarProperty Name="MarqueeText" ColumnName="MarqueeText" />
+          <ScalarProperty Name="LastUpdateTime" ColumnName="LastUpdateTime" />
+          <ScalarProperty Name="LastUpdateUser" ColumnName="LastUpdateUser" />
+          <ScalarProperty Name="DummyColumn" ColumnName="DummyColumn" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX1800" ColumnName="XXXXXXXXXXXXXXX1800" />
+          <ScalarProperty Name="SMTPServerName" ColumnName="SMTPServerName" />
+          <ScalarProperty Name="EMAILs_Alert_HR" ColumnName="EMAILs_Alert_HR" />
+          <ScalarProperty Name="EMAILs_Alert_System" ColumnName="EMAILs_Alert_System" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX1700" ColumnName="XXXXXXXXXXXXXXX1700" />
+          <ScalarProperty Name="CODE_AbsenceColumn_ShiftSpan" ColumnName="CODE_AbsenceColumn_ShiftSpan" />
+          <ScalarProperty Name="CODE_AbsenceColumn_DayOff" ColumnName="CODE_AbsenceColumn_DayOff" />
+          <ScalarProperty Name="CODE_AbsenceColumn_Cal_DILdw" ColumnName="CODE_AbsenceColumn_Cal_DILdw" />
+          <ScalarProperty Name="CODE_AbsenceColumn_Cal_Holiday" ColumnName="CODE_AbsenceColumn_Cal_Holiday" />
+          <ScalarProperty Name="CODE_AbsenceColumn_Leave" ColumnName="CODE_AbsenceColumn_Leave" />
+          <ScalarProperty Name="CODE_AbsenceColumn_ROA" ColumnName="CODE_AbsenceColumn_ROA" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX1600" ColumnName="XXXXXXXXXXXXXXX1600" />
+          <ScalarProperty Name="Code_OTtype_DayOff" ColumnName="Code_OTtype_DayOff" />
+          <ScalarProperty Name="Code_OTtype_DILdw" ColumnName="Code_OTtype_DILdw" />
+          <ScalarProperty Name="Code_OTtype_PublicHoliday" ColumnName="Code_OTtype_PublicHoliday" />
+          <ScalarProperty Name="Code_OTtype_Regular" ColumnName="Code_OTtype_Regular" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX1500" ColumnName="XXXXXXXXXXXXXXX1500" />
+          <ScalarProperty Name="Download_URL_prefix" ColumnName="Download_URL_prefix" />
+          <ScalarProperty Name="SPU_URL_Prefix" ColumnName="SPU_URL_Prefix" />
+          <ScalarProperty Name="Report_URL_prefix" ColumnName="Report_URL_prefix" />
+          <ScalarProperty Name="Project_URL_prefix" ColumnName="Project_URL_prefix" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX1400" ColumnName="XXXXXXXXXXXXXXX1400" />
+          <ScalarProperty Name="Months_DILexpiry" ColumnName="Months_DILexpiry" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX1240" ColumnName="XXXXXXXXXXXXXXX1240" />
+          <ScalarProperty Name="Days_MaxBusTrip" ColumnName="Days_MaxBusTrip" />
+          <ScalarProperty Name="Days_minEditTimeSheet" ColumnName="Days_minEditTimeSheet" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX1230" ColumnName="XXXXXXXXXXXXXXX1230" />
+          <ScalarProperty Name="Hours_MaxWorking" ColumnName="Hours_MaxWorking" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX1220" ColumnName="XXXXXXXXXXXXXXX1220" />
+          <ScalarProperty Name="Minutes_AbsenceCutOff" ColumnName="Minutes_AbsenceCutOff" />
+          <ScalarProperty Name="Minutes_MinDILentitlement" ColumnName="Minutes_MinDILentitlement" />
+          <ScalarProperty Name="Minutes_MaternityAbsence" ColumnName="Minutes_MaternityAbsence" />
+          <ScalarProperty Name="Minutes_MinShiftAllowance" ColumnName="Minutes_MinShiftAllowance" />
+          <ScalarProperty Name="Minutes_MinOT_SS" ColumnName="Minutes_MinOT_SS" />
+          <ScalarProperty Name="Minutes_MinOT_NSS" ColumnName="Minutes_MinOT_NSS" />
+          <ScalarProperty Name="Minutes_GracePeriod" ColumnName="Minutes_GracePeriod" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX1200" ColumnName="XXXXXXXXXXXXXXX1200" />
+          <ScalarProperty Name="Code_ContGroup_Visitor" ColumnName="Code_ContGroup_Visitor" />
+          <ScalarProperty Name="Code_ContGroup_Seasonal" ColumnName="Code_ContGroup_Seasonal" />
+          <ScalarProperty Name="Code_ContGroup_NonSal" ColumnName="Code_ContGroup_NonSal" />
+          <ScalarProperty Name="Code_ContGroup_Sal" ColumnName="Code_ContGroup_Sal" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX1100" ColumnName="XXXXXXXXXXXXXXX1100" />
+          <ScalarProperty Name="Code_DIL_DayWorker" ColumnName="Code_DIL_DayWorker" />
+          <ScalarProperty Name="Code_Ramadan" ColumnName="Code_Ramadan" />
+          <ScalarProperty Name="Code_PublicHolidy" ColumnName="Code_PublicHolidy" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX1000" ColumnName="XXXXXXXXXXXXXXX1000" />
+          <ScalarProperty Name="Code_DayInLieu_USED_Dept" ColumnName="Code_DayInLieu_USED_Dept" />
+          <ScalarProperty Name="Code_DayInLieu_USED_Admin" ColumnName="Code_DayInLieu_USED_Admin" />
+          <ScalarProperty Name="Code_DayInLieu_Entitiled_HR" ColumnName="Code_DayInLieu_Entitiled_HR" />
+          <ScalarProperty Name="Code_DayInLieu_Entitiled_System" ColumnName="Code_DayInLieu_Entitiled_System" />
+          <ScalarProperty Name="XXXXXX0950" ColumnName="XXXXXX0950" />
+          <ScalarProperty Name="Code_ROA_DIL_Used_HR" ColumnName="Code_ROA_DIL_Used_HR" />
+          <ScalarProperty Name="Code_ROA_DIL_Used_Dept" ColumnName="Code_ROA_DIL_Used_Dept" />
+          <ScalarProperty Name="Code_ROA_TrainingForeign" ColumnName="Code_ROA_TrainingForeign" />
+          <ScalarProperty Name="Code_ROA_TrainingLocal" ColumnName="Code_ROA_TrainingLocal" />
+          <ScalarProperty Name="Code_ROA_MaternityBenifit" ColumnName="Code_ROA_MaternityBenifit" />
+          <ScalarProperty Name="Code_ROA_BusinessTrip" ColumnName="Code_ROA_BusinessTrip" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX0900" ColumnName="XXXXXXXXXXXXXXX0900" />
+          <ScalarProperty Name="Code_SwipeSource_ShiftSpan" ColumnName="Code_SwipeSource_ShiftSpan" />
+          <ScalarProperty Name="Code_SwipeSource_Absent" ColumnName="Code_SwipeSource_Absent" />
+          <ScalarProperty Name="Code_SwipeSource_Automatic" ColumnName="Code_SwipeSource_Automatic" />
+          <ScalarProperty Name="Code_SwipeSource_Manual" ColumnName="Code_SwipeSource_Manual" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX0850" ColumnName="XXXXXXXXXXXXXXX0850" />
+          <ScalarProperty Name="Code_ReaderAccessGranted" ColumnName="Code_ReaderAccessGranted" />
+          <ScalarProperty Name="Code_ReaderManuaIn" ColumnName="Code_ReaderManuaIn" />
+          <ScalarProperty Name="Code_ReaderManualOut" ColumnName="Code_ReaderManualOut" />
+          <ScalarProperty Name="Code_ReaderManualLocation" ColumnName="Code_ReaderManualLocation" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX0800" ColumnName="XXXXXXXXXXXXXXX0800" />
+          <ScalarProperty Name="Code_JobCategory_Hedger" ColumnName="Code_JobCategory_Hedger" />
+          <ScalarProperty Name="Code_JobCategory_Driver" ColumnName="Code_JobCategory_Driver" />
+          <ScalarProperty Name="Code_JobCategory_NonSalaryStaff" ColumnName="Code_JobCategory_NonSalaryStaff" />
+          <ScalarProperty Name="Code_JobCategory_SalaryStaff" ColumnName="Code_JobCategory_SalaryStaff" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX0700" ColumnName="XXXXXXXXXXXXXXX0700" />
+          <ScalarProperty Name="Code_MuslimReligion" ColumnName="Code_MuslimReligion" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX0600" ColumnName="XXXXXXXXXXXXXXX0600" />
+          <ScalarProperty Name="Code_ChangeTypeTemporary" ColumnName="Code_ChangeTypeTemporary" />
+          <ScalarProperty Name="Code_ChangeTypeDeffered" ColumnName="Code_ChangeTypeDeffered" />
+          <ScalarProperty Name="Code_FirstShiftOfDay" ColumnName="Code_FirstShiftOfDay" />
+          <ScalarProperty Name="Code_DefaultShiftCode" ColumnName="Code_DefaultShiftCode" />
+          <ScalarProperty Name="Code_DefaultShiftPat" ColumnName="Code_DefaultShiftPat" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX0500" ColumnName="XXXXXXXXXXXXXXX0500" />
+          <ScalarProperty Name="Code_AdminUserID3" ColumnName="Code_AdminUserID3" />
+          <ScalarProperty Name="Code_AdminUserID2" ColumnName="Code_AdminUserID2" />
+          <ScalarProperty Name="Code_AdminUserID1" ColumnName="Code_AdminUserID1" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX0450" ColumnName="XXXXXXXXXXXXXXX0450" />
+          <ScalarProperty Name="Code_BusinessUnitSecurityType" ColumnName="Code_BusinessUnitSecurityType" />
+          <ScalarProperty Name="Code_ApplicationSecurityType" ColumnName="Code_ApplicationSecurityType" />
+          <ScalarProperty Name="Code_EnabledUserLogin" ColumnName="Code_EnabledUserLogin" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX0400" ColumnName="XXXXXXXXXXXXXXX0400" />
+          <ScalarProperty Name="DT_ShiftPatternLastUpdated" ColumnName="DT_ShiftPatternLastUpdated" />
+          <ScalarProperty Name="DT_ManualTimeSheetLastEntered" ColumnName="DT_ManualTimeSheetLastEntered" />
+          <ScalarProperty Name="DT_SwipeNewProcess" ColumnName="DT_SwipeNewProcess" />
+          <ScalarProperty Name="DT_SwipeLastProcessed" ColumnName="DT_SwipeLastProcessed" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX0350" ColumnName="XXXXXXXXXXXXXXX0350" />
+          <ScalarProperty Name="CODE_SystemSuppliedOUT" ColumnName="CODE_SystemSuppliedOUT" />
+          <ScalarProperty Name="CODE_SystemSuppliedIN" ColumnName="CODE_SystemSuppliedIN" />
+          <ScalarProperty Name="CODE_Remark_Absent" ColumnName="CODE_Remark_Absent" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX0310" ColumnName="XXXXXXXXXXXXXXX0310" />
+          <ScalarProperty Name="CODE_TimeResolution" ColumnName="CODE_TimeResolution" />
+          <ScalarProperty Name="CODE_SpecialShift_Pat" ColumnName="CODE_SpecialShift_Pat" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX0305" ColumnName="XXXXXXXXXXXXXXX0305" />
+          <ScalarProperty Name="CODE_Shift_Off" ColumnName="CODE_Shift_Off" />
+          <ScalarProperty Name="CODE_Shift_Night" ColumnName="CODE_Shift_Night" />
+          <ScalarProperty Name="CODE_Shift_Evening" ColumnName="CODE_Shift_Evening" />
+          <ScalarProperty Name="CODE_Shift_Morning" ColumnName="CODE_Shift_Morning" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX0300" ColumnName="XXXXXXXXXXXXXXX0300" />
+          <ScalarProperty Name="CODE_UDC_ShiftCode" ColumnName="CODE_UDC_ShiftCode" />
+          <ScalarProperty Name="CODE_UDC_ReligionCode" ColumnName="CODE_UDC_ReligionCode" />
+          <ScalarProperty Name="CODE_UDC_LeaveType" ColumnName="CODE_UDC_LeaveType" />
+          <ScalarProperty Name="CODE_UDC_GroupCode" ColumnName="CODE_UDC_GroupCode" />
+          <ScalarProperty Name="CODE_UDC_DayOfWeek" ColumnName="CODE_UDC_DayOfWeek" />
+          <ScalarProperty Name="CODE_UDC_ChangeType" ColumnName="CODE_UDC_ChangeType" />
+          <ScalarProperty Name="CODE_UDC_AbsenceReasonCode" ColumnName="CODE_UDC_AbsenceReasonCode" />
+          <ScalarProperty Name="XXXXXXXXXXXXXXX0200" ColumnName="XXXXXXXXXXXXXXX0200" />
+          <ScalarProperty Name="AutoID" ColumnName="AutoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="CheckIfPayrollProcessingByEmpNo" FunctionName="TASModel.Store.fnCheckIfPayrollProcessingByEmpNo" />
+    <FunctionImportMapping FunctionImportName="CanAccessEmergencyContact" FunctionName="TASModel.Store.fnCanAccessEmergencyContact" />
+    <FunctionImportMapping FunctionImportName="CanAccessDependentInfo" FunctionName="TASModel.Store.fnCanAccessDependentInfo" />
+    <FunctionImportMapping FunctionImportName="GetFamilyRelativeSetting" FunctionName="TASModel.Store.Pr_GetFamilyRelativeSetting">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="TASModel.Pr_GetFamilyRelativeSetting_Result">
+          <ScalarProperty Name="SettingID" ColumnName="SettingID" />
+          <ScalarProperty Name="DegreeLevel" ColumnName="DegreeLevel" />
+          <ScalarProperty Name="RelativeTypeCode" ColumnName="RelativeTypeCode" />
+          <ScalarProperty Name="RelativeTypeName" ColumnName="RelativeTypeName" />
+          <ScalarProperty Name="SequenceNo" ColumnName="SequenceNo" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CreatedByEmpNo" ColumnName="CreatedByEmpNo" />
+          <ScalarProperty Name="CreatedByUserID" ColumnName="CreatedByUserID" />
+          <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
+          <ScalarProperty Name="LastUpdateEmpNo" ColumnName="LastUpdateEmpNo" />
+          <ScalarProperty Name="LastUpdateUserID" ColumnName="LastUpdateUserID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="DeathReasonOfAbsences">
+      <EntityTypeMapping TypeName="TASModel.DeathReasonOfAbsence">
+        <MappingFragment StoreEntitySet="DeathReasonOfAbsence">
+          <ScalarProperty Name="LastUpdateUserID" ColumnName="LastUpdateUserID" />
+          <ScalarProperty Name="LastUpdateEmpName" ColumnName="LastUpdateEmpName" />
+          <ScalarProperty Name="LastUpdateEmpNo" ColumnName="LastUpdateEmpNo" />
+          <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
+          <ScalarProperty Name="CreatedByUserID" ColumnName="CreatedByUserID" />
+          <ScalarProperty Name="CreatedByEmpName" ColumnName="CreatedByEmpName" />
+          <ScalarProperty Name="CreatedByEmpNo" ColumnName="CreatedByEmpNo" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="OtherRelativeType" ColumnName="OtherRelativeType" />
+          <ScalarProperty Name="RelativeTypeCode" ColumnName="RelativeTypeCode" />
+          <ScalarProperty Name="ShiftCode" ColumnName="ShiftCode" />
+          <ScalarProperty Name="ShiftPatCode" ColumnName="ShiftPatCode" />
+          <ScalarProperty Name="CorrectionCode" ColumnName="CorrectionCode" />
+          <ScalarProperty Name="CostCenter" ColumnName="CostCenter" />
+          <ScalarProperty Name="DT" ColumnName="DT" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="ReasonAbsenceID" ColumnName="ReasonAbsenceID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,20 @@
+/********************************************************************************
+*	Revision History
+*	Name: FK for trn_RadInvestigation table
+*	Description: 
+*
+*	Date:	  	Author:		Ref#:	Comments:
+*	09/27/10	MLim		7424	Created
+*
+**********************************************************************************/
+
+IF OBJECT_ID ('[FK_trn_RadInvestigation_Admission]') IS NULL
+BEGIN
+	ALTER TABLE [dbo].[trn_RadInvestigation] WITH CHECK 
+	ADD CONSTRAINT [FK_trn_RadInvestigation_Admission] FOREIGN KEY([admission_id])
+	REFERENCES [dbo].[Admission] ([admission_id])
+	ON DELETE CASCADE
+
+	ALTER TABLE [dbo].[trn_RadInvestigation] CHECK CONSTRAINT [FK_trn_RadInvestigation_Admission]
+END
+GO

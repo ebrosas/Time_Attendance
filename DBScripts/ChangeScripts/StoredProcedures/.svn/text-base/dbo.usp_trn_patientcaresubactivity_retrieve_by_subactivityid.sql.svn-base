@@ -1,0 +1,34 @@
+IF OBJECT_ID ('usp_trn_patientcaresubactivity_retrieve_by_subactivityid') IS NOT NULL
+	DROP PROCEDURE [dbo].usp_trn_patientcaresubactivity_retrieve_by_subactivityid
+GO
+
+CREATE PROCEDURE [dbo].usp_trn_patientcaresubactivity_retrieve_by_subactivityid
+(
+	@subactivity_id int
+)
+AS
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_trn_patientcaresubactivity_retrieve_by_subactivityid
+*	Description: Retrieves a subactivity by subactivity id
+*
+*	Date:			Author:		Ref#:		Comments:
+*	11/05/2010  	MLim		7446	    Created
+*	
+**********************************************************************************/
+
+SELECT
+	 pcsa.subactivity_id
+	,pcsa.patientcare_id
+	,pcsa.subactivity_name
+	,pcsa.subactivity_date
+	,pcsa.isRequired
+	,pcsa.activity_id
+FROM
+	[dbo].trn_PatientCareSubActivity pcsa INNER JOIN
+	[dbo].trn_PatientCare pc ON pcsa.patientcare_id = pc.patientcare_id
+WHERE
+	subactivity_id = @subactivity_id
+
+GO

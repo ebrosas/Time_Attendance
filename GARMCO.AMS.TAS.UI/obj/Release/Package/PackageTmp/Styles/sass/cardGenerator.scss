@@ -1,0 +1,271 @@
+﻿@use "common";
+
+/*#region Variables */
+$pageTitle-Color: white;
+$fieldTitle-Color: #4b4c4d;
+$fieldLabel-Color: #171810;
+$groupTitle-Color: #595E60;
+/*#endregion */
+
+/*#region Template Properties */
+.button-basic {
+   @include common.fontTheme($fontFamily: 'Montserrat-Regular', $fontSize: 13px, $fontWeight: 600, $fontColor: null);
+    letter-spacing: 1px;
+    margin: 0px 4px;
+}
+
+.link-basic {
+   @include common.fontTheme($fontFamily: 'Montserrat-Regular', $fontSize: 13px, $fontWeight: 600, $fontColor: $fieldTitle-Color);
+    letter-spacing: 1px;
+    margin: 0px 4px;
+}
+
+%panel-header-template {
+    font-family: Montserrat-SemiBold !important;
+    color: $pageTitle-Color;
+    text-align: center;
+    border-radius: 5px 5px 0px 0px;
+}
+/*#endregion */
+
+/*#region Mixins */
+@mixin mix-panel-header($fontSize, $height, $bgColor) {
+    @extend %panel-header-template;
+    font-size: $fontSize;
+    height: $height;
+    line-height: $height;
+    color: $pageTitle-Color;
+    background-color: $bgColor;
+}
+
+
+/*#endregion */
+
+/*#region Caption Styles*/
+.fieldTitle {
+    @include common.fontTheme($fontFamily: 'Montserrat-Bold', $fontSize: 13px, $fontWeight: 800, $fontColor: $fieldTitle-Color);
+    line-height: 1.5;
+    text-transform: uppercase;
+    text-align: right;
+}
+
+.fieldValue {
+    @include common.fontTheme($fontFamily: 'Montserrat-Regular', $fontSize: 14px, $fontWeight: 500, $fontColor: $fieldLabel-Color);
+}
+
+.groupTitle {
+    @include common.fontTheme($fontFamily: 'Montserrat-Bold', $fontSize: 15px, $fontWeight: null, $fontColor: $groupTitle-Color);
+    letter-spacing: 1px;
+    text-transform: capitalize;
+}
+
+.groupTitle2{
+    @include common.fontTheme($fontFamily: 'Mukta-Bold', $fontSize: 17px, $fontWeight: null, $fontColor: $groupTitle-Color);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+/*#endregion */
+
+/*#region Panel Styles */
+.pageTitlePanel {
+    @include mix-panel-header($fontSize: 16px, $height: 37px, $bgColor: #738FA7);    
+    margin-top: 10px;
+    padding: 0px;
+}
+
+.pageBodyPanel {
+    margin: 0px;
+    background-color: #f5f5f5;
+    padding: 10px 0px;
+    box-shadow: inset 0 0 7px 5px #ddd;
+    overflow: hidden;
+}
+
+.groupHeader {
+    @include mix-panel-header($fontSize: 15px, $height: 32px, $bgColor: #59981A);
+}
+
+.groupBody {
+    background-color: #f5f5f5;
+    padding: 10px 0px;
+    border: {
+        style: solid;
+        color: #59981A;
+        top-style: none;
+        right-style: solid;
+        left-style: solid;
+        bottom-style: solid;
+    }
+    box-shadow: 5px 5px 30px 0px #5B7C70;
+}
+
+.cardInfoHeader {
+    @include mix-panel-header($fontSize: 15px, $height: 32px, $bgColor: #59981A);
+}
+
+.cardInfoBody {
+    background-color: #f5f5f5;
+    padding: 10px 0px;
+    border: {
+        style: solid;
+        color: #59981A;
+        top-style: none;
+        right-style: solid;
+        left-style: solid;
+        bottom-style: solid;
+    }
+    box-shadow: 5px 5px 30px 0px #5B7C70;
+}
+
+.panelFieldSet {
+    @include common.fontTheme($fontFamily: 'Montserrat-Bold', $fontSize: 15px, $fontWeight: null, $fontColor: $groupTitle-Color);
+    letter-spacing: 1px;
+    text-transform: capitalize;
+    background-color: #f5f5f5;
+    margin-top: 10px;
+    padding: 10px 0px;
+    box-shadow: inset 0 0 5px 3px #ddd;
+}
+
+.errorPanel {
+    @include common.panelTheme;
+}
+
+.tablePanel {
+    @include common.panelTheme($fontFamily: 'Montserrat-SemiBold', $fontSize: 12px);
+    color: #54627B;
+    border: 1px solid #54627B;
+    border-radius: 5px 5px 5px 5px;
+    background-color: #F5F5F5;
+    box: {
+        sizing: border-box;
+        shadow: 5px 5px 10px #738FA7;
+    }
+}
+
+.modalHeader {
+    font: {
+        family: Montserrat-Bold;
+        size: 20px;
+        weight: 800;
+    }
+    letter-spacing: 1px;
+    line-height: 1.7;
+    text-transform: capitalize;
+}
+
+.modalButton {
+    font: {
+        family: Montserrat-Regular;
+        size: 13px;
+        weight: 600;
+    }
+    line-height: 1;
+    letter-spacing: 1px;    
+    width: 90px;
+    margin: 0px 4px;
+}
+
+
+.modalFieldTitle {
+    font: {
+        family: Montserrat-SemiBold;
+        size: 14px;
+    }
+    color: #4b4c4d;
+    text-align: right;
+}
+
+.formWrapper {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -ms-overflow-style: none;   /* IE and Edge */
+}
+
+    .formWrapper::-webkit-scrollbar {
+        display: none;  // Safari and Chrome
+    }
+
+.formHeader {
+    font: {
+        family: Poppins-Bold;
+        size: 17px;
+    }
+    margin: 10px 0px 0px 0px;
+    padding-top: 2px;
+    height: 37px;
+    line-height: 37px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: white;
+    text-align: center;
+    background-color: #738FA7;
+    border-radius: 5px 5px 0px 0px;
+}
+/*#endregion */
+
+/*#region HTML Element Styles */
+.generalTable {
+    margin: 0 auto;
+    font-family: Verdana;
+    th {
+        text-align: center;
+        padding: 6px;
+        background-color: #3F92B7; 
+        color: white;
+        font: {
+            family: 'Arial Rounded MT';
+            size: 14px;
+            weight: 800;
+        }                
+    }
+    th.dt-body-center, td.dt-body-center {
+        text-align: center;
+    }
+    tr:hover {
+        background-color: rgb(163, 206, 241) !important;
+        color: #3C3C3C;
+    }
+    tbody tr {
+        font-size: 12px;
+        letter-spacing: 1px;
+    }
+    tbody td {
+        padding: 4px;
+    }
+    .tableButton {
+        margin: 0px 5px;
+        text-align: center;
+    }
+}
+
+.actionButton {
+    @extend .button-basic;
+    width: 160px;
+}
+
+.linkButton {
+    @extend .link-basic;
+}
+
+.pictureButton {
+    @include common.fontTheme($fontFamily: 'Montserrat-Regular', $fontSize: 12px, $fontWeight: 600, $fontColor: null);
+    margin: 0px 4px;
+    width: 110px;
+}
+
+.gridLink {
+    @include common.fontTheme($fontFamily: Verdana, $fontSize: 14px, $fontWeight: 600, $fontColor:  blue);
+    text-decoration: none;
+}
+
+.linkTitle {
+    @include common.fontTheme($fontFamily: Mukta-Regular, $fontSize: 14px, $fontWeight: 600, $fontColor: null);
+    line-height: 0.2;
+}
+
+.centeredColumn {
+    padding: 7px;
+}
+/*#endregion */

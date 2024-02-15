@@ -1,0 +1,204 @@
+IF OBJECT_ID('dbo.usp_reportconsultant_topten_retrieve') IS NOT NULL
+	DROP PROCEDURE [dbo].[usp_reportconsultant_topten_retrieve]
+GO
+
+CREATE PROCEDURE [dbo].[usp_reportconsultant_topten_retrieve]
+(
+	@hospitalId varchar(30),	--this is the desc for facility
+	@system_insurer_id int,
+	@claim_type_code char(12),
+	@toptenby char(12),
+	@start_date datetime,
+	@end_date datetime,
+	@report_type char(12),
+	@display varchar(12)
+)
+AS
+
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_reportconsultant_topten_retrieve
+*	Description:
+*
+*	Date:		Author:		Ref#:		Comments:
+*	11/11/2010	EBrosas		7770		Submitted Consultant Summary Report: Does not generate sorted records from the selected value in Sort by. 
+*	09/11/2009	ALao		N/A			Added report type for Ready for QA Check
+*	09/11/2009	SNgo		N/A			Based on the updates of CMcGrath
+*	08/25/2008	RFernando	N/A			Updated for CR Conversion
+*	08/13/2008	MLim		N/A			Updated to correct server error
+*	03/27/2008	CFerrer					Updated for CCF# 20080008
+*	03/19/2008	CFerrer					Updated for CCF# 20080001
+*	12/04/2007  	CFerrer		N/A			Updated for bug 0000480
+*	11/23/2007	RDmarucut	N/A			Added parameter display for display all consultants
+*	08/27/2007  	CFerrer		N/A			Created
+*
+**********************************************************************************/
+
+DECLARE @chvSQL nvarchar(4000),
+	@chvSQL1 nvarchar(4000),
+	@toptenbydesc varchar(100),
+--	@insurer varchar(12)
+	--@systemInsurerId int,
+	@claimTypeCode char(12)--,
+	--@systemFacilityId int 		--this is the system id for facility
+
+declare @chrQuote char(1)
+SET	@chrQuote = (SELECT CHAR(39))
+
+--SET @toptenbydesc = (SELECT CONVERT(varchar(100), [DESC]) FROM Refdata WHERE Code = @toptenby)
+
+--IF (@hospitalId = '0')
+	--SET @systemFacilityId = 0
+--ELSE
+	--SET @systemFacilityId = (SELECT hospital_id FROM Hospital WHERE CONVERT(varchar(12), hospital_name) = @hospitalId)
+	
+--IF (@system_insurer_id = 'ALL')
+--	SET @systemInsurerId = 0
+--ELSE
+--	SET @systemInsurerId = (SELECT system_insurer_id FROM Insurer WHERE CONVERT(varchar(12), insurer_desc) = @insurer_desc)
+
+IF (@claim_type_code = 'ALL')
+	SET @claimTypeCode = 'ALL'
+ELSE
+	SET @claimTypeCode = (SELECT claim_type_code FROM Claim_Type WHERE claim_type_code = @claim_type_code)
+
+IF (@display != '0')
+	SET @display = 'TOP ' + @display
+ELSE
+	SET @display = ''
+
+IF (@report_type = 'RT5')  -- Top Ten Admitting Consultant Summary Report - Unsubmitted Claims 
+BEGIN
+	
+	CREATE TABLE #tblDoctor2 (doctor_id char(12), doctor_name varchar(200))
+	
+	-- primary doctors with unsubmitted claims
+	INSERT INTO #tblDoctor2
+	SELECT DISTINCT b.doctor_id,
+		UPPER(ISNULL(b.Last_Name + ', ','')) + UPPER(RTRIM(ISNULL(b.First_Name,''))) + ' ' + UPPER(RTRIM(ISNULL(b.Middle_Initial,'')))  
+	FROM ADMISSION a
+		JOIN DOCTOR b ON a.doctor_id = b.doctor_id
+			AND b.doctor_id IS NOT NULL
+			AND a.doctor_type = 'PRIMARY'
+		JOIN CLAIM c ON c.claim_id = a.claim_id
+	WHERE c.batch_date IS NULL
+	ORDER BY b.doctor_id	
+
+	IF @toptenby = 'TTS1'
+		SET @toptenbydesc = 'ValueOfNotSubmitted'
+	ELSE IF @toptenby = 'TTS2'
+		SET @toptenbydesc = 'ValueOfAwaitingPage1'
+	ELSE IF @toptenby = 'TTS3'
+		SET @toptenbydesc = 'ValueOfAwaitingConsultantsDoc'
+	ELSE IF @toptenby = 'TTS14'
+		SET @toptenbydesc = 'ValueOfReadyForQACheck'
+	ELSE IF @toptenby = 'TTS4'
+		SET @toptenbydesc = 'NumberOfNotSubmitted'
+	ELSE IF @toptenby = 'TTS5'
+		SET @toptenbydesc = 'NumberOfAwaitingPage1'
+	ELSE IF @toptenby = 'TTS6'
+		SET @toptenbydesc = 'NumberOfAwaitingConsultantsDoc'
+	ELSE IF @toptenby = 'TTS13'
+		SET @toptenbydesc = 'NumberOfReadyForQACheck'
+
+	SET @chvSQL = 'SELECT ' + @display + ' doc.doctor_name AS ''DoctorName''
+		,[dbo].udf_getvalueofclaims_by_status_topten(doc.doctor_id,'  + @chrQuote + RTRIM(@report_type) + @chrQuote + ',' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ',' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ',' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ',''ALL'') AS ''ValueOfNotSubmitted''	
+		,[dbo].udf_getvalueofclaims_by_status_topten(doc.doctor_id,'  + @chrQuote + RTRIM(@report_type) + @chrQuote + ',' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ',' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ',' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ',''CS1'') AS ''ValueOfAwaitingPage1''
+		,[dbo].udf_getvalueofclaims_by_status_topten(doc.doctor_id,'  + @chrQuote + RTRIM(@report_type) + @chrQuote + ',' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ',' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ',' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ',''CS3'') AS ''ValueOfAwaitingConsultantsDoc''
+		,[dbo].udf_getvalueofclaims_by_status_topten(doc.doctor_id,'  + @chrQuote + RTRIM(@report_type) + @chrQuote + ',' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ',' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ',' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ',''CS5'') AS ''ValueOfAwaitingHospitalInvoice''
+		,[dbo].udf_getvalueofclaims_by_status_topten(doc.doctor_id,'  + @chrQuote + RTRIM(@report_type) + @chrQuote + ',' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ',' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ',' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ',''CS6'') AS ''ValueOfAwaitingRadInvoice''
+		,[dbo].udf_getvalueofclaims_by_status_topten(doc.doctor_id,'  + @chrQuote + RTRIM(@report_type) + @chrQuote + ',' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ',' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ',' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ',''CS7'') AS ''ValueOfAwaitingLabInvoice''
+		,[dbo].udf_getvalueofclaims_by_status_topten(doc.doctor_id,'  + @chrQuote + RTRIM(@report_type) + @chrQuote + ',' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ',' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ',' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ',''CS8'') AS ''ValueOfAwaitingAnaesInvoice''
+		,[dbo].udf_getvalueofclaims_by_status_topten(doc.doctor_id,'  + @chrQuote + RTRIM(@report_type) + @chrQuote + ',' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ',' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ',' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ',''CS9'') AS ''ValueOfReady''	
+		,[dbo].udf_getvalueofclaims_by_status_topten(doc.doctor_id,'  + @chrQuote + RTRIM(@report_type) + @chrQuote + ',' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ',' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ',' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ',''CS17'') AS ''ValueOfReferred''	
+		,[dbo].udf_getvalueofclaims_by_status_topten(doc.doctor_id,'  + @chrQuote + RTRIM(@report_type) + @chrQuote + ',' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ',' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ',' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ',''CS18'') AS ''ValueOfReadyForQACheck''
+		,[dbo].udf_getnoofclaims_by_status_topten(doc.doctor_id,'  + @chrQuote + RTRIM(@report_type) + @chrQuote + ',' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ',' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ',' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ',''ALL'') AS ''NumberOfNotSubmitted''	
+		,[dbo].udf_getnoofclaims_by_status_topten(doc.doctor_id,'  + @chrQuote + RTRIM(@report_type) + @chrQuote + ',' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ',' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ',' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ',''CS1'') AS ''NumberOfAwaitingPage1''
+		,[dbo].udf_getnoofclaims_by_status_topten(doc.doctor_id,'  + @chrQuote + RTRIM(@report_type) + @chrQuote + ',' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ',' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ',' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ',''CS3'') AS ''NumberOfAwaitingConsultantsDoc''
+		,[dbo].udf_getnoofclaims_by_status_topten(doc.doctor_id,'  + @chrQuote + RTRIM(@report_type) + @chrQuote + ',' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ',' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ',' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ',''CS5'') AS ''NumberOfAwaitingHospitalInvoice''
+		,[dbo].udf_getnoofclaims_by_status_topten(doc.doctor_id,'  + @chrQuote + RTRIM(@report_type) + @chrQuote + ',' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ',' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ',' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ',''CS6'') AS ''NumberOfAwaitingRadInvoice''
+		,[dbo].udf_getnoofclaims_by_status_topten(doc.doctor_id,'  + @chrQuote + RTRIM(@report_type) + @chrQuote + ',' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ',' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ',' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ',''CS7'') AS ''NumberOfAwaitingLabInvoice''
+		,[dbo].udf_getnoofclaims_by_status_topten(doc.doctor_id,'  + @chrQuote + RTRIM(@report_type) + @chrQuote + ',' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ',' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ',' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ',''CS8'') AS ''NumberOfAwaitingAnaesInvoice''
+		,[dbo].udf_getnoofclaims_by_status_topten(doc.doctor_id,'  + @chrQuote + RTRIM(@report_type) + @chrQuote + ',' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ',' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ',' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ',''CS9'') AS ''NumberOfReady''
+		,[dbo].udf_getnoofclaims_by_status_topten(doc.doctor_id,'  + @chrQuote + RTRIM(@report_type) + @chrQuote + ',' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ',' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ',' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ',''CS17'') AS ''NumberOfReferred''
+		,[dbo].udf_getnoofclaims_by_status_topten(doc.doctor_id,'  + @chrQuote + RTRIM(@report_type) + @chrQuote + ',' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ',' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ',' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ',''CS18'') AS ''NumberOfReadyForQACheck''
+
+	 FROM #tblDoctor2 doc
+	ORDER BY ''' + RTRIM(CONVERT(VARCHAR(100), @toptenbydesc)) + ''' DESC '
+
+END
+
+ELSE IF (@report_type = 'RT6')  -- Top Ten Admitting Consultant Summary Report - Submitted Claims 
+BEGIN
+	
+	CREATE TABLE #tblDoctor1 (doctor_id char(12), doctor_name varchar(200))
+	
+	-- primary doctors with submitted claims
+	INSERT INTO #tblDoctor1
+	SELECT DISTINCT b.doctor_id,
+		UPPER(ISNULL(b.Last_Name + ', ','')) + UPPER(RTRIM(ISNULL(b.First_Name,''))) + ' ' + UPPER(RTRIM(ISNULL(b.Middle_Initial,'')))  
+	FROM ADMISSION a
+		JOIN DOCTOR b ON a.doctor_id = b.doctor_id
+			AND b.doctor_id IS NOT NULL
+			AND a.doctor_type = 'PRIMARY'
+		JOIN CLAIM c ON c.claim_id = a.claim_id
+	WHERE c.batch_date IS NOT NULL
+	ORDER BY b.doctor_id
+
+	IF @toptenby = 'TTS7'
+		SET @toptenbydesc = 'ValueOfSubmitted'
+	ELSE IF @toptenby = 'TTS8'
+		SET @toptenbydesc = 'ValueOfReturned'
+	ELSE IF @toptenby = 'TTS9'
+		SET @toptenbydesc = 'ValueOfPaid'
+	ELSE IF @toptenby = 'TTS10'
+		SET @toptenbydesc = 'NumberOfSubmitted'
+	ELSE IF @toptenby = 'TTS11'
+		SET @toptenbydesc = 'NumberOfReturned'
+	ELSE IF @toptenby = 'TTS12'
+		SET @toptenbydesc = 'NumberOfPaid'
+
+	SET @chvSQL = 
+	'SELECT  ' + @display + ' doc.doctor_name AS ''DoctorName''
+		,ISNULL([dbo].udf_getvalueofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS11''),0)
+			+ ISNULL([dbo].udf_getvalueofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ','+ CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS12''),0) 
+			+ ISNULL([dbo].udf_getvalueofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ','+ CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS13''),0) 
+			+ ISNULL([dbo].udf_getvalueofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ','+ CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS16''),0)
+			+ ISNULL([dbo].udf_getvalueofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ','+ CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS15''),0) 
+			+ ISNULL([dbo].udf_getvalueofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ','+ CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS15 - Balance''),0) 
+			+ ISNULL([dbo].udf_getvalueofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ','+ CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS14''),0) AS ''ValueOfSubmitted''	
+		,ISNULL([dbo].udf_getvalueofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS11''),0) AS ''ValueOfNoResponse''
+		,ISNULL([dbo].udf_getvalueofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS12''),0) AS ''ValueOfPended''
+		,ISNULL([dbo].udf_getvalueofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS13''),0) AS ''ValueOfRejected''
+		,ISNULL([dbo].udf_getvalueofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS16''),0) AS ''ValueOfReturned''
+		,ISNULL([dbo].udf_getvalueofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS15''),0) AS ''ValueOfPartpaidMinusAmountPaid''
+		,ISNULL([dbo].udf_getvalueofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS15 - Balance''),0) AS ''ValueOfPartPaidMinusBalance''
+		,ISNULL([dbo].udf_getvalueofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS14''),0) AS ''ValueOfPaid''	
+		,ISNULL([dbo].udf_getnoofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS11''),0)
+			+ ISNULL([dbo].udf_getnoofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS12''),0) 
+			+ ISNULL([dbo].udf_getnoofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS13''),0) 
+			+ ISNULL([dbo].udf_getnoofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS16''),0)
+			+ ISNULL([dbo].udf_getnoofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS15''),0) 
+			+ ISNULL([dbo].udf_getnoofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS14''),0) AS ''NumberOfSubmitted''	
+		,ISNULL([dbo].udf_getnoofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS11''),0) AS ''NumberOfNoResponse''
+		,ISNULL([dbo].udf_getnoofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS12''),0) AS ''NumberOfPended''
+		,ISNULL([dbo].udf_getnoofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS13''),0) AS ''NumberOfRejected''
+		,ISNULL([dbo].udf_getnoofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS16''),0) AS ''NumberOfReturned''
+		,ISNULL([dbo].udf_getnoofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS15''),0) AS ''NumberOfPartpaid''
+		,ISNULL([dbo].udf_getnoofclaims_by_status_topten(doc.[doctor_id], '  + @chrQuote + RTRIM(@report_type) + @chrQuote + ', ' + CONVERT(VARCHAR(10),@hospitalId) + ',' + CONVERT(VARCHAR(10),@system_insurer_id) + ', ' + @chrQuote + RTRIM(@claimTypeCode) + @chrQuote + ',' + @chrQuote + convert(varchar, @start_date, 101) + @chrQuote + ', ' + @chrQuote + convert(varchar, @end_date, 101) + @chrQuote + ', ''CS14''),0) AS ''NumberOfPaid''
+	 FROM	#tblDoctor1 doc
+	ORDER BY ''' + RTRIM(CONVERT(VARCHAR(100), @toptenbydesc)) + ''' DESC '
+
+END
+
+print @chvSQL
+EXECUTE SP_EXECUTESQL @chvSQL
+
+IF OBJECT_ID('tempdb..#tblDoctor1') IS NOT NULL
+	DROP TABLE #tblDoctor1
+IF OBJECT_ID('tempdb..#tblDoctor2') IS NOT NULL
+	DROP TABLE #tblDoctor2
+GO
+
+

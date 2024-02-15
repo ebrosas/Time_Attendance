@@ -1,0 +1,40 @@
+/********************************************************************************
+*	Date:	  	Author:		Ref#		Comments:
+*	11/05/10	JVillas		7446		Updated to include is_claim_requirement and for_returned_claim field
+*	10/26/10	RDimarucut	7446		Updated document_name of activity 8 - other supporting documentations.
+*	10/22/10	RDimarucut	7446		Created new table for activity and populated with new data.
+**********************************************************************************/
+
+DELETE FROM [dbo].[ref_Activity]
+GO
+
+INSERT INTO [dbo].[ref_Activity] 
+(
+	[activity_id]
+	,[description]
+	,[document_name]
+	,[esubmit_order]
+	,[is_membershipnumrequired]
+	,[forpresubmission]
+	,[has_DataRequirement]
+	,[is_claim_requirement]
+	,[for_returned_claim]
+	,[sort_order]
+	,[create_date]
+	,[create_user]
+	,[update_date]
+	,[update_user]
+) 
+	SELECT 1,	'Patient/Policy Form',		'Patient Policy',			2,	1,	1,	1,	1,	0,	1,	GETDATE(),	'Script',	GETDATE(),	'Script' UNION
+	SELECT 2,	'Consultant Claim Form',	'Clinical Consultant',		3,	0,	1,	1,	1,	0,	2,	GETDATE(),	'Script',	GETDATE(),	'Script' UNION
+	SELECT 3,	'Consultant Invoice(s)',	'Consultant Inv',			4,	0,	1,	0,	1,	0,	3,	GETDATE(),	'Script',	GETDATE(),	'Script' UNION
+	SELECT 4,	'Other Consultant''s Invoice(s)','Other Consultant Inv',5,	0,	1,	0,	1,	0,	4,	GETDATE(),	'Script',	GETDATE(),	'Script' UNION
+	SELECT 5,	'Radiologists Invoice(s)',	'Radiologists Inv',			6,	0,	1,	0,	1,	0,	5,	GETDATE(),	'Script',	GETDATE(),	'Script' UNION
+	SELECT 6,	'Laboratory Invoice(s)',		'Laboratory Inv',		7,	0,	1,	0,	1,	0,	6,	GETDATE(),	'Script',	GETDATE(),	'Script' UNION
+	SELECT 7,	'Anaesthetist''s Invoice(s)',	'Anaesthetist Inv',		8,	0,	1,	0,	1,	0,	7,	GETDATE(),	'Script',	GETDATE(),	'Script' UNION
+	SELECT 8,	'Other Supporting Documentations','Supporting Doc',		9,	0,	1,	0,	1,	0,	8,	GETDATE(),	'Script',	GETDATE(),	'Script' UNION
+	SELECT 9,	'Hospital Invoice',	'Hospital Inv',						10,	0,	1,	0,	1,	0,	9,	GETDATE(),	'Script',	GETDATE(),	'Script' UNION
+	SELECT 10,	'Loose Bill for post-claim submission',	'Loose Bill',	-1,	0,	0,	0,	0,	0,	10,	GETDATE(),	'Script',	GETDATE(),	'Script' UNION
+	SELECT 11,	'Correction Sheet',	'CorrectionSheet',					1,	0,	0,	0,	0,	1,	11,	GETDATE(),	'Script',	GETDATE(),	'Script'
+
+GO

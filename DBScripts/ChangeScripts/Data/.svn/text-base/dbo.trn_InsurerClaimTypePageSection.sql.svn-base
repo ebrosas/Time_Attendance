@@ -1,0 +1,88 @@
+SET QUOTED_IDENTIFIER ON
+GO
+
+	/********************************************************************************
+	*	Date:	  	Author:		Comments:
+	*	09/29/10	EBrosas		Populate records for GARDA - Patient Policy
+	**********************************************************************************/
+
+	DECLARE @G int
+	SELECT @G = [system_insurer_id] FROM [dbo].[Insurer] WHERE [insurer_code] = 'G' 
+
+	--Delete existing record for Garda - Patient Policy
+	IF EXISTS (SELECT system_insurer_id FROM [dbo].trn_InsurerClaimTypePageSection WHERE system_insurer_id = @G AND pageCode = 'CF_Patient')
+	BEGIN
+		DELETE FROM [dbo].trn_InsurerClaimTypePageSection 
+		WHERE system_insurer_id = @G AND pageCode = 'CF_Patient'
+	END
+	
+	IF EXISTS (SELECT system_insurer_id FROM [dbo].trn_InsurerClaimTypePageSection WHERE system_insurer_id = @G AND pageCode = 'CF_Clinical')
+	BEGIN
+		DELETE FROM [dbo].trn_InsurerClaimTypePageSection 
+		WHERE system_insurer_id = @G AND pageCode = 'CF_Clinical'
+	END
+
+	INSERT INTO [dbo].[trn_InsurerClaimTypePageSection]([system_insurer_id],[claim_type_code],[pageCode],[sectionPanelId],[sectionName],[createUser],[updateUser], [SortOrder]) 
+
+	SELECT @G,'HCT1','CF_Patient','pnlPolicyDetails','Policy Details','Script','Script',1 UNION
+	SELECT @G,'HCT1','CF_Patient','pnlMaternity','Claim Details','Script','Script',2 UNION
+	SELECT @G,'HCT1','CF_Patient','pnlInjuryDetails','Third Party Details','Script','Script',3 UNION
+	--HOSPITAL CLINICAL CONSULTANT
+	SELECT @G,'HCT1','CF_Clinical','pnlHistory','Consultant and Medical Section','Script','Script',1 UNION
+	SELECT @G,'HCT1','CF_Clinical','pnlDiagnosis','Investigations','Script','Script',2 UNION
+	SELECT @G,'HCT1','CF_Clinical','pnlDischargeStatus','Discharge Status','Script','Script',3 
+
+
+	/********************************************************************************
+	*	Date:	  	Author:		Comments:
+	*   09/24/10    EBrosas		Populate records for POMAS insurer
+	**********************************************************************************/
+
+	DECLARE @P int
+	SELECT @P = [system_insurer_id] FROM [dbo].[Insurer] WHERE [insurer_code] = 'P' 
+
+	--Delete existing record for POMAS
+	IF EXISTS (SELECT system_insurer_id FROM [dbo].trn_InsurerClaimTypePageSection WHERE system_insurer_id = @P)
+	BEGIN
+		DELETE FROM [dbo].trn_InsurerClaimTypePageSection 
+		WHERE system_insurer_id = @P
+	END
+
+	INSERT INTO [dbo].[trn_InsurerClaimTypePageSection]([system_insurer_id],[claim_type_code],[pageCode],[sectionPanelId],[sectionName],[createUser],[updateUser], [SortOrder]) 
+
+	--Manage 
+	SELECT @P,'HCT1','CF_Manage','pnlHospitalDetails','Hospital Details','Script','Script',1 UNION
+
+	--Policy - Hospital
+	SELECT @P,'HCT1','CF_Patient','pnlPolicyDetails','Policy Details','Script','Script',1 UNION
+	SELECT @P,'HCT1','CF_Patient','pnlClaimDetails','Claim Details','Script','Script',2 UNION
+	SELECT @P,'HCT1','CF_Patient','pnlInjuryDetails','Injury Details','Script','Script',3 UNION
+
+	--Clinical - Hospital
+	SELECT @P,'HCT1','CF_Clinical','pnlConsultantMedicalSection','Consultant and Medical Section','Script','Script',1 UNION	
+	SELECT @P,'HCT1','CF_Clinical','pnlTreatmentSection','Tests/Treatments','Script','Script',2 UNION	
+	SELECT @P,'HCT1','CF_Clinical','pnlDiagnosisSection','Diagnosis','Script','Script',3 	
+
+
+/********************************************************************************
+*	Date:	  	Author:		Comments:
+*   09/29/10            DGVasquez 	Populate records for MPF HCT1
+**********************************************************************************/
+	DECLARE @M int
+	SELECT @M = [system_insurer_id] FROM [dbo].[Insurer] WHERE [insurer_code] = 'M' 
+	
+	DELETE FROM [dbo].trn_InsurerClaimTypePageSection 
+		WHERE system_insurer_id = @M AND claim_type_code ='HCT1' AND pageCode ='CF_Clinical'
+
+	INSERT INTO [dbo].[trn_InsurerClaimTypePageSection]([system_insurer_id],[claim_type_code],[pageCode],[sectionPanelId],[sectionName],[createUser],	[updateUser], [SortOrder]) 
+	
+	SELECT @M,'HCT1','CF_Clinical','pnlConsultantMedicalSection','Consultant and Medical Section','Script','Script',1 UNION	
+	SELECT @M,'HCT1','CF_Clinical','pnlTreatmentSection','Tests/Treatments','Script','Script',2	
+	
+GO
+
+SET QUOTED_IDENTIFIER OFF
+GO
+
+
+

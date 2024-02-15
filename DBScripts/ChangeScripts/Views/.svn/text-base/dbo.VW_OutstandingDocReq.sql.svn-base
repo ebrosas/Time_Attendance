@@ -1,0 +1,128 @@
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[VW_OutstandingDocReq]') and OBJECTPROPERTY(id, N'IsView') = 1)
+drop view [dbo].[VW_OutstandingDocReq]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE VIEW [dbo].[VW_OutstandingDocReq]
+
+AS 
+
+/********************************************************************************
+*	Revision History
+
+*	Name: VW_OutstandingDocReq
+*	Description:
+*
+*	Date:		Author:		Ref#:	Comments:
+*	10/14/2010	JVillas		7659	Fixed invalid claim search result when searching for Doctor Name + Claim Status + Outstanding Requirements
+
+**********************************************************************************/
+
+SELECT Claim_ID, Admission_ID, Activity_ID, CASE WHEN PrimaryDoc is NULL THEN SecondaryDoc Else PrimaryDoc END As doctor_id FROM (
+SELECT  A.*,B.admission_id,CASE WHEN A.activity_id in (2,4) AND B.doctor_type = 'PRIMARY' THEN B.Doctor_id ELSE NULL END AS PrimaryDoc,CASE WHEN A.activity_id in (3,5,10) AND B.doctor_type = 'SECONDARY' THEN B.Doctor_id ELSE NULL END AS SecondaryDoc  FROM (
+	SELECT A.claim_id,A.activity_id FROM (
+				SELECT Claim_reference AS claim_id, activity_id FROM dbo.Claim_Requirements
+
+				UNION ALL
+
+				SELECT Claim_id, activity_id FROM (
+					SELECT A.Insurer,A.claimtype,A.Claim_id,B.activity_id FROM dbo.VW_SearchClaims A INNER JOIN dbo.trn_InsurerClaimTypeActivityReq B ON A.Insurer= B.system_insurer_id AND A.claimtype = B.claim_type_code
+					WHERE Claim_id not in (SELECT Claim_reference FROM dbo.Claim_Requirements)
+					)A	
+				)A 
+
+		LEFT JOIN (SELECT Claim_Id, Activity_Id, doctor_id FROM (
+
+						SELECT A.Claim_id, A.doctor_id, CASE WHEN B.doctor_type = 'PRIMARY' THEN 2 ELSE 3 END AS Activity_ID FROM dbo.[signature] A inner join dbo.admission B ON A.admission_id = B.admission_id
+
+						UNION
+
+						SELECT Claim_id, NULL AS doctor_id, 
+											CASE WHEN ATTACHMENT_TYPE = 'Patient Policy' THEN 1
+											 WHEN ATTACHMENT_TYPE = 'Clinical Consultant' THEN 2
+											 WHEN ATTACHMENT_TYPE = 'Consultant Inv' THEN 3
+											 WHEN ATTACHMENT_TYPE = 'Other Consultant Inv' THEN 4
+											 WHEN ATTACHMENT_TYPE = 'Radiologists Inv' THEN 5
+											 WHEN ATTACHMENT_TYPE = 'Laboratory Inv' THEN 6
+											 WHEN ATTACHMENT_TYPE = 'Anaesthetist Inv' THEN 7
+											 WHEN ATTACHMENT_TYPE = 'Supporting Doc' THEN 8
+											 WHEN ATTACHMENT_TYPE = 'Hospital Inv' THEN 9
+											 WHEN ATTACHMENT_TYPE = 'Loose Bill' THEN 10
+										END AS Activity_id
+						FROM dbo.[attachment]
+
+
+						UNION
+
+						SELECT Claim_id,  NULL AS doctor_id, 
+											CASE WHEN DOC_TYPE = 'Patient Policy' THEN 1
+											 WHEN DOC_TYPE = 'Clinical Consultant' THEN 2
+											 WHEN DOC_TYPE = 'Consultant Inv' THEN 3
+											 WHEN DOC_TYPE = 'Other Consultant Inv' THEN 4
+											 WHEN DOC_TYPE = 'Radiologists Inv' THEN 5
+											 WHEN DOC_TYPE = 'Laboratory Inv' THEN 6
+											 WHEN DOC_TYPE = 'Anaesthetist Inv' THEN 7
+											 WHEN DOC_TYPE = 'Supporting Doc' THEN 8
+											 WHEN DOC_TYPE = 'Hospital Inv' THEN 9
+											 WHEN DOC_TYPE = 'Loose Bill' THEN 10
+											END AS Activity_id  
+						FROM dbo.[scanned_doc]
+						)A 
+				)B ON A.claim_id = B.claim_id AND A.Activity_id = B.Activity_id
+			WHERE B.claim_id IS NULL 
+
+		UNION 
+
+		SELECT A.Claim_id, A.activity_id FROM (
+				SELECT Claim_reference AS claim_id, activity_id FROM dbo.Claim_Requirements
+
+				UNION
+
+				SELECT Claim_id, activity_id FROM (
+					SELECT A.Insurer,A.claimtype,A.Claim_id,B.activity_id FROM dbo.VW_SearchClaims A INNER JOIN dbo.trn_InsurerClaimTypeActivityReq B ON A.Insurer= B.system_insurer_id AND A.claimtype = B.claim_type_code
+					WHERE Claim_id not in (SELECT Claim_reference FROM dbo.Claim_Requirements)
+					)A	
+				)A 
+
+		LEFT JOIN ( SELECT Claim_id, 1 AS Activity_id, Activity_Code FROM (
+						SELECT 	Claim_id, CASE WHEN insurer = 2 AND (Insurance_member_number IS NULL OR LEN(Insurance_member_number) NOT BETWEEN 5 AND 7) THEN 0
+											   WHEN insurer = 3 AND (Insurance_member_number IS NULL OR LEN(Insurance_member_number) NOT BETWEEN 5 AND 8) THEN 0
+															ELSE 1 END AS Activity_id, 101 As Activity_Code FROM dbo.VW_SearchClaims
+						WHERE insurer IN (SELECT system_insurer_id FROM dbo.INSURER WHERE validate_membership_id = 1)
+						)A WHERE Activity_id = 1
+				)B ON A.claim_id = B.claim_id AND A.Activity_id = B.Activity_id
+		WHERE A.Activity_id = 1 AND B.claim_id IS NULL
+	)A  RIGHT JOIN Admission B ON A.Claim_id = B.Claim_id
+WHERE Activity_ID IN (2,3,4,5,10)
+)A WHERE CASE WHEN PrimaryDoc is NULL THEN SecondaryDoc Else PrimaryDoc END is not NULL
+
+--UNION
+
+--SELECT A.* FROM (
+--	SELECT A.Claim_id, A.Admission_id,B.activity_id,A.Doctor_id FROM (SELECT * FROM ADMISSION WHERE DOCTOR_TYPE = 'SECONDARY')A LEFT JOIN (
+--		SELECT A.claim_id,A.activity_id FROM (
+--						SELECT Claim_reference AS claim_id, activity_id FROM dbo.Claim_Requirements
+--						
+--						UNION ALL
+--
+--						SELECT Claim_id, activity_id FROM (
+--							SELECT A.Insurer,A.claimtype,A.Claim_id,B.activity_id FROM dbo.VW_SearchClaims A INNER JOIN dbo.trn_InsurerClaimTypeActivityReq B ON A.Insurer= B.system_insurer_id AND A.claimtype = B.claim_type_code
+--							WHERE Claim_id not in (SELECT Claim_reference FROM dbo.Claim_Requirements) 
+--							)A	
+--						)A 	
+--		)B ON A.Claim_id = B.Claim_id
+--	where activity_id in (3,5,10) 
+--	)A LEFT JOIN (SELECT Claim_Id, Admission_id,Activity_Id, doctor_id FROM (
+--						SELECT A.Claim_id, A.admission_id, A.doctor_id, CASE WHEN B.doctor_type = 'PRIMARY' THEN 2 ELSE 3 END AS Activity_ID FROM dbo.[signature] A inner join dbo.admission B ON A.admission_id = B.admission_id
+--						)A
+--	 )B ON A.Claim_id = B.Claim_id AND A.Admission_id = B.Admission_id  AND A.activity_id = B.Activity_id AND A.Doctor_id = B.Doctor_id
+--where B.claim_id IS NULL 
+
+
+
+
+
+

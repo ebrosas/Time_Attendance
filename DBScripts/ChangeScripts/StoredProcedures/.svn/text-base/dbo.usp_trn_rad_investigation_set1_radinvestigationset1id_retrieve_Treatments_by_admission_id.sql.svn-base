@@ -1,0 +1,67 @@
+IF OBJECT_ID('[dbo].[usp_trn_rad_investigation_set1_radinvestigationset1id_retrieve_Treatments_by_admission_id]') IS NOT NULL
+	DROP PROCEDURE [dbo].[usp_trn_rad_investigation_set1_radinvestigationset1id_retrieve_Treatments_by_admission_id]
+GO      
+      
+CREATE  PROCEDURE [dbo].[usp_trn_rad_investigation_set1_radinvestigationset1id_retrieve_Treatments_by_admission_id]      
+ @admissionid char(12)       
+        
+AS      
+/************************************************************************************************      
+* Revision History      
+*      
+* Name: usp_trn_rad_investigation_set1_radinvestigationset1id_retrieve_Treatments_by_admission_id      
+* Description: Retrieve radiology investigation set1 record by admission id      
+*      
+* Date:    Author:  Ref#:  Comments:  
+* 10/18/10 Lluchavez       refactoring set1               
+* 04/30/10 LLuchavez  N/A      Created.     
+*      
+**************************************************************************************************/      
+      
+SET NOCOUNT ON      
+      
+--DECLARE  @RadiologyInvestigation_ID INT      
+      
+--SELECT   @RadiologyInvestigation_ID = RadiologyInvestigation_ID         
+--FROM   [dbo].trn_RadiologyInvestigation         
+--WHERE   admission_id = @admissionid      
+      
+      
+SET NOCOUNT OFF;      
+      
+      
+DECLARE  @temp  TABLE(  RowId   INT NOT NULL IDENTITY(1,1)      
+      ,Reference_Code_Description  VARCHAR(1030)      
+      )      
+      
+INSERT @temp(Reference_Code_Description)      
+SELECT RTRIM(b.reference_code) + ' - ' + RTRIM(b.description)           
+FROM [dbo].trn_Procedure a INNER JOIN      
+  [dbo].Procedure_Code b ON a.procedure_code_id = b.procedure_code_id LEFT OUTER JOIN      
+  [dbo].Procedure_Code c ON a.clinical_code_id = c.procedure_code_id INNER JOIN    
+  [dbo].Procedure_Code_Service_Type d ON b.service_type_id = d.id      
+WHERE a.admission_id = @admissionid and d.id =5    
+      
+DECLARE  @RowId INT      
+DECLARE  @Code_Description VARCHAR(1030)      
+      
+DECLARE  @RetValue VARCHAR(5000)      
+SET @RowId = 1      
+SET @RetValue = ''      
+WHILE EXISTS(SELECT * FROM @temp WHERE  RowId= @RowId)      
+BEGIN      
+ SELECT @Code_Description = Reference_Code_Description        
+ FROM @temp      
+ WHERE RowId = @RowId      
+ SET @RetValue =@RetValue + @Code_Description      
+    IF(@RowId<>(SELECT Count(*) FROM @temp))        
+     BEGIN  
+   SET @RetValue = @RetValue + ','  
+     END     
+ SET @Code_Description= ''      
+ SET @RowId = @RowId +1      
+END      
+      
+      
+SELECT @RetValue AS 'codedescription'      
+SET NOCOUNT ON; 

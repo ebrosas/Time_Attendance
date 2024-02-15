@@ -1,0 +1,27 @@
+Reader No. 	Reader Name		Alternate Cost Centers
+54		SL1 Operator SFDC	3410
+					3412
+					3415
+					3420
+					3430
+					3470
+
+55		TLL1 Operator SFDC	3412
+					3415
+					3420					
+					3430
+					3470
+
+56		TLL2 Operator Cabin	3410
+					3415
+					3420					
+					3430
+					3470
+
+57		TLL3 Operator Cabin	3410
+					3412					
+					3420
+					3430
+					3470
+
+

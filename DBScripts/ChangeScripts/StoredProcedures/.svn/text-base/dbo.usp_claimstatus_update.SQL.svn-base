@@ -1,0 +1,224 @@
+IF OBJECT_ID ('usp_claimstatus_update') IS NOT NULL
+	DROP PROCEDURE [dbo].usp_claimstatus_update
+GO
+
+CREATE PROCEDURE dbo.[usp_claimstatus_update]
+(
+	@claim_id char(12),
+	@claim_status char(20),
+	@claim_status_date datetime,
+	@claim_status_reason varchar(200),
+	@status_10 datetime,
+	@status_11 datetime,
+	@username varchar(20),
+	@claim_status_id int,
+	@status_13 datetime,
+	@collection_agent varchar(150),
+	@claim_type char(12),
+	@manual_ready_for_submission bit,
+	@has_claim_level_activity_settings bit,
+	@is_auto_ready bit,
+	@case_number varchar(20),
+	@status_14 datetime
+)
+AS
+
+/*********************************************************************************
+* Revision History
+*
+* Name: usp_claimstatus_update
+* Description: update the current status of a particular claim
+*
+* Date:		Author:		Ref#:		 	Comments:
+* 10/28/10	MLim		7446			Updated saving of claim status	
+* 10/26/10	EBrosas		7429			Change SP call from usp_audit_logging to usp_audit_logging_new.
+* 10/22/10	JVillas		7446			Update Claim Activities and Claim Status Workflow 
+*										- Referred Claims (Referred to Patient and Referred to Debt Collection)
+*										- Closed Claims payment updates
+* 10/19/10	EBrosas		7446			Removed Manually Override Status fields.
+* 03/03/09  MLim        N/A         	Added case number field for e-resubmission index file
+* 11/19/08	MLim		N/A				Removed updating of TIFF flag when claims are tagged as returned
+* 11/04/08	TMalana						Added Claim Type
+* 10/22/08	TMalana						Renamed has_auto_ready_claim_level to has_claim_level_activity_settings
+* 10/21/08	TMalana						Updated to add is_auto_ready flag
+* 09/26/08	MLim		N/A				Updated for e-resubmission of claims
+* 09/25/08	TMalana		CCF#20080028	Added Auto-Ready related flags	
+* 05/21/08	MLim		CCF#20080021	Updated to remove status 1-9 and 12
+* 03/14/08	RFernando	CCF#20080008	Updated to include referred to debt
+*										collection agency status and collection 
+*										agent			
+* 01/30/08	RFernando	CCF#20080001	Updated to include saving of 
+*										claim status id (eg. RPU1,RPU2,...)
+* 10/08/07	CFerrer						Updated to set actual insurer 
+*										response date
+* 07/09/07	CFerrer						Updated for audit logging
+* 06/28/07	RFernando	N/A				Updated for Batch 3
+* 06/05/07	RFernando					Batch2_Test_Results_v10.xls	Updated for Batch 2
+* 05/23/07	RFernando	N/A				Updated for Batch 2	
+* 03/26/07	RFernando	N/A				Updated	
+* 02/28/07	RFernando	N/A				Added
+* 04/15/08	ALao		N/A				Removed excess logging within sub conditions
+*
+**********************************************************************************/
+
+
+DECLARE	@current_status_11 datetime
+		,@claim_value_computed money
+		,@current_status char(12)
+		,@getdate datetime
+		,@batch_id varchar(50)
+		,@last_payment_id char(12)
+		,@last_trans_type varchar(50)
+		,@claim_value_updated money
+		,@total_payment money
+
+SET @getdate = (SELECT GETDATE())
+
+SELECT	@current_status_11 = [status_11]
+		,@current_status = [claim_status]
+		,@batch_id = ISNULL([batch_id], '')
+		,@claim_value_computed = [claim_value]
+		,@claim_value_updated = claim_value_updated
+FROM	[dbo].Claim
+WHERE	[claim_id] = @claim_id
+
+IF @current_status <> @claim_status
+BEGIN
+	IF RTRIM(@claim_status_reason) LIKE 'Payment has been deleted.' OR
+	   RTRIM(@claim_status_reason) LIKE 'Balance has been written off.'
+	BEGIN
+		SET @claim_status_reason = ''
+	END		
+END
+
+UPDATE	[dbo].Claim
+SET		[claim_status] = @claim_status,
+		[claim_status_reason] = @claim_status_reason,
+		[claim_status_date] = @claim_status_date,
+		[status_10] = @status_10,
+		[update_date] = @getdate,
+		[update_user] = @username,
+		[claim_status_id] = CAST(@claim_status_id as varchar(4)),
+		[status_13] = @status_13,
+		[collection_agent] = @collection_agent,
+		[claim_type] = CASE WHEN (@claim_type is null OR @claim_type = '') THEN claim_type ELSE @claim_type END,
+		[manual_ready_for_submission] = @manual_ready_for_submission,
+		[has_claim_level_activity_settings] = @has_claim_level_activity_settings,
+		[is_auto_ready] = @is_auto_ready,
+		[case_number] = @case_number,
+		[status_14] = @status_14
+WHERE	[claim_id] = @claim_id
+
+EXEC usp_audit_logging_new @claim_id, @claim_id, 'Claim Status', 'Update', @getdate, @username, 'CF_Manage'
+
+IF @status_10 IS NOT NULL
+BEGIN
+	UPDATE	[dbo].Claim
+	SET		[update_date] = @getdate,
+			[update_user] = @username
+	WHERE	[claim_id] = @claim_id		
+	
+	EXEC usp_audit_logging_new @claim_id, @claim_id, 'Claim Status', 'Update', @getdate, @username, 'CF_Manage'
+END
+
+IF @claim_status = 'RPU6'  -- Returned
+BEGIN
+	IF @status_10 IS NOT NULL AND @status_11 IS NULL
+	BEGIN
+		UPDATE	[dbo].Claim
+		SET		[status_10] = @status_10,
+				[update_date] = @getdate,
+				[update_user] = @username
+		WHERE	[claim_id] = @claim_id		
+		
+		EXEC usp_audit_logging_new @claim_id, @claim_id, 'Claim Status', 'Update', @getdate, @username, 'CF_Manage'
+	END
+	ELSE
+	BEGIN
+		UPDATE	[dbo].Claim
+		SET		[status_10] = NULL,
+				[status_11] = NULL,
+				[update_date] = @getdate,
+				[update_user] = @username
+		WHERE	[claim_id] = @claim_id
+
+		EXEC usp_audit_logging_new @claim_id, @claim_id, 'Claim Status', 'Update', @getdate, @username, 'CF_Manage'
+	END
+END
+
+--Paid/Part-Paid
+IF @claim_status IN ('RPU4', 'RPU5') AND (@batch_id <> '')
+BEGIN
+	-- Get the total payment
+	SELECT	@total_payment = SUM(paid_amt)
+	FROM 	dbo.Claim_Payment
+	WHERE 	claim_id = @claim_id
+
+	-- Get the last payment transaction (non-cancellation transaction)
+	SELECT	TOP 1 
+			@last_payment_id = payment_id
+			,@last_trans_type = trans_type
+	FROM	dbo.Claim_Payment
+	WHERE 	claim_id = @claim_id
+			AND trans_type NOT IN ('CPT5', 'CPT6')
+	ORDER BY paid_date DESC, create_date DESC
+
+	--Paid
+	IF @total_payment >= @claim_value_updated 
+	BEGIN
+		UPDATE	dbo.Claim
+		SET		claim_status = 'RPU4'
+				,claim_status_id =	CASE RTRIM(@last_trans_type)
+										WHEN 'CPT1' THEN 'CS20' --Payment (Patient) | Paid by Patient
+										WHEN 'CPT2' THEN 'CS14' --Payment (Insurer) | Paid by Insurer
+										WHEN 'CPT4' THEN 'CS21' --Write-Off (Full Balance) | Balance Written - Off
+										ELSE claim_status_id
+									END
+
+				,claim_status_date = @GetDate
+				,paid_date = CASE WHEN @current_status = 'RPU4' THEN paid_date ELSE @GetDate END
+		WHERE	claim_id = @claim_id
+	END
+	-- Part-Paid
+	ELSE IF (@total_payment < @claim_value_updated) AND (@total_payment > 0)
+	BEGIN
+		UPDATE	dbo.Claim
+		SET		claim_status = 'RPU5'
+				,claim_status_id =	CASE 
+										WHEN status_13 IS NOT NULL THEN 'CS17' --Referred to Debt Collection Agency
+										WHEN status_14 IS NOT NULL THEN 'CS19' --Referred to Patient
+										ELSE 'CS15' --Part-paid by Insurer
+									END
+				,claim_status_date = @GetDate
+				,paid_date = NULL
+		WHERE	claim_id = @claim_id
+	END
+	-- No Response
+	ELSE IF @total_payment <= 0
+	BEGIN
+		UPDATE	dbo.Claim
+		SET		claim_status = 'RPU1'
+				,claim_status_id =	CASE 
+										WHEN status_13 IS NOT NULL THEN 'CS17' --Referred to Debt Collection Agency
+										WHEN status_14 IS NOT NULL THEN 'CS19' --Referred to Patient
+										ELSE 'CS11' --No Response from Insurer
+									END
+				,claim_status_date = @GetDate
+				,paid_date = NULL
+		WHERE	claim_id = @claim_id
+	END
+
+	EXEC usp_audit_logging_new @claim_id, @claim_id, 'Claim Status', 'Update', @getdate, @username, 'CF_Manage'
+END
+ELSE
+BEGIN
+	UPDATE	[dbo].Claim
+	SET		[paid_date] = null,
+			[update_date] = @getdate,
+			[update_user] = @username
+	WHERE	[claim_id] = @claim_id
+
+	EXEC usp_audit_logging_new @claim_id, @claim_id, 'Claim Status', 'Update', @getdate, @username, 'CF_Manage'
+END
+
+GO

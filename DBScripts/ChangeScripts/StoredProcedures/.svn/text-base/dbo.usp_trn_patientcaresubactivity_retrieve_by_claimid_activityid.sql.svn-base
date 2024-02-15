@@ -1,0 +1,71 @@
+IF OBJECT_ID ('usp_trn_patientcaresubactivity_retrieve_by_claimid_activityid') IS NOT  NULL
+	DROP PROCEDURE [dbo].usp_trn_patientcaresubactivity_retrieve_by_claimid_activityid
+GO
+
+CREATE PROCEDURE [dbo].usp_trn_patientcaresubactivity_retrieve_by_claimid_activityid
+(
+	 @claim_id char(12)
+	,@activity_id int
+)
+AS
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_trn_patientcaresubactivity_retrieve_by_claimid_activityid
+*	Description: Retrieves the list of subactivities per claim and activity id
+*
+*	Date:			Author:		Ref#:		Comments:
+*	11/05/10		JVillas		7446		Added user_id
+*	11/04/10		MLim		7446		Modified fields
+*	11/02/2010		JVillas		N/A			Added field for checking of attached or scanned documents
+*	10/27/2010  	MLim		7446	    Created
+*	
+**********************************************************************************/
+
+SELECT
+		pc.patientcare_id
+		,pc.type_of_care_id
+		,pcsa.activity_id
+		,pcsa.subactivity_id
+		,pcsa.subactivity_name
+		,pcsa.subactivity_date
+		,pcsa.isRequired
+		,has_claim_documents = 
+			CAST
+			(
+				(
+					CASE
+						WHEN EXISTS
+						(
+							SELECT	id
+							FROM	dbo.Attachment
+							WHERE	claim_id = @claim_id
+									AND attachment_type = ra.document_name
+									AND subactivity_id = pcsa.subactivity_id								
+
+							UNION
+											
+							SELECT	id
+							FROM	dbo.Scanned_Doc
+							WHERE	claim_id = @claim_id
+									AND doc_type = ra.document_name
+									AND subactivity_id = pcsa.subactivity_id
+						) THEN 1
+						ELSE 0
+					END
+				)
+			AS bit)
+		,u.[user_id]
+FROM
+		[dbo].trn_PatientCareSubActivity pcsa 
+		INNER JOIN [dbo].trn_PatientCare pc 
+			ON pcsa.patientcare_id = pc.patientcare_id
+		INNER JOIN [dbo].Ref_Activity ra
+			ON ra.activity_id = pcsa.activity_id
+		LEFT OUTER JOIN dbo.[User] u
+			ON u.doctor_id = pc.doctor_id
+WHERE
+		pc.claim_id = @claim_id
+		AND pcsa.activity_id = @activity_id
+
+GO

@@ -1,0 +1,93 @@
+IF OBJECT_ID('dbo.usp_patient_update') IS NOT NULL
+	DROP PROCEDURE [dbo].[usp_patient_update]
+GO
+
+CREATE  PROCEDURE [dbo].[usp_patient_update] 
+(
+	 @Patient_ID char(12)
+	,@Title char(10)
+	,@First_Name varchar(30)
+	,@Middle_Initial char(3)
+	,@Last_Name varchar(30)
+	,@BirthDate datetime
+	,@TelNo1 varchar(20)
+	,@TelNo2 varchar(20)
+	,@Username varchar(20)
+	,@Email_Address varchar(50)
+	,@PPSNo varchar(25)
+	,@ChartNo varchar(50)
+	,@Address varchar(50)
+	,@RelationToPolicy varchar(50)
+	,@Address1 varchar(50)
+	,@Address2 varchar(50)
+	,@Address3 varchar(50)
+	,@claim_id  varchar(12)
+)
+AS
+
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_patient_update
+*	Description: Updates patient info.
+*
+*	Date:	    Author:		Ref#:		Comments:
+*	10/28/10	EBrosas		7429		Change SP call from usp_audit_logging to usp_audit_logging_new.
+*	01/13/2010  DDulay					NTPF adress updates
+*	11/12/2009  LLuchavez               Added relationtopolicy
+*	11/11/2009	RFernando	N/A			Added PPSNo, ChartNo, Address fields
+*	01/07/2009	SPostrado				Updated
+*   07/03/2007 	CFerrer     	        Updated for audit logging
+*	02/27/2007 	CFerrer		N/A	    	Created.
+*	03/13/2008	ALao		BUG#0000578	Updated username to varchar(20)
+*	10/30/2008	FIbanez		N/A			Revised for CCF013_MD - Enabling of Claimsure Fields
+*	11/14/2008  SPostrado				Updated for Claimsure Enabling
+**********************************************************************************/
+
+BEGIN
+
+DECLARE	@GetDate datetime
+	,@Address_ID char(12)
+	,@Flag_Value varchar(20)
+
+SET	@GetDate = (SELECT GETDATE())
+
+EXEC usp_patient_flagsetter @Patient_ID
+	,@Title 
+	,@First_Name 
+	,@Middle_Initial
+	,@Last_Name
+	,@BirthDate
+	,@TelNo1
+	,@TelNo2
+	,@Email_Address
+	,@Flag_Value output
+
+UPDATE Patient
+SET Title = @Title
+	,First_Name = @First_Name 
+	,Middle_Initial = @Middle_Initial 
+	,Last_Name = @Last_Name 
+	,BirthDate = @BirthDate
+	,telephone_1 = @TelNo1
+	,telephone_2 = @TelNo2
+	,email_add = @Email_Address
+	,patient_flag = @Flag_Value
+	,Update_Date = @GetDate
+	,Update_User = @Username
+	,PPSNo = @PPSNo
+	,ChartNo = @ChartNo
+	,Address = coalesce(@Address1 + ', ','') + coalesce(@Address2 + ', ','') + coalesce(@Address3,'') --@Address
+	,RelationToPolicyHolder = @RelationToPolicy
+	,Address_1 = @Address1
+	,Address_2 = @Address2
+	,Address_3 = @Address3
+WHERE Patient_ID = @Patient_ID
+
+EXEC usp_audit_logging_new @Patient_ID, @claim_id, 'Patient', 'Update', @GetDate, @Username, 'CF_Patient'
+--EXEC usp_audit_logging @Patient_ID, NULL, 'Patient', 'Update', @GetDate, @Username
+
+END
+GO
+
+

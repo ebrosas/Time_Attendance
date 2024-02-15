@@ -1,0 +1,207 @@
+IF OBJECT_ID('usp_autogen_laboratory_insert') IS NOT NULL
+	DROP PROCEDURE usp_autogen_laboratory_insert
+GO
+
+CREATE  PROCEDURE [dbo].[usp_autogen_laboratory_insert]
+	@message_id uniqueidentifier,
+	@claim_id varchar(12),
+	@procedure_code_id int,
+	@admission_id char(12)
+	
+AS
+
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_autogen_laboratory_insert
+*	Description: Insert a new laboratory via autogen.
+*
+*	Date:			Author:		Ref#:		Comments:
+*	10/12/2010		JVillas		7424		Refactoring Requirement: trn_RadInvestigationSet1 (Code) and trn_RadInvestigationSet2 (not-coded)
+*	09/17/2010		JVillas		N/A			Added validation for raising activity 8 - laboratory invoice.
+*	08/09/2010		RDimarucut	N/A			Updated activity id setting from 8 to 9.
+*	08/06/2010		RDimarucut	7253		Added validation for raising activity 9 - anaesthetist invoice.
+*								7254
+*								7257
+*	06/21/2010		RDimarucut	6966		Concatenate Laboratory and Radiology details for AVIVA Hospital.
+*	05/19/2010		RDimarucut	N/A			Added condition for checking if a procedure is already existing per admission, if yes, it will not insert the procedure.
+*	04/16/2010		DGreen		N/A			Updated setting of DiagnosticSummary field and used udf_selective_concatenate function.
+*	03/22/2010		RDimarucut	N/A			Added insert on trn_RadInvestigationSet1 table
+*	03/15/2010		RDimarucut				Removed insert on dbo.Laboratory_Investigation table.
+*	11/26/2009		GBorja					Updated to use comma as separator.
+*	11/14/2009		GBorja					Updated to use NEW trans tables
+*	02/19/2009		RDimarucut				Removed admission_id
+*	02/17/2009		RDimarucut				Added procedure_code_id for parameter
+*	02/16/2009		RDimarucut				Updated doctor_id to ServiceProviderCode on select statement
+*	02/12/2009		RDimarucut				Updated parameters and insert statement
+*	02/11/2009		GBorja					Created.
+*
+**********************************************************************************/
+
+DECLARE	 @GetDate datetime
+		,@User varchar (12)
+		,@activity_id int
+		,@hasActivity bit
+		,@isValid bit
+
+SET	@GetDate = (SELECT GETDATE())
+SET @User = 'autogen'
+
+IF NOT EXISTS
+(
+	SELECT	id
+	FROM	dbo.trn_Procedure
+	WHERE	admission_id = @admission_id
+			AND	procedure_code_id = @procedure_code_id
+)
+BEGIN
+	INSERT INTO dbo.trn_Procedure
+	(
+		admission_id
+		,procedure_date
+		,procedure_code_id
+		,exam_id
+		,create_user
+		,create_date
+		,update_user
+		,update_date
+	)
+	SELECT
+			@admission_id
+			,ProcedureDate
+			,@procedure_code_id
+			,Exam_id
+			,@User
+			,@GetDate
+			,@User
+			,@GetDate
+	FROM	dbo.stg_LaboratoryInvestigation
+	WHERE	message_id = @message_id
+
+	IF EXISTS(SELECT procedure_code_id FROM dbo.Procedure_Code WHERE procedure_code_id = @procedure_code_id)
+	BEGIN
+		SET @activity_id = 8	--Laboratory Invoices have been raised/scanned/attached?
+
+		--check if claim activity is already existing.
+		EXEC dbo.usp_autogen_claim_requirements_check  @claim_id, @activity_id, @hasActivity OUTPUT
+		
+		IF (@hasActivity = 0)
+		BEGIN
+			--check if the lab trigger is enabled for claim's claim type and insurer, then trigger the activity.
+			EXEC dbo.usp_autogen_lab_trigger_check @admission_id, @procedure_code_id, @isValid OUTPUT
+			IF (@isValid = 1)
+			BEGIN
+				EXEC usp_autogen_claim_requirements_update @claim_id, @activity_id
+			END
+		END
+	END
+
+	IF EXISTS(SELECT procedure_code_id FROM dbo.Procedure_Code WHERE procedure_code_id = @procedure_code_id AND anaesthesia_required = 1)
+	BEGIN
+		SET @activity_id = 9	--Anaesthetists’ Invoices have been raised/scanned/attached?
+
+		--check if claim activity is already existing.
+		EXEC dbo.usp_autogen_claim_requirements_check  @claim_id, @activity_id, @hasActivity OUTPUT
+		
+		IF (@hasActivity = 0)
+		BEGIN
+			--check if there anaesthesia trigger is enabled for claim's claim type and insurer, then trigger the activity.
+			EXEC dbo.usp_autogen_anaesthesia_trigger_check @admission_id, @isValid OUTPUT
+			IF (@isValid = 1)
+			BEGIN
+				EXEC usp_autogen_claim_requirements_update @claim_id, @activity_id
+			END
+		END
+	END
+END
+
+-- insert LAB Details to TRN Table
+IF NOT EXISTS(SELECT Admission_id FROM dbo.trn_LaboratoryInvestigation WHERE Admission_id = @admission_id)
+BEGIN
+		
+	INSERT INTO dbo.[trn_LaboratoryInvestigation]
+		(Admission_id
+		,DiagnosticSummary
+		,Tests_facility
+		,Biochemistry
+		,Hispathology
+		,Microbiology
+		,Immunology
+		,Haematology
+		,Endocrinology
+		,OtherLabType
+		,create_date
+		,create_user
+		,update_date
+		,update_user
+		,exam_id)
+	SELECT @admission_id
+		,LIQ01
+		,LIQ02
+		,Case When LabType = 'LT1' THEN 1 ELSE 0 END --Biochemistry
+		,Case When LabType = 'LT2' THEN 1 ELSE 0 END --Hispathology
+		,Case When LabType = 'LT3' THEN 1 ELSE 0 END --Microbiology
+		,Case When LabType = 'LT4' THEN 1 ELSE 0 END --Immunology
+		,Case When LabType = 'LT5' THEN 1 ELSE 0 END --Haematology
+		,Case When LabType = 'LT6' THEN 1 ELSE 0 END --Endocrinology
+		,Case When LabType = 'LT7' THEN 1 ELSE 0 END --OtherLabType
+		,@getdate
+		,@user
+		,@getdate
+		,@user
+		,exam_id
+	FROM 
+		dbo.[stg_LaboratoryInvestigation] 	
+	WHERE
+		message_id = @message_id
+
+	SET @activity_id = 8	--Laboratory Invoices have been raised/scanned/attached?
+
+	--check if claim activity is already existing.
+	EXEC dbo.usp_autogen_claim_requirements_check  @claim_id, @activity_id, @hasActivity OUTPUT
+	
+	IF (@hasActivity = 0)
+	BEGIN
+		--check if the lab trigger is enabled for claim's claim type and insurer, then trigger the activity.
+		EXEC dbo.usp_autogen_lab_trigger_check @admission_id, NULL, @isValid OUTPUT
+		IF (@isValid = 1)
+		BEGIN
+			EXEC usp_autogen_claim_requirements_update @claim_id, @activity_id
+		END
+	END
+END
+ELSE
+BEGIN
+	UPDATE  dbo.[trn_LaboratoryInvestigation]
+	SET  DiagnosticSummary = dbo.udf_selective_concatenate(DiagnosticSummary, LIQ01)
+		,Tests_facility = COALESCE(CAST(Tests_facility AS VARCHAR(4000)) + ', ' + CAST(LIQ02 AS VARCHAR(4000)), Tests_facility)
+		,Biochemistry = Case When LabType = 'LT1' THEN 1 ELSE Biochemistry END
+		,Hispathology = Case When LabType = 'LT2' THEN 1 ELSE Hispathology END
+		,Microbiology = Case When LabType = 'LT3' THEN 1 ELSE Microbiology END
+		,Immunology = Case When LabType = 'LT4' THEN 1 ELSE Immunology END
+		,Haematology = Case When LabType = 'LT5' THEN 1 ELSE Haematology END
+		,Endocrinology = Case When LabType = 'LT6' THEN 1 ELSE Endocrinology END
+		,OtherLabType = Case When LabType = 'LT7' THEN 1 ELSE OtherLabType END
+		,create_date = @getdate
+		,create_user = @user
+		,update_date = @getdate
+		,update_user = @user
+	FROM
+	    dbo.[stg_LaboratoryInvestigation] sli 
+		INNER JOIN dbo.[trn_LaboratoryInvestigation] tli ON sli.message_id = @message_id AND tli.admission_id = @admission_id
+	WHERE
+	    message_id = @message_id AND Admission_id = @admission_id 
+END
+
+--Aviva Hospital Claim - Concat Lab and Rad
+UPDATE dbo.Admission
+SET full_description_treatment = dbo.udf_selective_concatenate(adm.full_description_treatment,lab.LIQ01)
+FROM dbo.[Admission] adm 
+INNER JOIN [stg_LaboratoryInvestigation] lab ON lab.message_id = @message_id
+WHERE adm.admission_id = @admission_id
+
+RETURN 
+GO
+
+
+

@@ -1,0 +1,100 @@
+IF OBJECT_ID ('usp_activity_retrieve_by_claimid') IS NOT NULL
+	DROP PROCEDURE [dbo].[usp_activity_retrieve_by_claimid]
+GO
+
+CREATE PROCEDURE [dbo].[usp_activity_retrieve_by_claimid]
+(
+	@claim_id varchar(12)
+)
+AS
+
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_activity_retrieve_by_claimid
+*	Description: 
+*
+*	Date:	   	Author:		Ref#:	Comments:
+*	11/05/10	JVillas		7446	Added is_claim_requirement and for_returned_claim
+*	10/29/10	JVillas		7446	Created
+*
+**********************************************************************************/
+
+BEGIN
+
+SELECT	
+		claim_id = RTRIM(@claim_id)
+		,ra.activity_id
+		,ra.description
+		,ra.document_name
+		,ra.esubmit_order
+		,ra.is_membershipnumrequired
+		,ra.forpresubmission
+		,ra.has_datarequirement
+		,ra.is_claim_requirement
+		,ra.for_returned_claim
+		,ra.sort_order
+		,is_required = CASE WHEN cr.activity_id IS NULL THEN 0 ELSE 1 END
+		,ca.activity_date
+		,has_claim_documents = 
+			CAST
+			(
+				(
+					CASE
+						WHEN EXISTS
+						(
+							SELECT	id
+							FROM	dbo.Attachment
+							WHERE	claim_id = @claim_id
+									AND attachment_type = ra.document_name
+									AND subactivity_id IS NULL								
+
+							UNION
+											
+							SELECT	id
+							FROM	dbo.Scanned_Doc
+							WHERE	claim_id = @claim_id
+									AND doc_type = ra.document_name
+									AND subactivity_id IS NULL
+						) THEN 1
+						ELSE 0
+					END
+				)
+			AS bit)
+		,has_sub_activity = 
+			CAST
+			(
+				(
+					CASE
+						WHEN EXISTS
+						(
+							SELECT	pc.patientcare_id
+							FROM	dbo.trn_PatientCareSubActivity pcsa 
+									INNER JOIN dbo.trn_PatientCare pc 
+										ON pcsa.patientcare_id = pc.patientcare_id
+							WHERE	pc.claim_id = @claim_id
+									AND pcsa.activity_id = ra.activity_id
+						) THEN 1 
+						ELSE 0 
+					END
+				)
+			AS bit)
+FROM	dbo.Ref_Activity ra
+		LEFT OUTER JOIN
+		(
+			SELECT	activity_id = ISNULL(cr.activity_id, ictar.activity_id)
+			FROM	dbo.Claim c
+					LEFT OUTER JOIN dbo.Claim_Requirements cr
+						ON cr.claim_reference = c.claim_id
+						AND c.has_claim_level_activity_settings = 1
+					LEFT OUTER JOIN dbo.trn_InsurerClaimTypeActivityReq ictar
+						ON ictar.system_insurer_id = c.system_insurer_id
+						AND ictar.claim_type_code = c.claim_type
+						AND c.has_claim_level_activity_settings = 0
+			WHERE	c.claim_id = @claim_id
+		) cr
+			ON cr.activity_id = ra.activity_id
+		LEFT OUTER JOIN dbo.Claim_Activity ca
+			ON ca.activity_id = ra.activity_id
+			AND ca.claim_id = @claim_id
+END

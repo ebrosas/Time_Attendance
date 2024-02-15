@@ -1,0 +1,101 @@
+IF OBJECT_ID('[dbo].[usp_autogen_claim_status_field_requirements_check]') IS NOT NULL
+	DROP PROCEDURE [dbo].[usp_autogen_claim_status_field_requirements_check]
+GO
+
+CREATE PROCEDURE [dbo].[usp_autogen_claim_status_field_requirements_check]
+(
+	@claim_id varchar(20)
+	,@has_completed_reqs bit OUTPUT
+)	
+AS  
+
+/*********************************************************************************
+*	Revision History
+*
+*	Name: 
+*	Description: 
+*
+*	Date:		Author:		Ref#:	Comments:
+*	10/08/2010  JVillas		N/A		Creation
+*
+**********************************************************************************/
+
+BEGIN
+
+	DECLARE	@system_insurer_id int
+			,@insurer_code varchar(10)
+			,@claim_type varchar(10)
+			,@hospital_id varchar(12)
+			,@admission_date_time datetime
+			,@discharge_date_time datetime
+
+	SET @has_completed_reqs = 1
+
+	SELECT	@system_insurer_id = clm.system_insurer_id
+			,@insurer_code = ins.insurer_code
+			,@claim_type = clm.claim_type
+			,@hospital_id = clm.hospital_id
+			,@admission_date_time = clm.admission_date
+			,@discharge_date_time = clm.discharge_date_time
+	FROM	dbo.Claim clm
+			INNER JOIN dbo.Insurer ins
+				ON ins.system_insurer_id = clm.system_insurer_id
+	WHERE	clm.claim_id = @claim_id
+
+	IF @insurer_code = 'V'
+	BEGIN
+		IF @discharge_date_time IS NULL OR @discharge_date_time < @admission_date_time
+		BEGIN
+			SET @has_completed_reqs = 0
+			RETURN
+		END
+
+		IF ISNULL(@hospital_id, '') = ''
+		BEGIN
+			SET @has_completed_reqs = 0
+			RETURN
+		END
+
+		IF NOT EXISTS
+		(
+			SELECT	claim_id
+			FROM	dbo.trn_ReimbursementMethod
+			WHERE	claim_id = @claim_id
+					AND Selected = 1
+		)
+		BEGIN
+			SET @has_completed_reqs = 0
+			RETURN
+		END
+
+		IF NOT EXISTS
+		(
+			SELECT	claim_id
+			FROM	dbo.trn_TreatmentSetting
+			WHERE	claim_id = @claim_id
+					AND Selected = 1
+		)
+		BEGIN
+			IF @claim_type = 'HCT1'
+			BEGIN
+				IF NOT EXISTS
+				(
+					SELECT	p.patient_transfer_id
+					FROM	dbo.Patient_Transfer p 
+							INNER JOIN dbo.ref_Bed b
+								ON b.system_bed_id = p.system_bed_id
+							INNER JOIN dbo.refdata ref 
+								ON ref.code = b.bed_type
+							INNER JOIN dbo.ref_Ward w 
+								ON w.system_ward_id = p.system_ward_id
+							INNER JOIN dbo.ref_Room r 
+								ON r.system_room_id = b.system_room_id
+					WHERE	p.claim_id = @claim_id
+				)
+					SET @has_completed_reqs = 0
+			END
+			ELSE IF @claim_type = 'HCT2'
+				SET @has_completed_reqs = 0
+		END
+	END
+END

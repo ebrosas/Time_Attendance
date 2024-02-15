@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="GenPurposeModelStoreContainer" CdmEntityContainer="GenPurposeEntities">
+    <EntitySetMapping Name="PermitCostCenters">
+      <EntityTypeMapping TypeName="GenPurposeModel.PermitCostCenter">
+        <MappingFragment StoreEntitySet="PermitCostCenter">
+          <ScalarProperty Name="PermitID" ColumnName="PermitID" />
+          <ScalarProperty Name="PermitEmpNo" ColumnName="PermitEmpNo" />
+          <ScalarProperty Name="PermitCostCenter1" ColumnName="PermitCostCenter" />
+          <ScalarProperty Name="PermitAppID" ColumnName="PermitAppID" />
+          <ScalarProperty Name="PermitCreatedBy" ColumnName="PermitCreatedBy" />
+          <ScalarProperty Name="PermitCreatedDate" ColumnName="PermitCreatedDate" />
+          <ScalarProperty Name="PermitModifiedBy" ColumnName="PermitModifiedBy" />
+          <ScalarProperty Name="PermitModifiedDate" ColumnName="PermitModifiedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserDefinedCodes">
+      <EntityTypeMapping TypeName="GenPurposeModel.UserDefinedCode">
+        <MappingFragment StoreEntitySet="UserDefinedCode">
+          <ScalarProperty Name="UDCID" ColumnName="UDCID" />
+          <ScalarProperty Name="UDCUDCGID" ColumnName="UDCUDCGID" />
+          <ScalarProperty Name="UDCCode" ColumnName="UDCCode" />
+          <ScalarProperty Name="UDCDesc1" ColumnName="UDCDesc1" />
+          <ScalarProperty Name="UDCDesc2" ColumnName="UDCDesc2" />
+          <ScalarProperty Name="UDCSpecialHandlingCode" ColumnName="UDCSpecialHandlingCode" />
+          <ScalarProperty Name="UDCDate" ColumnName="UDCDate" />
+          <ScalarProperty Name="UDCAmount" ColumnName="UDCAmount" />
+          <ScalarProperty Name="UDCField" ColumnName="UDCField" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserFormAccesses">
+      <EntityTypeMapping TypeName="GenPurposeModel.UserFormAccess">
+        <MappingFragment StoreEntitySet="UserFormAccess">
+          <ScalarProperty Name="UserFrmModifiedDate" ColumnName="UserFrmModifiedDate" />
+          <ScalarProperty Name="UserFrmModifiedBy" ColumnName="UserFrmModifiedBy" />
+          <ScalarProperty Name="UserFrmCreatedDate" ColumnName="UserFrmCreatedDate" />
+          <ScalarProperty Name="UserFrmCreatedBy" ColumnName="UserFrmCreatedBy" />
+          <ScalarProperty Name="UserFrmCRUDP" ColumnName="UserFrmCRUDP" />
+          <ScalarProperty Name="UserFrmEmpNo" ColumnName="UserFrmEmpNo" />
+          <ScalarProperty Name="UserFrmFormCode" ColumnName="UserFrmFormCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

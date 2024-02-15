@@ -1,0 +1,30 @@
+/********************************************************************************
+*	Revision History
+*	Name: FK for trn_Procedure table
+*	Description: 
+*
+*	Date:	  	Author:		Ref#:	Comments:
+*	09/27/10	MLim		7424	Created
+*
+**********************************************************************************/
+
+IF OBJECT_ID ('[FK_trn_Procedure_Admission]') IS NULL
+BEGIN
+	ALTER TABLE [dbo].[trn_Procedure] WITH CHECK 
+	ADD CONSTRAINT [FK_trn_Procedure_Admission] FOREIGN KEY([admission_id])
+	REFERENCES [dbo].[Admission] ([admission_id])
+	ON DELETE CASCADE
+
+	ALTER TABLE [dbo].[trn_Procedure] CHECK CONSTRAINT [FK_trn_Procedure_Admission]
+END
+GO
+
+IF OBJECT_ID ('[FK_trn_Procedure_Procedure_Code]') IS NULL
+BEGIN
+	ALTER TABLE [dbo].[trn_Procedure] WITH CHECK 
+	ADD CONSTRAINT [FK_trn_Procedure_Procedure_Code] FOREIGN KEY([procedure_code_id])
+	REFERENCES [dbo].[Procedure_Code] ([procedure_code_id])
+
+	ALTER TABLE [dbo].[trn_Procedure] CHECK CONSTRAINT [FK_trn_Procedure_Procedure_Code]
+END
+GO

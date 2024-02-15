@@ -1,0 +1,22 @@
+List of DB objects that need to be modified to implement the new reader in the workplace
+Views:
+- tas.Vw_EmployeeSwipeData_Workplace	-done
+- tas.Vw_EmployeeSwipeData_Workplace_WrongReader	-done
+- tas.Vw_WorplaceSwipeRawData	-done
+- tas.Vw_VisitorSwipe		-done
+- tas.Vw_AccessSwipeData	-done
+- tas.Vw_EmployeeSwipeData	-done
+- tas.Vw_WorkplaceReaderSwipe	-New view
+
+Stored Procedure:
+- tas.Pr_GetEmployeeSwipeInfo	-done
+
+Important Notes:
+- For every new reader that is installed in the workplace to replace the old one, that reader should be registered in the Plant Swipe System - Workplace Reader Configuration form. 
+
+Batch Service Command Line Argument:
+processworkplaceswipe 1 02/12/2020 03/12/2020 3250 10001920
+
+Revision Notes:
+Added filter condition to return active readers only
+

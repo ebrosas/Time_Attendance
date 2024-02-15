@@ -1,0 +1,42 @@
+IF OBJECT_ID('dbo.usp_scanned_doc_retrieve_by_claimid_doctype') IS NOT NULL
+	DROP PROCEDURE [dbo].[usp_scanned_doc_retrieve_by_claimid_doctype]
+GO
+
+CREATE PROCEDURE [dbo].[usp_scanned_doc_retrieve_by_claimid_doctype] 
+(
+	@claim_Id char(12),
+	@doc_type varchar(100)
+)   
+AS    
+
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_scanned_doc_retrieve_by_claimid_doctype 
+*	Description: Retrieve Scanned Document by claim_id and doc_type
+*
+*	Date:		Author:		Ref#:	Comments:
+*	10/28/10	MLim		7446	Retrieve attachments for main activities only
+*   17/09/07 	TMalana             Created
+**********************************************************************************/
+
+SET NOCOUNT ON  
+SELECT	
+	Claim_Id
+	,Doc_Name = RTRIM(SUBSTRING(Doc_Path, 16, 4000))
+	,Doc_Path
+	,[id]
+	,create_date
+	,Doc_Type
+FROM	
+	[dbo].Scanned_Doc 
+WHERE 
+	[claim_id]  = @claim_id
+	AND doc_type = @doc_type
+	AND subactivity_id IS NULL
+ORDER BY 
+	doc_type, 
+	create_date
+GO
+
+

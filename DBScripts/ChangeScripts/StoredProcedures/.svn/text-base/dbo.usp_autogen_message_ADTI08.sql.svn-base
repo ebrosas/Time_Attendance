@@ -1,0 +1,137 @@
+IF OBJECT_ID ('[usp_autogen_message_ADTI08]') IS NOT NULL
+	DROP PROCEDURE [dbo].[usp_autogen_message_ADTI08]
+GO
+
+CREATE PROCEDURE [dbo].[usp_autogen_message_ADTI08]
+	@message_id uniqueidentifier
+AS
+
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_autogen_message_ADTI08
+*	Description: Execute all SPs related to ADT^I08 message.
+*
+*	Date:			Author:		Ref#:		Comments:
+*	10/13/2010		RDimarucut	7622		Added validation on membership number is updated.
+*	10/11/2010		RDimarucut	7622		Added checking of old and new patient status and if patient status has been updated, will update claim value.
+*											Added checking of old and new insurer
+*											Added data requirement trigger for membership number.
+*	07/10/2010		DGreen					Added setting of dbo.Claim.patient_status
+*	09/09/2010		DGreen					Created.
+*
+**********************************************************************************/
+
+DECLARE  @claim_id VARCHAR(30)
+		,@GetDate DATETIME
+		,@User VARCHAR(10)
+		,@patient_status VARCHAR(2)
+		,@patient_type VARCHAR(2)
+		,@insurance_member_number VARCHAR(30)
+		,@old_insurance_member_number VARCHAR(30)
+		,@old_system_insurer_id INT
+		,@system_insurer_id INT
+		,@insurer_code VARCHAR(20)
+		,@old_patient_status VARCHAR(2)
+		,@SubscriberRelationToPatient VARCHAR(50)
+
+SET	@GetDate = (SELECT GETDATE())
+SET @User = 'autogen'
+
+SELECT	 @claim_id = a.episode_id
+		,@patient_status = a.PatientStatus
+		,@insurance_member_number = b.policynum
+		,@SubscriberRelationToPatient = b.SubscriberRelationToPatient
+FROM dbo.stg_base a
+LEFT JOIN dbo.stg_Subscriber b
+ON a.message_id = b.message_id
+WHERE a.message_id = @message_id
+
+--check if a claim or patient update
+IF EXISTS(SELECT claim_id FROM dbo.Claim WHERE claim_id = @claim_id)
+BEGIN
+	
+	SELECT @old_patient_status = c.patient_status
+	FROM Claim c
+	WHERE c.claim_id = @claim_id
+
+	IF (@old_patient_status != @patient_status)
+	BEGIN
+		-- update the patient insurance status
+		UPDATE Claim
+		SET patient_status = COALESCE(@patient_status, c.patient_status)
+		FROM Claim c
+		WHERE c.claim_id = @claim_id
+
+		IF NOT EXISTS(SELECT (1) FROM dbo.Claim WHERE claim_id = @claim_id AND override_computed_claim_value = 1)
+		BEGIN
+			--update claim value
+			EXEC usp_autogen_claim_value_update @claim_id
+		END
+	END
+
+	--check if data is available from the Subscriber staging table
+	IF EXISTS(SELECT message_id FROM dbo.stg_Subscriber WHERE message_id = @message_id)
+	BEGIN
+		SELECT	@old_insurance_member_number = insurance_member_number
+		FROM	dbo.Claim
+		WHERE	claim_id = @claim_id
+
+		IF (@old_insurance_member_number IS NOT NULL)
+		BEGIN
+			IF (@insurance_member_number != @old_insurance_member_number)
+			BEGIN
+				UPDATE	Claim
+				SET		 insurance_member_number = @insurance_member_number
+						,member_relation_type = COALESCE(@SubscriberRelationToPatient,member_relation_type)
+				WHERE	claim_id = @claim_id
+				
+				--Raise activity 1 - Patient/Policy if the requirements are completed
+				EXEC dbo.usp_autogen_patient_policy_activity_trigger @claim_id, @old_insurance_member_number
+			END
+		END
+	END
+
+	--check if data is available from the Insurer staging table
+	IF EXISTS(SELECT message_id FROM dbo.stg_Insurer WHERE message_id = @message_id)
+	BEGIN		
+		
+		SELECT @insurer_code = insurer_id 
+		FROM dbo.stg_Insurer 
+		WHERE message_id = @message_id
+
+		--check insurer
+		IF EXISTS(SELECT insurer_code FROM dbo.Insurer WHERE insurer_code = @insurer_code)
+			BEGIN
+				EXEC usp_autogen_insurer_update @message_id
+				EXEC usp_audit_logging @claim_id, @claim_id, 'Insurer', 'Update', @GetDate, @User
+			END
+		ELSE
+			BEGIN
+				EXEC usp_autogen_insurer_insert @message_id
+				EXEC usp_audit_logging @claim_id, @claim_id, 'Insurer', 'Insert', @GetDate, @User
+			END
+
+		SELECT @system_insurer_id = system_insurer_id FROM dbo.[Insurer] WHERE insurer_code = LTRIM(@insurer_code)
+		SELECT @old_system_insurer_id = system_insurer_id FROM dbo.Claim WHERE claim_id = @claim_id
+	
+		IF (@system_insurer_id IS NOT NULL)
+		BEGIN
+			IF (@system_insurer_id != @old_system_insurer_id)
+			BEGIN
+				UPDATE Claim
+				SET system_insurer_id = @system_insurer_id
+				WHERE claim_id = @claim_id
+			END
+		END
+		
+	END
+
+	EXEC usp_audit_logging @claim_id, @claim_id, 'Claim', 'Update', @GetDate, @User
+END
+
+
+
+
+
+

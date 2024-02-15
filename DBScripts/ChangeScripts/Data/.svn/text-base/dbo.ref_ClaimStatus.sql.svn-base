@@ -1,0 +1,40 @@
+/********************************************************************************
+*	Date:	  	Author:		Ref#	Comments:
+*	09/28/10	RDimarucut	7446	Created 
+**********************************************************************************/
+
+TRUNCATE TABLE dbo.ref_ClaimStatus
+
+INSERT INTO dbo.ref_ClaimStatus(claimstatus_id, [description], parent_id)
+
+SELECT 1,	'Awaiting Patient Details',	1 UNION
+SELECT 2,	'Awaiting Patient Policy Data',	1 UNION
+SELECT 3,	'Invalid Policy Data',	1 UNION
+SELECT 4,	'Awaiting Subscriber Signature',	1 UNION
+SELECT 5,	'Awaiting Consultant Documentation',	5 UNION
+SELECT 6,	'Awaiting Consultant Data',	5 UNION
+SELECT 7,	'Awaiting Consultant Invoice',	5 UNION
+SELECT 8,	'Awaiting Radiology Invoice',	5 UNION
+SELECT 9,	'Awaiting Laboratory Invoice',	5 UNION
+SELECT 10,	'Awaiting Anaesthetist Invoice',	5 UNION
+SELECT 11,	'Awaiting Supporting Documentation',	5 UNION
+SELECT 12,	'Awaiting Hospital Data',	12 UNION
+SELECT 13,	'Awaiting Supporting Documentation',	12 UNION
+SELECT 14,	'Awaiting Hospital Invoice',	12 UNION
+SELECT 15,	'Ready for QA Check',	12 UNION
+SELECT 16,	'Ready for Submission',	12 UNION
+SELECT 17,	'Ready for Resubmission',	12 UNION
+SELECT 18,	'Submitted Claims',	18 UNION
+SELECT 19,	'No Response from Insurer',	18 UNION
+SELECT 20,	'Part-Paid by Insurer',	18 UNION
+SELECT 21,	'Rejected by Insurer',	18 UNION
+SELECT 22,	'Pended by Insurer',	18 UNION
+SELECT 23,	'Returned by Insurer',	18 UNION
+SELECT 24,	'Referred Claims',	24 UNION
+SELECT 25,	'Referred to Patient',	24 UNION
+SELECT 26,	'Referred to Debt Collection',	24 UNION
+SELECT 27,	'Claims Closed',	27 UNION
+SELECT 28,	'Paid by Patient',	27 UNION
+SELECT 29,	'Paid by Insurer',	27 UNION
+SELECT 30,	'Balance Written-off',	27
+

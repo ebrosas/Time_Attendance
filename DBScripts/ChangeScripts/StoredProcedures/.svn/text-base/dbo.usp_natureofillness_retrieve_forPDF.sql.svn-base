@@ -1,0 +1,28 @@
+IF OBJECT_ID('[dbo].[usp_natureofillness_retrieve_forPDF]') IS NOT NULL
+	DROP PROCEDURE [dbo].[usp_natureofillness_retrieve_forPDF]
+GO
+
+CREATE PROCEDURE [usp_natureofillness_retrieve_forPDF]
+(
+	@claim_id char(12)
+)
+AS      
+      
+/*********************************************************************************
+* Revision History      
+* Name: usp_natureofillness_retrieve_forPDF
+* Description:
+*      
+* Date:    Author:		Comments:
+* 9/28/10  JVillas		Created
+**********************************************************************************/      
+      
+SET NOCOUNT ON      
+      
+SELECT  
+		clinical_details
+FROM      
+		dbo.Claim
+WHERE      
+		RTRIM(claim_id) = RTRIM(@claim_id)
+GO

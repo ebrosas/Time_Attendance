@@ -1,0 +1,631 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{72296836-603D-4317-8D7B-7DA1B4423810}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GARMCO.AMS.TAS.DAL</RootNamespace>
+    <AssemblyName>GARMCO.AMS.TAS.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataModels\DeathReasonOfAbsence.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\fnGetAssignedCostCenter_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\fnGetContractorWorkDuration_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\fnGetContractorWorkDuration_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\GenPurposeModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GenPurposeModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\GenPurposeModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GenPurposeModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\GenPurposeModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GenPurposeModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Master_ContractEmployee.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Master_DutyType.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Master_EmployeeAdditional.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Master_ProcessLocks.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Master_ShiftPattern.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Master_ShiftPatternTitles.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Master_ShiftTimes.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\OvertimeRequest.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\OvertimeWFApprovalHistory.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\OvertimeWFEmailDelivery.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\OvertimeWFRoutineHistory.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\OvertimeWFTransactionActivity.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\PermitCostCenter.cs">
+      <DependentUpon>GenPurposeModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetAbsenceReasonReport_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetAbsenceReasonReport_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetAbsenceReasonReport_Result2.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetAbsencesHistory_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetAbsencesHistory_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetAbsencesHistory_Result2.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetAccessReaders_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetAnnualLeaveButSwiped_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetAnnualLeaveButSwiped_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetAspirePayrollReportData_V2_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetAspirePayrollReportData_V2_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetAttendanceHistory_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetAttendanceHistory_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetAttendanceWithOT_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetAttendanceWithOT_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetAttendanceWithOT_Result2.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetAttendanceWithOT_Result3.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetContractors_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetContractors_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetContractors_Result2.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetContractors_Result3.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetCostCenterManager_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetCostCenterManager_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetCostCenterOTAllowed_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetCostCenterOTAllowed_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetCostCenter_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetCostCenter_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetCostCenter_V2_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetDailyAttendanceReport_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetDailyAttendanceReport_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetDailyAttendanceReport_Result2.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetDailyAttendanceSalaryStaff_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetDependentInfo_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetDILDueToLateEntryDutyROTA_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetDILEntitlement_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetDILReport_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetDutyROTAReport_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetEmpAttendanceHistory_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetEmpAttendanceHistory_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetEmpAttendanceHistory_Result2.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetEmpAttendanceHistory_Result3.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetEmpAttendanceHistory_Result4.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetEmpAttendanceHistory_Result5.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetEmpAttendanceHistory_Result6.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetEmpAttendanceHistory_Result7.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetEmployeeDirectory_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetEmployeeDirectory_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetEmployeeDirectory_Result2.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetEmployeeDirectory_Result3.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetEmployeeEmailAddress_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetEmployeeInfo_JDE_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetEmployeeInfo_JDE_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetEmployeeInfo_JDE_Result2.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetEmployeeInfo_JDE_Result3.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetEmployeeInfo_JDE_Result4.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetEmployeeInfo_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetEmployeeSwipeInfo_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetFamilyRelativeSetting_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetFireTeamAttendance_V2_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetFireTeamMember_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetGARMCOCalendar_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetGARMCOCalendar_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetLeaveHistory_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetLeaveHistory_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetLeaveHistory_Result2.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetLeaveInformation_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetLeaveInformation_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetLeaveInformation_Result2.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetLeaveInformation_Result3.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetMainGateSwipe_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetOTApprovalHistory_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetOTReason_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetOTReason_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetOvertimeByPeriod_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetPunctualityReport_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetPunctualityReport_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetPunctualityReport_Result2.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetRequisitionApprover_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetResignedButSwiped_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetResignedButSwiped_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetResignedButSwiped_V2_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetShiftCode_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetShiftCode_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetShiftCode_Result2.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetShiftPatternCodes_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetShiftPatternCodes_V2_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetShiftPatternCodes_V2_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetShiftPatternInfo_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetShiftPatternInfo_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetShiftPatternInfo_Result2.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetShiftPointer_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetTASForms_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetTASJDEComparisonReport_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetTimesheetIntegrity_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetTimesheetUDCCodes_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetTimesheetUDCCodes_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetTimesheetUDCCodes_Result2.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetUDCListItem_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetUserFormAccessInfo_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetUserFormAccessInfo_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetUserFormAccessInfo_Result2.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetWeeklyOvertimeReport_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetWorkingCostCenterHistory_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetWorkingCostCenterHistory_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetWorkingCostCenterHistory_Result2.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetWorkingCostCenterHistory_Result3.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetWorkingCostCenter_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetWorkingCostCenter_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetWorkingCostCenter_Result2.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetWorkingCostCenter_Result3.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetWorkingCostCenter_Result4.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetWorkingCostCenter_Result5.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_GetWorkingCostCenter_Result6.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_Get_Permitted_CostCenter_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_Get_Permitted_CostCenter_V2_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_Get_Permitted_CostCenter_V2_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_Get_UserDefinedCode_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_InsertUpdateDeleteOvertime_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_Master_ContractEmployee_CRUD_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_Master_ShiftPattern_CRUD_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_Master_ShiftPattern_CRUD_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_PunctualitySummaryReport_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_PunctualitySummaryReport_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_PunctualitySummaryReport_Result2.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_PunctualitySummaryReport_Result3.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_Retrieve_EmpCostCenter_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_Retrieve_TranTimeSheet_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_Retrieve_TranTimeSheet_V2_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_Retrieve_VisitorPassLog_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_Retrieve_VisitorPassLog_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_Tran_ManualAttendance_CRUD_Result.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Pr_Tran_ManualAttendance_CRUD_Result1.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\SystemErrorLog.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\System_Values.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\TASEntityModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TASEntityModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\TASEntityModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\TASEntityModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TASEntityModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Tran_Absence.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Tran_DutyRota.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Tran_ManualAttendance.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Tran_ShiftPatternChanges.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Tran_Timesheet.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Tran_Timesheet_Extra.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\UserDefinedCode.cs">
+      <DependentUpon>GenPurposeModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\UserFormAccess.cs">
+      <DependentUpon>GenPurposeModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\VisitorPassLog.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\VisitorSwipeLog.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\Vw_MainGateSwipeRawData.cs">
+      <DependentUpon>TASEntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EntityDeploy Include="DataModels\TASEntityModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>TASEntityModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <EntityDeploy Include="DataModels\GenPurposeModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GenPurposeModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="DataModels\GenPurposeModel.edmx.diagram">
+      <DependentUpon>GenPurposeModel.edmx</DependentUpon>
+    </None>
+    <None Include="DataModels\TASEntityModel.edmx.diagram">
+      <DependentUpon>TASEntityModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DataModels\GenPurposeModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GenPurposeModel.edmx</DependentUpon>
+      <LastGenOutput>GenPurposeModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DataModels\GenPurposeModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GenPurposeModel.edmx</DependentUpon>
+      <LastGenOutput>GenPurposeModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="DataModels\TASEntityModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TASEntityModel.edmx</DependentUpon>
+      <LastGenOutput>TASEntityModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DataModels\TASEntityModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>TASEntityModel.edmx</DependentUpon>
+      <LastGenOutput>TASEntityModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

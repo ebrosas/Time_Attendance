@@ -1,0 +1,5 @@
+Meal Voucher Eligibility Flags
+YA -> Yes (Approved)
+N -> No (Rejected)
+Y -> Not actioned
+

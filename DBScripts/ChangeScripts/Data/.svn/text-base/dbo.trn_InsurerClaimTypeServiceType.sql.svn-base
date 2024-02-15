@@ -1,0 +1,28 @@
+/********************************************************************************
+*	Date:	  	Author:		Comments:
+*   24/09/10    MLim		Added Diagnosis record for NTPF
+**********************************************************************************/
+DECLARE @N int
+SELECT @N = [system_insurer_id] FROM [dbo].[Insurer] WHERE [insurer_code] = 'N'
+
+IF NOT EXISTS (SELECT * FROM [dbo].trn_InsurerClaimTypeServiceType
+	WHERE [SystemInsurerId] = @N AND [ClaimTypeCode] = 'HCT1' AND [ServiceTypeId] = 1)
+BEGIN
+	INSERT INTO [dbo].trn_InsurerClaimTypeServiceType(SystemInsurerId, ClaimTypeCode, ServiceTypeId)
+	VALUES(@N, 'HCT1', 1)
+END
+
+
+/********************************************************************************
+*	Date:	  	Author:		Comments:
+*   09/28/10    DGVasquez    		MPF Treatment
+**********************************************************************************/
+DECLARE @M int
+SELECT @M = [system_insurer_id] FROM [dbo].[Insurer] WHERE [insurer_code] = 'M'
+
+IF NOT EXISTS (SELECT * FROM [dbo].trn_InsurerClaimTypeServiceType
+	WHERE [SystemInsurerId] = @M AND [ClaimTypeCode] = 'HCT1' AND [ServiceTypeId] = 5)
+BEGIN
+	INSERT INTO [dbo].trn_InsurerClaimTypeServiceType(SystemInsurerId, ClaimTypeCode, ServiceTypeId)
+	VALUES(@M, 'HCT1', 5)
+END

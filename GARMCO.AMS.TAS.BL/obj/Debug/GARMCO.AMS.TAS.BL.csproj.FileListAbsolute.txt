@@ -1,0 +1,24 @@
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\bin\Debug\GARMCO.AMS.TAS.BL.dll.config
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\bin\Debug\GARMCO.AMS.TAS.BL.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\bin\Debug\GARMCO.AMS.TAS.BL.pdb
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\bin\Debug\EntityFramework.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\bin\Debug\EntityFramework.SqlServer.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\bin\Debug\GARMCO.AMS.TAS.DAL.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\bin\Debug\GARMCO.AMS.TAS.DAL.pdb
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\bin\Debug\EntityFramework.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\bin\Debug\EntityFramework.SqlServer.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\obj\Debug\GARMCO.AMS.TAS.BL.csprojResolveAssemblyReference.cache
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\obj\Debug\GARMCO.AMS.TAS.BL.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\obj\Debug\GARMCO.AMS.TAS.BL.pdb
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\bin\Debug\GARMCO.AMS.TAS.BL.dll.config
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\bin\Debug\GARMCO.AMS.TAS.BL.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\bin\Debug\GARMCO.AMS.TAS.BL.pdb
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\bin\Debug\EntityFramework.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\bin\Debug\GARMCO.AMS.TAS.DAL.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\bin\Debug\GARMCO.AMS.TAS.DAL.pdb
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\bin\Debug\EntityFramework.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\obj\Debug\GARMCO.AMS.TAS.BL.csprojResolveAssemblyReference.cache
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\obj\Debug\GARMCO.AMS.TAS.BL.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.BL\obj\Debug\GARMCO.AMS.TAS.BL.pdb

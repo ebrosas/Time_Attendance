@@ -1,0 +1,21 @@
+/********************************************************************************
+*	Date:	  	Author:		Ref#		Comments:
+*	10/22/10	RDimarucut	7446		Reverted changes on document names and the delete of activity 3 since we will just create another table instead.
+*	10/19/10	RDimarucut	7446		Update description_title column with values
+*										Removed Activity 3 (Additional Consultant's Data)
+**********************************************************************************/
+IF NOT EXISTS(SELECT (1) FROM [dbo].[Activity] WHERE activity_id = 3)
+BEGIN
+	 INSERT [dbo].[Activity] ([activity_id], [description], [doc_name], [create_date], [create_user], [update_date], [update_user], [e_submit_order_id], [isMembershipNumRequired], [forPreSubmission], [invoice_name_for_activity], [description_title], [isIncludedInDocumentPreview], [hasDataRequirement]) VALUES (3, N'Additional Consultants’ Data is completed, signed, and scanned/attached?', N'Other Part 2', NULL, NULL, GETDATE(), N'Script', 3, 0, 1, NULL, N'Additional Consultant''s Data', 1, 1)
+END
+
+UPDATE Activity SET description_title = 'Patient Policy Data',[description] = 'Patient/Policy Data is completed, signed, and scanned/attached?' WHERE doc_name = 'Part 1'
+UPDATE Activity SET description_title = 'Clinical/Consultant Data',[description] = 'Clinical/Consultant Data is completed, signed, and scanned/attached?' WHERE doc_name = 'Part 2'
+UPDATE Activity SET description_title = 'Primary Consultant''s Invoice',[description] = 'Primary Consultant’s Invoice has been raised/scanned/attached?' WHERE doc_name = 'Primary Consultant Inv'
+UPDATE Activity SET description_title = 'Other Supporting Documentations',[description] = 'Other Supporting Documentations are completed, signed, and scanned/attached?' WHERE doc_name = 'Supporting Doc'
+UPDATE Activity SET description_title = 'Hospital Invoice',[description] = 'Hospital Invoice has been raised/scanned/attached?' WHERE doc_name = 'Hospital Inv'
+UPDATE Activity SET description_title = 'Radiologists Invoices',[description] = 'Radiologists’ Invoices have been raised/scanned/attached?' WHERE doc_name = 'Radiologist Inv'
+UPDATE Activity SET description_title = 'Laboratory Invoices',[description] = 'Laboratory Invoices have been raised/scanned/attached?' WHERE doc_name = 'Laboratory Inv'
+UPDATE Activity SET description_title = 'Anaesthetist''s Invoices',[description] = 'Anaesthetists’ Invoices have been raised/scanned/attached?' WHERE doc_name = 'Anaesthetist Inv'
+UPDATE Activity SET description_title = 'Other Consultant''s Invoices',[description] = 'Other Consultant''s Invoice(s)' WHERE doc_name = 'Other Consultant Inv'
+UPDATE Activity SET description_title = 'Loose Bills',[description] = 'Loose Bill for post-claim submission?' WHERE doc_name = 'Loose Bill'

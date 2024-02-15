@@ -1,0 +1,565 @@
+
+IF OBJECT_ID ('usp_claimsuresearch_retrieve_Multi') IS NOT NULL
+	DROP PROCEDURE [dbo].usp_claimsuresearch_retrieve_Multi
+GO
+    
+        
+CREATE PROCEDURE [dbo].[usp_claimsuresearch_retrieve_Multi]       
+        @systemInsurerId  varchar(100)       
+       ,@ClaimStatus    varchar(300)       
+       ,@PatientSurname   varchar(30)       
+       ,@RadiologyFlag   char(20)       
+       ,@PathologyFlag   char(20)       
+       ,@DoctorName    varchar(MAX)       
+       ,@DayCaseFlag   varchar(20)       
+       ,@InPatientFlag   varchar(20)       
+       ,@EpisodeIdFrom   varchar(30)       
+       ,@EpisodeIdTo    varchar(30)       
+       ,@MrnNumberFrom   varchar(30)        
+       ,@MrnNumberTo    varchar(30)        
+       ,@HospitalInvoiceValueFrom money        
+       ,@HospitalInvoiceValueTo  money        
+       ,@AdmissionDateFrom   datetime        
+       ,@AdmissionDateTo   datetime        
+       ,@DischargeDateFrom  datetime       
+       ,@DischargeDateTo   datetime       
+       ,@DatePaidFrom    datetime  -- Submitted to Insurer From      
+       ,@DatePaidTo    datetime  -- Submitted to Insurer To      
+       ,@SortOrderBy   varchar(50)       
+       --,@PendingConsultant  varchar(MAX)       
+       ,@ResubmittedClaimsFlag varchar(20)       
+       ,@BatchNumbers   varchar(200)       
+       ,@AnaesthesiologyFlag char (20)       
+       ,@ONCOLOGYFLAG   char (20)       
+       ,@LastUpdatedDateFrom  datetime        
+       ,@LastUpdatedDateTo  datetime        
+       ,@FacilityId   varchar(1000)      
+       ,@ClaimTypeId   varchar(1000)      
+       ,@CurrentPage   int      
+       ,@RecordCount   int      
+       ,@PageCount    int OUTPUT      
+       ,@TotalRecCount   int OUTPUT      
+       ,@OutstandingReq  varchar(100)      
+       ,@AllSelReq bit        
+       ,@AnySelReq bit       
+             
+      
+AS      
+      
+      
+SET NOCOUNT ON      
+      
+/********************************************************************************      
+* Revision History      
+*      
+* Name: usp_claimsuresearch_retrieve_Multi      
+* Description: Procedure used in claim search facility w/ multi select function.      
+*      
+* Date:  Author:  Ref#: Comments:      
+* 10/14/2010 JVillas  7659 Fixed invalid claim search result when searching for Doctor Name + Claim Status + Outstanding Requirements      
+* 10/13/2010 RDimarucut 7637 Reverted fix for Mantis issue #7637.      
+* 10/12/2010 RDimarucut 7637 Updated Outstanding Requirements search from using 'OR' instead of 'And'.      
+* 10/01/2010 RDimarucut 7596 Updated searching of the range for MRN and Episode number.      
+*   08/06/2010  DGVasquez   7307    Added divisibility checking in @totalreccount.      
+* 08/06/2010 AEstrella N/A  Claim Search: Searching by Additional Consultants' Data/Signature(s) or Document outstanding requirement and doctor combination       
+         returns claims even though the requirement has already been fulfilled by providing a document      
+* 08/03/2010 AEstrella 7212 Claims whose pending consultant is the Doctor search criteria are not included in the search results.      
+       7226 Searching by Doctor does not include doctor who provided treatment.      
+* 07/29/2010 AEstrella 7222 Server error when searching by doctor and claim status which do not validate requirements or consultant care list.      
+* 07/26/2010 AEstrella 7152 Update Search by Claim Status and Doctor to lookup from Manage Claim page Consultant Care List      
+* 07/21/2010 RDimarucut 7097 Added condition to not include submitted claims on search result when searching with an outstanding requirement criteria.      
+* 07/20/2010 AEstrella 7152 Update Search by Claim Status and Doctor to lookup from Manage Claim page Consultant Care List      
+* 07/19/2010 RDimarucut 7086 Allowed MRN and Episode_Number to have alphanumerics.      
+*       6978 Updated Episode numbers and MRN's parameter sizes from varchar(12) to varchar(30).      
+* 06/16/2010 GBorja  6978 Omitting leading zeroes on Episode_id field.      
+* 06/03/2010 DDulay  6730    Removing the Claimsure Validation for the Episode_Id in the search results screen      
+* 05/26/2010 GBorja    Updated Handling of EpisodeNo and applied some changes for optimization.      
+* 05/25/2010 GBorja  6798 Fixed error on Patient Policy No. resultset      
+* 05/07/2010 GBorja    Updated hospital/facility name mapping      
+* 05/07/2010 GBorja    Updated hospital/facility name mapping      
+* 05/05/2010 GBorja  6520  Updated filter of Claim Status and Outstanding Requirements with Doctor criteria      
+* 04/20/2010 GBorja    Updated refdata source for claimtype.      
+* 04/13/2010 GBorja    Added new search criteria (Outstanding Requirement)      
+* 04/08/2010 GBorja  6280,6388 Updated to fix page links issues and searching claim by [Submitted to Insurer] status.      
+* 03/26/2010 GBorja  6399 Updated to allow wild card in Patient Surname.      
+* 03/23/2010 GBorja  6388 Applied fix on search by Claim status [Submitted to Insurer].      
+* 03/17/2010 GBorja  6344 Updated to allow sort order  of admission date.      
+* 03/16/2010 GBorja  6343 Used vacrhar(MAX) data type to fix errors for long queries.        
+* 03/11/2010 GBorja  6293 Fixed filtering of facility and claimtype      
+* 03/09/2010 GBorja  N/A  Added Total Record Count as output parameter      
+* 03/05/2010 GBorja  N/A  Added Address field on result set.      
+* 03/04/2010 GBorja  N/A  Updated for SQL 2005 pagination and added new result set fields.      
+* 02/25/2010 GBorja  N/A  Updated to handle the [Insurer]–[Claim type] syntax of Claim type ID      
+* 02/23/2010 GBorja  N/A  Updated to allow multi select on certain paraters e.g. insurer, claimtype, etc.        
+* 02/22/2010 GBorja  N/A  Created      
+      
+**********************************************************************************/      
+      
+      
+      
+DECLARE @chrQuote char(1), @CMD VARCHAR(MAX), @CMDMaster NVARCHAR(MAX),@CMDPageRec NVARCHAR(MAX),@CMDDropPageCount NVARCHAR(MAX), @FROM VARCHAR (MAX), @WHERE VARCHAR(MAX), @ORDER VARCHAR(MAX), @SartRec Varchar(10), @EndRec Varchar(10), @tbleID varchar(100),@RealActivityID varchar(100)      
+      
+SELECT @chrQuote = ''''      
+      
+SELECT  @CMD = 'SELECT DISTINCT       
+ Clm.Claim_id AS [Claim ID]      
+ ,hos.hospital_name AS [Facility]      
+ ,Ref.[DESCRIPTION] AS [Status]       
+ ,Pat.mrn_number AS [MRN]      
+ ,UPPER(ISNULL(PAT.LAST_NAME + '', '', '''')) + UPPER(RTRIM(ISNULL(PAT.FIRST_NAME, ''''))) + '' '' +       
+   UPPER(RTRIM(ISNULL(PAT.MIDDLE_INITIAL,''''))) AS [Patient Name]         
+ ,Clm.AdmissionDate AS [Admission Date]      
+ ,LEFT(Ins.insurer_desc,3) + ''../'' + LEFT(Ref2.[Desc],6) + ''...'' AS [Insurer]       
+ ,Val.Total_Paid_Amt [CLAIM_VALUE]      
+ ,DateModified AS [Date and Time Modified]      
+ ,ModifiedBy AS [Modified By]      
+ ,BatchNumber AS [Batch Number]      
+ ,Ins.Insurer_desc      
+ ,Clm.[ClaimStatus]  AS [SORT_ORDER]       
+ ,UPPER(ISNULL(PAT.ADDRESS_1,'''')) AS [Patient Address]       
+ ,Clm.ManualSubmission AS [FOR MANUAL ESUBMISSION]      
+       
+        
+      
+ FROM VW_SearchClaims Clm WITH (NOLOCK)       
+  LEFT JOIN Insurer Ins WITH (NOLOCK) ON Ins.system_insurer_id = Clm.Insurer        
+  LEFT JOIN Hospital Hos WITH (NOLOCK) ON Hos.system_hospital_id = Clm.facility      
+  LEFT JOIN ref_ClaimStatus Ref WITH (NOLOCK) ON Ref.Claimstatus_id = Clm.ClaimStatus       
+  LEFT JOIN (select ref.system_insurer_id AS insurer, rtrim(ltrim(ref.claim_type_code)) as claimtype      
+     ,case when left(isnull(ref.description, claim.description) , isnull( nullif(charindex('' -'',isnull(ref.description, claim.description)), 0), charindex('' –'',isnull(ref.description, claim.description)))) = ''''      
+     then isnull(ref.description, claim.description) else left(isnull(ref.description, claim.description) , isnull( nullif(charindex('' -'',isnull(ref.description, claim.description)), 0), charindex('' –'',isnull(ref.description, claim.description))))    
+  
+     end as [desc] from ref_InsurerClaimType ref  LEFT JOIN insurer ins ON ref.system_insurer_id = ins.system_insurer_id              
+     LEFT JOIN claim_type claim ON ref.claim_type_code = claim.claim_type_code              
+     WHERE CAST(ref.system_insurer_id as VARCHAR(200)) in (select system_insurer_id from insurer)) Ref2 ON Ref2.ClaimType = Clm.ClaimType AND Ref2.Insurer = Clm.Insurer       
+  --LEFT JOIN Doctor Doc WITH (NOLOCK)  ON Doc.DOCTOR_ID = Clm.PendingConsultant      
+  LEFT JOIN VW_PatientMRNSurnameClaims Pat WITH (NOLOCK) ON Pat.Claim_id = Clm.Claim_id      
+  LEFT JOIN VW_PaymentClaims Val WITH (NOLOCK) ON Val.Claim_id = Clm.Claim_id      
+  LEFT JOIN VW_DOCClaims Dcl WITH (NOLOCK) ON Dcl.Claim_id = Clm.Claim_id       
+  LEFT JOIN Trn_PatientCare PatientCare WITH (NOLOCK) ON PatientCare.claim_id = Dcl.Claim_id AND PatientCare.doctor_id = Dcl.doctor_id      
+  LEFT JOIN Ref_TypeOfCare TypeOfCare WITH (NOLOCK) ON TypeOfCare.type_of_care_id = PatientCare.type_of_care_id'      
+      
+SELECT @FROM = '', @WHERE = 'WHERE ', @ORDER = 'ORDER BY '      
+      
+ IF @RadiologyFlag IS NOT NULL      
+ BEGIN      
+  SELECT @FROM = @FROM + ' INNER JOIN VW_RADClaims Rad WITH (NOLOCK) ON Rad.Claim_id = Clm.Claim_id'      
+ END      
+       
+ IF @PathologyFlag IS NOT NULL      
+ BEGIN      
+  SELECT @FROM = @FROM + ' INNER JOIN VW_LABClaims Lab WITH (NOLOCK) ON Lab.Claim_id = Clm.Claim_id'      
+ END      
+       
+ IF @ONCOLOGYFLAG IS NOT NULL      
+ BEGIN      
+  SELECT @FROM = @FROM + ' INNER JOIN VW_ONCOClaims Onc WITH (NOLOCK) ON Onc.Claim_id = Clm.Claim_id'      
+ END      
+       
+ IF @AnaesthesiologyFlag IS NOT NULL      
+ BEGIN      
+  SELECT @FROM = @FROM + ' INNER JOIN VW_ANAESClaims Ans WITH (NOLOCK) ON Ans.Claim_id = Clm.Claim_id'      
+ END      
+       
+ IF @ResubmittedClaimsFlag IS NOT NULL      
+ BEGIN      
+  SELECT @FROM = @FROM + ' INNER JOIN VW_ResubmitClaims Rbc WITH (NOLOCK) ON Rbc.Claim_id = Clm.Claim_id'      
+ END      
+       
+ IF @DayCaseFlag IS NOT NULL      
+ BEGIN      
+  SELECT @FROM = @FROM + ' INNER JOIN VW_DayCaseClaims Dpt WITH (NOLOCK) ON Dpt.Claim_id = Clm.Claim_id'      
+ END      
+       
+ IF @InPatientFlag IS NOT NULL      
+ BEGIN      
+  SELECT @FROM = @FROM + ' INNER JOIN VW_InPatientClaims Ipt WITH (NOLOCK) ON Ipt.Claim_id = Clm.Claim_id'      
+ END      
+      
+--Hospital / Facility      
+ IF @FacilityId IS NOT NULL      
+ BEGIN      
+  SELECT @WHERE = @WHERE + '  Clm.facility in (select RTRIM(LTRIM(item)) from dbo.udf_ParserSearch ('''+ @FacilityId+'''))'       
+ END      
+      
+--Doctor Name      
+ IF @DoctorName IS NOT NULL --AND @OutstandingReq IS NULL      
+ BEGIN      
+  SELECT @WHERE = @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  Dcl.doctor_id in (select RTRIM(LTRIM(item)) from dbo.udf_ParserSearch ('''+ @DoctorName+'''))'
+                                  
+ END
+     
+      
+--Insurer      
+ IF @systemInsurerId IS NOT NULL AND (select MIN(RTRIM(LTRIM(item))) from dbo.udf_ParserSearch ('3,2')) <> 0      
+ BEGIN      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  system_insurer_id in (select RTRIM(LTRIM(item)) from dbo.udf_ParserSearch ('''+ @systemInsurerId+'''))'        
+                           
+ END      
+      
+--Claim type       
+ IF @ClaimTypeID IS NOT NULL      
+ BEGIN        
+    
+  Declare @ClmType TABLE (Rowid int identity, Command varchar(MAX), Flag bit default(0))      
+    
+  INSERT INTO @ClmType (Command)      
+  select 'Clm.ClaimType = ''' + SUBSTRING(RTRIM(LTRIM(item)),CHARINDEX('-', RTRIM(LTRIM(item)))+1,30) + ''' AND system_insurer_id = ' + SUBSTRING(RTRIM(LTRIM(item)),1,CHARINDEX('-', RTRIM(LTRIM(item)))-1)  from dbo.udf_ParserSearch ('14-HCT1,15-HCT1')      
+
+  DECLARE @rowid int, @cmdCT varchar(MAX) , @cmdCTNew varchar(MAX) ,@CNTR INT      
+  SELECT @cmdCT = ''  
+  SELECT @CNTR = 1    
+  WHILE (select count(1) from @ClmType where flag = 0 ) <> 0      
+  BEGIN      
+   SELECT @cmdCT = @cmdCT      
+         
+   SELECT top 1 @rowid = Rowid, @cmdCTNew= '('+Command+ ')' FROM @ClmType where flag = 0       
+         
+   UPDATE @ClmType      
+   SET Flag = 1 WHERE Rowid = @Rowid      
+   
+   IF((SELECT COUNT(1) FROM @ClmType) <> @CNTR) 
+   BEGIN
+	SELECT @cmdCT = @cmdCT  + @cmdCTNew + ' OR '
+   END 
+   ELSE
+   BEGIN
+	 SELECT @cmdCT = @cmdCT  + @cmdCTNew 
+   END    
+   
+   SET @CNTR = @CNTR + 1 -- used flag the OR operator
+      
+  END      
+      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' OR ' ELSE ' ' END +  '('+@cmdCT+ ')'  
+                          
+ END      
+     
+--Claim Status      
+ IF @ClaimStatus IS NOT NULL      
+ BEGIN      
+   DECLARE @tempT AS TABLE(id varchar(MAX))        
+       
+          
+   --insert id to temp table        
+   INSERT INTO @tempT        
+   SELECT ITEM FROM udf_ParserSearch(@ClaimStatus)        
+          
+   IF((SELECT COUNT(ITEM) FROM udf_ParserSearch(@ClaimStatus) WHERE ITEM in (SELECT parent_id FROM ref_ClaimStatus GROUP BY parent_id))>0)        
+   BEGIN        
+   --get claim status        
+   INSERT INTO @tempT        
+   SELECT claimstatus_id FROM ref_ClaimStatus         
+   WHERE parent_id IN ((SELECT ITEM FROM udf_ParserSearch(@ClaimStatus) WHERE ITEM in (SELECT parent_id FROM ref_ClaimStatus GROUP BY parent_id)))        
+                
+   END        
+   DECLARE @idss VARCHAR(max)        
+   SELECT  @idss=coalesce(@idss+',','')+ id FROM ( SELECT DISTINCT id FROM @tempT)T        
+           
+   --SELECT  @idss        
+           
+   SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  Clm.ClaimStatus in ('+ @idss +')' 
+                                
+ END      
+        
+      
+--Patient Surname      
+ IF @PatientSurname IS NOT NULL      
+ BEGIN      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  PAT.LAST_NAME LIKE '+ @chrQuote + @PatientSurname + '%' + @chrQuote      
+ END      
+      
+      
+--omit leading zeroes      
+SELECT @EpisodeIdFrom = substring(@EpisodeIdFrom, patindex('%[^0]%',@EpisodeIdFrom), 12)       
+SELECT @EpisodeIdTo = substring(@EpisodeIdTo, patindex('%[^0]%',@EpisodeIdTo), 12)       
+      
+--Episode ID From/To      
+ IF @EpisodeIdFrom IS NOT NULL AND @EpisodeIdTo IS NULL      
+ BEGIN      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  SUBSTRING(Clm.EpisodeID, PATINDEX(''%[^0]%'',Clm.EpisodeID), 12) = '''+ CAST(@EpisodeIdFrom AS VARCHAR(50))+''''      
+ END      
+       
+ IF @EpisodeIdTo IS NOT NULL AND @EpisodeIdFrom IS NULL      
+ BEGIN      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  SUBSTRING(Clm.EpisodeID, PATINDEX(''%[^0]%'',Clm.EpisodeID), 12) = '''+ CAST(@EpisodeIdTo AS VARCHAR(50)) + ''''      
+ END      
+       
+ IF @EpisodeIdFrom IS NOT NULL AND @EpisodeIdTo IS NOT NULL      
+ BEGIN      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  (SUBSTRING(Clm.EpisodeID, PATINDEX(''%[^0]%'',Clm.EpisodeID), 12) BETWEEN '''+ CAST(@EpisodeIdFrom AS VARCHAR(50)) + ''' AND ''' + CAST(@EpisodeIdTo AS VARCHAR(50)) + ''')'      
+ END      
+      
+--omit leading zeroes      
+SELECT @MrnNumberFrom = SUBSTRING(@MrnNumberFrom, PATINDEX('%[^0]%',@MrnNumberFrom), 12)       
+SELECT @MrnNumberTo = SUBSTRING(@MrnNumberTo, PATINDEX('%[^0]%',@MrnNumberTo), 12)       
+      
+--MRN Number From/To      
+DECLARE @RefEpisode varchar (12)      
+      
+ IF @MrnNumberFrom IS NOT NULL AND @MrnNumberTo IS NULL      
+ BEGIN      
+        
+  SELECT @RefEpisode = episode_number from Claim_reference      
+  WHERE SUBSTRING(mrn_number, PATINDEX('%[^0]%',mrn_number), 12) = ''+ CAST(@MrnNumberFrom AS VARCHAR(50)) + ''''      
+      
+  SELECT @MrnNumberFrom = mrn_number FROM VW_PatientMRNSurnameClaims WHERE episode_number = @RefEpisode      
+          
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  SUBSTRING(Pat.mrn_number, PATINDEX(''%[^0]%'',Pat.mrn_number), 12) = '''+ CAST(@MrnNumberFrom AS VARCHAR(50))+''''      
+ END      
+       
+ IF @MrnNumberTo IS NOT NULL AND @MrnNumberFrom IS NULL      
+ BEGIN      
+        
+  SELECT @RefEpisode = episode_number from Claim_reference      
+  WHERE SUBSTRING(mrn_number, PATINDEX('%[^0]%',mrn_number), 12) = ''+ CAST(@MrnNumberTo AS VARCHAR(50)) + ''''      
+      
+  SELECT @MrnNumberTo = mrn_number FROM VW_PatientMRNSurnameClaims WHERE episode_number = @RefEpisode      
+      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  SUBSTRING(Pat.mrn_number, PATINDEX(''%[^0]%'',Pat.mrn_number), 12) = '''+ CAST(@MrnNumberTo AS VARCHAR(50))+''''      
+ END      
+       
+ IF @MrnNumberFrom IS NOT NULL AND @MrnNumberTo IS NOT NULL      
+ BEGIN      
+      
+  SELECT @RefEpisode = episode_number from Claim_reference      
+  WHERE SUBSTRING(mrn_number, PATINDEX('%[^0]%',mrn_number), 12) = ''+ CAST(@MrnNumberFrom AS VARCHAR(50)) + ''''      
+      
+  SELECT @MrnNumberFrom = mrn_number FROM VW_PatientMRNSurnameClaims WHERE episode_number = @RefEpisode      
+        
+  SELECT @RefEpisode = episode_number from Claim_reference      
+  WHERE SUBSTRING(mrn_number, PATINDEX('%[^0]%',mrn_number), 12) = ''+ CAST(@MrnNumberTo AS VARCHAR(50)) + ''''      
+      
+  SELECT @MrnNumberTo = mrn_number FROM VW_PatientMRNSurnameClaims WHERE episode_number = @RefEpisode      
+        
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  (SUBSTRING(Pat.mrn_number, PATINDEX(''%[^0]%'',Pat.mrn_number), 12) BETWEEN '''+ CAST(@MrnNumberFrom AS VARCHAR(50)) + ''' AND ''' + CAST(@MrnNumberTo AS VARCHAR(50)) + ''')'      
+ END      
+      
+--Hospital Invoice Value From/To      
+ IF @HospitalInvoiceValueFrom IS NOT NULL AND @HospitalInvoiceValueTo IS NULL      
+ BEGIN      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  CAST(Val.Total_Paid_Amt AS DECIMAL(10,2)) = '+ CAST(@HospitalInvoiceValueFrom AS VARCHAR(15))      
+ END      
+       
+ IF @HospitalInvoiceValueTo IS NOT NULL AND @HospitalInvoiceValueFrom IS NULL      
+ BEGIN      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  CAST(Val.Total_Paid_Amt AS DECIMAL(10,2)) = '+ CAST(@HospitalInvoiceValueTo AS VARCHAR(15))      
+ END      
+       
+ IF @HospitalInvoiceValueFrom IS NOT NULL AND @HospitalInvoiceValueTo IS NOT NULL      
+ BEGIN      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  (CAST(Val.Total_Paid_Amt AS DECIMAL(10,2)) >= '+ CAST(@HospitalInvoiceValueFrom AS VARCHAR(15)) + ' AND CAST(Val.Total_Paid_Amt AS DECIMAL(10,2)) <= ' + CAST(@HospitalInvoiceValueTo AS VARCHAR(15)) + ')'      
+ END      
+      
+--Admission Date From/To      
+ IF @AdmissionDateFrom IS NOT NULL AND @AdmissionDateTo IS NULL      
+ BEGIN      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  CONVERT(nvarchar, Clm.AdmissionDate, 101) = '+ @chrQuote + CONVERT(nvarchar,@AdmissionDateFrom,101) + @chrQuote      
+ END      
+       
+ IF @AdmissionDateTo IS NOT NULL AND @AdmissionDateFrom IS NULL      
+ BEGIN      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  CONVERT(nvarchar, Clm.AdmissionDate, 101) = '+ @chrQuote + CONVERT(nvarchar,@AdmissionDateTo,101) + @chrQuote      
+ END      
+       
+ IF @AdmissionDateFrom IS NOT NULL AND @AdmissionDateTo IS NOT NULL      
+ BEGIN      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  Clm.AdmissionDate BETWEEN ' +       
+     @chrQuote + CONVERT(nvarchar, @AdmissionDateFrom, 101) + @chrQuote + ' AND ' +       
+     @chrQuote + CONVERT(nvarchar, DATEADD(dd,1,@AdmissionDateTo), 101) + @chrQuote       
+ END      
+      
+--Discharge Date From/To      
+ IF @DischargeDateFrom IS NOT NULL AND @DischargeDateTo IS NULL      
+ BEGIN      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  CONVERT(nvarchar, Clm.DischargeDate, 101) = '+ @chrQuote + CONVERT(nvarchar,@DischargeDateFrom,101) + @chrQuote      
+ END      
+       
+ IF @DischargeDateTo IS NOT NULL AND @DischargeDateFrom IS NULL      
+ BEGIN      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  CONVERT(nvarchar, Clm.DischargeDate, 101) = '+ @chrQuote + CONVERT(nvarchar,@DischargeDateTo,101) + @chrQuote      
+ END      
+       
+ IF @DischargeDateFrom IS NOT NULL AND @DischargeDateTo IS NOT NULL      
+ BEGIN      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  Clm.DischargeDate BETWEEN ' +       
+     @chrQuote + CONVERT(nvarchar, @DischargeDateFrom, 101) + @chrQuote + ' AND ' +       
+     @chrQuote + CONVERT(nvarchar, DATEADD(dd,1,@DischargeDateTo), 101) + @chrQuote       
+ END      
+      
+--Submitted To Insurer Date From/To      
+ IF @DatePaidFrom IS NOT NULL AND @DatePaidTo IS NULL      
+ BEGIN      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  CONVERT(nvarchar, Clm.SubmittedToInsurer, 101) = '+ @chrQuote + CONVERT(nvarchar,@DatePaidFrom,101) + @chrQuote      
+ END      
+       
+ IF @DatePaidTo IS NOT NULL AND @DatePaidFrom IS NULL      
+ BEGIN      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  CONVERT(nvarchar, Clm.SubmittedToInsurer, 101) = '+ @chrQuote + CONVERT(nvarchar,@DatePaidTo,101) + @chrQuote      
+ END      
+       
+ IF @DatePaidFrom IS NOT NULL AND @DatePaidTo IS NOT NULL      
+ BEGIN      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  Clm.SubmittedToInsurer BETWEEN ' +       
+    @chrQuote + CONVERT(nvarchar, @DatePaidFrom, 101) + @chrQuote + ' AND ' +       
+     @chrQuote + CONVERT(nvarchar, DATEADD(dd,1,@DatePaidTo), 101) + @chrQuote       
+ END      
+      
+--Last Updated Date From/To      
+ IF @LastUpdatedDateFrom IS NOT NULL AND @LastUpdatedDateTo IS NULL      
+ BEGIN      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  CONVERT(nvarchar, Clm.DateModified, 101) = '+ @chrQuote + CONVERT(nvarchar,@LastUpdatedDateFrom,101) + @chrQuote      
+ END      
+       
+ IF @LastUpdatedDateTo IS NOT NULL AND @LastUpdatedDateFrom IS NULL      
+ BEGIN      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  CONVERT(nvarchar, Clm.DateModified, 101) = '+ @chrQuote + CONVERT(nvarchar,@LastUpdatedDateTo,101) + @chrQuote      
+ END      
+       
+ IF @LastUpdatedDateFrom IS NOT NULL AND @LastUpdatedDateTo IS NOT NULL      
+ BEGIN      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  Clm.DateModified BETWEEN ' +       
+     @chrQuote + CONVERT(nvarchar, @LastUpdatedDateFrom, 101) + @chrQuote + ' AND ' +       
+     @chrQuote + CONVERT(nvarchar, DATEADD(dd,1,@LastUpdatedDateTo), 101) + @chrQuote       
+ END      
+      
+--Batch Number(s)       
+ IF @BatchNumbers IS NOT NULL      
+ BEGIN      
+  SELECT @BatchNumbers = @BatchNumbers      
+  SELECT @BatchNumbers = (REPLACE(@BatchNumbers, ' ', ''))      
+  SELECT @BatchNumbers = (REPLACE(@BatchNumbers, ',', ''','''))      
+  SELECT @WHERE =  @WHERE + CASE WHEN (@WHERE<>'WHERE') THEN ' AND ' ELSE ' ' END + '  Clm.BatchNumber IN (' + @chrQuote + @BatchNumbers + @chrQuote + ')  '      
+ END      
+      
+-- Sort Results By       
+ IF (@SortOrderBy IS NOT NULL)      
+ BEGIN      
+  IF(@SortOrderBy = '[ADMISSION DATE]')      
+   SET @SortOrderBy = '[ADMISSION DATE]'      
+  ELSE  IF(@SortOrderBy = '[CLAIM VALUE]')      
+   SET @SortOrderBy = '[CLAIM_VALUE]'      
+       
+  IF ((@SortOrderBy = '[CLAIM_VALUE]') OR (@SortOrderBy = '[DATE AND TIME MODIFIED]'))      
+   SELECT @ORDER = @ORDER + ' '  + @SortOrderBy  + ' DESC '      
+  ELSE      
+   SELECT @ORDER = @ORDER + ' '  + @SortOrderBy  + ' ASC '      
+ END      
+ IF (@SortOrderBy IS NULL AND @ClaimStatus IS NULL)      
+ BEGIN      
+  SELECT @ORDER = @ORDER + '  SORT_ORDER ASC '      
+ END      
+ IF (@SortOrderBy IS NULL AND @ClaimStatus IS NOT NULL)      
+ BEGIN      
+  SELECT @ORDER = @ORDER + '  [Status] '      
+ END      
+      
+--PRINT 'SELECT COUNT(1) ' + @FROM + ' ' + CASE WHEN SUBSTRING(@WHERE,6,5) = '  AND' THEN REPLACE(@WHERE,'  AND','') ELSE @WHERE END + ' '       
+      
+      
+SELECT @CMD = @CMD + ' ' + @FROM + ' ' + CASE WHEN LEN(@WHERE)>5 THEN @WHERE ELSE ' ' END 
+      
+         
+      
+--Outstanding Requirement      
+ IF @OutstandingReq IS NOT NULL AND (select MIN(RTRIM(LTRIM(item))) from dbo.udf_ParserSearch (@OutstandingReq)) <> 0      
+ BEGIN      
+          
+        
+  --Activity Table Mapping      
+      
+  declare @OutstandingReqCmd varchar(MAX), @OutstandingReqCmd2 varchar(MAX)      
+       
+  declare @OutstandingReqTbl table (rowid int identity(1,1), activity_id varchar(10), flag bit default(0))       
+      
+  insert into @OutstandingReqTbl (activity_id)      
+  select activity_id from (select [code],[desc],[code] as activity_id from refdata where [type] = 'outstanding') A      
+  INNER JOIN (select RTRIM(LTRIM(item)) as [code] from dbo.udf_ParserSearch (@OutstandingReq)) B ON A.[code] = B.[code]      
+      
+      
+  declare @counter INT, @rowid1 INT, @activityID1 INT ,@op VARCHAR(10)     
+  SELECT @op=''
+  SELECT @Counter = 1 --@RealActivityID = ''       
+      
+  
+  declare @rowidORQ varchar(10), @activityID varchar(10)      
+  select   @OutstandingReqCmd = ' '      
+       
+  while (select count(1) from @OutstandingReqTbl where flag = 0 AND activity_id >=1 ) <> 0      
+   BEGIN       
+   SELECT @rowidORQ = rowid, @activityID = activity_id from @OutstandingReqTbl where flag = 0 --AND activity_id >= 2      
+      
+      
+   UPDATE @OutstandingReqTbl      
+   set flag = 1 where rowid = @rowidORQ      
+        
+   IF(@AnySelReq=1)
+   BEGIN
+    SET @op=' OR '
+   END
+   ELSE
+   BEGIN
+	SET @op = ' AND '
+   END 
+      
+   IF((SELECT COUNT(*) FROM @OutstandingReqTbl)<> @counter)      
+   BEGIN
+	SELECT @OutstandingReqCmd = @OutstandingReqCmd +  ' Clm.[Claim ID] in (SELECT Claim_id FROM VW_OutstandingReq WITH (NOLOCK) WHERE Activity_id = ' + @activityID + ') ' + @op
+   END
+   ELSE
+   BEGIN
+	SELECT @OutstandingReqCmd = @OutstandingReqCmd +  ' Clm.[Claim ID] in (SELECT Claim_id FROM VW_OutstandingReq WITH (NOLOCK) WHERE Activity_id = ' + @activityID + ') ' 
+   END
+                                 
+   SET @counter = @counter+1                           
+          
+  END      
+  
+    
+      
+ SELECT @WHERE = 'WHERE ' + @OutstandingReqCmd 
+ SELECT @WHERE = @WHERE + 'AND Clm.[Batch Number] IS NULL'      
+       
+ END      
+      
+      
+SELECT @CMDMaster = 'SELECT * INTO #tmpTableCount FROM (SELECT ROW_NUMBER() OVER ('+@ORDER+') AS RowNumber,* FROM ( ' + @CMD + ') A  ) B'      
+      
+          
+SELECT @CMDMaster = @CMDMaster + ' SELECT * INTO #tmpTable0 FROM #tmpTableCount Clm ' + CASE WHEN @OutstandingReq IS NOT NULL THEN @WHERE ELSE '' END
+  
+SELECT @tbleID = NEWID()  
+  
+SELECT @CMDMaster = @CMDMaster + ' SELECT RowNumber,[Claim ID],[Facility],[Status],[MRN], [Patient Name], [Admission Date], [Insurer], [CLAIM_VALUE], [Date and Time Modified], [Modified By], [Batch Number], [Insurer_desc], [SORT_ORDER] , [Patient Address],[FOR MANUAL ESUBMISSION] FROM (SELECT ROW_NUMBER() OVER ('+@ORDER+') AS RowNumber0,* FROM #tmpTable0) Clm WHERE RowNumber0 BETWEEN '+ CAST((ISNULL(@CurrentPage,0) * ISNULL(@RecordCount,1) + 1) AS VARCHAR(100)) + ' AND ' + CAST((ISNULL(@CurrentPage,0) * ISNULL(@RecordCount,1) + ISNULL(@RecordCount,1))AS VARCHAR(100)) + ' '  
+SELECT @CMDMaster = @CMDMaster + ' SELECT ISNULL(COUNT(1) / ' + CAST(ISNULL(@RecordCount,1) AS VARCHAR(100)) + ',0) AS PageCount ,COUNT(1) AS TotalRec INTO [' + @tbleID + '] FROM #tmpTable0 '  
+  
+  
+  
+EXEC sp_executesql @CMDMaster  
+  
+DECLARE @PageRec TABLE (TotalRec INT, PageCountRec INT)  
+SELECT @CMDPageRec = 'SELECT TotalRec,PageCount FROM ['+@tbleID+']'  
+  
+  
+INSERT INTO @PageRec  
+EXEC sp_executesql @CMDPageRec  
+  
+  
+SELECT @TotalRecCount = TotalRec, @PageCount = PageCountRec FROM @PageRec  
+IF (@TotalRecCount % @RecordCount) = 0  
+ SET @pageCount = @pageCount - 1  
+  
+SELECT @CMDDropPageCount = ' IF OBJECT_ID (''dbo.['+@tbleID+']'') IS NOT NULL BEGIN  
+ DROP TABLE ['+@tbleID+'] END'  
+  
+  
+  
+EXEC sp_executesql @CMDDropPageCount     
+     
+--exec PrintMax @CMDMaster  
+--PRINT @CMDMaster      
+--PRINT @CMDPageRec      
+--PRINT @CMDDropPageCount      
+      
+      
+SET NOCOUNT OFF 

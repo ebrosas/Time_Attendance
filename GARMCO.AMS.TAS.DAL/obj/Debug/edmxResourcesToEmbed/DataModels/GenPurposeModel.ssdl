@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GenPurposeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="PermitCostCenter">
+    <Key>
+      <PropertyRef Name="PermitID" />
+    </Key>
+    <Property Name="PermitID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PermitEmpNo" Type="int" Nullable="false" />
+    <Property Name="PermitCostCenter" Type="varchar" MaxLength="12" Nullable="false" />
+    <Property Name="PermitAppID" Type="int" Nullable="false" />
+    <Property Name="PermitCreatedBy" Type="int" />
+    <Property Name="PermitCreatedDate" Type="datetime" />
+    <Property Name="PermitModifiedBy" Type="int" />
+    <Property Name="PermitModifiedDate" Type="datetime" />
+  </EntityType>
+  <EntityType Name="UserDefinedCode">
+    <Key>
+      <PropertyRef Name="UDCID" />
+    </Key>
+    <Property Name="UDCID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UDCUDCGID" Type="int" Nullable="false" />
+    <Property Name="UDCCode" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="UDCDesc1" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="UDCDesc2" Type="varchar" MaxLength="50" />
+    <Property Name="UDCSpecialHandlingCode" Type="varchar" MaxLength="50" />
+    <Property Name="UDCDate" Type="datetime" />
+    <Property Name="UDCAmount" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="UDCField" Type="varchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="UserFormAccess">
+    <Key>
+      <PropertyRef Name="UserFrmFormCode" />
+      <PropertyRef Name="UserFrmEmpNo" />
+    </Key>
+    <Property Name="UserFrmFormCode" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="UserFrmEmpNo" Type="int" Nullable="false" />
+    <Property Name="UserFrmCRUDP" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="UserFrmCreatedBy" Type="int" />
+    <Property Name="UserFrmCreatedDate" Type="datetime" />
+    <Property Name="UserFrmModifiedBy" Type="int" />
+    <Property Name="UserFrmModifiedDate" Type="datetime" />
+  </EntityType>
+  <Association Name="FK_PermitCostCenter_UserDefinedCode">
+    <End Role="UserDefinedCode" Type="Self.UserDefinedCode" Multiplicity="1" />
+    <End Role="PermitCostCenter" Type="Self.PermitCostCenter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserDefinedCode">
+        <PropertyRef Name="UDCID" />
+      </Principal>
+      <Dependent Role="PermitCostCenter">
+        <PropertyRef Name="PermitAppID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="GenPurposeModelStoreContainer">
+    <EntitySet Name="PermitCostCenter" EntityType="Self.PermitCostCenter" Schema="genuser" store:Type="Tables" />
+    <EntitySet Name="UserDefinedCode" EntityType="Self.UserDefinedCode" Schema="genuser" store:Type="Tables" />
+    <EntitySet Name="UserFormAccess" EntityType="Self.UserFormAccess" Schema="genuser" store:Type="Tables" />
+    <AssociationSet Name="FK_PermitCostCenter_UserDefinedCode" Association="Self.FK_PermitCostCenter_UserDefinedCode">
+      <End Role="UserDefinedCode" EntitySet="UserDefinedCode" />
+      <End Role="PermitCostCenter" EntitySet="PermitCostCenter" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

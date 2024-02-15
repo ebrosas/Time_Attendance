@@ -1,0 +1,58 @@
+IF OBJECT_ID('dbo.usp_pendingconsultants_retrieve_NEW') IS NOT NULL
+	DROP PROCEDURE [dbo].[usp_pendingconsultants_retrieve_NEW]
+GO
+
+CREATE PROCEDURE [dbo].[usp_pendingconsultants_retrieve_NEW]
+(
+	@User_id VARCHAR(100)
+)
+AS
+
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_pendingconsultants_retrieve_NEW
+*	Description: Retrieve pending consultant per profile.
+*
+*	Date:			Author:			Ref#:		Comments:
+*	10/22/10		EBrosas		7446		Removed reference to status_manual_consultant field
+*	03/16/2010		GBorja			6339		Updated to sync assigned doctor to user_id 
+*	03/15/2010		GBorja						Created.
+*
+**********************************************************************************/
+
+DECLARE @Profile VARCHAR(50)
+
+SELECT @Profile = Profile_name from [USER] WHERE [User_id] = @User_id
+
+DECLARE @tbl AS TABLE (Doctor_id varchar(100), Doctor_Name varchar(100), Flag BIT, IsDefault BIT)
+
+
+	INSERT INTO @tbl 
+	SELECT	DISTINCT doc.Doctor_Id
+		,UPPER(ISNULL(doc.Last_Name + ', ','')) + UPPER(RTRIM(ISNULL(doc.First_Name,''))) + ' ' + UPPER(RTRIM(ISNULL(doc.Middle_Initial,''))) AS [Doctor_Name]  
+		,CASE WHEN @Profile IN ('Secretary') AND doc.Doctor_Id IN (SELECT doctor_id FROM SECRETARY WHERE [User_id] = @User_id) THEN 1 
+			  WHEN @Profile IN ('Administrator','Super Consultant') THEN 1
+			  WHEN @Profile IN ('Consultant') AND doc.Doctor_Id = (SELECT TOP 1 doctor_id FROM [USER] WHERE Profile_name = 'Consultant' and [User_id] = @User_id) THEN 1
+			ELSE 0
+		END AS FLAG
+		,CASE WHEN @Profile IN ('Secretary') AND doc.Doctor_Id = (SELECT TOP 1 doctor_id FROM SECRETARY WHERE [User_id] = @User_id AND set_default = 1) THEN 1 
+			  WHEN @Profile IN ('Administrator','Super Consultant') AND doc.Doctor_Id = (SELECT TOP 1 doctor_id FROM [USER] WHERE [User_id] = @User_id)  THEN 1
+			  WHEN @Profile IN ('Consultant') AND doc.Doctor_Id = (SELECT TOP 1 doctor_id FROM [USER] WHERE Profile_name = 'Consultant' and [User_id] = @User_id) THEN 1
+			ELSE 0
+		END AS IsDefault
+	FROM	DOCTOR doc
+--	JOIN	CLAIM clm (NOLOCK)
+--		ON clm.status_manual_consultant = doc.doctor_id
+	WHERE	doc.Doctor_Id NOT LIKE 'GP%'
+--		AND	clm.status_manual_consultant IS NOT NULL			
+
+SELECT  DISTINCT Doctor_Id, [Doctor_Name] FROM @tbl
+WHERE FLAG = 1
+ORDER BY Doctor_Name
+
+SELECT  DISTINCT Doctor_Id FROM @tbl
+WHERE IsDefault = 1
+GO
+
+

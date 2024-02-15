@@ -1,0 +1,29 @@
+IF OBJECT_ID ('usp_user_search_history_retrieve') IS NOT NULL
+	DROP PROCEDURE [dbo].usp_user_search_history_retrieve
+GO
+    
+CREATE PROCEDURE [dbo].[usp_user_search_history_retrieve]  
+     @user_id char(20)       
+  
+AS  
+  
+/*********************************************************************************  
+* Revision History  
+*  
+* Name: [usp_user_search_history_retrieve]  
+* Description: Retrieve last search history data of a particular user.  
+*  
+* Date:   Author:  Ref#:  Comments:  
+* 02/22/10  GBorja     Created  
+*  
+**********************************************************************************/  
+  
+DECLARE @searchSTR varchar(MAX)  
+  
+SELECT @searchSTR = Last_Search FROM [User_Search_History]  
+WHERE [User_id] = @user_id  
+  
+SELECT LTRIM(RTRIM(LEFT(ITEM, CHARINDEX('=',ITEM)-1))) AS Label,LTRIM(RTRIM(SUBSTRING(ITEM, CHARINDEX('=',ITEM)+1,LEN(ITEM)))) AS SearchValue  FROM [udf_ColonDelimited](@searchSTR)  
+  
+  
+    

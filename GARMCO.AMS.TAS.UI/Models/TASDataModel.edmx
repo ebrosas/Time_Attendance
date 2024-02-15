@@ -1,0 +1,585 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TASDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ContractorRegistry">
+          <Key>
+            <PropertyRef Name="IDNumber" />
+            <PropertyRef Name="ContractStartDate" />
+            <PropertyRef Name="ContractEndDate" />
+          </Key>
+          <Property Name="RegistryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ContractorNo" Type="int" Nullable="false" />
+          <Property Name="RegistrationDate" Type="datetime" />
+          <Property Name="IDNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="IDType" Type="tinyint" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="CompanyName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CompanyID" Type="int" />
+          <Property Name="CompanyCRNo" Type="varchar" MaxLength="20" />
+          <Property Name="PurchaseOrderNo" Type="float" />
+          <Property Name="JobTitle" Type="varchar" MaxLength="10" />
+          <Property Name="MobileNo" Type="varchar" MaxLength="20" />
+          <Property Name="VisitedCostCenter" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="SupervisorEmpNo" Type="int" Nullable="false" />
+          <Property Name="SupervisorEmpName" Type="varchar" MaxLength="100" />
+          <Property Name="PurposeOfVisit" Type="varchar" MaxLength="300" />
+          <Property Name="ContractStartDate" Type="datetime" Nullable="false" />
+          <Property Name="ContractEndDate" Type="datetime" Nullable="false" />
+          <Property Name="BloodGroup" Type="varchar" MaxLength="10" />
+          <Property Name="Remarks" Type="varchar" MaxLength="500" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedByEmpNo" Type="int" Nullable="false" />
+          <Property Name="CreatedByUser" Type="varchar" MaxLength="50" />
+          <Property Name="LastUpdatedDate" Type="datetime" />
+          <Property Name="LastUpdatedByEmpNo" Type="int" />
+          <Property Name="LastUpdatedByUser" Type="varchar" MaxLength="50" />
+          <Property Name="WorkDurationHours" Type="int" />
+          <Property Name="WorkDurationMins" Type="int" />
+          <Property Name="CompanyContactNo" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="IDCardRegistry">
+          <Key>
+            <PropertyRef Name="EmpNo" />
+          </Key>
+          <Property Name="RegistryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpNo" Type="int" Nullable="false" />
+          <Property Name="EmpName" Type="varchar" MaxLength="100" />
+          <Property Name="Position" Type="varchar" MaxLength="50" />
+          <Property Name="CustomCostCenter" Type="varchar" MaxLength="100" />
+          <Property Name="CPRNo" Type="varchar" MaxLength="30" />
+          <Property Name="BloodGroup" Type="varchar" MaxLength="10" />
+          <Property Name="IsContractor" Type="bit" Nullable="false" />
+          <Property Name="EmpPhoto" Type="varbinary(max)" />
+          <Property Name="Base64Photo" Type="varchar(max)" />
+          <Property Name="ImageFileName" Type="varchar" MaxLength="100" />
+          <Property Name="ImageFileExt" Type="varchar" MaxLength="5" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedByEmpNo" Type="int" Nullable="false" />
+          <Property Name="CreatedByUser" Type="varchar" MaxLength="50" />
+          <Property Name="LastUpdatedDate" Type="datetime" />
+          <Property Name="LastUpdatedByEmpNo" Type="int" />
+          <Property Name="LastUpdatedByUser" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="LicenseRegistry">
+          <Key>
+            <PropertyRef Name="EmpNo" />
+            <PropertyRef Name="LicenseNo" />
+            <PropertyRef Name="LicenseTypeCode" />
+            <PropertyRef Name="IssuedDate" />
+            <PropertyRef Name="ExpiryDate" />
+          </Key>
+          <Property Name="RegistryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EmpNo" Type="int" Nullable="false" />
+          <Property Name="LicenseNo" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="LicenseTypeCode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="LicenseTypeDesc" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IssuingAuthority" Type="varchar" MaxLength="200" />
+          <Property Name="IssuedDate" Type="datetime" Nullable="false" />
+          <Property Name="ExpiryDate" Type="datetime" Nullable="false" />
+          <Property Name="Remarks" Type="varchar" MaxLength="300" />
+          <Property Name="LicenseGUID" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedByEmpNo" Type="int" Nullable="false" />
+          <Property Name="CreatedByEmpName" Type="varchar" MaxLength="100" />
+          <Property Name="CreatedByUser" Type="varchar" MaxLength="50" />
+          <Property Name="LastUpdatedDate" Type="datetime" />
+          <Property Name="LastUpdatedByEmpNo" Type="int" />
+          <Property Name="LastUpdatedByEmpName" Type="varchar" MaxLength="100" />
+          <Property Name="LastUpdatedByUser" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'tas2.tas.Vw_Contractor' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Vw_Contractor">
+          <Key>
+            <PropertyRef Name="RegistryID" />
+            <PropertyRef Name="ContractorNo" />
+            <PropertyRef Name="IDNumber" />
+            <PropertyRef Name="IDType" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="CompanyName" />
+            <PropertyRef Name="VisitedCostCenter" />
+            <PropertyRef Name="SupervisorEmpNo" />
+            <PropertyRef Name="ContractStartDate" />
+            <PropertyRef Name="ContractEndDate" />
+            <PropertyRef Name="CreatedByEmpNo" />
+          </Key>
+          <Property Name="RegistryID" Type="int" Nullable="false" />
+          <Property Name="ContractorNo" Type="int" Nullable="false" />
+          <Property Name="RegistrationDate" Type="datetime" />
+          <Property Name="IDNumber" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="IDType" Type="tinyint" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="CompanyName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CompanyID" Type="int" />
+          <Property Name="CompanyCRNo" Type="varchar" MaxLength="20" />
+          <Property Name="PurchaseOrderNo" Type="float" />
+          <Property Name="JobCode" Type="varchar" MaxLength="10" />
+          <Property Name="JobTitle" Type="varchar" MaxLength="50" />
+          <Property Name="MobileNo" Type="varchar" MaxLength="20" />
+          <Property Name="VisitedCostCenter" Type="varchar" MaxLength="12" Nullable="false" />
+          <Property Name="VisitedCostCenterName" Type="varchar" MaxLength="40" />
+          <Property Name="SupervisorEmpNo" Type="int" Nullable="false" />
+          <Property Name="SupervisorEmpName" Type="varchar" MaxLength="100" />
+          <Property Name="PurposeOfVisit" Type="varchar" MaxLength="300" />
+          <Property Name="ContractStartDate" Type="datetime" Nullable="false" />
+          <Property Name="ContractEndDate" Type="datetime" Nullable="false" />
+          <Property Name="BloodGroup" Type="varchar" MaxLength="10" />
+          <Property Name="BloodGroupDesc" Type="varchar" MaxLength="50" />
+          <Property Name="Remarks" Type="varchar" MaxLength="500" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedByEmpNo" Type="int" Nullable="false" />
+          <Property Name="CreatedByEmpName" Type="varchar" MaxLength="40" />
+          <Property Name="CreatedByUser" Type="varchar" MaxLength="50" />
+          <Property Name="LastUpdatedDate" Type="datetime" />
+          <Property Name="LastUpdatedByEmpNo" Type="int" />
+          <Property Name="LastUpdatedByEmpName" Type="varchar" MaxLength="40" />
+          <Property Name="LastUpdatedByUser" Type="varchar" MaxLength="50" />
+          <Property Name="CardNo" Type="varchar" MaxLength="20" />
+          <Property Name="WorkDurationHours" Type="int" />
+          <Property Name="WorkDurationMins" Type="int" />
+          <Property Name="CompanyContactNo" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'tas2.tas.Vw_IDCardHistory' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Vw_IDCardHistory">
+          <Key>
+            <PropertyRef Name="HistoryID" />
+            <PropertyRef Name="EmpNo" />
+            <PropertyRef Name="IsContractor" />
+            <PropertyRef Name="CardRefNo" />
+            <PropertyRef Name="CreatedByEmpNo" />
+          </Key>
+          <Property Name="HistoryID" Type="int" Nullable="false" />
+          <Property Name="EmpNo" Type="int" Nullable="false" />
+          <Property Name="IsContractor" Type="bit" Nullable="false" />
+          <Property Name="CardRefNo" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Remarks" Type="varchar" MaxLength="300" />
+          <Property Name="CardGUID" Type="varchar" MaxLength="50" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="CreatedByEmpNo" Type="int" Nullable="false" />
+          <Property Name="CreatedByEmpName" Type="varchar" MaxLength="40" />
+          <Property Name="CreatedByUser" Type="varchar" MaxLength="50" />
+          <Property Name="LastUpdatedDate" Type="datetime" />
+          <Property Name="LastUpdatedByEmpNo" Type="int" />
+          <Property Name="LastUpdatedByEmpName" Type="varchar" MaxLength="40" />
+          <Property Name="LastUpdatedByUser" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityContainer Name="TASDBModelStoreContainer">
+          <EntitySet Name="ContractorRegistry" EntityType="Self.ContractorRegistry" Schema="tas" store:Type="Tables" />
+          <EntitySet Name="IDCardRegistry" EntityType="Self.IDCardRegistry" Schema="tas" store:Type="Tables" />
+          <EntitySet Name="LicenseRegistry" EntityType="Self.LicenseRegistry" Schema="tas" store:Type="Tables" />
+          <EntitySet Name="Vw_Contractor" EntityType="Self.Vw_Contractor" store:Type="Views" store:Schema="tas">
+            <DefiningQuery>SELECT 
+    [Vw_Contractor].[RegistryID] AS [RegistryID], 
+    [Vw_Contractor].[ContractorNo] AS [ContractorNo], 
+    [Vw_Contractor].[RegistrationDate] AS [RegistrationDate], 
+    [Vw_Contractor].[IDNumber] AS [IDNumber], 
+    [Vw_Contractor].[IDType] AS [IDType], 
+    [Vw_Contractor].[FirstName] AS [FirstName], 
+    [Vw_Contractor].[LastName] AS [LastName], 
+    [Vw_Contractor].[CompanyName] AS [CompanyName], 
+    [Vw_Contractor].[CompanyID] AS [CompanyID], 
+    [Vw_Contractor].[CompanyCRNo] AS [CompanyCRNo], 
+    [Vw_Contractor].[PurchaseOrderNo] AS [PurchaseOrderNo], 
+    [Vw_Contractor].[JobCode] AS [JobCode], 
+    [Vw_Contractor].[JobTitle] AS [JobTitle], 
+    [Vw_Contractor].[MobileNo] AS [MobileNo], 
+    [Vw_Contractor].[VisitedCostCenter] AS [VisitedCostCenter], 
+    [Vw_Contractor].[VisitedCostCenterName] AS [VisitedCostCenterName], 
+    [Vw_Contractor].[SupervisorEmpNo] AS [SupervisorEmpNo], 
+    [Vw_Contractor].[SupervisorEmpName] AS [SupervisorEmpName], 
+    [Vw_Contractor].[PurposeOfVisit] AS [PurposeOfVisit], 
+    [Vw_Contractor].[ContractStartDate] AS [ContractStartDate], 
+    [Vw_Contractor].[ContractEndDate] AS [ContractEndDate], 
+    [Vw_Contractor].[BloodGroup] AS [BloodGroup], 
+    [Vw_Contractor].[BloodGroupDesc] AS [BloodGroupDesc], 
+    [Vw_Contractor].[Remarks] AS [Remarks], 
+    [Vw_Contractor].[CreatedDate] AS [CreatedDate], 
+    [Vw_Contractor].[CreatedByEmpNo] AS [CreatedByEmpNo], 
+    [Vw_Contractor].[CreatedByEmpName] AS [CreatedByEmpName], 
+    [Vw_Contractor].[CreatedByUser] AS [CreatedByUser], 
+    [Vw_Contractor].[LastUpdatedDate] AS [LastUpdatedDate], 
+    [Vw_Contractor].[LastUpdatedByEmpNo] AS [LastUpdatedByEmpNo], 
+    [Vw_Contractor].[LastUpdatedByEmpName] AS [LastUpdatedByEmpName], 
+    [Vw_Contractor].[LastUpdatedByUser] AS [LastUpdatedByUser], 
+    [Vw_Contractor].[CardNo] AS [CardNo], 
+    [Vw_Contractor].[WorkDurationHours] AS [WorkDurationHours], 
+    [Vw_Contractor].[WorkDurationMins] AS [WorkDurationMins], 
+    [Vw_Contractor].[CompanyContactNo] AS [CompanyContactNo]
+    FROM [tas].[Vw_Contractor] AS [Vw_Contractor]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="Vw_IDCardHistory" EntityType="Self.Vw_IDCardHistory" store:Type="Views" store:Schema="tas">
+            <DefiningQuery>SELECT 
+    [Vw_IDCardHistory].[HistoryID] AS [HistoryID], 
+    [Vw_IDCardHistory].[EmpNo] AS [EmpNo], 
+    [Vw_IDCardHistory].[IsContractor] AS [IsContractor], 
+    [Vw_IDCardHistory].[CardRefNo] AS [CardRefNo], 
+    [Vw_IDCardHistory].[Remarks] AS [Remarks], 
+    [Vw_IDCardHistory].[CardGUID] AS [CardGUID], 
+    [Vw_IDCardHistory].[CreatedDate] AS [CreatedDate], 
+    [Vw_IDCardHistory].[CreatedByEmpNo] AS [CreatedByEmpNo], 
+    [Vw_IDCardHistory].[CreatedByEmpName] AS [CreatedByEmpName], 
+    [Vw_IDCardHistory].[CreatedByUser] AS [CreatedByUser], 
+    [Vw_IDCardHistory].[LastUpdatedDate] AS [LastUpdatedDate], 
+    [Vw_IDCardHistory].[LastUpdatedByEmpNo] AS [LastUpdatedByEmpNo], 
+    [Vw_IDCardHistory].[LastUpdatedByEmpName] AS [LastUpdatedByEmpName], 
+    [Vw_IDCardHistory].[LastUpdatedByUser] AS [LastUpdatedByUser]
+    FROM [tas].[Vw_IDCardHistory] AS [Vw_IDCardHistory]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TASDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TASDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="LicenseRegistries" EntityType="TASDBModel.LicenseRegistry" />
+          <EntitySet Name="Vw_IDCardHistory" EntityType="TASDBModel.Vw_IDCardHistory" />
+          <EntitySet Name="IDCardRegistries" EntityType="TASDBModel.IDCardRegistry" />
+          <EntitySet Name="ContractorRegistries" EntityType="TASDBModel.ContractorRegistry" />
+          <EntitySet Name="Vw_Contractor" EntityType="TASDBModel.Vw_Contractor" />
+        </EntityContainer>
+        <EntityType Name="LicenseRegistry">
+          <Key>
+            <PropertyRef Name="EmpNo" />
+            <PropertyRef Name="LicenseNo" />
+            <PropertyRef Name="LicenseTypeCode" />
+            <PropertyRef Name="IssuedDate" />
+            <PropertyRef Name="ExpiryDate" />
+          </Key>
+          <Property Name="RegistryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmpNo" Type="Int32" Nullable="false" />
+          <Property Name="LicenseNo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="LicenseTypeCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="LicenseTypeDesc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IssuingAuthority" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IssuedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ExpiryDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Remarks" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="LicenseGUID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedByEmpNo" Type="Int32" Nullable="false" />
+          <Property Name="CreatedByEmpName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedByEmpNo" Type="Int32" />
+          <Property Name="LastUpdatedByEmpName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdatedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Vw_IDCardHistory">
+          <Key>
+            <PropertyRef Name="HistoryID" />
+            <PropertyRef Name="EmpNo" />
+            <PropertyRef Name="IsContractor" />
+            <PropertyRef Name="CardRefNo" />
+            <PropertyRef Name="CreatedByEmpNo" />
+          </Key>
+          <Property Name="HistoryID" Type="Int32" Nullable="false" />
+          <Property Name="EmpNo" Type="Int32" Nullable="false" />
+          <Property Name="IsContractor" Type="Boolean" Nullable="false" />
+          <Property Name="CardRefNo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="CardGUID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedByEmpNo" Type="Int32" Nullable="false" />
+          <Property Name="CreatedByEmpName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedByEmpNo" Type="Int32" />
+          <Property Name="LastUpdatedByEmpName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdatedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="IDCardRegistry">
+          <Key>
+            <PropertyRef Name="EmpNo" />
+          </Key>
+          <Property Name="RegistryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmpNo" Type="Int32" Nullable="false" />
+          <Property Name="IsContractor" Type="Boolean" Nullable="false" />
+          <Property Name="EmpPhoto" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ImageFileName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ImageFileExt" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedByEmpNo" Type="Int32" Nullable="false" />
+          <Property Name="CreatedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedByEmpNo" Type="Int32" />
+          <Property Name="LastUpdatedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Base64Photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="EmpName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Position" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustomCostCenter" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="CPRNo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="BloodGroup" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ContractorRegistry">
+          <Key>
+            <PropertyRef Name="IDNumber" />
+            <PropertyRef Name="ContractStartDate" />
+            <PropertyRef Name="ContractEndDate" />
+          </Key>
+          <Property Name="RegistryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ContractorNo" Type="Int32" Nullable="false" />
+          <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
+          <Property Name="IDNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IDType" Type="Byte" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyID" Type="Int32" />
+          <Property Name="CompanyCRNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PurchaseOrderNo" Type="Double" />
+          <Property Name="JobTitle" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="MobileNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="VisitedCostCenter" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="SupervisorEmpNo" Type="Int32" Nullable="false" />
+          <Property Name="SupervisorEmpName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PurposeOfVisit" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="ContractStartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ContractEndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="BloodGroup" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedByEmpNo" Type="Int32" Nullable="false" />
+          <Property Name="CreatedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedByEmpNo" Type="Int32" />
+          <Property Name="LastUpdatedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="WorkDurationHours" Type="Int32" />
+          <Property Name="WorkDurationMins" Type="Int32" />
+          <Property Name="CompanyContactNo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Vw_Contractor">
+          <Key>
+            <PropertyRef Name="RegistryID" />
+            <PropertyRef Name="ContractorNo" />
+            <PropertyRef Name="IDNumber" />
+            <PropertyRef Name="IDType" />
+            <PropertyRef Name="FirstName" />
+            <PropertyRef Name="LastName" />
+            <PropertyRef Name="CompanyName" />
+            <PropertyRef Name="VisitedCostCenter" />
+            <PropertyRef Name="SupervisorEmpNo" />
+            <PropertyRef Name="ContractStartDate" />
+            <PropertyRef Name="ContractEndDate" />
+            <PropertyRef Name="CreatedByEmpNo" />
+          </Key>
+          <Property Name="RegistryID" Type="Int32" Nullable="false" />
+          <Property Name="ContractorNo" Type="Int32" Nullable="false" />
+          <Property Name="RegistrationDate" Type="DateTime" Precision="3" />
+          <Property Name="IDNumber" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="IDType" Type="Byte" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CompanyID" Type="Int32" />
+          <Property Name="CompanyCRNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PurchaseOrderNo" Type="Double" />
+          <Property Name="JobCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="JobTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MobileNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="VisitedCostCenter" Type="String" Nullable="false" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="VisitedCostCenterName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="SupervisorEmpNo" Type="Int32" Nullable="false" />
+          <Property Name="SupervisorEmpName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PurposeOfVisit" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="ContractStartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ContractEndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="BloodGroup" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="BloodGroupDesc" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="CreatedByEmpNo" Type="Int32" Nullable="false" />
+          <Property Name="CreatedByEmpName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdatedDate" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdatedByEmpNo" Type="Int32" />
+          <Property Name="LastUpdatedByEmpName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdatedByUser" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CardNo" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="WorkDurationHours" Type="Int32" />
+          <Property Name="WorkDurationMins" Type="Int32" />
+          <Property Name="CompanyContactNo" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TASDBModelStoreContainer" CdmEntityContainer="TASDBEntities">
+          <EntitySetMapping Name="LicenseRegistries">
+            <EntityTypeMapping TypeName="TASDBModel.LicenseRegistry">
+              <MappingFragment StoreEntitySet="LicenseRegistry">
+                <ScalarProperty Name="LastUpdatedByUser" ColumnName="LastUpdatedByUser" />
+                <ScalarProperty Name="LastUpdatedByEmpName" ColumnName="LastUpdatedByEmpName" />
+                <ScalarProperty Name="LastUpdatedByEmpNo" ColumnName="LastUpdatedByEmpNo" />
+                <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+                <ScalarProperty Name="CreatedByUser" ColumnName="CreatedByUser" />
+                <ScalarProperty Name="CreatedByEmpName" ColumnName="CreatedByEmpName" />
+                <ScalarProperty Name="CreatedByEmpNo" ColumnName="CreatedByEmpNo" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="LicenseGUID" ColumnName="LicenseGUID" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+                <ScalarProperty Name="IssuedDate" ColumnName="IssuedDate" />
+                <ScalarProperty Name="IssuingAuthority" ColumnName="IssuingAuthority" />
+                <ScalarProperty Name="LicenseTypeDesc" ColumnName="LicenseTypeDesc" />
+                <ScalarProperty Name="LicenseTypeCode" ColumnName="LicenseTypeCode" />
+                <ScalarProperty Name="LicenseNo" ColumnName="LicenseNo" />
+                <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+                <ScalarProperty Name="RegistryID" ColumnName="RegistryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vw_IDCardHistory">
+            <EntityTypeMapping TypeName="TASDBModel.Vw_IDCardHistory">
+              <MappingFragment StoreEntitySet="Vw_IDCardHistory">
+                <ScalarProperty Name="LastUpdatedByUser" ColumnName="LastUpdatedByUser" />
+                <ScalarProperty Name="LastUpdatedByEmpName" ColumnName="LastUpdatedByEmpName" />
+                <ScalarProperty Name="LastUpdatedByEmpNo" ColumnName="LastUpdatedByEmpNo" />
+                <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+                <ScalarProperty Name="CreatedByUser" ColumnName="CreatedByUser" />
+                <ScalarProperty Name="CreatedByEmpName" ColumnName="CreatedByEmpName" />
+                <ScalarProperty Name="CreatedByEmpNo" ColumnName="CreatedByEmpNo" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="CardGUID" ColumnName="CardGUID" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="CardRefNo" ColumnName="CardRefNo" />
+                <ScalarProperty Name="IsContractor" ColumnName="IsContractor" />
+                <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+                <ScalarProperty Name="HistoryID" ColumnName="HistoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IDCardRegistries">
+            <EntityTypeMapping TypeName="TASDBModel.IDCardRegistry">
+              <MappingFragment StoreEntitySet="IDCardRegistry">
+                <ScalarProperty Name="BloodGroup" ColumnName="BloodGroup" />
+                <ScalarProperty Name="CPRNo" ColumnName="CPRNo" />
+                <ScalarProperty Name="CustomCostCenter" ColumnName="CustomCostCenter" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+                <ScalarProperty Name="Base64Photo" ColumnName="Base64Photo" />
+                <ScalarProperty Name="LastUpdatedByUser" ColumnName="LastUpdatedByUser" />
+                <ScalarProperty Name="LastUpdatedByEmpNo" ColumnName="LastUpdatedByEmpNo" />
+                <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+                <ScalarProperty Name="CreatedByUser" ColumnName="CreatedByUser" />
+                <ScalarProperty Name="CreatedByEmpNo" ColumnName="CreatedByEmpNo" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ImageFileExt" ColumnName="ImageFileExt" />
+                <ScalarProperty Name="ImageFileName" ColumnName="ImageFileName" />
+                <ScalarProperty Name="EmpPhoto" ColumnName="EmpPhoto" />
+                <ScalarProperty Name="IsContractor" ColumnName="IsContractor" />
+                <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+                <ScalarProperty Name="RegistryID" ColumnName="RegistryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContractorRegistries">
+            <EntityTypeMapping TypeName="TASDBModel.ContractorRegistry">
+              <MappingFragment StoreEntitySet="ContractorRegistry">
+                <ScalarProperty Name="CompanyContactNo" ColumnName="CompanyContactNo" />
+                <ScalarProperty Name="WorkDurationMins" ColumnName="WorkDurationMins" />
+                <ScalarProperty Name="WorkDurationHours" ColumnName="WorkDurationHours" />
+                <ScalarProperty Name="LastUpdatedByUser" ColumnName="LastUpdatedByUser" />
+                <ScalarProperty Name="LastUpdatedByEmpNo" ColumnName="LastUpdatedByEmpNo" />
+                <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+                <ScalarProperty Name="CreatedByUser" ColumnName="CreatedByUser" />
+                <ScalarProperty Name="CreatedByEmpNo" ColumnName="CreatedByEmpNo" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="BloodGroup" ColumnName="BloodGroup" />
+                <ScalarProperty Name="ContractEndDate" ColumnName="ContractEndDate" />
+                <ScalarProperty Name="ContractStartDate" ColumnName="ContractStartDate" />
+                <ScalarProperty Name="PurposeOfVisit" ColumnName="PurposeOfVisit" />
+                <ScalarProperty Name="SupervisorEmpName" ColumnName="SupervisorEmpName" />
+                <ScalarProperty Name="SupervisorEmpNo" ColumnName="SupervisorEmpNo" />
+                <ScalarProperty Name="VisitedCostCenter" ColumnName="VisitedCostCenter" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="PurchaseOrderNo" ColumnName="PurchaseOrderNo" />
+                <ScalarProperty Name="CompanyCRNo" ColumnName="CompanyCRNo" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="IDType" ColumnName="IDType" />
+                <ScalarProperty Name="IDNumber" ColumnName="IDNumber" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+                <ScalarProperty Name="ContractorNo" ColumnName="ContractorNo" />
+                <ScalarProperty Name="RegistryID" ColumnName="RegistryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Vw_Contractor">
+            <EntityTypeMapping TypeName="TASDBModel.Vw_Contractor">
+              <MappingFragment StoreEntitySet="Vw_Contractor">
+                <ScalarProperty Name="CompanyContactNo" ColumnName="CompanyContactNo" />
+                <ScalarProperty Name="WorkDurationMins" ColumnName="WorkDurationMins" />
+                <ScalarProperty Name="WorkDurationHours" ColumnName="WorkDurationHours" />
+                <ScalarProperty Name="CardNo" ColumnName="CardNo" />
+                <ScalarProperty Name="LastUpdatedByUser" ColumnName="LastUpdatedByUser" />
+                <ScalarProperty Name="LastUpdatedByEmpName" ColumnName="LastUpdatedByEmpName" />
+                <ScalarProperty Name="LastUpdatedByEmpNo" ColumnName="LastUpdatedByEmpNo" />
+                <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+                <ScalarProperty Name="CreatedByUser" ColumnName="CreatedByUser" />
+                <ScalarProperty Name="CreatedByEmpName" ColumnName="CreatedByEmpName" />
+                <ScalarProperty Name="CreatedByEmpNo" ColumnName="CreatedByEmpNo" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="BloodGroupDesc" ColumnName="BloodGroupDesc" />
+                <ScalarProperty Name="BloodGroup" ColumnName="BloodGroup" />
+                <ScalarProperty Name="ContractEndDate" ColumnName="ContractEndDate" />
+                <ScalarProperty Name="ContractStartDate" ColumnName="ContractStartDate" />
+                <ScalarProperty Name="PurposeOfVisit" ColumnName="PurposeOfVisit" />
+                <ScalarProperty Name="SupervisorEmpName" ColumnName="SupervisorEmpName" />
+                <ScalarProperty Name="SupervisorEmpNo" ColumnName="SupervisorEmpNo" />
+                <ScalarProperty Name="VisitedCostCenterName" ColumnName="VisitedCostCenterName" />
+                <ScalarProperty Name="VisitedCostCenter" ColumnName="VisitedCostCenter" />
+                <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+                <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+                <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+                <ScalarProperty Name="PurchaseOrderNo" ColumnName="PurchaseOrderNo" />
+                <ScalarProperty Name="CompanyCRNo" ColumnName="CompanyCRNo" />
+                <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="IDType" ColumnName="IDType" />
+                <ScalarProperty Name="IDNumber" ColumnName="IDNumber" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+                <ScalarProperty Name="ContractorNo" ColumnName="ContractorNo" />
+                <ScalarProperty Name="RegistryID" ColumnName="RegistryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

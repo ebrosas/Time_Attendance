@@ -1,0 +1,384 @@
+
+/********************************************************************************
+*	Revision History
+*	Name: Screen_SubActivity
+*	Description: 
+*
+*	Date:	  	Author:		Comments:
+* 	09/15/2010	JVillas		Generated scripts
+*	09/08/2010	DGVasquez	Added subactivities for Execute Data Recall
+*
+*********************************************************************************/
+
+DELETE FROM [dbo].[Screen_SubActivity]
+GO
+
+SET IDENTITY_INSERT [dbo].[Screen_SubActivity] ON
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (1, N'1         ', N'Claim Value Column', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (2, N'1         ', N'Delete', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (3, N'1         ', N'Email', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (4, N'1         ', N'Execute - Batch Only', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (5, N'1         ', N'Execute - Batch Print', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (7, N'1         ', N'Execute - E-Submit', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (8, N'1         ', N'Execute - Print Only', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (11, N'1         ', N'Export - Excel', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (56, N'10        ', N'Add Consultant', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (57, N'10        ', N'Delete Consultant', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (58, N'11        ', N'Add Code/Procedures', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (59, N'11        ', N'Delete Code/Procedures', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (60, N'12        ', N'Add Code/Procedure Rates', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (61, N'12        ', N'Delete Code/Procedure Rates', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (62, N'13        ', N'Add Profile', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (63, N'13        ', N'Delete Profiles', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (64, N'14        ', N'Add Users', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (65, N'14        ', N'Delete Users', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (66, N'16        ', N'Add Preferred Drug', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (67, N'16        ', N'Delete Preferred Drug', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (74, N'2         ', N'Delete', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (75, N'2         ', N'Email', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (76, N'2         ', N'Execute - Batch Only', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (77, N'2         ', N'Execute - Batch Print', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (79, N'2         ', N'Execute - Print Only', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (80, N'2         ', N'Export - Excel', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (81, N'2         ', N'View Scanned Doc', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (82, N'20        ', N'Drug – Add', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (83, N'20        ', N'Drug – Delete', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (84, N'20        ', N'Drug – Edit', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (85, N'21        ', N'Insurer – Add', N'btnAdd', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (86, N'21        ', N'Insurer – Delete', N'btnDelete', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (87, N'21        ', N'Insurer – Edit', N'btnSave', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (88, N'22        ', N'Delete E-Submission Schedule', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (89, N'22        ', N'Save E-Submission Schedule', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (90, N'3         ', N'Hospital Lookup - Delete', N'btnRemoveHospital', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (91, N'3         ', N'Hospital Lookup - Save', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (92, N'3         ', N'Patient Lookup - Add Patient', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (93, N'3         ', N'Patient Lookup - Delete Patient', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (94, N'3         ', N'Patient Lookup - View', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (95, N'3         ', N'Print Part 1', N'btnPrint', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (96, N'3         ', N'Subscriber Other Address - Add Address', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (97, N'3         ', N'Subscriber Other Address - Delete Address', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (98, N'3         ', N'Subscriber Other Address - View', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (99, N'4         ', N'Chemotherapy Drugs - Add', N'btnAddChemotherapyDrugs', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (100, N'4         ', N'Chemotherapy Drugs - Delete', N'btnDeleteChemotherapyDrugs', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (101, N'4         ', N'Diagnosis - Add', N'btnAddDiagnosis', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (102, N'4         ', N'Diagnosis - Delete', N'btnDeleteDiagnosis', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (103, N'4         ', N'HIPE Procedure', N'btnHIPEProcedures', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (104, N'4         ', N'Hospital Lookup - Add', N'btnSave', 0)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (105, N'4         ', N'Hospital Lookup - Delete', N'btnDelete', 0)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (106, N'4         ', N'Laboratory Investigations - Add', N'btnSave', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (107, N'4         ', N'Laboratory Investigations - Delete', N'btnRemoveHospital', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (108, N'4         ', N'Medical Attendance/Other Consultant Services - Add', N'btnAddOtherConsultantService', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (109, N'4         ', N'Medical Attendance/Other Consultant Services - Delete', N'btnDeleteOtherConsultantService', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (110, N'4         ', N'New Born Baby Details -  Administer Midwife/GP Signature', N'btnMidwifeGPSignature', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (111, N'4         ', N'New Born Baby Details - Add', N'btnAddChild', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (112, N'4         ', N'New Born Baby Details - Assign Signatory', N'ddlMaternityAuthorizedSignatory', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (113, N'4         ', N'New Born Baby Details - Delete', N'btnDeleteChild', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (114, N'4         ', N'Patient Discharge Summary', N'btnPatientDischargeSummary', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (115, N'4         ', N'Print Part 2', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (116, N'4         ', N'Radiology Investigations - Add', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (117, N'4         ', N'Radiology Investigations - Assign Signatory', N'', 0)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (118, N'4         ', N'Radiology Investigations - Delete', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (119, N'4         ', N'Treatments - Add', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (120, N'4         ', N'Treatments - Delete', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (121, N'5         ', N'Attach Document', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (122, N'5         ', N'Claim Requirements Settings', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (123, N'5         ', N'Hospital Lookup - Delete', N'btnRemoveHospital', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (124, N'5         ', N'Hospital Lookup - Save', N'btnSave', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (125, N'5         ', N'Manually Override Status', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (126, N'5         ', N'Payment Details - Delete Payment', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (127, N'5         ', N'Payment Details - View Payments', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (128, N'5         ', N'Ready for Submission', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (129, N'5         ', N'Recompute Hospital Invoice Value', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (130, N'5         ', N'Refer to Debt Collection Agency', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (131, N'5         ', N'Scan Document', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (132, N'5         ', N'Select Action - Print all Scanned Docs', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (133, N'5         ', N'Select Response by Insurer', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (134, N'5         ', N'Status Date', N'', 0)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (135, N'5         ', N'Unsaved Scanned Documents - Discard', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (136, N'5         ', N'Unsaved Scanned Documents - Save', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (137, N'5         ', N'Unsaved Scanned Documents - View', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (138, N'5         ', N'Unsaved Scanned Documents - View Image', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (139, N'5         ', N'Update Hospital Invoice Value', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (140, N'5         ', N'Write Off Balance', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (165, N'7         ', N'Administration/Finance Reports', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (166, N'7         ', N'Consultant Reports', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (167, N'7         ', N'Exception Reports', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (168, N'7         ', N'System Administrator Reports', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (169, N'4         ', N'Operations/Procedures - Add', N'btnAddProcedure', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (171, N'4         ', N'Operations/Procedures - Delete', N'btnDeleteProcedure', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (173, N'4         ', N'Medications - Add', N'btnAddMedication', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (175, N'4         ', N'Medications - Delete', N'btnDeleteMedication', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (177, N'24        ', N'Execute - Raise From Existing', N'mnuExecuteInvoice', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (178, N'25        ', N'Invoice - Override Status', N'chkOverrideInvoiceStatus', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (179, N'25        ', N'Reconcile - Clear Payments', N'lnkbtnClearPayments', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (180, N'1         ', N'Execute - Raise Invoice', N'mnuBatchClaims', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (181, N'24        ', N'Delete', N'btnDelete', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (182, N'24        ', N'Export - Excel', N'btnExport', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (183, N'24        ', N'Execute - Finalise/Issue', N'mnuExecuteInvoice', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (184, N'24        ', N'Execute - Mark Paid', N'mnuExecuteInvoice', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (185, N'24        ', N'Execute - Mark Bad Debt', N'mnuExecuteInvoice', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (186, N'24        ', N'Execute - Print', N'mnuExecuteInvoice', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (187, N'24        ', N'Execute - Write Off', N'mnuExecuteInvoice', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (194, N'5         ', N'Activity', NULL, 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (195, N'8         ', N'Claims Generation', N'rbClaims', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (196, N'8         ', N'Invoices Restoration', N'rbInvoices', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (208, N'4         ', N'Clinical/Consultant - Add', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (209, N'4         ', N'Clinical/Consultant - Delete', N'btnClinicalConsultantDelete', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (369, N'5         ', N'Manage Documents', NULL, 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (370, N'5         ', N'Document Activity Assignment – Re-assign', NULL, 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (371, N'5         ', N'Document Activity Assignment – Update sequence', NULL, 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (372, N'5         ', N'Document Activity Assignment – Delete', NULL, 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (373, N'5         ', N'Document Activity Assignment – Attach', NULL, 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (374, N'5         ', N'Document Activity Assignment – Scan', NULL, 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (375, N'5         ', N'Batch Attach', NULL, 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (376, N'5         ', N'Batch Scan', NULL, 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (377, N'17        ', N'Setup Statutory Charges', N'btnSaveStatutoryChargeSetup', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (378, N'17        ', N'Add/Edit Statutory Charges', N'btnAddChargeRate', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (379, N'17        ', N'Delete Statutory Charges', N'btnDeleteChargeRate', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (380, N'17        ', N'Add/Edit Wards', N'btnAdd', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (381, N'17        ', N'Delete Wards', N'btnWardDelete', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (382, N'17        ', N'Add/Edit Rooms', N'btnRoomAdd', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (383, N'17        ', N'Delete Rooms', N'btnRoomDelete', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (384, N'17        ', N'Add/Edit Beds', N'btnBedAdd', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (385, N'17        ', N'Delete Beds', N'btnDeleteBed', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (386, N'17        ', N'Add/Edit Bed Charges', N'btnAddBedCharge', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (387, N'17        ', N'Delete Bed Charges', N'btnDeleteBedCharge', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (388, N'3         ', N'Copy from Last Episode - By Section', N'mnuRecallClaims', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (389, N'4         ', N'Copy from Last Episode - By Section', N'mnuRecallClaims', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (390, N'3         ', N'Copy from Last Episode - All Sections', N'mnuRecallClaims', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (391, N'4         ', N'Copy from Last Episode - All Sections', N'mnuRecallClaims', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (393, N'4         ', N'Finalise / Defer for Consultant Signature', N'mnuRecallClaims', 1)
+
+SET IDENTITY_INSERT [dbo].[Screen_SubActivity] OFF
+/********************************************************************************
+*	Revision History
+*	Name: Screen_SubActivity
+*	Description: 
+*
+*	Date:	  	Author:		Comments:
+*   10/21/2010  LLuchavez   Added subactivities for Policy Data
+*	10/19/2010	EBrosas		Removed 'Manually Override Status'.
+* 	09/15/2010	JVillas		Generated scripts
+*	09/08/2010	DGVasquez	Added subactivities for Execute Data Recall
+*
+*********************************************************************************/
+
+DELETE FROM [dbo].[Screen_SubActivity]
+GO
+
+SET IDENTITY_INSERT [dbo].[Screen_SubActivity] ON
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (1, N'1         ', N'Claim Value Column', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (2, N'1         ', N'Delete', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (3, N'1         ', N'Email', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (4, N'1         ', N'Execute - Batch Only', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (5, N'1         ', N'Execute - Batch Print', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (7, N'1         ', N'Execute - E-Submit', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (8, N'1         ', N'Execute - Print Only', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (11, N'1         ', N'Export - Excel', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (56, N'10        ', N'Add Consultant', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (57, N'10        ', N'Delete Consultant', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (58, N'11        ', N'Add Code/Procedures', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (59, N'11        ', N'Delete Code/Procedures', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (60, N'12        ', N'Add Code/Procedure Rates', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (61, N'12        ', N'Delete Code/Procedure Rates', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (62, N'13        ', N'Add Profile', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (63, N'13        ', N'Delete Profiles', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (64, N'14        ', N'Add Users', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (65, N'14        ', N'Delete Users', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (66, N'16        ', N'Add Preferred Drug', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (67, N'16        ', N'Delete Preferred Drug', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (74, N'2         ', N'Delete', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (75, N'2         ', N'Email', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (76, N'2         ', N'Execute - Batch Only', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (77, N'2         ', N'Execute - Batch Print', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (79, N'2         ', N'Execute - Print Only', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (80, N'2         ', N'Export - Excel', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (81, N'2         ', N'View Scanned Doc', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (82, N'20        ', N'Drug – Add', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (83, N'20        ', N'Drug – Delete', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (84, N'20        ', N'Drug – Edit', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (85, N'21        ', N'Insurer – Add', N'btnAdd', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (86, N'21        ', N'Insurer – Delete', N'btnDelete', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (87, N'21        ', N'Insurer – Edit', N'btnSave', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (88, N'22        ', N'Delete E-Submission Schedule', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (89, N'22        ', N'Save E-Submission Schedule', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (90, N'3         ', N'Hospital Lookup - Delete', N'btnRemoveHospital', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (91, N'3         ', N'Hospital Lookup - Save', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (92, N'3         ', N'Patient Lookup - Add Patient', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (93, N'3         ', N'Patient Lookup - Delete Patient', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (94, N'3         ', N'Patient Lookup - View', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (95, N'3         ', N'Print Part 1', N'btnPrint', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (96, N'3         ', N'Subscriber Other Address - Add Address', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (97, N'3         ', N'Subscriber Other Address - Delete Address', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (98, N'3         ', N'Subscriber Other Address - View', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (99, N'4         ', N'Chemotherapy Drugs - Add', N'btnAddChemotherapyDrugs', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (100, N'4         ', N'Chemotherapy Drugs - Delete', N'btnDeleteChemotherapyDrugs', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (101, N'4         ', N'Diagnosis - Add', N'btnAddDiagnosis', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (102, N'4         ', N'Diagnosis - Delete', N'btnDeleteDiagnosis', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (103, N'4         ', N'HIPE Procedure', N'btnHIPEProcedures', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (104, N'4         ', N'Hospital Lookup - Add', N'btnSave', 0)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (105, N'4         ', N'Hospital Lookup - Delete', N'btnDelete', 0)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (106, N'4         ', N'Laboratory Investigations - Add', N'btnSave', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (107, N'4         ', N'Laboratory Investigations - Delete', N'btnRemoveHospital', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (108, N'4         ', N'Medical Attendance/Other Consultant Services - Add', N'btnAddOtherConsultantService', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (109, N'4         ', N'Medical Attendance/Other Consultant Services - Delete', N'btnDeleteOtherConsultantService', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (110, N'4         ', N'New Born Baby Details -  Administer Midwife/GP Signature', N'btnMidwifeGPSignature', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (111, N'4         ', N'New Born Baby Details - Add', N'btnAddChild', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (112, N'4         ', N'New Born Baby Details - Assign Signatory', N'ddlMaternityAuthorizedSignatory', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (113, N'4         ', N'New Born Baby Details - Delete', N'btnDeleteChild', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (114, N'4         ', N'Patient Discharge Summary', N'btnPatientDischargeSummary', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (115, N'4         ', N'Print Part 2', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (116, N'4         ', N'Radiology Investigations - Add', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (117, N'4         ', N'Radiology Investigations - Assign Signatory', N'', 0)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (118, N'4         ', N'Radiology Investigations - Delete', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (119, N'4         ', N'Treatments - Add', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (120, N'4         ', N'Treatments - Delete', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (121, N'5         ', N'Attach Document', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (122, N'5         ', N'Claim Requirements Settings', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (123, N'5         ', N'Hospital Lookup - Delete', N'btnRemoveHospital', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (124, N'5         ', N'Hospital Lookup - Save', N'btnSave', 1)
+--INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (125, N'5         ', N'Manually Override Status', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (126, N'5         ', N'Payment Details - Delete Payment', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (127, N'5         ', N'Payment Details - View Payments', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (128, N'5         ', N'Ready for Submission', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (129, N'5         ', N'Recompute Hospital Invoice Value', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (130, N'5         ', N'Refer to Debt Collection Agency', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (131, N'5         ', N'Scan Document', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (132, N'5         ', N'Select Action - Print all Scanned Docs', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (133, N'5         ', N'Select Response by Insurer', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (134, N'5         ', N'Status Date', N'', 0)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (135, N'5         ', N'Unsaved Scanned Documents - Discard', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (136, N'5         ', N'Unsaved Scanned Documents - Save', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (137, N'5         ', N'Unsaved Scanned Documents - View', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (138, N'5         ', N'Unsaved Scanned Documents - View Image', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (139, N'5         ', N'Update Hospital Invoice Value', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (140, N'5         ', N'Write Off Balance', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (165, N'7         ', N'Administration/Finance Reports', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (166, N'7         ', N'Consultant Reports', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (167, N'7         ', N'Exception Reports', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (168, N'7         ', N'System Administrator Reports', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (169, N'4         ', N'Operations/Procedures - Add', N'btnAddProcedure', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (171, N'4         ', N'Operations/Procedures - Delete', N'btnDeleteProcedure', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (173, N'4         ', N'Medications - Add', N'btnAddMedication', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (175, N'4         ', N'Medications - Delete', N'btnDeleteMedication', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (177, N'24        ', N'Execute - Raise From Existing', N'mnuExecuteInvoice', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (178, N'25        ', N'Invoice - Override Status', N'chkOverrideInvoiceStatus', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (179, N'25        ', N'Reconcile - Clear Payments', N'lnkbtnClearPayments', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (180, N'1         ', N'Execute - Raise Invoice', N'mnuBatchClaims', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (181, N'24        ', N'Delete', N'btnDelete', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (182, N'24        ', N'Export - Excel', N'btnExport', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (183, N'24        ', N'Execute - Finalise/Issue', N'mnuExecuteInvoice', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (184, N'24        ', N'Execute - Mark Paid', N'mnuExecuteInvoice', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (185, N'24        ', N'Execute - Mark Bad Debt', N'mnuExecuteInvoice', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (186, N'24        ', N'Execute - Print', N'mnuExecuteInvoice', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (187, N'24        ', N'Execute - Write Off', N'mnuExecuteInvoice', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (194, N'5         ', N'Activity', NULL, 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (195, N'8         ', N'Claims Generation', N'rbClaims', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (196, N'8         ', N'Invoices Restoration', N'rbInvoices', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (208, N'4         ', N'Clinical/Consultant - Add', N'', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (209, N'4         ', N'Clinical/Consultant - Delete', N'btnClinicalConsultantDelete', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (369, N'5         ', N'Manage Documents', NULL, 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (370, N'5         ', N'Document Activity Assignment – Re-assign', NULL, 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (371, N'5         ', N'Document Activity Assignment – Update sequence', NULL, 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (372, N'5         ', N'Document Activity Assignment – Delete', NULL, 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (373, N'5         ', N'Document Activity Assignment – Attach', NULL, 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (374, N'5         ', N'Document Activity Assignment – Scan', NULL, 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (375, N'5         ', N'Batch Attach', NULL, 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (376, N'5         ', N'Batch Scan', NULL, 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (377, N'17        ', N'Setup Statutory Charges', N'btnSaveStatutoryChargeSetup', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (378, N'17        ', N'Add/Edit Statutory Charges', N'btnAddChargeRate', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (379, N'17        ', N'Delete Statutory Charges', N'btnDeleteChargeRate', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (380, N'17        ', N'Add/Edit Wards', N'btnAdd', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (381, N'17        ', N'Delete Wards', N'btnWardDelete', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (382, N'17        ', N'Add/Edit Rooms', N'btnRoomAdd', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (383, N'17        ', N'Delete Rooms', N'btnRoomDelete', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (384, N'17        ', N'Add/Edit Beds', N'btnBedAdd', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (385, N'17        ', N'Delete Beds', N'btnDeleteBed', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (386, N'17        ', N'Add/Edit Bed Charges', N'btnAddBedCharge', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (387, N'17        ', N'Delete Bed Charges', N'btnDeleteBedCharge', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (388, N'3         ', N'Copy from Last Episode - By Section', N'mnuRecallClaims', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (389, N'4         ', N'Copy from Last Episode - By Section', N'mnuRecallClaims', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (390, N'3         ', N'Copy from Last Episode - All Sections', N'mnuRecallClaims', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (391, N'4         ', N'Copy from Last Episode - All Sections', N'mnuRecallClaims', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (392, N'4         ', N'Validate Policy Data', N'chkPolicyData', 1)
+INSERT [dbo].[Screen_SubActivity] ([sub_activity_id], [screen_id], [sub_activity_name], [page_control_id], [isactive]) VALUES (393, N'4         ', N'Finalise / Defer for Consultant Signature', N'mnuRecallClaims', 1)
+
+SET IDENTITY_INSERT [dbo].[Screen_SubActivity] OFF
+
+/********************************************************************************
+*	Revision History
+*	Name: Screen_SubActivity
+*	Description: 
+*
+*	Date:	  	Author:		Comments:
+*	10/20/2010	JVillas		Renamed sub-activity 'Refer to Debt Collection Agency' to 'Referred Claim Options'
+*
+*********************************************************************************/
+
+DECLARE @sub_activity_id int
+
+SELECT	@sub_activity_id = sub_activity_id
+FROM	dbo.Screen_SubActivity
+WHERE	screen_id = '5'
+		AND sub_activity_name = 'Refer to Debt Collection Agency'
+
+IF ISNULL(@sub_activity_id, 0) > 0
+BEGIN
+	UPDATE	dbo.Screen_SubActivity
+	SET		sub_activity_name = 'Referred Claim Options'
+	WHERE	sub_activity_id = @sub_activity_id
+END
+
+SELECT	@sub_activity_id = sub_activity_id
+FROM	dbo.Screen_SubActivity
+WHERE	screen_id = '5'
+		AND sub_activity_name = 'Referred Claim Options'
+
+IF ISNULL(@sub_activity_id, 0) = 0
+BEGIN
+	INSERT INTO dbo.Screen_SubActivity 
+	(
+		screen_id
+		,sub_activity_name
+		,page_control_id
+		,isactive
+	) 
+	VALUES 
+	(
+		'5'
+		,'Referred Claim Options'
+		,''
+		,1
+	)
+
+	SET @sub_activity_id = SCOPE_IDENTITY()
+END
+
+IF NOT EXISTS
+(
+	SELECT	permission 
+	FROM	dbo.Profile_SubActivity 
+	WHERE	profile_name = 'Administrator' 
+			AND sub_activity_id = @sub_activity_id
+)
+BEGIN
+	INSERT INTO dbo.Profile_SubActivity 
+	(
+		profile_name
+		,sub_activity_id
+		,permission
+	) 
+	VALUES 
+	(
+		'Administrator'
+		,@sub_activity_id
+		,1
+	)
+END
+ELSE
+BEGIN
+	UPDATE	dbo.Profile_SubActivity
+	SET		permission = 1
+	WHERE	profile_name = 'Administrator'
+			AND sub_activity_id = @sub_activity_id
+END

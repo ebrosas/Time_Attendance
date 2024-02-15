@@ -1,0 +1,1554 @@
+IF OBJECT_ID('dbo.usp_reportfinance_retrieve') IS NOT NULL
+	DROP PROCEDURE [dbo].[usp_reportfinance_retrieve]
+GO
+
+CREATE PROCEDURE [dbo].[usp_reportfinance_retrieve]
+(
+	@report_type char(12),
+	@hospitalId int,
+	@consultant char(12),
+	@start_date datetime,
+	@end_date datetime
+)
+AS
+
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_reportfinance_retrieve
+*	Description:
+*
+*	Date:		Author:		Ref#:	Comments:
+*	10/15/2010	EBrosas		7427	Refactored to lessen the time consume during data retrieval
+*	09/24/2009	RFernando	4800	Transfer rows related to QA check between Anaes 
+*							4799		& Ready for Submission
+*	09/15/2009	ALao		N/A		Added report type for Ready for QA Check
+*	09/15/2009	SNgo				Modify the changes made by CMcGrath
+*	08/05/2009	RDimarucut			Updated Awaiting Page 1 to Awaiting Patient/Policy Data
+*	08/22/2008	MLim				Updated to correct performance issue
+*	03/27/2008	CFerrer				Updated for CCF# 20080008
+*	03/19/2008	CFerrer				Updated for CCF# 20080001
+*	08/27/2007	CFerrer		N/A		Created
+*
+**********************************************************************************/
+
+
+IF (@report_type = 'RT3')  -- Finance Summary Report - Unsubmitted Claims 
+BEGIN
+	SELECT i.insurer_desc,
+		'Value of claims not submitted' = 
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id IN ('CS1','CS3','CS5','CS6','CS7','CS8','CS9','CS17','CS18'))
+				ELSE
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND claim_status_id IN ('CS1','CS3','CS5','CS6','CS7','CS8','CS9','CS17','CS18'))
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id IN ('CS1','CS3','CS5','CS6','CS7','CS8','CS9','CS17','CS18')
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND claim_status_id IN ('CS1','CS3','CS5','CS6','CS7','CS8','CS9','CS17','CS18')
+						AND hospital_id = @hospitalId)
+				END
+			END,
+
+		'Value of claims awaiting patient/policy data' = 
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS1')
+				ELSE
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND claim_status_id = 'CS1')
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS1'
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND claim_status_id = 'CS1'
+						AND hospital_id = @hospitalId)
+				END
+			END,
+
+		'Value of claims awaiting consultants documentation' =
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS3')
+				ELSE
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND claim_status_id = 'CS3')
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS3'
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND claim_status_id = 'CS3'
+						AND hospital_id = @hospitalId)
+				END
+			END,
+
+		'Value of claims awaiting hospital invoice' =
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS5')
+				ELSE
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND claim_status_id = 'CS5')
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS5'
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND claim_status_id = 'CS5'
+						AND hospital_id = @hospitalId)
+				END
+			END,
+
+		'Value of claims awaiting radiology invoice' =
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS6')
+				ELSE
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND claim_status_id = 'CS6')
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS6'
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND claim_status_id = 'CS6'
+						AND hospital_id = @hospitalId)
+				END
+			END,
+
+		'Value of claims awaiting laboratory invoice' = 
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS7')
+				ELSE
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND claim_status_id = 'CS7')
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS7'
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND claim_status_id = 'CS7'
+						AND hospital_id = @hospitalId)
+				END
+			END,
+
+		'Value of claims awaiting anaesthesiology invoice' =
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS8')
+				ELSE
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND claim_status_id = 'CS8')
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS8'
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND claim_status_id = 'CS8'
+						AND hospital_id = @hospitalId)
+				END
+			END,
+
+		'Value of claims ready for QA check' = 
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS18')
+				ELSE
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND claim_status_id = 'CS18')
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS18'
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND claim_status_id = 'CS18'
+						AND hospital_id = @hospitalId)
+				END
+			END,
+
+		'Value of claims ready for submission' = 
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS9')
+				ELSE
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND claim_status_id = 'CS9')
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS9'
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND claim_status_id = 'CS9'
+						AND hospital_id = @hospitalId)
+				END
+			END,
+
+		'Value of claims referred to debt collection agency' = 
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS18')
+				ELSE
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND claim_status_id = 'CS18')
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS18'
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT	ISNULL(SUM(claim_value_updated),0)
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND claim_status_id = 'CS18'
+						AND hospital_id = @hospitalId)
+				END
+			END,
+
+		'Number of claims not submitted' = 
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id IN ('CS1','CS3','CS5','CS6','CS7','CS8','CS9','CS17','CS18'))
+				ELSE
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id IN ('CS1','CS3','CS5','CS6','CS7','CS8','CS9','CS17','CS18')
+						AND doctor_id = @consultant)
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id IN ('CS1','CS3','CS5','CS6','CS7','CS8','CS9','CS17','CS18')
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id IN ('CS1','CS3','CS5','CS6','CS7','CS8','CS9','CS17','CS18')
+						AND doctor_id = @consultant
+						AND hospital_id = @hospitalId)
+				END
+			END,
+
+		'Number of claims awaiting patient/policy data' =
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS1')
+				ELSE
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS1'
+						AND doctor_id = @consultant)
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS1'
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS1'
+						AND doctor_id = @consultant
+						AND hospital_id = @hospitalId)
+				END
+			END,
+
+		'Number of claims awaiting consultants documentation' =
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS3')
+				ELSE
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS3'
+						AND doctor_id = @consultant)
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS3'
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS3'
+						AND doctor_id = @consultant
+						AND hospital_id = @hospitalId)
+				END
+			END,
+
+		'Number of claims awaiting hospital invoice' = 
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS5')
+				ELSE
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS5'
+						AND doctor_id = @consultant)
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS5'
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS5'
+						AND doctor_id = @consultant
+						AND hospital_id = @hospitalId)
+				END
+			END,
+
+		'Number of claims awaiting radiology invoice' =
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS6')
+				ELSE
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS6'
+						AND doctor_id = @consultant)
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS6'
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS6'
+						AND doctor_id = @consultant
+						AND hospital_id = @hospitalId)
+				END
+			END,
+
+		'Number of claims awaiting laboratory invoice' = 
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS7')
+				ELSE
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS7'
+						AND doctor_id = @consultant)
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS7'
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS7'
+						AND doctor_id = @consultant
+						AND hospital_id = @hospitalId)
+				END
+			END,
+
+		'Number of claims awaiting anaesthesiology invoice' = 
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS8')
+				ELSE
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS8'
+						AND doctor_id = @consultant)
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS8'
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS8'
+						AND doctor_id = @consultant
+						AND hospital_id = @hospitalId)
+				END
+			END,
+
+		'Number of claims ready for QA check' =
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS18')
+				ELSE
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS18'
+						AND doctor_id = @consultant)
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS18'
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS18'
+						AND doctor_id = @consultant
+						AND hospital_id = @hospitalId)
+				END
+			END,
+
+		'Number of claims ready for submission' = 
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS9')
+				ELSE
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS9'
+						AND doctor_id = @consultant)
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS9'
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS9'
+						AND doctor_id = @consultant
+						AND hospital_id = @hospitalId)
+				END
+			END,
+
+		'Number of claims referred to debt collection agency' = 
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS17')
+				ELSE
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS17'
+						AND doctor_id = @consultant)
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS17'
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),discharge_date_time,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND claim_status_id = 'CS17'
+						AND doctor_id = @consultant
+						AND hospital_id = @hospitalId)
+				END
+			END
+
+--		,ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS1'),0)
+--						+ ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS3'),0)
+--						+ ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS5'),0)
+--						+ ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS6'),0)
+--						+ ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS7'),0)
+--						+ ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS8'),0)
+--						+ ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS9'),0)
+--						+ ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS17'),0)
+--						+ ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS18'),0) AS 'Value of claims not submitted'
+
+--		,ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS1'),0) AS 'Value of claims awaiting patient/policy data'
+--		,ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS3'),0) AS 'Value of claims awaiting consultants documentation'
+--		,ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS5'),0) AS 'Value of claims awaiting hospital invoice'
+--		,ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS6'),0) AS 'Value of claims awaiting radiology invoice'
+--		,ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS7'),0) AS 'Value of claims awaiting laboratory invoice'
+--		,ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS8'),0) AS 'Value of claims awaiting anaesthesiology invoice'
+--		,ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS18'),0) AS 'Value of claims ready for QA check'	
+--		,ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS9'),0) AS 'Value of claims ready for submission'	
+--		,ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS17'),0) AS 'Value of claims referred to debt collection agency'	
+		
+--		,ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS1'),0)
+--						+ ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS3'),0)
+--						+ ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS5'),0)
+--						+ ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS6'),0)
+--						+ ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS7'),0)
+--						+ ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS8'),0)
+--						+ ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS9'),0)
+--						+ ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS17'),0) 
+--						+ ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS18'),0) AS 'Number of claims not submitted'
+
+--		,ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS1'),0) AS 'Number of claims awaiting patient/policy data'	
+--		,ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS3'),0) AS 'Number of claims awaiting consultants documentation'	
+--		,ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS5'),0) AS 'Number of claims awaiting hospital invoice'
+--		,ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS6'),0) AS 'Number of claims awaiting radiology invoice'
+--		,ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS7'),0) AS 'Number of claims awaiting laboratory invoice'
+--		,ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS8'),0) AS 'Number of claims awaiting anaesthesiology invoice'
+--		,ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS18'),0) AS 'Number of claims ready for QA check'	
+--		,ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS9'),0) AS 'Number of claims ready for submission'	
+--		,ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS17'),0) AS 'Number of claims referred to debt collection agency'	
+	FROM Insurer i
+END
+
+IF (@report_type = 'RT4')  -- Finance Summary Report - Submitted Claims 
+BEGIN
+	SELECT	i.insurer_desc,
+		'Value of claims submitted' = 
+			CASE WHEN @consultant = 'ALL' THEN
+				(SELECT ISNULL(SUM(claim_value_updated),0)	--@status = 'CS11','CS12','CS13','CS14'
+				FROM dbo.VW_FinanceSummary
+				WHERE system_insurer_id = i.[system_insurer_id]
+					AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+					AND claim_status_id IN ('CS11','CS12','CS13','CS14')
+					AND claim_id_status = 0
+					AND	doctor_type = 'PRIMARY') +
+
+				ISNULL((SELECT SUM(total_amountpaid) FROM		--@status = 'CS15'
+					(
+						SELECT b.system_insurer_id, b.claim_id, b.claim_value_updated, SUM(a.paid_amt) as total_amountpaid
+						FROM CLAIM_PAYMENT a
+						JOIN dbo.VW_FinanceSummary b ON a.claim_id = b.claim_id
+						WHERE b.system_insurer_id = i.[system_insurer_id]
+							  AND convert(datetime,convert(varchar(10),b.status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+							  AND b.claim_status_id = 'CS15'
+							  AND b.claim_id_status = 0
+							  AND b.doctor_type = 'PRIMARY'
+						GROUP BY b.system_insurer_id,b.claim_id, b.claim_value_updated) A
+					GROUP BY system_insurer_id),0) +
+
+				ISNULL((SELECT (SUM(claim_value_updated) - SUM(total_amountpaid))	--@status = 'CS15 - Balance'
+					FROM
+					(
+						SELECT b.system_insurer_id, b.claim_id, b.claim_value_updated, SUM(a.paid_amt) as total_amountpaid
+						FROM CLAIM_PAYMENT  a
+						JOIN dbo.VW_FinanceSummary b ON a.claim_id = b.claim_id
+						WHERE b.system_insurer_id = i.[system_insurer_id]
+							  AND convert(datetime,convert(varchar(10),b.status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+							  AND b.claim_status_id = 'CS15'
+							  AND b.claim_id_status = 0
+							  AND b.doctor_type = 'PRIMARY'
+						GROUP BY b.system_insurer_id,b.claim_id, b.claim_value_updated) A
+					GROUP BY system_insurer_id),0) 	
+			ELSE
+				(SELECT ISNULL(SUM(claim_value_updated),0)	--@status = 'CS11','CS12','CS13','CS14'
+				FROM dbo.VW_FinanceSummary
+				WHERE system_insurer_id = i.[system_insurer_id]
+					AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+					AND claim_status_id IN ('CS11','CS12','CS13','CS14')
+					AND claim_id_status = 0
+					AND	doctor_type = 'PRIMARY'
+					AND doctor_id = @consultant) +
+				
+				ISNULL((SELECT SUM(total_amountpaid) FROM		--@status = 'CS15'
+					(
+						SELECT b.system_insurer_id, b.claim_id, b.claim_value_updated, SUM(a.paid_amt) as total_amountpaid
+						FROM CLAIM_PAYMENT a
+						JOIN dbo.VW_FinanceSummary b ON a.claim_id = b.claim_id
+						WHERE b.system_insurer_id = i.[system_insurer_id]
+							  AND convert(datetime,convert(varchar(10),b.status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+							  AND b.claim_status_id = 'CS15'
+							  AND b.claim_id_status = 0
+							  AND b.doctor_type = 'PRIMARY'
+							  AND doctor_id = @consultant
+						GROUP BY b.system_insurer_id,b.claim_id, b.claim_value_updated) A
+					GROUP BY system_insurer_id),0) +
+
+				ISNULL((SELECT (SUM(claim_value_updated) - SUM(total_amountpaid))	--@status = 'CS15 - Balance'
+					FROM
+					(
+						SELECT b.system_insurer_id, b.claim_id, b.claim_value_updated, SUM(a.paid_amt) as total_amountpaid
+						FROM CLAIM_PAYMENT  a
+						JOIN dbo.VW_FinanceSummary b ON a.claim_id = b.claim_id
+						WHERE b.system_insurer_id = i.[system_insurer_id]
+							  AND convert(datetime,convert(varchar(10),b.status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+							  AND b.claim_status_id = 'CS15'
+							  AND b.claim_id_status = 0
+							  AND b.doctor_type = 'PRIMARY'
+							  AND doctor_id = @consultant
+						GROUP BY b.system_insurer_id,b.claim_id, b.claim_value_updated) A
+					GROUP BY system_insurer_id),0) 
+			END,
+
+		'Value of claims with no response' = 
+			CASE WHEN @consultant = 'ALL' THEN
+				(SELECT ISNULL(SUM(claim_value_updated),0)	
+				FROM dbo.VW_FinanceSummary
+				WHERE system_insurer_id = i.[system_insurer_id]
+					AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+					AND claim_status_id IN ('CS11')
+					AND claim_id_status = 0
+					AND	doctor_type = 'PRIMARY')
+			ELSE
+				(SELECT ISNULL(SUM(claim_value_updated),0)	
+				FROM dbo.VW_FinanceSummary
+				WHERE system_insurer_id = i.[system_insurer_id]
+					AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+					AND claim_status_id IN ('CS11')
+					AND claim_id_status = 0
+					AND	doctor_type = 'PRIMARY'
+					AND doctor_id = @consultant)
+			END,
+
+		'Value of claims pended' =
+			CASE WHEN @consultant = 'ALL' THEN
+				(SELECT ISNULL(SUM(claim_value_updated),0)	
+				FROM dbo.VW_FinanceSummary
+				WHERE system_insurer_id = i.[system_insurer_id]
+					AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+					AND claim_status_id IN ('CS12')
+					AND claim_id_status = 0
+					AND	doctor_type = 'PRIMARY')
+			ELSE
+				(SELECT ISNULL(SUM(claim_value_updated),0)	
+				FROM dbo.VW_FinanceSummary
+				WHERE system_insurer_id = i.[system_insurer_id]
+					AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+					AND claim_status_id IN ('CS12')
+					AND claim_id_status = 0
+					AND	doctor_type = 'PRIMARY'
+					AND doctor_id = @consultant)
+			END,
+	
+		'Value of claims rejected' =
+			CASE WHEN @consultant = 'ALL' THEN
+				(SELECT ISNULL(SUM(claim_value_updated),0)	
+				FROM dbo.VW_FinanceSummary
+				WHERE system_insurer_id = i.[system_insurer_id]
+					AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+					AND claim_status_id IN ('CS13')
+					AND claim_id_status = 0
+					AND	doctor_type = 'PRIMARY')
+			ELSE
+				(SELECT ISNULL(SUM(claim_value_updated),0)	
+				FROM dbo.VW_FinanceSummary
+				WHERE system_insurer_id = i.[system_insurer_id]
+					AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+					AND claim_status_id IN ('CS13')
+					AND claim_id_status = 0
+					AND	doctor_type = 'PRIMARY'
+					AND doctor_id = @consultant)
+			END,
+
+		0 as 'Value of claims returned' /*=
+			CASE WHEN @consultant = 'ALL' THEN
+				(SELECT	ISNULL(SUM(claim_value_updated),0)	
+				FROM dbo.VW_FinanceSummary
+				WHERE system_insurer_id = i.[system_insurer_id]
+					AND convert(datetime,convert(varchar(10),batch_date,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+					AND claim_status_id = 'CS16'
+					AND claim_id_status = 0
+					AND	doctor_type = 'PRIMARY')
+			ELSE
+				(SELECT	ISNULL(SUM(claim_value_updated),0)	
+				FROM dbo.VW_FinanceSummary
+				WHERE system_insurer_id = i.[system_insurer_id]
+					AND convert(datetime,convert(varchar(10),batch_date,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+					AND claim_status_id = 'CS16'
+					AND claim_id_status = 0
+					AND	doctor_type = 'PRIMARY'
+					AND doctor_id = @consultant)
+			END*/,
+
+		'Value of claims part paid - Amount paid' =  --@status = 'CS15'
+			CASE WHEN @consultant = 'ALL' THEN
+				ISNULL((SELECT SUM(total_amountpaid) FROM		
+					(
+						SELECT b.system_insurer_id, b.claim_id, b.claim_value_updated, SUM(a.paid_amt) as total_amountpaid
+						FROM CLAIM_PAYMENT a
+						JOIN dbo.VW_FinanceSummary b ON a.claim_id = b.claim_id
+						WHERE b.system_insurer_id = i.[system_insurer_id]
+							  AND convert(datetime,convert(varchar(10),b.status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+							  AND b.claim_status_id = 'CS15'
+							  AND b.claim_id_status = 0
+							  AND b.doctor_type = 'PRIMARY'
+						GROUP BY b.system_insurer_id,b.claim_id, b.claim_value_updated) A
+					GROUP BY system_insurer_id),0)
+			ELSE
+				ISNULL((SELECT SUM(total_amountpaid) FROM		
+					(
+						SELECT b.system_insurer_id, b.claim_id, b.claim_value_updated, SUM(a.paid_amt) as total_amountpaid
+						FROM CLAIM_PAYMENT a
+						JOIN dbo.VW_FinanceSummary b ON a.claim_id = b.claim_id
+						WHERE b.system_insurer_id = i.[system_insurer_id]
+							  AND convert(datetime,convert(varchar(10),b.status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+							  AND b.claim_status_id = 'CS15'
+							  AND b.claim_id_status = 0
+							  AND b.doctor_type = 'PRIMARY'
+							  AND doctor_id = @consultant
+						GROUP BY b.system_insurer_id,b.claim_id, b.claim_value_updated) A
+					GROUP BY system_insurer_id),0)
+			END,
+
+		'Value of claims part paid - Balance' =		--@status = 'CS15 - Balance'
+			CASE WHEN @consultant = 'ALL' THEN
+				ISNULL((SELECT (SUM(claim_value_updated) - SUM(total_amountpaid))	
+					FROM
+					(
+						SELECT b.system_insurer_id, b.claim_id, b.claim_value_updated, SUM(a.paid_amt) as total_amountpaid
+						FROM CLAIM_PAYMENT  a
+						JOIN dbo.VW_FinanceSummary b ON a.claim_id = b.claim_id
+						WHERE b.system_insurer_id = i.[system_insurer_id]
+							  AND convert(datetime,convert(varchar(10),b.status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+							  AND b.claim_status_id = 'CS15'
+							  AND b.claim_id_status = 0
+							  AND b.doctor_type = 'PRIMARY'
+						GROUP BY b.system_insurer_id,b.claim_id, b.claim_value_updated) A
+					GROUP BY system_insurer_id),0)
+			ELSE
+				ISNULL((SELECT (SUM(claim_value_updated) - SUM(total_amountpaid))	
+					FROM
+					(
+						SELECT b.system_insurer_id, b.claim_id, b.claim_value_updated, SUM(a.paid_amt) as total_amountpaid
+						FROM CLAIM_PAYMENT  a
+						JOIN dbo.VW_FinanceSummary b ON a.claim_id = b.claim_id
+						WHERE b.system_insurer_id = i.[system_insurer_id]
+							  AND convert(datetime,convert(varchar(10),b.status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+							  AND b.claim_status_id = 'CS15'
+							  AND b.claim_id_status = 0
+							  AND b.doctor_type = 'PRIMARY'
+							  AND doctor_id = @consultant
+						GROUP BY b.system_insurer_id,b.claim_id, b.claim_value_updated) A
+					GROUP BY system_insurer_id),0) 
+			END,
+
+		'Value of claims paid'	=
+			CASE WHEN @consultant = 'ALL' THEN
+				(SELECT ISNULL(SUM(claim_value_updated),0)	
+				FROM dbo.VW_FinanceSummary
+				WHERE system_insurer_id = i.[system_insurer_id]
+					AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+					AND claim_status_id = 'CS14'
+					AND claim_id_status = 0
+					AND	doctor_type = 'PRIMARY')
+			ELSE
+				(SELECT ISNULL(SUM(claim_value_updated),0)	
+				FROM dbo.VW_FinanceSummary
+				WHERE system_insurer_id = i.[system_insurer_id]
+					AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+					AND claim_status_id = 'CS14'
+					AND claim_id_status = 0
+					AND	doctor_type = 'PRIMARY'
+					AND doctor_id = @consultant)
+			END,
+
+		'Number of claims submitted' = 
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id IN ('CS11','CS12','CS13','CS14','CS15')
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY') /*+
+
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),batch_date,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS16'
+--						AND status_manual IS NULL
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY') */
+				ELSE
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id IN ('CS11','CS12','CS13','CS14','CS15')
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY' 
+						AND doctor_id = @consultant) /*+
+
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),batch_date,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS16'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant) */
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id IN ('CS11','CS12','CS13','CS14','CS15')
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND hospital_id = @hospitalId) /*+
+
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),batch_date,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS16'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND hospital_id = @hospitalId) */
+				ELSE
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id IN ('CS11','CS12','CS13','CS14','CS15')
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND hospital_id = @hospitalId) /*+
+
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),batch_date,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS16'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND hospital_id = @hospitalId) */
+				END
+			END,
+
+		'Number of claims with no response' =
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS11'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY') 
+				ELSE
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS11'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY' 
+						AND doctor_id = @consultant) 
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS11'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND hospital_id = @hospitalId) 
+				ELSE
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS11'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND hospital_id = @hospitalId) 
+				END
+			END,
+
+		'Number of claims pended' = 
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS12'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY') 
+				ELSE
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS12'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY' 
+						AND doctor_id = @consultant) 
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS12'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND hospital_id = @hospitalId) 
+				ELSE
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS12'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND hospital_id = @hospitalId) 
+				END
+			END,
+
+		'Number of claims rejected' = 
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS13'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY') 
+				ELSE
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS13'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY' 
+						AND doctor_id = @consultant) 
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS13'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND hospital_id = @hospitalId) 
+				ELSE
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS13'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND hospital_id = @hospitalId) 
+				END
+			END,
+
+		0 as 'Number of claims returned' /*=
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),batch_date,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS16'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY')
+				ELSE
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),batch_date,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS16'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant)
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),batch_date,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS16'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND hospital_id = @hospitalId)
+				ELSE
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),batch_date,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS16'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND hospital_id = @hospitalId)
+				END
+			END */,
+
+		'Number of claims part paid' = 
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS15'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY') 
+				ELSE
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS15'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY' 
+						AND doctor_id = @consultant) 
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS15'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND hospital_id = @hospitalId) 
+				ELSE
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS15'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND hospital_id = @hospitalId) 
+				END
+			END,
+
+		'Number of claims paid' =
+			CASE WHEN @hospitalId = 0 THEN
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS14'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY') 
+				ELSE
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS14'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY' 
+						AND doctor_id = @consultant) 
+				END
+			ELSE
+				CASE WHEN @consultant = 'ALL' THEN
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS14'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND hospital_id = @hospitalId) 
+				ELSE
+					(SELECT	COUNT(DISTINCT(claim_id))
+					FROM dbo.VW_FinanceSummary
+					WHERE system_insurer_id = i.[system_insurer_id]
+						AND convert(datetime,convert(varchar(10),status_11,101)) BETWEEN convert(datetime,convert(varchar(10),@start_date,101)) AND convert(datetime,convert(varchar(10),@end_date,101))
+						AND claim_status_id = 'CS14'
+						AND	claim_id_status = 0
+						AND	doctor_type = 'PRIMARY'
+						AND doctor_id = @consultant
+						AND hospital_id = @hospitalId) 
+				END
+			END		
+
+--		ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS11'),0)
+--						+ ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS12'),0)
+--						+ ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS13'),0)
+--						+ ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS16'),0)
+--						+ ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS15'),0)
+--						+ ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS15 - Balance'),0)
+--						+ ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS14'),0) AS 'Value of claims submitted'
+
+--		,ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS11'),0) AS 'Value of claims with no response'
+--		,ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS12'),0) AS 'Value of claims pended'
+--		,ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS13'),0) AS 'Value of claims rejected'
+--		,ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS16'),0) AS 'Value of claims returned'
+--		,ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS15'),0) AS 'Value of claims part paid - Amount paid'
+--		,ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS15 - Balance'),0) AS 'Value of claims part paid - Balance'
+--		,ISNULL([dbo].udf_getvalueofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS14'),0) AS 'Value of claims paid'	
+
+--		,ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS11'),0)
+--						+ ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS12'),0)
+--						+ ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS13'),0)
+--						+ ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS16'),0)
+--						+ ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS15'),0)
+--						+ ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS14'),0)  AS 'Number of claims submitted'
+
+--		,ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS11'),0) AS 'Number of claims with no response'
+--		,ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS12'),0) AS 'Number of claims pended'
+--		,ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS13'),0) AS 'Number of claims rejected'
+--		,ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS16'),0) AS 'Number of claims returned'
+--		,ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS15'),0) AS 'Number of claims part paid'
+--		,ISNULL([dbo].udf_getnoofclaims_by_status_financerpt(i.[system_insurer_id], @report_type, @hospitalId, @consultant, @start_date, @end_date, 'CS14'),0) AS 'Number of claims paid'	
+	FROM Insurer i
+END
+
+GO
+
+

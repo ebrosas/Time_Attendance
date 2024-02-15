@@ -1,0 +1,221 @@
+/****** Object:  StoredProcedure [dbo].[usp_admission_update_new]    Script Date: 03/18/2010 14:23:27 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER OFF
+GO
+
+if exists (select * from dbo.sysobjects where id = object_id(N'[dbo].[usp_admission_update_new]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+drop procedure [dbo].[usp_admission_update_new]
+GO   
+          
+         
+      
+CREATE PROCEDURE [dbo].[usp_admission_update_new]      
+        @admission_id char(12),      
+ @doctor_id char(12),      
+ @convalescence_care_referral_ind char(2),      
+ @anticipated_further_treatment char(2),      
+ @claim_id char(12),      
+ @lab_request_ind char(2),      
+ @radiology_request_ind char(2),      
+ @theatre_request_ind char(2),      
+ @emergency_ind char(2),      
+ @same_condition_re_admission_ind char(2),      
+ @doctor_type varchar(20),      
+ @addictive_element_details varchar(800),      
+ @mri_pet_scan_detail varchar(800),      
+ @mri_pet_scan_date datetime,      
+ @mri_pet_facility_location text,      
+ @urgent_call_out_datetime datetime,      
+ @urgent_call_out_reason text,      
+ @treatment_provided_by char(12),      
+ @procedure_5116_5117_id char(2),      
+ @number_of_eluting_stents int,      
+ @overnight_admission_reason text,      
+ @anticipated_further_treatment_detail varchar(800),      
+ @related_psychiatric_cond_detail varchar(800),      
+ @procedure_carried_our_place varchar(800),      
+ @addictive_element varchar(100),      
+ @doc_consultation_date datetime,      
+ @doc_treatment_date datetime,      
+ @username varchar(20),      
+ @gp_referral char(20),      
+ @nature_of_symptoms varchar(800),      
+ @duration_of_symptoms varchar(800),      
+ @carried_out_sole_procedure_ind char(2),      
+ @on_symptoms_date datetime,      
+ @overnight_admission_ind char(2),      
+ @referral_reason varchar(800),      
+ @similar_illness varchar(800),      
+ @stay_guideline varchar(800),      
+ @transferred_hospital_treatment varchar(800),      
+ @transferred_hospital_id char(12),      
+ @bed_detail varchar(800),      
+ @administered_medication_fluids char(2),      
+ @doctor_who_provided_treatment char(12),      
+ @authorized_radiology_signatory char(12),      
+ @is_manually_added bit,      
+ @condition_history_date datetime,      
+ @referrer_name varchar(50),      
+ @admission_reason text,      
+ @has_condition_history bit,      
+ @patient_was_transferred BIT,      
+ @patient_was_transferred_discharged BIT,    
+ @type_of_admission varchar(50),    
+ @non_surgical_cases varchar(500),    
+ @procedure_code varchar(100),    
+ @icd_code varchar(100),    
+ @medical_attendance_date_from DateTime,    
+ @medical_attendance_date_to DateTime,    
+ @request_attending_consultant bit,    
+ @details_attending_consultant varchar(500),    
+ @personally_billed_for bit,    
+ @who_offered_treatment char(12),    
+ @full_description_treatment varchar(MAX),    
+ @further_treatment_required bit,
+ @treatment_description varchar(1500),
+ @Was_MRI_Performed bit,
+ @MRI_Scan_Details varchar(800),
+ @details_condition_treatment varchar(800),
+ @finalise_defer_flag BIT   
+AS      
+      
+/*********************************************************************************      
+* Revision History      
+*      
+* Name: usp_admission_update_new      
+* Description: Updates Admission records.          
+* Date:     Author:		Ref#:	Comments: 
+* 11/03/10	EBrosas		7429	Change SP call from usp_audit_logging to usp_audit_logging_new.
+* 09/27/10  DGVasquez           N/A    Added @MRI_Scan_Details and @Was_MRI_Performed fields
+* 09/28/10	AEstrella   7366	Create claim transaction pages for Garda Hospital Claim 
+* 09/23/10	EBrosas		N/A		Added new parameter @treatment_description
+* 09/07/10	RDimarucut	N/A		Updated @full_description_treatment varchar(500) datatype to varchar(max)     
+* 3/24/10  LLuchavez N/A		Created.      
+*      
+**********************************************************************************/      
+      
+SET NOCOUNT ON      
+      
+DECLARE      
+ @procedure_carried_our_place_code varchar(20),      
+ @addictive_element_code varchar(20),      
+ @gp_referral_code varchar(20),      
+ @date_of_discharge_admission_id char(12),      
+ @getdate datetime      
+       
+      
+set @procedure_carried_our_place_code = ''      
+set @addictive_element_code = ''      
+      
+SET @getdate = (SELECT GETDATE())      
+      
+SELECT @gp_referral_code = [CODE]  FROM REFDATA      
+WHERE      
+ upper(rtrim([type])) = upper(rtrim('Patient''s Referror'))      
+AND      
+ rtrim(cast([desc] as varchar(50))) = rtrim(@gp_referral)      
+      
+SELECT @procedure_carried_our_place_code = [CODE]  FROM REFDATA      
+WHERE      
+ upper(rtrim([type])) = upper(rtrim('Place of Procedure'))      
+AND      
+ rtrim(cast([desc] as varchar(50))) = rtrim(@procedure_carried_our_place)      
+      
+SELECT @addictive_element_code = [CODE]  FROM REFDATA      
+WHERE      
+ upper(rtrim([type])) = upper(rtrim('Addictive Elements'))      
+AND      
+ rtrim(cast([desc] as varchar(50))) = rtrim(@addictive_element)      
+      
+UPDATE [dbo].[Admission] SET      
+ [doctor_id] = @doctor_id,      
+ [convalescence_care_referral_ind] = @convalescence_care_referral_ind,      
+ [anticipated_further_treatment] = @anticipated_further_treatment,      
+ [lab_request_ind] = @lab_request_ind,      
+ [radiology_request_ind] = @radiology_request_ind,      
+ [theatre_request_ind] = @theatre_request_ind,      
+ [emergency_ind] = @emergency_ind,      
+ [same_condition_re-admission_ind] = @same_condition_re_admission_ind,      
+ [doctor_type] = @doctor_type,      
+ [addictive_element_details] = @addictive_element_details,      
+ [mri_pet_scan_detail] = @mri_pet_scan_detail,      
+ [mri_pet_scan_date] = @mri_pet_scan_date,      
+ [mri_pet_facility_location] = @mri_pet_facility_location,      
+ [urgent_call_out_datetime] = @urgent_call_out_datetime,      
+ [urgent_call_out_reason] = @urgent_call_out_reason,      
+ [treatment_provided_by] = @treatment_provided_by,      
+ [procedure_5116_5117_id] = @procedure_5116_5117_id,      
+ [number_of_eluting_stents] = @number_of_eluting_stents,      
+ [overnight_admission_reason] = @overnight_admission_reason,      
+ [anticipated_further_treatment_detail] = @anticipated_further_treatment_detail,      
+ [related_psychiatric_cond_detail] = @related_psychiatric_cond_detail,      
+ [procedure_carried_our_place] = @procedure_carried_our_place_code,      
+ [addictive_element] = @addictive_element_code,      
+ [doc_consultation_date] = @doc_consultation_date,      
+ [doc_treatment_date] = @doc_treatment_date,      
+ [update_date] = @getdate,      
+ [update_user] = @username,      
+ [gp_referral] = @gp_referral_code,      
+ [nature_of_symptoms] = @nature_of_symptoms,      
+ [duration_of_symptoms] = @duration_of_symptoms,      
+ [carried_out_sole_procedure_ind] = @carried_out_sole_procedure_ind,      
+ [on_symptoms_date] = @on_symptoms_date,      
+ [overnight_admission_ind] = @overnight_admission_ind,      
+ [referral_reason] = @referral_reason,      
+ [similar_illness] = @similar_illness,      
+ [stay_guideline] = @stay_guideline,      
+ [transferred_hospital_treatment] = @transferred_hospital_treatment,      
+ [transferred_hospital_id] = @transferred_hospital_id,      
+ [bed_detail] = @bed_detail,      
+ [administered_medication_fluids] = @administered_medication_fluids,      
+ [doctor_who_provided_treatment] = @doctor_who_provided_treatment,      
+ [authorized_radiology_signatory] = @authorized_radiology_signatory,      
+ [is_manually_added] = @is_manually_added,      
+ [condition_history_date] = @condition_history_date,      
+ [referrer_name] = @referrer_name,      
+ [admission_reason] = @admission_reason,      
+ has_condition_history = @has_condition_history,      
+ patient_was_transferred = @patient_was_transferred,      
+ patient_was_transferred_discharged=@patient_was_transferred_discharged,     
+ type_of_admission = @type_of_admission,     
+ non_surgical_cases =@non_surgical_cases,    
+ procedure_code = @procedure_code,    
+ ICD_code=@icd_code,    
+ date_from=@medical_attendance_date_from,    
+ date_to=@medical_attendance_date_to,    
+ request_attending_consultant=@request_attending_consultant,    
+ details_attending_consultant=@details_attending_consultant,    
+ personally_billed_for=@personally_billed_for,    
+ who_offered_treatment=@who_offered_treatment,    
+ full_description_treatment=@full_description_treatment,    
+ further_treatment_required=@further_treatment_required,    
+ treatment_description = @treatment_description,
+ Was_MRI_Performed = @Was_MRI_Performed,
+ MRI_Scan_Details = @MRI_Scan_Details,        
+ details_condition_treatment = @details_condition_treatment,
+ finalise_defer_flag = @finalise_defer_flag
+    
+WHERE      
+ rtrim([admission_id]) =rtrim(@admission_id)      
+      
+UPDATE      
+ Treatment      
+Set       
+ doctor_id = rtrim(@doctor_id),      
+ [update_date] = @getdate,      
+ [update_user] = @username      
+WHERE      
+ rtrim(admission_id) = rtrim(@admission_id)      
+      
+UPDATE       
+ Diagnosis      
+SET      
+ doctor_id = rtrim(@doctor_id),      
+ [update_date] = @getdate,      
+ [update_user] = @username      
+WHERE      
+ rtrim(admission_id) = rtrim(@admission_id)      
+
+EXEC usp_audit_logging_new @claim_id, @claim_id, 'Admission', 'Update', @getdate, @username, 'CF_Clinical'      
+--EXEC usp_audit_logging @admission_id, @claim_id, 'Admission', 'Update', @getdate, @username 

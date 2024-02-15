@@ -1,0 +1,601 @@
+
+IF OBJECT_ID('usp_autogen_claim_update') IS NOT NULL
+	DROP PROCEDURE [dbo].usp_autogen_claim_update
+GO
+
+CREATE  PROCEDURE [dbo].[usp_autogen_claim_update]
+	 @message_id uniqueidentifier
+AS
+
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_autogen_claim_update
+*	Description: Update claim via autogen.
+*
+*	Date:			Author:		Ref#:		Comments:
+*	10/11/2010		RDimarucut	7621		Updated hospital_id to system_hospital_id.
+*	10/08/2010		RDimarucut	7616		Updated setting for insurance_member_number
+*	10/08/2010		RDimarucut	7616		Updated script for updating subscriber details.
+*	09/06/2010		RDimarucut	7398		Added Patient has previously claimed for this condition tri-state, date and details.
+*	08/24/2010		RDimarucut	7315		As per Colin's advise, fixed a problem with the doctor_first_full_name having its user input overwritten in Claimsure
+*	07/23/2010		RDimarucut	6437		Updated tri-state of treatment_from_accident_ind.
+*	07/15/2010		RDimarucut	6325		Updated setting for hospital_id since hospital code should be mapped on facility_code of trn_FacilityCode table.
+*	06/18/2010		RDimarucut	6608		Added admitting consultant code column.
+*	06/16/2010		RDimarucut	N/A			Added emergency_admission_ind field
+*											Added coalesce function on discharge_location, treatment_type and admission_reason fields.
+*	04/12/2010		RDimarucut	N/A			Updated Quinn Healthcare Scheme from varchar(20) to varchar(100).
+*	03/31/2010		RDimarucut	N/A			Added setting for Quinn Healthcare Scheme.
+*	02/25/2010		RDimarucut				Updated the setting of value for holder_permanent_address_Ind,private_patient_in_public_ward_ind
+*											clinical_research_study_ind,has_expense_recovery_other_source and has_similar_illness fields.
+*   17/02/2010		DGreen					Removed "DG Added Section", leaving new method of INSERT/UPDATE trn_TreatmentSetting
+*	17/02/2010		DGreen					Replaced all references to stg_Base.Place_Procedure_Carried with stg_Base.Treatment_Settings
+*	02/16/2010		GBorja						Implementing Tri-state default value.
+*   02/11/2010      As Per Dominic          0006091         fix to prevent a null value in DFA first name or DFA last name causing a doctor_first_full_name to become null.
+*	01/14/2010		DDulay		0005832  	Applied Colin's findings regarding treatment_from_accident_ind settings
+*	12/21/2009		DDulay		0005741 	Per Dom's request, changed the doctor_first_mi definition from char(12)to varchar(12)
+*	12/16/2009		DGreen		0005737 	Added in script to update trn_TreatmentSetting
+*	12/16/2009		DDulay		5719		Applied Vinny's autogen updated per Dom's advice
+*	11/26/2009		DDulay		5319		Patient has history of this condition date and details are not displayed on Clinical/Consultant page
+*	11/25/2009		GBorja					Added Claim_type and hospital_id updates.
+*	11/05/2009		DDulay					Updated 
+*	07/24/2009		GBorja					Added new fields for Claim table:  Treatment_Settings
+*	07/23/2009		GBorja					Added IsPHPA column for "Is this the policy holder’s permanent address?" in stg_Subscriber.
+*	03/27/2009		RDimarucut				Updated the join statement to reference in stg_insurer table
+*	02/10/2009		SPostrado				Created.
+*
+**********************************************************************************/
+
+DECLARE	@GetDate datetime,
+	@User varchar (12),
+	@iCurrentRowId int,
+	@system_insurer_id char(20),
+	@insurance_member_number char(30),
+	@episode_number char(12),
+	@episode_id char(12),
+    @admission_date smalldatetime,
+    @discharge_date smalldatetime,
+	@patient_type char(10),
+	@patient_status char(10),
+	@subs_title char(12), 
+	@subs_lastname varchar(30),
+	@subs_firstname varchar(30),
+	@subs_MI char(5),
+	@subs_birthdate datetime,
+	@subs_address1 varchar(50),
+	@subs_address2 varchar(50),
+	@subs_address3 varchar(50),
+	@subs_email_add varchar(50),
+	@subs_telephone1 varchar(20),
+	@subs_telephone2 varchar(20),
+	@member_relation_type varchar(50),
+	@out_patient_appointment_wait int,
+	@admission_wait int,
+	@clinical_research_study_ind char(10),
+	@private_patient_in_public_ward_ind char(10),
+	@doctor_first_first_name varchar(30),
+	@doctor_first_last_name varchar(30),
+	@doctor_first_mi char(12),
+	@doctor_first_address_1 varchar(50),
+	@doctor_first_address_2 varchar(50),
+	@doctor_first_address_3 varchar(50),
+	@doctor_first_full_address varchar(300),
+	@doctor_first_telephone varchar(20),
+	@consutation_date smalldatetime,
+	@treatment_date smalldatetime,
+	@notice_date_of_symptoms smalldatetime,
+	@similar_illness varchar(800),
+	@expense_recovery_other_source varchar(800),
+	@discharge_location varchar(50),
+	@treatment_from_accident_ind char(10),
+	@treatment_type char(12),
+	@admission_reason varchar(800),
+	@discharge_status_details varchar(800),
+	@insurer_id char(20),
+	@parsefield char(20),
+	@IsPHPA char(2),
+	@Treatment_Settings VARCHAR(50),
+	@similar_illness_date smalldatetime,
+	@claim_type varchar(30),
+	@has_expense_recovery_other_source CHAR(2),
+	@has_similar_illness CHAR(2),
+	@quinn_healthcare_scheme VARCHAR(100),
+	@emergency_admission_ind CHAR(2),
+	@admitting_consultant_code VARCHAR(12),
+	@system_hospital_id INT,
+	@has_previous_claim CHAR(2),
+	@previous_claim_date SMALLDATETIME,
+	@previous_claim_details VARCHAR(800)
+
+
+IF EXISTS (SELECT [name] FROM dbo.sysobjects WHERE id = object_id(N'dbo.tempClaim') AND OBJECTPROPERTY(id, N'IsUserTable') = 1)
+  DROP TABLE dbo.tempClaim
+
+CREATE TABLE dbo.tempClaim
+(
+	iRowId int IDENTITY (1,1),
+	system_insurer_id char(20),
+	insurance_member_number char(30) NULL,
+	episode_number char(12),
+    admission_date smalldatetime,
+    discharge_date smalldatetime,
+	patient_type char(10),
+	patient_status char(10),
+	system_hospital_id int NULL,
+	subs_title char(12) NULL, 
+	subs_lastname varchar(30) NULL,
+	subs_firstname varchar(30) NULL,
+	subs_MI char(5) NULL,
+	subs_birthdate datetime NULL,
+	subs_address1 varchar(50) NULL,
+	subs_address2 varchar(50) NULL,
+	subs_address3 varchar(50) NULL,
+	subs_email_add varchar(50) NULL,
+	subs_telephone1 varchar(20) NULL,
+	subs_telephone2 varchar(20) NULL,
+	member_relation_type varchar(50) NULL,
+	out_patient_appointment_wait int NULL,
+	admission_wait int NULL,
+	clinical_research_study_ind char(10) NULL,
+	private_patient_in_public_ward_ind char(10) NULL,
+	doctor_first_first_name varchar(30) NULL,
+	doctor_first_last_name varchar(30) NULL,
+	doctor_first_mi char(12) NULL,
+	doctor_first_address_1 varchar(50) NULL,
+	doctor_first_address_2 varchar(50) NULL,
+	doctor_first_address_3 varchar(50) NULL,
+	doctor_first_full_address varchar(300),
+	doctor_first_telephone varchar(20) NULL,
+	consutation_date smalldatetime NULL,
+	treatment_date smalldatetime NULL,
+	notice_date_of_symptoms smalldatetime NULL,
+	similar_illness varchar(800) NULL,
+	expense_recovery_other_source varchar(800) NULL,
+	discharge_location varchar(50) NULL,
+	treatment_from_accident_ind char(10) NULL,
+	treatment_type char(12) NULL,
+	admission_reason varchar(800) NULL,
+	discharge_status_details varchar(800) NULL,
+	IsPHPA char(2) NULL,
+	Treatment_Settings VARCHAR(50) NULL,
+	similar_illness_date smalldatetime null,
+	Claim_type char(12),
+	has_expense_recovery_other_source CHAR(2) NULL,
+	has_similar_illness CHAR(2) NULL,
+	quinn_healthcare_scheme VARCHAR(100),
+	emergency_admission_ind CHAR(2),
+	admitting_consultant_code VARCHAR(30) NULL,
+	has_previous_claim CHAR(2) NULL,
+	previous_claim_date SMALLDATETIME NULL,
+	previous_claim_details VARCHAR(800) NULL
+)	
+
+INSERT INTO dbo.tempClaim
+	(system_insurer_id,
+	insurance_member_number,
+	episode_number,
+    admission_date,
+    discharge_date,
+	patient_type,
+	patient_status,
+	system_hospital_id,
+	subs_title, 
+	subs_lastname,
+	subs_firstname,
+	subs_MI,
+	subs_birthdate,
+	subs_address1,
+	subs_address2,
+	subs_address3,
+	subs_email_add,
+	subs_telephone1,
+	subs_telephone2,
+	member_relation_type,
+	out_patient_appointment_wait,
+	admission_wait,
+	clinical_research_study_ind,
+	private_patient_in_public_ward_ind,
+	doctor_first_first_name,
+	doctor_first_last_name,
+	doctor_first_mi,
+	doctor_first_address_1,
+	doctor_first_address_2,
+	doctor_first_address_3,
+	doctor_first_full_address,
+	doctor_first_telephone,
+	consutation_date,
+	treatment_date,
+	notice_date_of_symptoms,
+	similar_illness,
+	expense_recovery_other_source,
+	discharge_location,
+	treatment_from_accident_ind,
+	treatment_type,
+	admission_reason,
+	discharge_status_details,
+	IsPHPA,
+	Treatment_Settings,
+	similar_illness_date,
+	Claim_type,
+	has_expense_recovery_other_source,
+	has_similar_illness,
+	quinn_healthcare_scheme,
+	emergency_admission_ind,
+	admitting_consultant_code,
+	has_previous_claim,
+	previous_claim_date,
+	previous_claim_details
+	)
+SELECT
+	ins.insurer_id,
+	sb.policynum,
+	b.episode_id,
+	b.admissiondate,
+	b.dischargedate,
+	b.patient_type,
+	b.patientstatus,
+	sh.system_hospital_id,
+	sb.title,
+	sb.lastname,
+	sb.firstname,
+	sb.middleinitial,
+	sb.birthdate,
+	sb.addressline1,
+	sb.addressline2,
+	ISNULL(sb.city_town + ', ','') + ISNULL(sb.state_county + ', ','') + ISNULL(sb.country + ' ','') + ISNULL(sb.postalcode,'') as addressline3,
+	sb.email,
+	sb.phone,
+	sb.phone2,
+	sb.subscriberrelationtopatient,
+	si.ihq1,
+	si.ihq2,
+	CAST(si.ihq3 as char(2)),
+	CAST(si.ihq4 as char(2)),
+	si.firstname,
+	si.lastname,
+	si.middleinitial,
+	si.addressline1,
+	si.addressline2,
+	ISNULL(si.city_town + ', ','') + ISNULL(si.state_county + ', ','') + ISNULL(si.country + ' ','') + ISNULL(si.postalcode,'') as addressline3,
+	si.Doctor_first_full_address,
+	si.phone,
+	si.initialconsultationdate,
+	si.initialtreatmentdate,
+	si.initialsymptomsdate,
+	CAST(si.ihq6 as varchar(800)) as similarillness,
+	CAST(si.ihq10 as varchar(800)),
+	CAST(si.ihq12 as char(10)),
+	CASE WHEN sa.adq1 = 1 THEN '1'
+		 WHEN sa.adq1 = 0 THEN '0'
+		 ELSE ''
+	END,
+	CAST(sm.treatmenttype as char(12)),
+	ISNULL(CAST(si.ihq13 as varchar(800)) + ', ','') + ISNULL(CAST(sm.mdhq5 as varchar(800)), '') as admissionreason,
+	so.dischargestatus,
+	sb.IsPHPA,
+	b.Treatment_Settings,
+	si.SimilarIllnessDate,
+	b.claimtype,
+	si.ihq9,
+	si.IHQ5,
+	sb.quinnhealthcarescheme,
+	sm.AdmissionType,
+	adm.admittingconsultantcode,
+	si.ihq7,					--Patient has previously claimed for this condition
+	si.PreviouslyClaimedDate,	--Patient has previously claimed for this condition date
+	si.ihq8						--Patient has previously claimed for this condition details
+FROM
+	dbo.[stg_Base] b
+	LEFT JOIN dbo.[stg_Subscriber] sb ON b.message_id = sb.message_id
+	LEFT JOIN dbo.[stg_IllnessHistory] si ON si.message_id = b.message_id
+	LEFT JOIN dbo.[stg_AccidentDetails] sa ON sa.message_id = b.message_id
+	LEFT JOIN dbo.[stg_MedicalHistory] sm ON sm.message_id = b.message_id
+	LEFT JOIN dbo.[stg_OtherClinicalDetails] so ON so.message_id = b.message_id
+	LEFT JOIN dbo.[stg_Hospital] sh ON sh.message_id = b.message_id
+	LEFT JOIN dbo.[stg_Insurer] ins ON ins.message_id = b.message_id
+	LEFT JOIN dbo.[stg_AdmittingConsultantDetails] adm ON adm.message_id = b.message_id
+WHERE
+	b.message_id = @message_id
+
+DECLARE @cur_tempClaim CURSOR
+SET @cur_tempClaim = CURSOR FAST_FORWARD
+FOR 
+SELECT
+	iRowId,
+	system_insurer_id,
+	insurance_member_number,
+	episode_number,
+    admission_date,
+    discharge_date,
+	patient_type,
+	patient_status,
+	system_hospital_id,
+	subs_title, 
+	subs_lastname,
+	subs_firstname,
+	subs_MI,
+	subs_birthdate,
+	subs_address1,
+	subs_address2,
+	subs_address3,
+	subs_email_add,
+	subs_telephone1,
+	subs_telephone2,
+	member_relation_type,
+	out_patient_appointment_wait,
+	admission_wait,
+	clinical_research_study_ind,
+	private_patient_in_public_ward_ind,
+	isnull(doctor_first_first_name,''),
+	isnull(doctor_first_last_name,''),
+	isnull(doctor_first_mi + '. ',''),
+	doctor_first_address_1,
+	doctor_first_address_2,
+	doctor_first_address_3,
+	doctor_first_full_address,
+	doctor_first_telephone,
+	consutation_date,
+	treatment_date,
+	notice_date_of_symptoms,
+	similar_illness,
+	expense_recovery_other_source,
+	discharge_location,
+	treatment_from_accident_ind,
+	treatment_type,
+	admission_reason,
+	discharge_status_details,
+	IsPHPA,
+	Treatment_Settings,
+	similar_illness_date,
+	Claim_type,
+	has_expense_recovery_other_source,
+	has_similar_illness,
+	quinn_healthcare_scheme,
+	emergency_admission_ind,
+	admitting_consultant_code,
+	has_previous_claim,
+	previous_claim_date,
+	previous_claim_details
+FROM
+	dbo.tempClaim
+
+OPEN @cur_tempClaim
+FETCH NEXT FROM @cur_tempClaim
+INTO 
+	@iCurrentRowId,
+	@system_insurer_id,
+	@insurance_member_number,
+	@episode_number,
+    @admission_date,
+    @discharge_date,
+	@patient_type,
+	@patient_status,
+	@system_hospital_id,
+	@subs_title, 
+	@subs_lastname,
+	@subs_firstname,
+	@subs_MI,
+	@subs_birthdate,
+	@subs_address1,
+	@subs_address2,
+	@subs_address3,
+	@subs_email_add,
+	@subs_telephone1,
+	@subs_telephone2,
+	@member_relation_type,
+	@out_patient_appointment_wait,
+	@admission_wait,
+	@clinical_research_study_ind,
+	@private_patient_in_public_ward_ind,
+	@doctor_first_first_name,
+	@doctor_first_last_name,
+	@doctor_first_mi,
+	@doctor_first_address_1,
+	@doctor_first_address_2,
+	@doctor_first_address_3,
+	@doctor_first_full_address,
+	@doctor_first_telephone,
+	@consutation_date,
+	@treatment_date,
+	@notice_date_of_symptoms,
+	@similar_illness,
+	@expense_recovery_other_source,
+	@discharge_location,
+	@treatment_from_accident_ind,
+	@treatment_type,
+	@admission_reason,
+	@discharge_status_details,
+	@IsPHPA,
+	@Treatment_Settings,
+	@similar_illness_date,
+	@claim_type,
+	@has_expense_recovery_other_source,
+	@has_similar_illness,
+	@quinn_healthcare_scheme,
+	@emergency_admission_ind,
+	@admitting_consultant_code,
+	@has_previous_claim,
+	@previous_claim_date,
+	@previous_claim_details
+	
+
+IF @@FETCH_STATUS <> 0
+   BEGIN
+            SELECT 'No data in found in table Claim!'           
+   END
+
+WHILE @@FETCH_STATUS = 0 
+BEGIN
+
+	SET	@GetDate = (SELECT GETDATE())
+	SET @User = 'autogen'
+	SELECT @insurer_id = system_insurer_id FROM dbo.[Insurer] WHERE insurer_code = LTRIM(@system_insurer_id) 
+	SELECT @parsefield = [claim_flag] FROM dbo.Claim WHERE claim_id = @episode_number
+	
+	IF (@parsefield IS NOT NULL)
+		BEGIN
+			SET @subs_title = case when ((SUBSTRING(@parsefield, 1, 1)) = '0') then @subs_title else
+							(select subs_title from dbo.Claim where claim_id = @episode_number) end
+			SET @subs_firstname = case when ((SUBSTRING(@parsefield, 2, 1)) = '0') then @subs_firstname else
+							(select subs_firstname from dbo.Claim where claim_id = @episode_number) end
+			SET @subs_MI = case when ((SUBSTRING(@parsefield, 3, 1)) = '0') then @subs_MI else
+							(select subs_MI from dbo.Claim where claim_id = @episode_number) end
+			SET @subs_lastname = case when ((SUBSTRING(@parsefield, 4, 1) = '0')) then @subs_lastname else
+							(select subs_lastname from dbo.Claim where claim_id = @episode_number) end
+			SET @subs_birthdate = case when ((SUBSTRING(@parsefield, 5, 1) = '0')) then @subs_birthdate else
+							(select subs_birthdate from dbo.Claim where claim_id = @episode_number) end
+			SET @subs_address1 = case when ((SUBSTRING(@parsefield, 6, 1) = '0')) then @subs_address1 else
+							(select subs_address1 from dbo.Claim where claim_id = @episode_number) end
+			SET @subs_address2 = case when ((SUBSTRING(@parsefield, 7, 1) = '0')) then @subs_address2 else
+							(select subs_address2 from dbo.Claim where claim_id = @episode_number) end
+			SET @subs_address3 = case when ((SUBSTRING(@parsefield, 8, 1) = '0')) then @subs_address3 else
+							(select subs_address3 from dbo.Claim where claim_id = @episode_number) end
+			SET @subs_email_add = case when ((SUBSTRING(@parsefield, 9, 1) = '0')) then @subs_email_add else
+							(select subs_email_add from dbo.Claim where claim_id = @episode_number) end
+			SET @insurance_member_number = case when ((SUBSTRING(@parsefield, 10, 1) = '0')) then @insurance_member_number else
+							(select insurance_member_number from dbo.Claim where claim_id = @episode_number) end
+			SET @admission_date = case when ((SUBSTRING(@parsefield, 11, 1) = '0')) then @admission_date else
+							(select admission_date from dbo.Claim where claim_id = @episode_number) end
+			SET @discharge_date = case when ((SUBSTRING(@parsefield, 12, 1) = '0')) then @discharge_date else
+							(select discharge_date_time from dbo.Claim where claim_id = @episode_number) end
+		END	
+
+	UPDATE dbo.[Claim]
+		SET system_insurer_id = CAST(@insurer_id as int),
+			patient_type = @patient_type,
+			patient_status = @patient_status,
+			insurance_member_number = coalesce(@insurance_member_number,insurance_member_number),
+			admission_date = ISNULL(@admission_date, admission_date) ,
+			discharge_date_time = @discharge_date,
+			subs_title = coalesce(@subs_title,subs_title),
+			subs_firstname = coalesce(@subs_firstname,subs_firstname),
+			subs_MI = coalesce(@subs_MI,subs_MI),
+			subs_lastname = coalesce(@subs_lastname,subs_lastname),
+			subs_birthdate = coalesce(@subs_birthdate,subs_birthdate),
+			subs_address1 = coalesce(@subs_address1,subs_address1),
+			subs_address2 = coalesce(@subs_address2,subs_address2),
+			subs_address3 = coalesce(@subs_address3,subs_address3),
+			subs_telephone1 = coalesce(@subs_telephone1,subs_telephone1),
+			subs_telephone2 = coalesce(@subs_telephone2,subs_telephone2),
+			subs_email_add = coalesce(@subs_email_add,subs_email_add),
+			member_relation_type = @member_relation_type,
+			out_patient_appointment_wait = coalesce(@out_patient_appointment_wait,out_patient_appointment_wait),
+			admission_wait = coalesce(@admission_wait,admission_wait),
+			clinical_research_study_ind = dbo.udf_getreturnvaluechar(@clinical_research_study_ind,clinical_research_study_ind,'COMPARE'),
+			private_patient_in_public_ward_ind = dbo.udf_getreturnvaluechar(@private_patient_in_public_ward_ind,private_patient_in_public_ward_ind,'COMPARE'),
+			doctor_first_first_name = coalesce(@doctor_first_first_name,doctor_first_first_name),
+			doctor_first_last_name = coalesce(@doctor_first_last_name,doctor_first_last_name),
+			doctor_first_mi = coalesce(@doctor_first_mi,doctor_first_mi),
+			doctor_first_full_name = CASE WHEN ((@doctor_first_first_name IS NULL OR @doctor_first_first_name = '') AND (@doctor_first_mi IS NULL OR @doctor_first_mi = '') AND (@doctor_first_last_name IS NULL OR @doctor_first_last_name = '')) THEN doctor_first_full_name 
+										  ELSE (@doctor_first_first_name + ' ' + @doctor_first_mi + @doctor_first_last_name) 
+									 END,
+			doctor_first_address_1 = coalesce(@doctor_first_address_1,doctor_first_address_1),
+			doctor_first_address_2 = coalesce(@doctor_first_address_2,doctor_first_address_2),
+			doctor_first_address_3 = coalesce(@doctor_first_address_3,doctor_first_address_3),
+			doctor_first_full_address = coalesce(@doctor_first_full_address, doctor_first_full_address),
+			doctor_first_telephone = coalesce(@doctor_first_telephone,doctor_first_telephone),
+			consutation_date = coalesce(@consutation_date,consutation_date),
+			treatment_date = coalesce(@treatment_date,treatment_date),
+			notice_date_of_symptoms = coalesce(@notice_date_of_symptoms,notice_date_of_symptoms),
+			similar_illness = coalesce(@similar_illness,similar_illness),
+			expense_recovery_other_source = coalesce(@expense_recovery_other_source,expense_recovery_other_source),
+			discharge_location = coalesce(@discharge_location,discharge_location),
+			treatment_from_accident_ind = dbo.udf_getreturnvaluechar(@treatment_from_accident_ind,treatment_from_accident_ind,'COMPARE'),
+			treatment_type = coalesce(@treatment_type,treatment_type),
+			admission_reason = coalesce(@admission_reason,admission_reason),
+			discharge_status_details = @discharge_status_details,
+			update_date = @GetDate,
+			update_user = @User,
+			holder_permanent_address_Ind = dbo.udf_getreturnvaluechar(@IsPHPA,holder_permanent_address_Ind,'COMPARE'),
+			Treatment_Settings = @Treatment_Settings,
+			similar_illness_date = @similar_illness_date,
+			claim_type = coalesce(@claim_type,claim_type),
+			hospital_id = coalesce(@system_hospital_id,hospital_id),
+			has_similar_illness = dbo.udf_getreturnvaluebit(@has_similar_illness,has_similar_illness,'COMPARE'),
+			has_expense_recovery_other_source = dbo.udf_getreturnvaluebit(@has_expense_recovery_other_source,has_expense_recovery_other_source,'COMPARE'),
+			bupa_ireland_scheme = @quinn_healthcare_scheme,
+			emergency_admission_ind = coalesce(@emergency_admission_ind, emergency_admission_ind),
+			admitting_consultant_code = @admitting_consultant_code,
+			has_previous_claim = dbo.udf_getreturnvaluebit(@has_previous_claim,has_previous_claim,'COMPARE'),
+			previous_claim_date = @previous_claim_date,
+			previous_claim_details = CASE WHEN @previous_claim_date IS NOT NULL AND ISDATE(@previous_claim_date) = 1 AND @previous_claim_details IS NOT NULL THEN @previous_claim_details + ' - ' + CONVERT(VARCHAR, @previous_claim_date, 103)
+										  WHEN @previous_claim_details IS NOT NULL THEN @previous_claim_details
+										  ELSE previous_claim_details
+									 END
+	WHERE
+		claim_id = @episode_number
+	
+	-- Insert Treatment Setting
+	IF @Treatment_Settings is not null AND NOT EXISTS (SELECT * FROM trn_TreatmentSetting WHERE claim_id = @episode_number AND TreatmentSettingId=@Treatment_Settings )
+	BEGIN
+		INSERT INTO trn_TreatmentSetting(claim_id, TreatmentSettingId, Selected)
+		VALUES (@episode_number, @Treatment_Settings, 1)
+	END
+
+	FETCH NEXT FROM @cur_tempClaim
+	INTO 
+		@iCurrentRowId,
+		@system_insurer_id,
+		@insurance_member_number,
+		@episode_number,
+	    @admission_date,
+	    @discharge_date,
+		@patient_type,
+		@patient_status,
+		@system_hospital_id,
+		@subs_title, 
+		@subs_lastname,
+		@subs_firstname,
+		@subs_MI,
+		@subs_birthdate,
+		@subs_address1,
+		@subs_address2,
+		@subs_address3,
+		@subs_email_add,
+		@subs_telephone1,
+		@subs_telephone2,
+		@member_relation_type,
+		@out_patient_appointment_wait,
+		@admission_wait,
+		@clinical_research_study_ind,
+		@private_patient_in_public_ward_ind,
+		@doctor_first_first_name,
+		@doctor_first_last_name,
+		@doctor_first_mi,
+		@doctor_first_address_1,
+		@doctor_first_address_2,
+		@doctor_first_address_3,
+		@doctor_first_full_address,
+		@doctor_first_telephone,
+		@consutation_date,
+		@treatment_date,
+		@notice_date_of_symptoms,
+		@similar_illness,
+		@expense_recovery_other_source,
+		@discharge_location,
+		@treatment_from_accident_ind,
+		@treatment_type,
+		@admission_reason,
+		@discharge_status_details,
+		@IsPHPA,
+		@Treatment_Settings,
+		@similar_illness_date,
+		@claim_type,
+		@has_expense_recovery_other_source,
+		@has_similar_illness,
+		@quinn_healthcare_scheme,
+		@emergency_admission_ind,
+		@admitting_consultant_code,
+		@has_previous_claim,
+		@previous_claim_date,
+		@previous_claim_details			
+END
+
+CLOSE @cur_tempClaim
+DEALLOCATE @cur_tempClaim
+DROP TABLE dbo.tempClaim
+
+
+
+GO
+

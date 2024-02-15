@@ -1,0 +1,18 @@
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.DAL\bin\Debug\GARMCO.AMS.TAS.DAL.dll.config
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.DAL\bin\Debug\GARMCO.AMS.TAS.DAL.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.DAL\bin\Debug\GARMCO.AMS.TAS.DAL.pdb
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.DAL\bin\Debug\EntityFramework.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.DAL\bin\Debug\EntityFramework.SqlServer.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.DAL\bin\Debug\EntityFramework.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.DAL\bin\Debug\EntityFramework.SqlServer.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.DAL\obj\Debug\GARMCO.AMS.TAS.DAL.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.DAL\obj\Debug\GARMCO.AMS.TAS.DAL.pdb
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.DAL\bin\Debug\GARMCO.AMS.TAS.DAL.dll.config
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.DAL\bin\Debug\GARMCO.AMS.TAS.DAL.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.DAL\bin\Debug\GARMCO.AMS.TAS.DAL.pdb
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.DAL\bin\Debug\EntityFramework.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.DAL\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.DAL\bin\Debug\EntityFramework.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.DAL\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.DAL\obj\Debug\GARMCO.AMS.TAS.DAL.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.DAL\obj\Debug\GARMCO.AMS.TAS.DAL.pdb

@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="GenPurposeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="PermitCostCenter">
+    <Key>
+      <PropertyRef Name="PermitID" />
+    </Key>
+    <Property Name="PermitID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PermitEmpNo" Type="Int32" Nullable="false" />
+    <Property Name="PermitCostCenter1" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PermitAppID" Type="Int32" Nullable="false" />
+    <Property Name="PermitCreatedBy" Type="Int32" />
+    <Property Name="PermitCreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="PermitModifiedBy" Type="Int32" />
+    <Property Name="PermitModifiedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="UserDefinedCode" Relationship="Self.FK_PermitCostCenter_UserDefinedCode" FromRole="PermitCostCenter" ToRole="UserDefinedCode" />
+  </EntityType>
+  <EntityType Name="UserDefinedCode">
+    <Key>
+      <PropertyRef Name="UDCID" />
+    </Key>
+    <Property Name="UDCID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UDCUDCGID" Type="Int32" Nullable="false" />
+    <Property Name="UDCCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UDCDesc1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="UDCDesc2" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UDCSpecialHandlingCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="UDCDate" Type="DateTime" Precision="3" />
+    <Property Name="UDCAmount" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="UDCField" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="PermitCostCenters" Relationship="Self.FK_PermitCostCenter_UserDefinedCode" FromRole="UserDefinedCode" ToRole="PermitCostCenter" />
+  </EntityType>
+  <Association Name="FK_PermitCostCenter_UserDefinedCode">
+    <End Role="UserDefinedCode" Type="Self.UserDefinedCode" Multiplicity="1" />
+    <End Role="PermitCostCenter" Type="Self.PermitCostCenter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserDefinedCode">
+        <PropertyRef Name="UDCID" />
+      </Principal>
+      <Dependent Role="PermitCostCenter">
+        <PropertyRef Name="PermitAppID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="GenPurposeEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="PermitCostCenters" EntityType="Self.PermitCostCenter" />
+    <EntitySet Name="UserDefinedCodes" EntityType="Self.UserDefinedCode" />
+    <AssociationSet Name="FK_PermitCostCenter_UserDefinedCode" Association="Self.FK_PermitCostCenter_UserDefinedCode">
+      <End Role="UserDefinedCode" EntitySet="UserDefinedCodes" />
+      <End Role="PermitCostCenter" EntitySet="PermitCostCenters" />
+    </AssociationSet>
+    <EntitySet Name="UserFormAccesses" EntityType="GenPurposeModel.UserFormAccess" />
+  </EntityContainer>
+  <EntityType Name="UserFormAccess">
+    <Key>
+      <PropertyRef Name="UserFrmFormCode" />
+      <PropertyRef Name="UserFrmEmpNo" />
+    </Key>
+    <Property Name="UserFrmFormCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="UserFrmEmpNo" Type="Int32" Nullable="false" />
+    <Property Name="UserFrmCRUDP" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="UserFrmCreatedBy" Type="Int32" />
+    <Property Name="UserFrmCreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="UserFrmModifiedBy" Type="Int32" />
+    <Property Name="UserFrmModifiedDate" Type="DateTime" Precision="3" />
+  </EntityType>
+</Schema>

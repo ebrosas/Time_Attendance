@@ -1,0 +1,132 @@
+IF OBJECT_ID ('usp_trn_radinvestigation_update') IS NOT NULL
+	DROP PROCEDURE [dbo].usp_trn_radinvestigation_update
+GO
+
+CREATE PROCEDURE [dbo].usp_trn_radinvestigation_update
+(
+	 @admission_id char(12)
+	,@x_ray bit
+	,@ultrasound bit
+	,@ct_scan bit
+	,@mri bit
+	,@pet_ct bit
+	,@others bit
+	,@diagnostic_tests varchar(500)
+	,@rad_tests varchar(500)
+	,@clinical_indication_code1 int
+	,@clinical_indication_date1 datetime
+	,@clinical_indication_code2 int
+	,@clinical_indication_date2 datetime
+	,@other_facility varchar(100)
+	,@username varchar(20)
+)
+AS
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_trn_radinvestigation_update
+*	Description: Updates a record in the trn_RadInvestigation table
+*
+*	Date:		Author:		Ref#:		Comments:
+*	11/03/10	EBrosas		7429		Change SP call from usp_audit_logging to usp_audit_logging_new.
+*	09/20/10	MLim		7424		Created
+*
+**********************************************************************************/
+
+DECLARE	
+	 @date datetime
+	,@instance int
+	,@claim_id varchar(12)
+	,@id int
+
+SET @date = (SELECT GETDATE())
+SET @instance = (SELECT COUNT(admission_id) FROM [dbo].trn_RadInvestigation WHERE admission_id = @admission_id)
+SET @claim_id = 0
+
+IF (@instance = 0)
+BEGIN
+	INSERT INTO [dbo].trn_RadInvestigation
+	(
+		 admission_id
+		,x_ray
+		,ultrasound
+		,ct_scan
+		,mri
+		,pet_ct
+		,others
+		,diagnostic_tests
+		,rad_tests
+		,clinical_indication_code1
+		,clinical_indication_date1
+		,clinical_indication_code2
+		,clinical_indication_date2
+		,other_facility
+		,create_user
+		,create_date
+		,update_user
+		,update_date
+	)
+	VALUES
+	(
+		 @admission_id
+		,@x_ray
+		,@ultrasound
+		,@ct_scan
+		,@mri
+		,@pet_ct
+		,@others
+		,@diagnostic_tests
+		,@rad_tests
+		,@clinical_indication_code1
+		,@clinical_indication_date1
+		,@clinical_indication_code2
+		,@clinical_indication_date2
+		,@other_facility
+		,@username
+		,@date
+		,@username
+		,@date
+	)
+
+	SET @id = (SELECT SCOPE_IDENTITY())
+
+	SELECT @claim_id = claim_id 
+	FROM dbo.Admission a 
+		LEFT JOIN dbo.trn_RadInvestigation b ON b.admission_id = a.admission_id
+	WHERE b.id = @id
+
+	EXEC usp_audit_logging_new @admission_id, @claim_id, 'trn_RadInvestigation', 'Insert', @date, @username, 'CF_Clinical'    
+--	EXEC usp_audit_logging @admission_id, @admission_id, 'trn_RadInvestigation', 'Insert', @date, @username
+END
+ELSE
+BEGIN
+	UPDATE
+		[dbo].trn_RadInvestigation
+	SET
+		 x_ray = @x_ray
+		,ultrasound = @ultrasound
+		,ct_scan = @ct_scan
+		,mri = @mri
+		,pet_ct = @pet_ct
+		,others = @others
+		,diagnostic_tests = @diagnostic_tests
+		,rad_tests = @rad_tests
+		,clinical_indication_code1 = @clinical_indication_code1
+		,clinical_indication_date1 = @clinical_indication_date1
+		,clinical_indication_code2 = @clinical_indication_code2
+		,clinical_indication_date2 = @clinical_indication_date2
+		,other_facility = @other_facility
+		,update_user = @username
+		,update_date = @date
+	WHERE
+		admission_id = @admission_id
+
+	SELECT TOP 1 @claim_id = claim_id 
+	FROM dbo.Admission a 
+		LEFT JOIN dbo.trn_RadInvestigation b ON b.admission_id = a.admission_id
+	WHERE b.admission_id = @admission_id
+
+	EXEC usp_audit_logging_new @admission_id, @claim_id, 'trn_RadInvestigation', 'Update', @date, @username, 'CF_Clinical'    
+--	EXEC usp_audit_logging @admission_id, @admission_id, 'trn_RadInvestigation', 'Update', @date, @username
+END
+GO

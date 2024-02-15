@@ -1,0 +1,15 @@
+/*********************************************************************************
+*	Date:		Author:		Ref#:	Comments:
+*	10/19/10	RDimarucut	7446	Added Other-Consultant Care and Other-Hospital Care
+**********************************************************************************/
+
+IF NOT EXISTS(SELECT (1) FROM [dbo].[ref_TypeOfCare] WHERE type_of_care_id = 7)
+BEGIN
+	INSERT INTO [dbo].[ref_TypeOfCare] VALUES(7, 'Other-Consultant Care', 7)
+END
+
+IF NOT EXISTS(SELECT (1) FROM [dbo].[ref_TypeOfCare] WHERE type_of_care_id = 8)
+BEGIN
+	INSERT INTO [dbo].[ref_TypeOfCare] VALUES(8, 'Other-Hospital Care', 8)
+END
+

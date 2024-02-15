@@ -1,0 +1,153 @@
+IF OBJECT_ID('usp_autogen_radiology_update') IS NOT NULL
+	DROP PROCEDURE usp_autogen_radiology_update
+GO
+
+CREATE PROCEDURE [dbo].[usp_autogen_radiology_update]
+(
+	 @message_id uniqueidentifier
+	,@procedure_code_id int
+	,@clinical_code_id int
+	,@rad_ref_id varchar(30)
+	,@admission_id int
+)
+AS
+
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_autogen_radiology_update
+*	Description: update radiology via autogen.
+*
+*	Date:			Author:		Ref#:		Comments:
+*	10/15/2010		JVillas		7424		Refactoring Requirement: trn_RadInvestigationSet1 (Code) and trn_RadInvestigationSet2 (not-coded)
+*	10/05/2010		JVillas		N/A			Updated to allow to insert/update multiple procedure codes with the same internal code
+*	06/21/2010		RDimarucut	6966		Concatenate Laboratory and Radiology details for AVIVA Hospital.
+*	04/20/2010		RDimarucut	N/A			Updated setting of DiagnosticDetails field and used udf_selective_concatenate function
+*					c/o DGreen
+*	03/15/2010		RDimarucut				Removed insert on dbo.Radiology_Investigation table.
+*	02/26/2010		GBorja		6246		Updated Where clause of "UPDATE dbo.[trn_RadInvestigationSet1]..." section. As per Dom's reco.
+*	12/11/2009		DDulay					Removed exam_id in trn_OtherAdmissionDetails update criteria
+*	11/25/2009		GBorja					Added Admssion_id as filter for updating records.
+*	11/24/2009		GBorja					Added Anaesthesia reason for Quinn and Hibernian.
+*	11/23/2009		GBorja					Replaced next line (char(13)) delimiter by a comma. 
+*	11/18/2009		GBorja					Updated to append succeeding data entries.
+*	11/13/2009		GBorja					Updated to use NEW transactional tables
+*	11/12/2009		DDulay					Updated anaesthesia_type default value
+*	02/17/2009		RDimarucut				Added procedure_code_id and clinical_code_id for parameter
+*	02/16/2009		RDimarucut				added commas on update statement
+*	02/11/2009		GBorja					Created.
+*
+**********************************************************************************/
+
+BEGIN
+
+DECLARE	@GetDate datetime,
+		@User varchar (12),
+		@exam_id varchar(50)
+
+SET	@GetDate = (SELECT GETDATE())
+SET @User = 'autogen'
+
+SELECT	@exam_id = exam_id 
+FROM	dbo.stg_RadiologyInvestigation 
+WHERE	message_id = @message_id
+
+IF NOT EXISTS 
+(
+	SELECT	id
+	FROM	dbo.trn_Procedure
+	WHERE	admission_id = @admission_id
+			AND exam_id = @exam_id
+			AND procedure_code_id = @procedure_code_id
+)
+BEGIN
+	INSERT INTO dbo.trn_Procedure
+	(
+		admission_id
+		,procedure_date
+		,procedure_code_id
+		,clinical_code_id
+		,procedure_type
+		,exam_id
+		,create_user
+		,create_date
+		,update_user
+		,update_date
+	)
+	SELECT
+			@admission_id
+			,rad.ProcedureDate
+			,@procedure_code_id
+			,@clinical_code_id
+			,CASE msg.EventType WHEN 'MRI^REP' THEN 1 WHEN 'CT^REP' THEN 2 ELSE NULL END
+			,rad.Exam_id
+			,@User
+			,@GetDate
+			,@User
+			,@GetDate
+	FROM	dbo.stg_RadiologyInvestigation rad
+			INNER JOIN dbo.stg_MessageDetails msg
+				ON msg.message_id = rad.message_id 
+	WHERE	rad.message_id = @message_id
+END
+ELSE
+BEGIN
+	UPDATE	dbo.trn_Procedure
+	SET		procedure_date = COALESCE(sri.ProcedureDate, tpr.procedure_date)
+			,procedure_code_id = COALESCE(@procedure_code_id, tpr.procedure_code_id)
+			,clinical_code_id = COALESCE(@clinical_code_id, tpr.clinical_code_id)
+			,update_user = @User
+			,update_date = @GetDate
+	FROM	dbo.trn_Procedure tpr
+			INNER JOIN dbo.stg_RadiologyInvestigation sri 
+				ON sri.Exam_id = tpr.exam_id
+	WHERE	sri.message_id = @message_id
+			AND tpr.procedure_code_id = @procedure_code_id
+END
+
+UPDATE	dbo.trn_RadInvestigation
+SET		x_ray = CASE WHEN sri.Examination = 'RE1' THEN 1 ELSE tri.x_ray END
+		,ultrasound = CASE WHEN sri.Examination = 'RE2' THEN 1 ELSE tri.ultrasound END
+		,ct_scan = CASE WHEN sri.Examination = 'RE3' THEN 1 ELSE tri.ct_scan END
+		,mri = CASE WHEN sri.Examination = 'RE4' THEN 1 ELSE tri.mri END
+		,pet_ct = CASE WHEN sri.Examination = 'RE5' THEN 1 ELSE tri.pet_ct END
+		,others = CASE WHEN sri.Examination = 'RE6' THEN 1 ELSE tri.others END
+		,diagnostic_tests = dbo.udf_selective_concatenate(tri.diagnostic_tests, sri.TestsSummary)
+		,rad_tests = COALESCE(tri.rad_tests + ', ' + CAST(sri.OtherRadTestFacility AS varchar(4000)), tri.rad_tests)
+		--,clinical_indication_code1 = sri.RIQ01
+		,clinical_indication_date1 = COALESCE(sri.RIQ01Date, tri.clinical_indication_date1)
+		,other_facility = COALESCE(CAST(sri.RIQ02 AS varchar(100)), tri.other_facility)
+		,update_user = @User
+		,update_date = @GetDate
+FROM	dbo.trn_RadInvestigation tri
+		INNER JOIN dbo.stg_RadiologyInvestigation sri
+			ON sri.message_id = @message_id
+WHERE	tri.admission_id = @admission_id
+
+UPDATE	dbo.[trn_OtherAdmissionDetails]
+SET		Anaesthesia_type =	CASE
+								WHEN sri.AnaesthesiaType IS NULL THEN Anaesthesia_type
+								WHEN UPPER(LTRIM(RTRIM(sri.AnaesthesiaType))) IN ('GENERAL','1') THEN 0 
+								ELSE 1
+							END
+		,AnaesthesiaReason = COALESCE(sri.AnaesthesiaReason, toad.AnaesthesiaReason)
+		,ClinicalInterpretation =	CASE 
+										WHEN ClinicalInterpretation IS NULL then sri.MRIClinicalInterpret
+										ELSE ClinicalInterpretation + COALESCE(', ' + CAST(sri.MRIClinicalInterpret AS varchar), '')
+									END
+FROM	dbo.[trn_RadiologyInvestigation] ri 
+		INNER JOIN trn_OtherAdmissionDetails toad 
+			ON ri.admission_id = toad.admission_id  
+		INNER JOIN stg_RadiologyInvestigation sri 
+			ON sri.message_id = @message_id
+WHERE	ri.admission_id = @admission_id
+
+--Aviva Hospital Claim - Concat Lab and Rad
+UPDATE	dbo.Admission
+SET		full_description_treatment = dbo.udf_selective_concatenate(adm.full_description_treatment, rad.TestsSummary)
+FROM	dbo.Admission adm 
+		INNER JOIN dbo.stg_RadiologyInvestigation rad 
+			ON rad.message_id = @message_id
+WHERE	adm.admission_id = @admission_id
+
+END

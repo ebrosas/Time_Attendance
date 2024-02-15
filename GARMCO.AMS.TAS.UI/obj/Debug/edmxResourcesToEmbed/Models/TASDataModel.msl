@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TASDBModelStoreContainer" CdmEntityContainer="TASDBEntities">
+    <EntitySetMapping Name="LicenseRegistries">
+      <EntityTypeMapping TypeName="TASDBModel.LicenseRegistry">
+        <MappingFragment StoreEntitySet="LicenseRegistry">
+          <ScalarProperty Name="LastUpdatedByUser" ColumnName="LastUpdatedByUser" />
+          <ScalarProperty Name="LastUpdatedByEmpName" ColumnName="LastUpdatedByEmpName" />
+          <ScalarProperty Name="LastUpdatedByEmpNo" ColumnName="LastUpdatedByEmpNo" />
+          <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+          <ScalarProperty Name="CreatedByUser" ColumnName="CreatedByUser" />
+          <ScalarProperty Name="CreatedByEmpName" ColumnName="CreatedByEmpName" />
+          <ScalarProperty Name="CreatedByEmpNo" ColumnName="CreatedByEmpNo" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="LicenseGUID" ColumnName="LicenseGUID" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+          <ScalarProperty Name="IssuedDate" ColumnName="IssuedDate" />
+          <ScalarProperty Name="IssuingAuthority" ColumnName="IssuingAuthority" />
+          <ScalarProperty Name="LicenseTypeDesc" ColumnName="LicenseTypeDesc" />
+          <ScalarProperty Name="LicenseTypeCode" ColumnName="LicenseTypeCode" />
+          <ScalarProperty Name="LicenseNo" ColumnName="LicenseNo" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="RegistryID" ColumnName="RegistryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vw_IDCardHistory">
+      <EntityTypeMapping TypeName="TASDBModel.Vw_IDCardHistory">
+        <MappingFragment StoreEntitySet="Vw_IDCardHistory">
+          <ScalarProperty Name="LastUpdatedByUser" ColumnName="LastUpdatedByUser" />
+          <ScalarProperty Name="LastUpdatedByEmpName" ColumnName="LastUpdatedByEmpName" />
+          <ScalarProperty Name="LastUpdatedByEmpNo" ColumnName="LastUpdatedByEmpNo" />
+          <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+          <ScalarProperty Name="CreatedByUser" ColumnName="CreatedByUser" />
+          <ScalarProperty Name="CreatedByEmpName" ColumnName="CreatedByEmpName" />
+          <ScalarProperty Name="CreatedByEmpNo" ColumnName="CreatedByEmpNo" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="CardGUID" ColumnName="CardGUID" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="CardRefNo" ColumnName="CardRefNo" />
+          <ScalarProperty Name="IsContractor" ColumnName="IsContractor" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="HistoryID" ColumnName="HistoryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IDCardRegistries">
+      <EntityTypeMapping TypeName="TASDBModel.IDCardRegistry">
+        <MappingFragment StoreEntitySet="IDCardRegistry">
+          <ScalarProperty Name="BloodGroup" ColumnName="BloodGroup" />
+          <ScalarProperty Name="CPRNo" ColumnName="CPRNo" />
+          <ScalarProperty Name="CustomCostCenter" ColumnName="CustomCostCenter" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+          <ScalarProperty Name="Base64Photo" ColumnName="Base64Photo" />
+          <ScalarProperty Name="LastUpdatedByUser" ColumnName="LastUpdatedByUser" />
+          <ScalarProperty Name="LastUpdatedByEmpNo" ColumnName="LastUpdatedByEmpNo" />
+          <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+          <ScalarProperty Name="CreatedByUser" ColumnName="CreatedByUser" />
+          <ScalarProperty Name="CreatedByEmpNo" ColumnName="CreatedByEmpNo" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ImageFileExt" ColumnName="ImageFileExt" />
+          <ScalarProperty Name="ImageFileName" ColumnName="ImageFileName" />
+          <ScalarProperty Name="EmpPhoto" ColumnName="EmpPhoto" />
+          <ScalarProperty Name="IsContractor" ColumnName="IsContractor" />
+          <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+          <ScalarProperty Name="RegistryID" ColumnName="RegistryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ContractorRegistries">
+      <EntityTypeMapping TypeName="TASDBModel.ContractorRegistry">
+        <MappingFragment StoreEntitySet="ContractorRegistry">
+          <ScalarProperty Name="CompanyContactNo" ColumnName="CompanyContactNo" />
+          <ScalarProperty Name="WorkDurationMins" ColumnName="WorkDurationMins" />
+          <ScalarProperty Name="WorkDurationHours" ColumnName="WorkDurationHours" />
+          <ScalarProperty Name="LastUpdatedByUser" ColumnName="LastUpdatedByUser" />
+          <ScalarProperty Name="LastUpdatedByEmpNo" ColumnName="LastUpdatedByEmpNo" />
+          <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+          <ScalarProperty Name="CreatedByUser" ColumnName="CreatedByUser" />
+          <ScalarProperty Name="CreatedByEmpNo" ColumnName="CreatedByEmpNo" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="BloodGroup" ColumnName="BloodGroup" />
+          <ScalarProperty Name="ContractEndDate" ColumnName="ContractEndDate" />
+          <ScalarProperty Name="ContractStartDate" ColumnName="ContractStartDate" />
+          <ScalarProperty Name="PurposeOfVisit" ColumnName="PurposeOfVisit" />
+          <ScalarProperty Name="SupervisorEmpName" ColumnName="SupervisorEmpName" />
+          <ScalarProperty Name="SupervisorEmpNo" ColumnName="SupervisorEmpNo" />
+          <ScalarProperty Name="VisitedCostCenter" ColumnName="VisitedCostCenter" />
+          <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+          <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+          <ScalarProperty Name="PurchaseOrderNo" ColumnName="PurchaseOrderNo" />
+          <ScalarProperty Name="CompanyCRNo" ColumnName="CompanyCRNo" />
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="IDType" ColumnName="IDType" />
+          <ScalarProperty Name="IDNumber" ColumnName="IDNumber" />
+          <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+          <ScalarProperty Name="ContractorNo" ColumnName="ContractorNo" />
+          <ScalarProperty Name="RegistryID" ColumnName="RegistryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Vw_Contractor">
+      <EntityTypeMapping TypeName="TASDBModel.Vw_Contractor">
+        <MappingFragment StoreEntitySet="Vw_Contractor">
+          <ScalarProperty Name="CompanyContactNo" ColumnName="CompanyContactNo" />
+          <ScalarProperty Name="WorkDurationMins" ColumnName="WorkDurationMins" />
+          <ScalarProperty Name="WorkDurationHours" ColumnName="WorkDurationHours" />
+          <ScalarProperty Name="CardNo" ColumnName="CardNo" />
+          <ScalarProperty Name="LastUpdatedByUser" ColumnName="LastUpdatedByUser" />
+          <ScalarProperty Name="LastUpdatedByEmpName" ColumnName="LastUpdatedByEmpName" />
+          <ScalarProperty Name="LastUpdatedByEmpNo" ColumnName="LastUpdatedByEmpNo" />
+          <ScalarProperty Name="LastUpdatedDate" ColumnName="LastUpdatedDate" />
+          <ScalarProperty Name="CreatedByUser" ColumnName="CreatedByUser" />
+          <ScalarProperty Name="CreatedByEmpName" ColumnName="CreatedByEmpName" />
+          <ScalarProperty Name="CreatedByEmpNo" ColumnName="CreatedByEmpNo" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="BloodGroupDesc" ColumnName="BloodGroupDesc" />
+          <ScalarProperty Name="BloodGroup" ColumnName="BloodGroup" />
+          <ScalarProperty Name="ContractEndDate" ColumnName="ContractEndDate" />
+          <ScalarProperty Name="ContractStartDate" ColumnName="ContractStartDate" />
+          <ScalarProperty Name="PurposeOfVisit" ColumnName="PurposeOfVisit" />
+          <ScalarProperty Name="SupervisorEmpName" ColumnName="SupervisorEmpName" />
+          <ScalarProperty Name="SupervisorEmpNo" ColumnName="SupervisorEmpNo" />
+          <ScalarProperty Name="VisitedCostCenterName" ColumnName="VisitedCostCenterName" />
+          <ScalarProperty Name="VisitedCostCenter" ColumnName="VisitedCostCenter" />
+          <ScalarProperty Name="MobileNo" ColumnName="MobileNo" />
+          <ScalarProperty Name="JobTitle" ColumnName="JobTitle" />
+          <ScalarProperty Name="JobCode" ColumnName="JobCode" />
+          <ScalarProperty Name="PurchaseOrderNo" ColumnName="PurchaseOrderNo" />
+          <ScalarProperty Name="CompanyCRNo" ColumnName="CompanyCRNo" />
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="IDType" ColumnName="IDType" />
+          <ScalarProperty Name="IDNumber" ColumnName="IDNumber" />
+          <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+          <ScalarProperty Name="ContractorNo" ColumnName="ContractorNo" />
+          <ScalarProperty Name="RegistryID" ColumnName="RegistryID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

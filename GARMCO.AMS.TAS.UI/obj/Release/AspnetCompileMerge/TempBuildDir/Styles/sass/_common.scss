@@ -1,0 +1,151 @@
+﻿/*#region Fonts */
+@font-face {
+    font: {
+        family: 'varela_round_regular';
+        weight: normal;
+        style: normal;
+    }
+    src: url('../fonts/varelaround-regular.eot');
+    src: url('../fonts/varelaround-regular.eot');
+    src: url('../fonts/varelaround-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/varelaround-regular.woff2') format('woff2'), url('../fonts/varelaround-regular.woff') format('woff'), url('../fonts/varelaround-regular.ttf') format('truetype'), url('../fonts/varelaround-regular.svg#varela_roundregular') format('svg');
+}
+
+@font-face {
+    font: {
+        family: 'varela_round_bold';
+        weight: bold;
+        style: normal;
+    }
+    src: url(../fonts/varelaround-regular.eot);
+    src: url('../fonts/varelaround-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/varelaround-regular.woff2') format('woff2'), url('../fonts/varelaround-regular.woff') format('woff'), url('../fonts/varelaround-regular.ttf') format('truetype'), url('../fonts/varelaround-regular.svg#varela_roundregular') format('svg');
+}
+
+@font-face {
+    font-family: 'baumans';
+    src: url('../fonts/baumans-regular-webfont.ttf') format('truetype'), url('../fonts/baumans-regular-webfont.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'itim';
+    src: url('../fonts/itim-regular-webfont.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'merienda';
+    src: url('../fonts/merienda-bold-webfont.ttf') format('truetype'), url('../fonts/merienda-bold-webfont.woff') format('woff'), url('../fonts/merienda-regular-webfont.ttf') format('truetype'), url('../fonts/merienda-regular-webfont.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Montserrat-Regular';
+    src: url('../fonts/Montserrat-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Montserrat-Medium';
+    src: url('../fonts/Montserrat-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Montserrat-SemiBold';
+    src: url('../fonts/Montserrat-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Montserrat-Bold';
+    src: url('../fonts/Montserrat-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'OriginalSurfer-Regular';
+    src: url('../fonts/OriginalSurfer-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Mukta-Regular';
+    src: url('../fonts/Mukta-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Mukta-Bold';
+    src: url('../fonts/Mukta-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Mukta-ExtraBold';
+    src: url('../fonts/Mukta-ExtraBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Ubuntu-Regular';
+    src: url('../fonts/Ubuntu-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Ubuntu-Medium';
+    src: url('../fonts/Ubuntu-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Ubuntu-MediumItalic';
+    src: url('../fonts/Ubuntu-MediumItalic.ttf') format('truetype');
+}
+
+
+@font-face {
+    font-family: 'Ubuntu-Bold';
+    src: url('../fonts/Ubuntu-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Bangers-Regular';
+    src: url('../fonts/Bangers-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Anton-Regular';
+    src: url('../fonts/Anton-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Poppins-SemiBold';
+    src: url('../../fonts/Poppins-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Poppins-Bold';
+    src: url('../../fonts/Poppins-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Poppins-ExtraBold';
+    src: url('../../fonts/Poppins-ExtraBold.ttf') format('truetype');
+}
+/*#endregion */
+
+/*#region Mixins */
+@mixin fontTheme($fontFamily, $fontSize, $fontWeight, $fontColor) {
+    font: {
+        @if ($fontFamily != null){
+            family: $fontFamily;
+        }
+        @if ($fontSize != null){
+            size: $fontSize;        
+        }        
+        @if ($fontWeight != null) {
+            weight: $fontWeight;
+        }
+    }   
+    @if ($fontColor != null) {
+        color: $fontColor;
+    }
+}
+
+@mixin panelTheme($fontFamily: 'Montserrat-Regular', $fontSize: 14px) {
+    font-family: $fontFamily;
+    font-size: $fontSize;
+    text-align: left;
+}
+/*#endregion */
+
+
+

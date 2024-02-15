@@ -1,0 +1,20 @@
+USE [tas2]
+GO
+
+/****** Object:  View [tas].[External_JDE_F0618]    Script Date: 22/06/2020 15:30:10 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+ALTER VIEW [tas].[External_JDE_F0618]
+AS
+
+SELECT YTITM,YTAN8,YTPDBA,YTPHRW , YTDWK
+FROM tas.syJDE_F0618
+
+GO
+
+

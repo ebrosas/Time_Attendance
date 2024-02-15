@@ -1,0 +1,29 @@
+IF OBJECT_ID('dbo.usp_ref_TypeOfCare_retrieve') IS NOT NULL
+	DROP PROCEDURE [dbo].[usp_ref_TypeOfCare_retrieve]
+GO
+
+CREATE PROCEDURE [dbo].[usp_ref_TypeOfCare_retrieve]
+AS    
+    
+/********************************************************************************
+*	Revision History
+*	Name: [usp_ref_TypeOfCare_retrieve] 
+*	Description: Retrieves all types of care a consultant can render in a claim
+*
+*	Date:	  	Author:		Ref#:	Comments:
+*	11/04/10	RDimarucut	7446	Updated sort order from sort column to description column in ascending order.
+*	07/13/10	RFernando	7151	Created
+**********************************************************************************/
+
+SET NOCOUNT ON
+
+SELECT 
+	 [type_of_care_id]
+	,[description]
+FROM
+	[dbo].[ref_TypeOfCare]
+ORDER BY
+	[description] ASC
+GO
+
+

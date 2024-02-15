@@ -1,0 +1,242 @@
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\ApplicationInsights.config
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\csc.exe
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\System.Collections.Immutable.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\System.Reflection.Metadata.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\vbc.exe
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\VBCSCompiler.exe
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\VBCSCompiler.exe.config
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\GARMCO.AMS.TAS.UI.dll.config
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\GARMCO.AMS.TAS.UI.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\GARMCO.AMS.TAS.UI.pdb
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Antlr3.Runtime.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\AspNet.ScriptManager.bootstrap.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\AspNet.ScriptManager.jQuery.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\EntityFramework.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\EntityFramework.SqlServer.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\EPPlus.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\GARMCO.AMS.GAP.Utility.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\GARMCO.AMS.TAS.BL.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\GARMCO.Common.DAL.Employee.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\GARMCO.Common.DAL.WebCommonSetup.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\GARMCO.Common.Object.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\GARMCO.Common.Utility.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AI.Agent.Intercept.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AI.DependencyCollector.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AI.Web.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AI.WindowsServer.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.ApplicationInsights.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.ApplicationInsights.TraceListener.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AspNet.FriendlyUrls.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AspNet.Web.Optimization.WebForms.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.ScriptManager.MSAjax.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.ScriptManager.WebForms.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.Web.Infrastructure.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Newtonsoft.Json.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\System.Web.Optimization.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Reporting.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.ReportViewer.WebForms.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Web.Spreadsheet.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Web.UI.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Web.UI.Skins.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Windows.Documents.Core.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Windows.Documents.Flow.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Windows.Documents.Spreadsheet.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Windows.Zip.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\WebGrease.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\GARMCO.AMS.TAS.DAL.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\GARMCO.AMS.TAS.BL.pdb
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\EntityFramework.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\EntityFramework.SqlServer.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\EPPlus.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AI.DependencyCollector.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AI.Web.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AI.WindowsServer.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.ApplicationInsights.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.ApplicationInsights.TraceListener.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\System.Web.Optimization.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Web.Spreadsheet.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Web.UI.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Windows.Documents.Core.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Windows.Documents.Flow.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Windows.Documents.Spreadsheet.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Windows.Zip.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Antlr3.Runtime.pdb
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Newtonsoft.Json.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AspNet.FriendlyUrls.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Reporting.pdb
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Reporting.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.ReportViewer.WebForms.pdb
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.ReportViewer.WebForms.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\GARMCO.AMS.TAS.DAL.pdb
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\GARMCO.Common.DAL.Employee.XmlSerializers.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.csprojResolveAssemblyReference.cache
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.DailyAttendanceReportSS.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.DailyAttendanceReportNS.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.DILReport.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.DutyROTAReport.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.AbsenceReasonReport.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.AspirePayrollReport.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.EmployeeAttendanceWorkplace.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.PunctualityByPeriodReport.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.EmployeeAbsencesReport.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.WeeklyPunctualityReport.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.PunctualityReport.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.WeeklyOvertimeReport.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.rptLateDutyRotaReport.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.EmployeeAttendanceHistoryReport.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.ShiftProjectionReport.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.VisitorLogReport.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.ContractorAttendanceReport.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.VisitorPassSummaryReport.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.csproj.GenerateResource.Cache
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.dll.licenses
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.pdb
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Dapper.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AnalysisServices.AdomdClient.dll
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Dapper.xml
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.ContractorMoreLicenseCard.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.ContractorIDCardMoreLicense.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.ContractorIDCard5License.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.ContractorIDNoLicense.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.ContractorFiveLicenseCard.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.EmployeeIDCardMoreLicense.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.EmployeeIDCardFiveLicense.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.EmployeeIDNoLicense.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.EmployeeLicenseCardMore.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.EmployeeLicenseCardFive.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.EmployeeLicenseCard.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.ContractorLicenseCard.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.EmployeeIDCard.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.ContractorIDCard.resources
+C:\NET Projects\GARMCO TAS Ver. 3.0\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.ContractorDetailsReport.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.csprojResolveAssemblyReference.cache
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.ContractorMoreLicenseCard.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.ContractorIDCardMoreLicense.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.ContractorIDCard5License.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.ContractorIDNoLicense.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.ContractorFiveLicenseCard.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.EmployeeIDCardMoreLicense.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.EmployeeIDCardFiveLicense.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.EmployeeIDNoLicense.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.EmployeeLicenseCardMore.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.EmployeeLicenseCardFive.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.EmployeeLicenseCard.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.ContractorLicenseCard.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.EmployeeIDCard.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.DailyAttendanceReportSS.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.DailyAttendanceReportNS.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.ContractorIDCard.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.DILReport.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.DutyROTAReport.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.AbsenceReasonReport.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.AspirePayrollReport.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.EmployeeAttendanceWorkplace.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.PunctualityByPeriodReport.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.EmployeeAbsencesReport.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.ContractorDetailsReport.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.WeeklyPunctualityReport.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.PunctualityReport.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.WeeklyOvertimeReport.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.rptLateDutyRotaReport.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.EmployeeAttendanceHistoryReport.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.ShiftProjectionReport.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.VisitorLogReport.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.ContractorAttendanceReport.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.Views.Reports.VisitorPassSummaryReport.resources
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.csproj.GenerateResource.Cache
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.dll.licenses
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\obj\Debug\GARMCO.AMS.TAS.UI.pdb
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\ApplicationInsights.config
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\csc.exe
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\vbc.exe
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\VBCSCompiler.exe
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\GARMCO.AMS.TAS.UI.dll.config
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\GARMCO.AMS.TAS.UI.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\GARMCO.AMS.TAS.UI.pdb
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Antlr3.Runtime.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\AspNet.ScriptManager.bootstrap.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\AspNet.ScriptManager.jQuery.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Dapper.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\EntityFramework.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\EntityFramework.SqlServer.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\GARMCO.AMS.TAS.BL.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AI.Web.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.ApplicationInsights.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.ApplicationInsights.TraceListener.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AspNet.FriendlyUrls.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AspNet.Web.Optimization.WebForms.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.ScriptManager.MSAjax.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.ScriptManager.WebForms.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Newtonsoft.Json.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\System.Web.Optimization.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Reporting.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.ReportViewer.WebForms.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Web.Spreadsheet.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Web.UI.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Web.UI.Skins.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Windows.Documents.Core.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Windows.Documents.Flow.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Windows.Documents.Spreadsheet.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Windows.Zip.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\WebGrease.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\GARMCO.AMS.TAS.DAL.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AnalysisServices.AdomdClient.dll
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\GARMCO.AMS.TAS.BL.pdb
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Dapper.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\EntityFramework.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\EntityFramework.SqlServer.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AI.Web.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.ApplicationInsights.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.ApplicationInsights.TraceListener.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Newtonsoft.Json.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\System.Web.Optimization.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Web.Spreadsheet.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Web.UI.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Windows.Documents.Core.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Windows.Documents.Flow.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Windows.Documents.Spreadsheet.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Windows.Documents.Spreadsheet.FormatProviders.OpenXml.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Windows.Zip.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Antlr3.Runtime.pdb
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Microsoft.AspNet.FriendlyUrls.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Reporting.pdb
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.Reporting.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.ReportViewer.WebForms.pdb
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\Telerik.ReportViewer.WebForms.xml
+C:\Users\ervin\OneDrive\Ervin Laptop Documents\MyProjects\GARMCO.AMS.TAS.UI\GARMCO.AMS.TAS.UI\bin\GARMCO.AMS.TAS.DAL.pdb

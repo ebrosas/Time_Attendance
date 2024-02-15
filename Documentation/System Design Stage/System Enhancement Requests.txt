@@ -1,0 +1,3 @@
+List of System Enhancement Requests
+
+1. Add UI form that will allow HR to add new Timesheet Correction Codes. Each code can be set whether to set the valued of "Processed" to 1 which is an important flag used by JDE Payroll Process. 

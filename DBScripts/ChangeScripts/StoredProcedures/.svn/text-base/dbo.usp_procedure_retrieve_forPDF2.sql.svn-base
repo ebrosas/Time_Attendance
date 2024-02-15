@@ -1,0 +1,41 @@
+IF OBJECT_ID('dbo.usp_procedure_retrieve_forPDF2') IS NOT NULL
+	DROP PROCEDURE [dbo].[usp_procedure_retrieve_forPDF2]
+GO
+
+CREATE PROCEDURE [dbo].[usp_procedure_retrieve_forPDF2]
+(
+	@admissionid char(12)
+)
+AS  
+/************************************************************************************************  
+* Revision History  
+*  
+* Name: [usp_procedure_retrieve_forPDF2]  
+* Description: Retrieve radiology investigation set1 record.  
+*  
+*	Date:	  	Author:		Ref#:		Comments:
+*	10/15/10	JVillas		7424		Refactored trn_RadiologyInvestigation and trn_RadInvestigationSet1 to trn_Procedure
+*	19/11/09	LLL			N/A			Created.
+*  
+**************************************************************************************************/  
+  
+BEGIN
+
+SELECT	
+		prcst.id
+		,prcst.service_type
+		,prc.reference_code
+		,prc.description
+		,rad_investigation_date = tpr.procedure_date
+		,prc.icd_9_code
+FROM	dbo.trn_Procedure tpr
+		INNER JOIN dbo.Procedure_Code prc
+			ON prc.procedure_code_id = tpr.procedure_code_id
+		INNER JOIN dbo.Procedure_Code_Service_Type prcst
+			ON prcst.id = prc.service_type_id
+WHERE	tpr.admission_id = @admissionid
+		AND prcst.id IN (2, 3, 5)
+
+END
+
+

@@ -1,0 +1,43 @@
+IF OBJECT_ID('[dbo].[usp_trn_PatientCareSubActivity_requirement_update]') IS NOT NULL
+	DROP PROCEDURE [dbo].[usp_trn_PatientCareSubActivity_requirement_update]
+GO
+
+CREATE  PROCEDURE [usp_trn_PatientCareSubActivity_requirement_update]
+(
+	@claim_id char(12)
+	,@activity_id int
+	,@subactivity_id int
+	,@isRequired bit
+	,@user_id varchar(20)
+)  
+AS    
+    
+/*********************************************************************************
+*	Revision History
+*	Name: usp_trn_PatientCareSubActivity_requirement_update 
+*
+*	Date:	  	Author:		Ref#:	Comments:
+*	11/10/10	JVillas		7446	Created. 
+*
+**********************************************************************************/
+
+DECLARE @primary_id int
+
+UPDATE	dbo.trn_PatientCareSubActivity
+SET		isRequired = @isRequired
+		,update_user = @user_id
+		,update_date = GETDATE()
+FROM	dbo.trn_PatientCareSubActivity pcsa
+		INNER JOIN dbo.trn_PatientCare pc 
+			ON pc.patientcare_id = pcsa.patientcare_id
+WHERE	pc.claim_id = @claim_id
+		AND pcsa.activity_id = CASE WHEN ISNULL(@activity_id, 0) = 0 THEN pcsa.activity_id ELSE @activity_id END
+		AND pcsa.subactivity_id = CASE WHEN ISNULL(@subactivity_id, 0) = 0 THEN pcsa.subactivity_id ELSE @subactivity_id END
+
+IF ISNULL(@subactivity_id, 0) = 0
+	SET @primary_id = ISNULL(@activity_id, 0)
+ELSE
+	SET @primary_id = @subactivity_id
+
+EXEC [dbo].[usp_Audit_Log_insert] @primary_id, @claim_id, 'trn_PatientCareSubActivity', 'Update', @user_id
+GO

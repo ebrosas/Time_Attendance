@@ -1,0 +1,37 @@
+Technical Notes for Aspire Employee Timesheet
+
+1. tas.prTimesheet_CopyWorkingData => this stored procedure is used to populate data to the Timesheet temporary table
+2. tas.prTimeSheet_Copy_OT_to_Alternate_Location => this stored procedure is used at "Process 23 - Updating time sheet process data." 	
+3. prTimeSheet_ComputeShiftAllowanceForEmployees => this stored procedure is used to compute the shift allowances of GARMCO employees only
+
+
+Notes:
+1. No NPH computation if:
+   - Driver/Liaison officer
+   - Calendar equal to holiday
+   - Scheduled shift code is day off
+   - Grade equal to salary staff
+   - If on Training  and training hours is specified ?
+   - Calendar equal to Day in Lieu, employee is a Day worker
+
+   * Compute total shaved worked hours based on processed swipe date
+   * If total shaved worked hours is less than scheduled working hours (see above)
+   * No pay hour = Scheduled working hours – total shaved worked hours
+   * If less than grace period, zero-out computed no pay hour
+   * NPH is removed if employee worked for 12 hours or more (from 7 to 7). Note that ShiftSpan_ID is not null in the Timesheet table
+   * If a single matching In/Out swipe is found per day then keep no pay hour. If such a swipe is not found then remove the no pay hours
+
+2. Shift Allowances
+   * If the employee works more than 4 hours in the evening shift then he gets evening shift allowance.
+   * If the employee works more than 4 hours in the night shift then he gets night shift allowance.
+   * Flags:
+	ShiftAllowance = 1
+	Duration_ShiftAllowance_Evening > 0 or Duration_ShiftAllowance_Night > 0
+
+3. Day-worker and Salary Staff
+   * Flags:
+	IsDayWorker_OR_Shifter = 1 
+	IsSalStaff = 1
+
+4. Aspire employees:
+   - IsSalStaff field becomes 0 from 9/28/2014 onwards

@@ -1,0 +1,33 @@
+/********************************************************************************
+*	Revision History
+*	Name: 
+*	Description: 
+*
+*	Date:	  	Author:		Ref#	Comments:
+*	10/05/2010	RDimarucut	N/A		Removed data for pomas and garda.
+*									Updated data for mpf.
+*	09/28/2010	RDimarucut	N/A		Created.
+*
+*********************************************************************************/
+DECLARE @PomasId int, 
+		@GardaId int, 
+		@MpfId int
+
+SELECT @PomasId = [system_insurer_id] FROM [dbo].[Insurer] WHERE [insurer_code] = 'P'
+SELECT @GardaId = [system_insurer_id] FROM [dbo].[Insurer] WHERE [insurer_code] = 'G'
+SELECT @MpfId = [system_insurer_id] FROM [dbo].[Insurer] WHERE [insurer_code] = 'M'
+
+DELETE FROM [trn_InsurerClaimTypeRefData]
+WHERE [SystemInsurerId] = @PomasId
+
+DELETE FROM [trn_InsurerClaimTypeRefData]
+WHERE [SystemInsurerId] = @GardaId
+
+DELETE FROM [trn_InsurerClaimTypeRefData]
+WHERE [SystemInsurerId] = @MpfId
+
+INSERT INTO [dbo].[trn_InsurerClaimTypeRefData]([SystemInsurerId], [ClaimTypeCode], [Code], [Order], [Description])
+SELECT @MpfId,'HCT1','R',1,'Private' UNION	
+SELECT @MpfId,'HCT1','S',2,'Semi-Private'	UNION
+SELECT @MpfId,'HCT1','D',3,'Day case' UNION	
+SELECT @MpfId,'HCT1','O',4,'Outpatient'	

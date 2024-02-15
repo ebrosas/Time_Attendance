@@ -1,0 +1,147 @@
+IF OBJECT_ID('dbo.usp_report_claims_unsubmittedstatus_retrieve') IS NOT NULL
+	DROP PROCEDURE [dbo].[usp_report_claims_unsubmittedstatus_retrieve]
+GO
+
+CREATE PROCEDURE [dbo].[usp_report_claims_unsubmittedstatus_retrieve]
+(	
+	@hospital_id char(12),
+	@consultant varchar(12), 
+	@system_insurer_id int,
+	@claim_type varchar(50), 
+	@claim_status varchar(100),
+	@start_date DATETIME,
+	@end_date DATETIME
+)  
+AS
+
+/*********************************************************************************
+*	Revision History
+*
+*	Name: usp_report_claims_unsubmittedstatus_retrieve
+*	Description:
+*
+*	Date:		Author:		Ref#:		Comments:
+*	10/22/2010	EBrosas		7446	Removed references to Manually Override Status fields.
+*	08/31/2010	EBrosas		N/A		Bug fix for Issue ID 7395 - the data return by the query is incomplete.
+*	08/13/2010	RDimarucut	N/A		Updated link of claim table to hospital table from hospital_id to system_hospital_id.
+*	09/16/2009	ALao		N/A		Removed @claim_status_code variable
+*	09/11/2009	SNgo		N/A		Enhanced based on the updates of CMcGrath
+*	09/11/2009	SNgo		N/A		Based on the updates of CMcGrath
+*	11/24/2008	SPostrado			Updated to used mrn_number instead of individual_id
+*	07/16/2008	CFerrer				Updated to use system insurer id
+*	03/27/2008	CFerrer				Updated for CCF# 20080008
+*	03/18/2008	CFerrer				Updated for CCF# 20080001
+*	12/02/2007  CFerrer		N/A		Updated for Bug 0000397
+*	10/02/2007  CFerrer		N/A		Updated to sort by claim value desc
+*	09/19/2007  CFerrer		N/A		Updated begindate and enddate
+*	08/27/2007  CFerrer		N/A		Created
+*
+**********************************************************************************/
+
+BEGIN 
+
+DECLARE  @sqlstring 	nvarchar(4000),
+		 @where_consultant 	nvarchar(4000),	
+		 @where_insurerdesc 	nvarchar(4000),
+		 @where_claimtype	varchar(100),
+		 @where_facilitydesc 	nvarchar(4000),
+		 @where_claimstatus 	nvarchar(4000),
+		 @facilityId varchar(10)
+	
+SET @sqlstring = 'SELECT DISTINCT
+			CAST(c.insurer_desc AS varchar(12)) AS Insurer_Desc, 
+			p.mrn_number AS individual_id,  
+			a.Claim_ID, 
+			UPPER(ISNULL(e.Last_Name + '', '','''')) + UPPER(RTRIM(ISNULL(e.First_Name,''''))) + '' '' + UPPER(RTRIM(ISNULL(e.Middle_Initial,''''))) AS [Admitting_Consultant],  
+			CONVERT(varchar(100), r.[desc]) AS claim_status_desc,
+			/* UPPER(ISNULL(t.Last_Name + '', '','''')) + UPPER(RTRIM(ISNULL(t.First_Name,''''))) + '' '' + UPPER(RTRIM(ISNULL(t.Middle_Initial,''''))) */ '''' AS [Pending_Consultant],  
+			a.discharge_date_time, 
+			a.Claim_Value_Updated,
+			sort_order = (CASE a.[claim_status_id]
+				WHEN ''CS1'' THEN 1
+				WHEN ''CS2'' THEN 2
+				WHEN ''CS3'' THEN 3
+				WHEN ''CS4'' THEN 4
+				WHEN ''CS5'' THEN 5
+				WHEN ''CS6'' THEN 6
+				WHEN ''CS7'' THEN 7
+				WHEN ''CS8'' THEN 8
+				WHEN ''CS9'' THEN 9
+				WHEN ''CS17'' THEN 10
+			END )
+			
+		FROM Claim a
+		JOIN Admission b
+			ON a.claim_id = b.claim_id
+		JOIN Hospital f
+			ON f.system_hospital_id = a.hospital_id
+		JOIN Insurer c
+			ON c.system_insurer_id = a.system_insurer_id
+		INNER JOIN Doctor e
+			ON e.doctor_id = b.doctor_id
+		JOIN RefData r
+			ON r.[code] = a.claim_status_id
+		/* JOIN (
+			SELECT claim_id
+			,doctor_id = (CASE WHEN c.status_manual_consultant IS NULL
+							THEN NULL
+						WHEN c.status_manual_consultant IS NOT NULL
+							THEN c.status_manual_consultant
+						END)
+			,last_name = d.last_name
+			,first_name = d.first_name
+			,middle_initial = d.middle_initial
+		FROM	CLAIM c
+		LEFT JOIN DOCTOR d
+			ON	c.status_manual_consultant = d.doctor_id
+		WHERE	claim_id_status = 0	 
+		) AS t ON t.claim_id = a.claim_id */
+		JOIN Patient p
+			ON a.patient_id = p.patient_id 
+		WHERE RTRIM(ISNULL(b.doctor_type,'''')) = ''PRIMARY'' 
+			AND ISNULL(a.claim_id_status,0) = 0 
+			AND RTRIM(r.type) = ''Claim Status'' 
+			AND RTRIM(ISNULL(a.claim_status_id,'''')) not in (''CS10'', ''CS11'', ''CS12'', ''CS13'', ''CS14'', ''CS15'', ''CS16'') '
+
+
+IF RTRIM(@consultant) = 'ALL'
+	SET @where_consultant = ''
+ELSE
+	SET @where_consultant = ' AND (b.doctor_id = ''' + RTRIM(@consultant) + ''') '
+
+IF @hospital_id = '0'
+	SET @where_facilitydesc = ''
+ELSE	
+	SET @where_facilitydesc = ' AND (f.system_hospital_id = ' + @hospital_id + ') '
+	
+
+IF @system_insurer_id = 0
+	SET @where_insurerdesc = ''
+ELSE
+	SET @where_insurerdesc = ' AND (a.system_insurer_id =' + CONVERT(CHAR(10),@system_insurer_id) + ') '
+	
+IF RTRIM(@claim_type) = 'ALL'
+	SET @where_claimtype = ''
+ELSE
+	SET @where_claimtype = ' AND (a.claim_type=''' + rtrim(@claim_type) + ''') '	 
+
+IF (RTRIM(@claim_status) = 'ALL')
+	SET	@where_claimstatus = ' '
+ELSE
+	SET	@where_claimstatus = ' AND (a.claim_status_id= ''' + RTRIM(@claim_status) +''') '		
+
+SET @sqlstring = @sqlstring + @where_consultant + @where_facilitydesc + @where_insurerdesc + @where_claimtype + @where_claimstatus + 
+--		 ' AND (a.discharge_date_time  >='''+CONVERT(VARCHAR(12),@start_date,101)+ ''' AND a.discharge_date_time <=''' + CONVERT(VARCHAR(12),@end_date,101)+ ''') '
+ ' AND (CONVERT(VARCHAR(12),a.discharge_date_time,101)  BETWEEN '''+CONVERT(VARCHAR(12),@start_date,101)+ ''' AND ''' + CONVERT(VARCHAR(12),@end_date,101)+ ''') '
+
+SET @sqlstring = @sqlstring + ' ORDER BY a.Claim_Value_Updated DESC '
+
+print  @sqlstring
+execute sp_executesql @sqlstring
+	
+	
+
+END
+GO
+
+

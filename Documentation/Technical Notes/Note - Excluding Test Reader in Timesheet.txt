@@ -1,0 +1,14 @@
+Script: 
+SELECT * FROM GRMACC.AcsLog.dbo.EvnLog a
+
+Test Results:
+Total Records: 1,551,786
+
+
+Script: 
+SELECT * FROM GRMACC.AcsLog.dbo.EvnLog a
+WHERE a.Dev NOT IN (8, 9)	--(Note: 8 = GARMCO Main gate ALT-Turnstile; 9 = GARMCO Main gate ALT-Turnstile)                 
+
+Test Results:
+Total Records: 1,549,771
+

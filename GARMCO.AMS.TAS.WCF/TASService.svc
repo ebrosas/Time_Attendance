@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="GARMCO.AMS.TAS.WCF.TASService" CodeBehind="TASService.svc.cs" %>

@@ -1,0 +1,1690 @@
+﻿body
+{
+	background-color: White;
+	font-family: Tahoma;
+	font-size: 8pt;
+	margin: 0px;
+	padding: 0px 0px 0px 0px;
+}
+
+/*-----------------------------------------------------------------------------------
+	Page Banner and Body Layout Styles
+-----------------------------------------------------------------------------------*/
+
+.HeadStyle
+{	
+	width: 100%; 
+	background-image: url('../../Images/headerbg.png'); 
+	background-position: right; 
+	background-color: White;
+	background-repeat: repeat-y;
+	border-collapse: collapse;
+}
+
+.HeadStyle2
+{	
+	width: 100%; 
+	background-image: url('../../Images/headerbk.jpg'); 
+	background-position: right; 
+	background-color: White;
+	background-repeat: repeat-y;
+	border-collapse: collapse;
+}
+
+.HeadBottomStyle
+{
+	background-position: left; 
+	width: 100%; 
+	background-image: url('../../Images/headerbottom.png'); 
+	background-repeat: repeat-y;
+	background-color: White;
+}
+
+.BodyStyle
+{
+	width: 100%; 
+	vertical-align: top;
+	padding-top: 0px;
+	
+}
+
+.FooterStyle
+{
+	text-align: center;
+	width: 100%;
+	background-color: #0F4383; 
+    /*background-color: #3366ff;*/
+	position: relative;
+	vertical-align: middle;
+	font-family: Verdana;
+	font-size: 7pt;
+	color: White;
+}
+
+.MenuStyle
+{    
+	position: absolute;
+	right: 0px;
+	top: 60px;
+}
+
+.RadMenuStyle
+{    
+    position: absolute;
+	top: 75px;
+    width: 100%;
+    height: 25px;
+    background-color: black;         
+}
+
+.SystemDateTimeStyle
+{    
+	position: absolute;
+	right: 10px;
+	top: 8px;
+	color: White;
+	font-weight: normal;
+	font-family: Verdana;
+}
+
+.SystemDateTimeStyle2
+{    
+	position: absolute;
+	right: 200px;
+	top: 60px;
+	color: White;
+	font-weight: bold;
+	font-family: Tahoma;
+}
+
+.LogOnUserStyle
+{    
+	position: absolute;
+	right: 240px;
+	top: 36px;
+	font-family: Tahoma, Verdana;
+	font-weight: bold;
+	font-size: 9pt;
+	color: White;
+}
+
+.BodyBGStyle
+{    
+	position: absolute;
+	right: 5px;
+	top: 0px;
+	font-weight: bold;
+	color: White;
+	z-index: 1000;
+}
+
+.TitleHeadBackground
+{
+	background-color: #DEEDFE;
+	height: 27px;	
+	position:absolute;
+	z-index: 101;
+	top: 92px;	
+	left: 5px;
+	width: 90%;
+}
+
+.TitleHead
+{
+	background-color:White;
+	background-image: url('../../Images/TitleBG.png');
+	background-repeat:repeat-x;
+	height:20px;	
+	position:relative;
+	z-index: 100;
+	top: 16px;	
+	margin-right: 100px;
+	margin-left: 20px;
+	display: none;
+}
+
+.PageTitle
+{
+	font-size: 10.4pt;
+	font-weight: bold;
+	font-family: Tahoma;
+	color: Gray;
+	text-transform: uppercase;
+	position: absolute;
+	left: 35px;
+	top: 97px;
+	display: none;
+	z-index: 111;
+}
+
+.WindowsUser
+{
+	font-size: 9pt;
+	font-weight: bolder;
+	font-family: Verdana;
+	color: antiquewhite; /*ThreeDDarkShadow; */
+	text-transform: capitalize;
+	position: absolute;
+	right: 15px;
+	top: 37px;
+	z-index: 112;
+}
+
+.WindowsUserInfo
+{
+	font-size: 7pt;
+	font-weight: normal;
+	font-family: Verdana;
+	color: antiquewhite; /*ThreeDDarkShadow;*/
+	text-transform: capitalize;
+	text-align: right;
+	position: absolute;
+	right: 15px;
+	top: 55px;
+	z-index: 113;
+}
+
+.QuickLinks
+{
+	font-size: 11pt;
+	font-weight: bolder;
+	font-family: Verdana;
+	color: #333333;
+	text-transform: capitalize;
+}
+
+.LinkTitle
+{
+	font-size: 10pt;
+	font-weight: bolder;
+	font-family: Verdana;
+	color: #365297;
+	text-transform: capitalize;
+}
+
+/*-----------------------------------------------------------------------------------
+	Styles used in the Wizard Header
+-----------------------------------------------------------------------------------*/
+
+.WizardPanel
+{
+    padding-top: 20px;
+    padding-left: 30px;
+}
+
+.PageTitleLabel
+{
+    font-weight: bolder;
+	font-size: 14pt;
+	color: #365297; /*#457BA5;*/
+	font-family: Verdana, Tahoma;
+	text-align: left;
+}
+
+.WizardSequenceLabel
+{
+    font-weight: bolder;
+	font-size: 20pt;
+	color: #118AED;
+	font-family: Georgia, Tahoma;
+	text-align: right;	
+}
+
+.WizardSequenceLabelHighlight
+{
+    font-weight: bolder;
+	font-size: 20pt;
+	color: Green;
+	font-family: Georgia, Tahoma;
+	text-align: right;	
+}
+
+.WizardActionLabel
+{
+    font-weight: normal;
+	font-size: 11pt;
+	color: Black;
+	font-family: Tahoma;
+	text-align: left;
+	padding-left: 5px;
+}
+
+.WizardActionHighlightLabel
+{
+    font-weight: bolder;
+	font-size: 11.5pt;
+	color: Black;
+	font-family: Tahoma;
+	text-align: left;
+	padding-left: 5px;
+}
+
+.ServiceTitleHeader
+{
+    font-weight: bolder;
+	font-size: 13pt;
+	color: #365297; 
+	font-family: Verdana, Tahoma;
+	text-align: left;	
+}
+
+.PageDescriptionHeader
+{
+	font-size: 8pt;
+	color: #365297; 
+	font-family: Verdana, Tahoma;
+	text-align: left;
+	text-transform: none;
+}
+
+.CreatedByHeader
+{
+	font-size: 8pt;
+	font-weight: normal;
+	color: #365297;
+	font-family: Tahoma, Verdana;
+	text-align: right;
+	text-transform: none;
+}
+
+/*-----------------------------------------------------------------------------------
+	Styles used in the Wizard Body
+-----------------------------------------------------------------------------------*/
+
+.ContentLabel
+{
+    font-weight: normal;
+	font-size: 9pt;
+	font-family: Tahoma;
+	text-align: right;
+	color: #333333;	
+}
+
+.TitleLabel
+{
+    font-weight: bolder;
+	font-size: 8pt;
+	font-family: Verdana, Tahoma;
+	text-align: right;
+	color: #333333;
+	padding-right: 10px;
+}
+
+.EmphasizeLabel
+{
+    font-weight: normal;
+	font-size: 9pt;
+	font-family: Tahoma;
+	text-align: left;
+	color: #333333;
+	padding-left: 10px;
+}
+
+.ErrorLabel
+{
+    font-weight: bold;
+	font-size: 9pt;
+	font-family: Tahoma;
+	text-align: left;
+	color: Red;
+	padding-left: 10px;
+}
+
+.ServiceTitle
+{
+    font-weight: bold;
+	font-size: 14pt;
+	color: #365297; 
+	font-family: Tahoma, Verdana;
+	text-align: left;
+}
+
+/*-----------------------------------------------------------------------------------
+	Label Styles
+-----------------------------------------------------------------------------------*/
+
+.LabelApplication
+{
+	font-family: Verdana;
+	font-size: 16pt;
+	font-weight: bold;
+	text-align: left;
+	color: #0F2D68;
+	padding-left: 5px;
+}
+
+.LabelApplication2
+{
+	font-family: Verdana;
+	font-size: 17pt;
+	font-weight: bold;
+	text-align: left;
+	color: #0F2D68;
+	padding-left: 2px;
+}
+
+.LabelCompany
+{
+	font-family: Georgia;
+	font-size: 10pt;
+	text-align: left;
+	color: #000000;
+	padding-left: 5px;
+}
+
+.LabelUserTitle
+{
+	font-size: 8pt;
+	color: White; /*#FFFF00;*/
+	font-family: Tahoma, Arial;
+	text-transform: capitalize;
+	text-align: right;
+	text-indent: 10px;
+	padding-right: 5px;
+}
+
+.LabelBold
+{
+    font-weight: bolder;
+	font-size: 8pt;
+	color: #333333;
+	font-family: Tahoma;
+	text-align: right;
+	padding-right: 10px;
+}
+
+.LabelNotes
+{
+    font-weight: normal;
+	font-size: 8pt;
+	color: red;
+	font-family: Tahoma;
+	text-align: left;
+}
+
+.LabelNormal
+{
+    font-weight: normal;
+	font-size: 9pt;
+	color: Black;
+	font-family: Tahoma;
+	text-align: left;	
+}
+
+.LabelBoldGreen
+{
+    font-weight: bolder;
+	font-size: 8pt;
+	color: Green;
+	font-family: Tahoma;
+	text-align: right;
+	padding-right: 10px;
+}
+
+.LabelBoldCenter
+{
+    font-weight: bolder;
+	font-size: 8pt;
+	color: #333333;
+	font-family: Tahoma;
+	text-align: center;
+}
+
+.TextLeft
+{
+	font-size: 9pt;
+	color: #333333;
+	font-family: Tahoma;
+	text-align: left;
+}
+
+.TextLeftMandatory
+{
+	font-size: 9pt;
+	color: #333333;
+	font-family: Tahoma;
+	text-align: left;
+	background-color: #BAF984; 
+}
+
+.TextRight
+{
+	font-size: 9pt;
+	color: #333333;
+	font-family: Tahoma;
+	text-align: right;
+}
+
+.TextRight
+{
+	font-size: 9pt;
+	color: #333333;
+	font-family: Tahoma;
+	text-align: right;
+}
+
+.TextRightMandatory
+{
+	font-size: 9pt;
+	color: #333333;
+	font-family: Tahoma;
+	text-align: right;
+	background-color: #BAF984; /*#ffff66;*/
+}
+
+.TextCapitalDisabled
+{
+	font-size: 9pt;
+	color: GrayText;
+	font-family: Tahoma;
+	text-transform: capitalize;
+}
+
+.TextCapital
+{
+	font-size: 9pt;
+	color: #333333;
+	font-family: Tahoma;
+	text-transform: capitalize;
+	width: 200px;
+}
+
+.TextCapitalHiglighted
+{
+	font-size: 9pt;
+	color: Red;
+	font-family: Tahoma;
+	font-weight: bold;
+	text-transform: capitalize;
+}
+
+.TextCapitalNormal
+{
+	font-size: 9pt;
+	color: #333333;
+	font-family: Tahoma;
+	font-weight: normal;
+	text-transform: capitalize;
+}
+
+.TextNormal
+{
+	font-size: 9pt;
+	color: #333333;
+	font-family: Tahoma;
+	font-weight: normal;
+	text-transform: none;
+}
+
+.TextNormalSmall
+{
+	font-size: 8pt;
+	color: #333333;
+	font-family: Tahoma;
+	font-weight: normal;
+	text-transform: none;
+}
+
+.TextLower
+{
+	font-size: 9pt;
+	color: #333333;
+	font-family: Tahoma;
+	text-transform: lowercase;
+}
+
+.TextCapitalMandatory
+{
+	font-size: 9pt;
+	color: #333333;
+	font-family: Tahoma;
+	text-transform: capitalize;
+	background-color: #ffff66;
+}
+
+.TextUpper
+{
+	font-size: 9pt;
+	text-transform: uppercase;
+	color: #333333;
+	font-family: Tahoma;
+}
+
+.TextUpperMandatory
+{
+	font-size: 9pt;
+	text-transform: uppercase;
+	color: #333333;
+	font-family: Tahoma;
+	background-color: #ffff66;
+}
+
+.TextTitle
+{
+	font-family: Tahoma;
+	font-size: 16pt;
+	font-weight: normal;
+	text-align: left;
+	color: Black;
+	vertical-align: top;
+}
+
+.TextDisabled
+{
+	font-size: 9pt;
+	color: GrayText;
+	font-family: Tahoma;
+	text-align: left;
+	background-color: InactiveBorder;
+}
+
+.TextEnabled
+{
+	font-size: 9pt;
+	color: #333333;
+	font-family: Tahoma;
+	text-align: left;
+}
+
+.TextBold
+{
+    font-weight: bolder;
+	font-size: 8pt;
+	color: #333333;
+	font-family: Tahoma;
+	text-align: right;
+}
+
+.TextDateTime
+{
+	font-size: 9pt;
+	color: #333333;
+	font-family: Tahoma;
+	text-align: left;
+	text-transform: capitalize;
+}
+
+.FormTitleLabel
+{
+    font-weight: bolder;
+	font-size: 12pt;
+	color: #365297; 
+	font-family: Verdana, Tahoma;
+	text-align: left;
+}
+
+/*-----------------------------------------------------------------------------------
+	Table Styles
+-----------------------------------------------------------------------------------*/
+
+.TableError
+{
+    width: 100%;
+    border-style: solid;
+    border-width: 2px;
+    border-color: Green;    
+}
+
+.RowStyle
+{
+    background-color: #F4F4F4;
+}
+
+tr.RowDetails
+{
+    height: 30px;
+}
+
+.ButtonSeparator
+{	
+	margin-left: 10px;
+    text-align: right;
+    width: 40px;
+}
+
+/*-----------------------------------------------------------------------------------
+	Panel Group Styles
+-----------------------------------------------------------------------------------*/
+
+.PanelError
+{
+    font-size: 9pt;
+	font-weight: normal;
+	text-align: left;
+	margin-top: 0px;
+	margin-left: 0px;
+	padding-top: 0px;
+	padding-left: 0px;	
+}
+
+.PanelError fieldset
+{
+    margin: 0px;
+	padding: 0px 20px 20px 20px;	
+	vertical-align: top;	
+}
+
+.PanelError fieldset div
+{
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;    
+}
+
+.PanelError fieldset legend
+{
+	padding: 0px 10px 0 5px;
+	margin: 0px;
+	font-size: 12pt;
+	font-weight: bold;
+	text-indent: 45px;
+	vertical-align: top;
+	background-image: url('../../Images/error_icon.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+	height: 46px;	
+	line-height: 35px;
+	color: Red; 	
+}
+
+.GroupLayoutIncident
+{
+    font-size: 10pt;
+	font-weight: normal;
+	text-align: left;
+	margin: 0px;
+	padding-top: 20px;
+	padding-left: 20px;	
+	padding-right: 20px;	
+}
+
+.GroupLayoutIncident fieldset
+{
+	vertical-align: top;
+	/*border-style: outset;
+	border-width: 3px;*/	
+}
+
+.GroupLayoutIncident fieldset div
+{
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;    
+}
+
+.GroupLayoutIncident fieldset legend
+{
+	padding: 0px 10px 0 8px;
+	margin: 0px;
+	font-size: 12pt;
+	font-weight: bold;
+	text-indent: 35px;
+	vertical-align: top;
+	background-image: url('../../Images/incident_icon.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+	height: 42px;	
+	line-height: 35px;
+	color: #457BA5; /*#0F4383 #0000CC;*/
+}
+
+.GroupLayoutSearch
+{
+	font-size: 10pt;
+	font-weight: normal;
+	text-align: left;
+	margin-top: 30px;
+	padding-top: 0px;
+}
+
+.GroupLayoutSearch fieldset
+{
+	margin: 0px 20px 0px 20px;
+	padding: 0px;	
+	vertical-align: top;
+}
+
+.GroupLayoutSearch fieldset div
+{
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;
+}
+
+.GroupLayoutSearch fieldset legend
+{
+	padding: 0px 10px 0 10px;
+	margin: 0px;
+	font-size: 12pt;
+	font-weight: bold;
+	text-indent: 25px;
+	vertical-align: top;
+	background-image: url('../../Images/searchresults.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+	height: 35px;
+	line-height: 25px;
+	color: #365297; /*#0000CC;*/
+}
+
+.GroupPanelControlList
+{
+	font-size: 10pt;
+	font-weight: normal;
+	text-align: left;
+	margin-top: 10px;
+	padding-top: 0px;
+}
+
+.GroupPanelControlList fieldset
+{
+	margin: 0px 20px;
+	padding: 0px;	
+	vertical-align: top;
+}
+
+.GroupPanelControlList fieldset div
+{
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;
+}
+
+.GroupPanelControlList fieldset legend
+{
+	padding: 0px 10px 0 10px;
+	margin: 0px;
+	font-size: 12pt;
+	font-weight: bold;
+	text-indent: 0px;
+	vertical-align: top;
+	/*background-image: url('../../Images/control_icon.png');
+	background-repeat: no-repeat;
+	background-position: left center;*/
+	height: 35px;
+	line-height: 25px;
+	color: #365297; 
+}
+
+.GroupPanelWorkflowActivity
+{
+	font-size: 10pt;
+	font-weight: normal;
+	text-align: left;
+	margin-top: 10px;
+	padding-top: 0px;
+}
+
+.GroupPanelWorkflowActivity fieldset
+{
+	margin: 0px 30px;
+	padding: 0px;	
+	vertical-align: top;
+}
+
+.GroupPanelWorkflowActivity fieldset div
+{
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;
+}
+
+.GroupPanelWorkflowActivity fieldset legend
+{
+	padding: 0px 10px 0 10px;
+	margin: 0px;
+	font-size: 11pt;
+	font-weight: bold;
+	text-indent: 0px;
+	vertical-align: top;
+	/*background-image: url('../../Images/control_icon.png');
+	background-repeat: no-repeat;
+	background-position: left center;*/
+	height: 35px;
+	line-height: 25px;
+	color: #365297; 
+}
+
+.GroupPanelUDCDetail
+{
+	font-size: 10pt;
+	font-weight: normal;
+	text-align: left;
+	margin-top: 15px;
+	padding-top: 0px;
+}
+
+.GroupPanelUDCDetail fieldset
+{
+	margin: 0px 30px 0px 30px;
+	padding: 0px;	
+	vertical-align: top;
+}
+
+.GroupPanelUDCDetail fieldset div
+{
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;
+}
+
+.GroupPanelUDCDetail fieldset legend
+{
+	padding: 0px 10px 0 10px;
+	margin: 0px;
+	font-size: 12pt;
+	font-weight: bold;
+	text-indent: 0px;
+	vertical-align: top;
+	/*background-image: url('../../Images/info.png');
+	background-repeat: no-repeat;
+	background-position: left center;*/
+	height: 35px;
+	line-height: 25px;
+	color: #365297; 
+}
+
+.GroupPanelSearch
+{
+    font-size: 10pt;
+	font-weight: normal;
+	text-align: left;
+	margin-top: 0px;
+	padding-top: 0px;
+}
+
+.GroupPanelSearch fieldset
+{
+	margin: 10px 20px 0px;
+	padding: 0px;	
+	vertical-align: top;
+}
+
+.GroupPanelSearch fieldset div
+{
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;   
+}
+
+.GroupPanelSearch fieldset legend
+{
+	padding: 0px;
+	margin: 0px;
+	font-size: 12pt;
+	font-weight: bold;
+	text-indent: 30px;
+	text-align: left;
+	vertical-align: top;
+	background-image: url('../../Images/searchresults.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+	height: 35px;	
+	line-height: 25px;
+	color: #365297; /*#457BA5;*/ 
+}
+
+.GroupBasicInfo
+{
+    font-size: 9pt;
+	font-weight: normal;
+	text-align: left;
+	margin-top: 0px;
+	margin-left: 0px;
+	padding-top: 0px;
+	padding-left: 0px;
+}
+
+.GroupBasicInfo fieldset
+{
+	margin: 0px 20px 5px 0px;
+	padding: 0px 10px 0px 20px;	
+	vertical-align: top;
+}
+
+.GroupBasicInfo fieldset div
+{
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;
+}
+
+.GroupBasicInfo fieldset legend
+{
+	padding: 0px 10px 0 8px;
+	margin: 0px;
+	font-size: 10pt;
+	font-weight: bold;
+	text-indent: 32px;
+	vertical-align: top;
+	background-image: url('../../Images/info.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+	height: 42px;	
+	line-height: 35px;
+	color: #0000CC;
+}
+
+.GroupLayoutReassign
+{
+	font-size: 10pt;
+	font-weight: normal;
+	text-align: left;
+	margin-top: 30px;
+	padding-top: 0px;
+}
+
+.GroupLayoutReassign fieldset
+{
+	margin: 30px 20px 10px 20px;
+	padding: 0px;	
+	vertical-align: top;
+}
+
+.GroupLayoutReassign fieldset div
+{
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;
+}
+
+.GroupLayoutReassign fieldset legend
+{
+	padding: 0px 10px 0 10px;
+	margin: 0px;
+	font-size: 12pt;
+	font-weight: bold;
+	text-indent: 25px;
+	vertical-align: top;
+	background-image: url('../../Images/reassign.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+	height: 35px;
+	line-height: 25px;
+	color: #365297; /*#0000CC;*/
+}
+
+.PanelNoIcon
+{
+    border-style: solid;
+    border-color: ActiveBorder;
+    border-width: 1px;
+	margin: 0px 10px;
+	padding: 0px;
+}
+
+.PanelNoIcon fieldset
+{
+	margin: 0px;
+	padding: 0px;	
+	vertical-align: top;
+}
+
+.PanelNoIcon fieldset div
+{
+	margin: 0px;
+	padding: 0px;
+}
+
+.DynamicPanel
+{
+    font-size: 10pt;
+	font-weight: normal;
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 0px;
+	vertical-align: top;
+}
+
+.DynamicPanel fieldset
+{
+	vertical-align: top;
+}
+
+.DynamicPanel fieldset div
+{
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;    
+}
+
+.DynamicPanel fieldset legend
+{
+	padding: 0px 10px 0 8px;
+	margin: 0px;
+	font-size: 12pt;
+	font-weight: bold;
+	text-indent: 30px;
+	vertical-align: top;
+	background-image: url('../../Images/info.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+	height: 30px;	
+	line-height: 25px;
+	color: #457BA5; 
+}
+
+.DynamicPanelApproval
+{
+    font-size: 10pt;
+	font-weight: normal;
+	text-align: left;
+	margin: 0px;
+	padding-top: 0px;	
+	vertical-align: top;
+}
+
+.DynamicPanelApproval fieldset
+{
+	vertical-align: top;	
+	margin-left: 10px;
+	margin-right: 30px;
+}
+
+.DynamicPanelApproval fieldset div
+{
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;    
+}
+
+.DynamicPanelApproval fieldset legend
+{
+	padding: 0px 10px 0px 0px;
+	margin: 0px;
+	font-size: 12pt;
+	font-weight: bold;
+	text-indent: 5px;
+	vertical-align: top;
+	height: 35px;	
+	line-height: 30px;
+	color: #457BA5; 
+}
+
+.GroupPanelNoIcon 
+{
+    font-size: 10pt;
+	font-weight: normal;
+	text-align: left;
+	margin-top: 0px;
+	padding-top: 0px;
+}
+
+.GroupPanelNoIcon fieldset
+{
+	margin: 0px 20px;
+	padding: 0px;	
+	vertical-align: top;
+}
+
+.GroupPanelNoIcon fieldset div
+{
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;   
+}
+
+.GroupPanelNoIcon fieldset legend
+{
+	padding: 0px;
+	margin: 0px;
+	font-size: 12pt;
+	font-weight: bold;
+	text-indent: 8px;
+	text-align: left;
+	vertical-align: top;
+	height: 35px;	
+	line-height: 30px;
+	color: #365297; /*#457BA5;*/ 
+}
+
+.GroupPanel, .GroupPanelSummary 
+{
+    font-size: 10pt;
+	font-weight: normal;
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 0px;
+	vertical-align: top;
+}
+
+.GroupPanel, .GroupPanelSummary fieldset
+{
+	vertical-align: top;
+	margin-left: 30px;
+	margin-right: 30px;
+}
+
+.GroupPanel, .GroupPanelSummary fieldset div
+{
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;    
+}
+
+.GroupPanel fieldset legend
+{
+	padding: 0px 10px 0 8px;
+	margin: 0px;
+	font-size: 12pt;
+	font-weight: bold;
+	text-indent: 30px;
+	text-align: left;
+	vertical-align: top;
+	background-image: url('../../Images/control_icon.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+	height: 35px;	
+	line-height: 30px;
+	color: #457BA5; 
+}
+
+.GroupPanelSummary fieldset legend
+{
+	padding: 0px 10px 0 8px;
+	margin: 0px;
+	font-size: 12pt;
+	font-weight: bold;
+	text-indent: 30px;
+	text-align: left;
+	vertical-align: top;
+	background-image: url('../../Images/info.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+	height: 40px;	
+	line-height: 35px;
+	color: #365297; 
+}
+
+.GroupPanelWorkflow 
+{
+    font-size: 10pt;
+	font-weight: normal;
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+	padding-top: 0px;
+	vertical-align: top;
+}
+
+.GroupPanelWorkflow fieldset
+{
+	vertical-align: top;
+	margin-left: 30px;
+	margin-right: 30px;
+}
+
+.GroupPanelWorkflow fieldset div
+{
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;    
+}
+
+.GroupPanelWorkflow fieldset legend
+{
+	padding: 0px 10px 0 8px;
+	margin: 0px;
+	font-size: 12pt;
+	font-weight: bold;
+	text-indent: 27px;
+	text-align: left;
+	vertical-align: top;
+	background-image: url('../../Images/workflow_icon.png');
+	background-repeat: no-repeat;
+	background-position: left center;
+	height: 35px;	
+	line-height: 30px;
+	color: #365297; 
+}
+
+.UCPlaceHolder
+{
+	text-align: left;
+	margin: 0px;
+	padding: 0px;
+	vertical-align: top;
+}
+
+/*-----------------------------------------------------------------------------------
+	Validation and Error Styles
+-----------------------------------------------------------------------------------*/
+
+.ValidationError
+{
+	margin: 5px 20px;
+	padding: 5px;
+	font-family: Tahoma;
+	border: 2px solid #000000;
+	color: #FFFFFF;
+	font-weight: bold;
+	background-color: #FF0000;
+	font-size: 10pt;
+	text-indent: 10px;
+}
+
+.UserControlValidationError
+{
+	margin: 5px;
+	padding: 5px;
+	font-family: Tahoma;
+	border: 2px solid #000000;
+	color: #FFFFFF;
+	background-color: #FF0000;
+	font-weight: bold;
+	font-size: 10pt;
+	text-indent: 10px;
+}
+
+.ValidationError ul
+{
+	margin: 1px 1px 1px 15px;
+	padding: 2px;
+	font-weight: normal;
+}
+.LabelValidationError
+{
+	color: #ff0000;
+	cursor: hand;
+}
+
+/*-----------------------------------------------------------------------------------
+	Styles Used to Populate Controls Dynamically
+-----------------------------------------------------------------------------------*/
+
+.Combo
+{
+	font-size: 8pt;
+	width: 100%;
+	font-family: Tahoma;
+}
+
+.ComboMandatory
+{
+	font-size: 8pt;
+	width: 100%;
+	font-family: Tahoma;
+	background-color: #ffff66;
+}
+
+/*-----------------------------------------------------------------------------------
+	Miscelleneus Styles
+-----------------------------------------------------------------------------------*/
+
+.RadButtonStyle
+{
+    margin-right: 2px;
+}
+
+.SearchResult
+{
+	padding: 10px 0px 5px 0px;
+	margin-left: 20px;
+	margin-right: 20px;
+	table-layout: fixed;
+	width: 100%;
+}
+
+.GridTitle
+{
+    font-weight: bolder;
+	font-size: 9pt;
+	color: #365297; /*#457BA5;*/
+	font-family: Tahoma;
+	text-align: left;
+	text-decoration: underline;
+}
+
+.CheckBold
+{
+    font-weight: bolder;
+	font-size: 8pt;
+	color: #333333;
+	font-family: Tahoma;
+	text-align: left;
+	padding-right: 8px;
+	padding-left: 8px;
+}
+
+.CheckBoldBPI
+{
+    font-weight: bolder;
+	font-size: 9pt;
+	color: Blue;
+	font-family: Tahoma;
+	text-align: left;
+	padding-right: 8px;
+	padding-left: 8px;
+}
+
+.CheckBoldRight
+{
+    font-weight: bolder;
+	font-size: 8pt;
+	color: #333333;
+	font-family: Tahoma;
+	text-align: right;
+	padding-right: 5px;
+}
+
+.HideButton
+{
+     visibility:hidden;      
+}
+
+.TagoButton
+{
+     display: none;      
+}
+
+.CalendarPopup
+{
+	font-family: Tahoma, Verdana;
+	font-size: 11px;
+}
+
+.DatePickerPanel
+{
+	position: absolute;
+	left: 10px;
+	top: 100px;
+	display: none;
+	z-index: 1000;
+}
+
+.ShowDatePickerPanel
+{
+	position: absolute;
+	left: 10px;
+	top: 100px;
+	z-index: 1000;
+}
+
+.ImageCalendar
+{
+    vertical-align: top;
+    text-align: left;
+    padding-top: 10px;
+}
+
+.TimeFormatText
+{
+	font-size: 9pt;
+	color: Gray;
+	font-family: Tahoma;
+	text-align: left;
+	padding-left: 5px;
+}
+
+.GroupPanelBody
+{
+	font-size: 9pt;
+	font-weight: normal;
+	text-align: left;
+	margin-top: 10px;
+	padding-top: 0px;
+}
+
+.GroupPanelBody fieldset
+{
+	margin: 0px 20px;
+	padding: 0px;	
+	vertical-align: top;
+}
+
+.GroupPanelBody fieldset div
+{
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;
+}
+
+.GroupPanelBody fieldset legend
+{
+	padding: 0px 10px 0 10px;
+	margin: 0px;
+	font-size: 11pt;
+	font-weight: bold;
+	text-indent: 0px;
+	vertical-align: top;
+	height: 25px;
+	line-height: 20px;
+	color: #365297; 
+}
+
+.PanelTitleOnly
+{
+    font-size: 10pt;
+	font-weight: normal;
+	text-align: left;
+	margin-top: 0px;
+	margin-left: 0px;
+	padding-top: 0px;
+	padding-left: 0px;
+}
+
+.PanelTitleOnly fieldset
+{
+	margin: 0px 20px 5px 0px;
+	padding: 0px 10px 0px 20px;	
+	vertical-align: top;
+}
+
+.PanelTitleOnly fieldset div
+{
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;
+}
+
+.PanelTitleOnly fieldset legend
+{
+	padding: 0px 10px 0 8px;
+	margin: 0px;
+	font-size: 10pt;
+	font-weight: bold;
+	text-indent: 0px;
+	vertical-align: top;
+	/*background-image: url('../../Images/info.png');
+	background-repeat: no-repeat;
+	background-position: left center;*/
+	height: 32px;	
+	line-height: 25px;
+	color: #365297; /*#0000CC;*/
+}
+
+.ColoredPanelTitle
+{
+    font-size: 9pt;
+	font-weight: normal;
+	text-align: left;
+	margin-top: 0px;
+	margin-left: 0px;
+	padding-top: 0px;
+	padding-left: 0px;
+}
+
+.ColoredPanelTitle fieldset
+{
+	margin: 0px 0px 0px 15px;
+	padding: 0px 5px 5px 5px;	
+	vertical-align: top;
+}
+
+.ColoredPanelTitle fieldset div
+{
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;
+}
+
+.ColoredPanelTitle fieldset legend
+{
+	padding: 0px;
+	margin: 0px;
+	font-size: 9pt;
+	font-weight: bold;
+	text-indent: 0px;
+	vertical-align: top;
+	height: 20px;	
+	line-height: 15px;
+	color: #365297;
+}
+
+a.Menulink
+{
+	color: gold;
+	font-family: Verdana;
+	font-size: 8pt;
+	text-decoration: none;
+}
+
+a.Menulink:hover
+{
+	text-decoration: underline;
+}
+
+.LogoffStyle
+{
+	font-size: 8pt;
+	font-weight: normal;
+	font-family: Tahoma;
+	color: gold; 
+	text-transform: capitalize;
+	position: absolute;
+	right: 240px;
+	top: 8px;
+	z-index: 143;
+}
+
+.MenuBarStyle
+{
+	font-size: 8pt;
+	font-weight: normal;
+	font-family: Tahoma;
+	color: gold; 
+	text-transform: none;
+	position: absolute;
+	top: 8px;
+    right: 290px;
+	z-index: 143;
+}
+
+.columnEllipsis
+{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.GroupPanelHeader
+{
+	font-size: 10pt;
+	font-weight: normal;
+	text-align: left;
+	margin-top: 10px;
+	padding-top: 0px;
+}
+
+.GroupPanelHeader fieldset
+{
+	margin: 0px 20px;
+	padding: 0px;	
+	vertical-align: top;
+}
+
+.GroupPanelHeader fieldset div
+{
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;
+}
+
+.GroupPanelHeader fieldset legend
+{
+	padding: 0px 10px 0 10px;
+	margin: 0px;
+	font-size: 11pt;
+	font-weight: bold;
+	text-indent: 0px;
+	vertical-align: top;
+	height: 27px;
+	line-height: 20px;
+	color: #365297; 
+}
+
+.PanelTitle
+{
+	font-size: 10pt;
+	font-weight: normal;
+	text-align: left;
+	margin-top: 10px;
+	padding-top: 0px;
+}
+
+.PanelTitle fieldset
+{
+	margin: 0px 5px 0px 20px;
+	padding: 0px;	
+	vertical-align: top;
+}
+
+.PanelTitle fieldset div
+{
+    margin: 0px;
+    padding: 0px;
+    vertical-align: top;
+}
+
+.PanelTitle fieldset legend
+{
+	padding: 0px 5px 0 10px;
+	margin: 0px;
+	font-size: 11pt;
+	font-weight: bold;
+	text-indent: 0px;
+	vertical-align: top;
+	height: 23px;
+	line-height: 20px;
+	color: #365297; 
+}
+
+.GridColumnHeader
+{
+	font-size: 7pt;
+	font-weight: bolder;
+	font-family: Arial;
+	color: Gray; 
+    text-transform: uppercase;
+	position: absolute;
+	left: 20px;
+	top: 400px;
+	z-index: 150;
+    height: 15px;
+    vertical-align: bottom;
+}
+
+.RadioButtonListBold
+{
+    font-weight: bolder;
+	font-size: 9pt;
+	color: #333333;
+	font-family: Tahoma;
+	text-align: left;
+	padding-right: 8px;
+	padding-left: 8px;
+}
+
+div.RadGrid .rgAltRow
+{
+   background: whitesmoke;
+}
+
+.OvertimeBudgetPanel
+{    
+	position: absolute;
+	right: 10px;
+	top: 145px;
+}

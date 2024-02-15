@@ -1,0 +1,100 @@
+IF OBJECT_ID('dbo.udf_getpendingclaimrequirement') IS NOT NULL
+	DROP FUNCTION dbo.udf_getpendingclaimrequirement
+GO
+
+CREATE FUNCTION dbo.udf_getpendingclaimrequirement
+(
+	 @claim_id VARCHAR(12)
+)
+RETURNS VARCHAR(20)
+AS
+/*********************************************************************************
+*	Revision History
+*
+*	Name: udfgetpendingclaimrequirement
+*	Description: Get the first pending claim requirement.
+*
+*	Date:		Author:		Ref#:	Comments:
+*	09/17/10	EBrosas		N/A		Created
+**********************************************************************************/
+BEGIN
+	-- Declare variables here
+	DECLARE  @pending INT
+		,@status VARCHAR(5)
+		,@system_insurer_id INT
+		,@claim_type_code VARCHAR(20)
+	
+	DECLARE @temp TABLE
+	(
+		claim_reference CHAR(20)
+	   ,activity_id INT
+	)
+
+	IF EXISTS(SELECT claim_id FROM CLAIM c
+				WHERE c.claim_id = @claim_id 
+				AND c.claim_id_status = 0)
+	BEGIN
+		--Get insurer and claim type
+		SELECT   @system_insurer_id = system_insurer_id
+				,@claim_type_code = claim_type
+		FROM dbo.Claim
+		WHERE claim_id = @claim_id
+
+		--Check if claim is claim type or claim level.
+		IF EXISTS(SELECT claim_id FROM Claim WHERE has_claim_level_activity_settings = 1 AND claim_id = @claim_id)
+		BEGIN
+			--Claim level
+			INSERT INTO @temp (claim_reference, activity_id)
+				SELECT claim_reference, activity_id
+				FROM dbo.Claim_Requirements
+				WHERE claim_reference = @claim_id
+
+		END
+		ELSE 
+		BEGIN
+			--Claim type level
+			INSERT INTO @temp (claim_reference, activity_id)
+				SELECT @claim_id, activity_id
+				FROM dbo.trn_InsurerClaimTypeActivityReq
+				WHERE system_insurer_id = @system_insurer_id 
+					  AND claim_type_code = @claim_type_code
+		END
+
+		--Compare claim requirements and claim activity to get pending requirements.	
+		DELETE ref 
+		FROM @temp ref
+		INNER JOIN claim_activity ca ON ref.activity_id = ca.activity_id
+		WHERE ca.claim_id = @claim_id
+
+		--Get the first pending requirement
+		SELECT TOP 1 @pending=activity_id 
+		FROM @temp 
+		ORDER BY activity_id
+
+		IF NOT (@pending IS NULL)
+		BEGIN
+			SET @status =	CASE (@pending)
+								WHEN 1 THEN 'CS1' -- Awaiting Patient/Policy Data
+								WHEN 6 THEN 'CS5' -- Awaiting Hospital Invoice
+								WHEN 7 THEN 'CS6' -- Awaiting Radiology Invoice
+								WHEN 8 THEN 'CS7' -- Awaiting Lab Invoice
+								WHEN 9 THEN 'CS8' -- Awaiting Anaesthesiology Invoice
+								ELSE 'CS3' -- Awaiting Consultant Documentation
+							END
+		END
+		ELSE IF EXISTS(SELECT claim_id FROM Claim WHERE claim_id = @claim_id AND is_auto_ready = 1 )
+		BEGIN
+			SET @status = 'CS9' -- Ready for Submission
+		END
+		ELSE 
+		BEGIN
+			SET @status = 'CS18' -- Ready for QA Check
+		END
+	END
+
+	-- Return the result of the function
+	RETURN @status
+
+END
+GO
+

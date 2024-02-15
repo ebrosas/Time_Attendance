@@ -1,0 +1,114 @@
+ 
+IF OBJECT_ID('[dbo].[usp_procedure_Treatments_forPDF]') IS NOT NULL
+	DROP PROCEDURE [dbo].[usp_procedure_Treatments_forPDF]
+GO 
+   
+CREATE PROCEDURE [dbo].[usp_procedure_Treatments_forPDF]        
+ @admissionid char(12)     
+AS        
+/*************************************************************************************************    
+* Revision History        
+*        
+* Name: usp_procedure_Treatments_forPDF        
+* Description: for pdf procedure.        
+*        
+* Date:    Author:  Ref#: Comments 
+* 10/19/10 LLuchavez      7424 MPF Data Recall,UI and Print Preview   
+* 09/29/10 JVillas N/A  MPF Claim Form Part 2 PDF mapping    
+* 04/30/10 LLL      N/A     Created.        
+*        
+**************************************************************************************************/        
+        
+DECLARE @t table(id int identity ,service_id int, service_type varchar(50), reference_code varchar(30), [description] varchar(1000), treatment_date datetime)    
+DECLARE @count int        
+DECLARE @counter int        
+DECLARE @lab varchar(1000) --2 service type id        
+DECLARE @rad varchar(1000) --3 service type id        
+DECLARE @treat varchar(1000) --5 service type id        
+DECLARE @labVal varchar(1000)        
+DECLARE @radVal varchar(1000)        
+DECLARE @treatVal varchar(1000)        
+DECLARE @concat varchar(4000)      
+DECLARE @desc varchar(1000)    
+    
+DECLARE @proc_code varchar(1000)    
+  ,@proc_date varchar(1000)    
+  ,@date varchar(10)    
+        
+INSERT INTO @t    
+SELECT     
+  servType.id    
+  ,servType.service_type    
+  ,proCode.reference_code    
+  ,proCode.description    
+  ,procedure_date  
+  --,rad1.rad_investigation_date    
+FROM     
+  dbo.trn_Procedure rad1        
+  INNER JOIN dbo.Procedure_Code proCode    
+   ON rad1.procedure_code_id = proCode.procedure_code_id    
+  INNER JOIN dbo.procedure_code_service_type servType    
+   ON proCode.service_type_id = servType.id    
+WHERE admission_id = @admissionid  and proCode.service_type_id=5  
+ORDER BY    
+  servType.id    
+        
+--select * from @t        
+SET @labVal = ''        
+SET @radVal = ''        
+SET @treatVal = ''        
+SET @concat = ''    
+    
+SET @proc_code = ''    
+SET @proc_date = ''        
+        
+SET @count=0        
+SET @counter=0        
+        
+SET @count = (SELECT COUNT(*) FROM @t)    
+        
+WHILE (@counter <= @count)    
+BEGIN       
+ IF ((SELECT service_id FROM @t WHERE id = @counter) = 5)    
+ BEGIN    
+  SELECT    
+    @treat = LTRIM(RTRIM(reference_code))    
+    ,@desc = LTRIM(RTRIM([description]))    
+    ,@date = CONVERT(varchar(10), treatment_date, 3)    
+  FROM @t    
+  WHERE id = @counter    
+    
+  IF (LEN(@concat) > 0)    
+  BEGIN    
+   SET @concat = @concat + ', '    
+   SET @proc_code = @proc_code + ', '    
+   SET @proc_date = @proc_date + ', '    
+  END    
+    
+  SET @concat = @concat + @treat + '-' + @desc    
+  SET @proc_code = @proc_code + @treat    
+  SET @proc_date = @proc_date + @date    
+ END    
+        
+ SET @counter = @counter + 1        
+ PRINT @counter    
+END    
+        
+        
+--if (@labVal <> '')        
+--begin         
+--   set @concat = 'LABORATORY: '+ @labVal + ','        
+--end        
+--        
+--if(@radVal <> '')        
+--begin        
+--   set @concat = @concat + 'RADIOLOGY: ' + @radVal + ','        
+--end        
+--        
+--if(@treatVal <> '')        
+--begin        
+-- set @concat = @concat  + @treatVal        
+--end        
+        
+        
+SELECT @concat AS [procedure], @proc_code AS [procedure_code], @proc_date AS [procedure_date] 

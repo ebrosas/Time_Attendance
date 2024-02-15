@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D980EC30-2822-4576-A0B0-B614BEF4C50E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GARMCO.AMS.TAS.BL</RootNamespace>
+    <AssemblyName>GARMCO.AMS.TAS.BL</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entities\AccessReaderEntity.cs" />
+    <Compile Include="Entities\ADONetParameter.cs" />
+    <Compile Include="Entities\AllowedCostCenter.cs" />
+    <Compile Include="Entities\ApprovalEntity.cs" />
+    <Compile Include="Entities\CostCenterAccessEntity.cs" />
+    <Compile Include="Entities\AttendanceStatisticsEntity.cs" />
+    <Compile Include="Entities\ContractorAttendanceExcel.cs" />
+    <Compile Include="Entities\ContractorAttendance.cs" />
+    <Compile Include="Entities\ContractorEntity.cs" />
+    <Compile Include="Entities\CostCenterEntity.cs" />
+    <Compile Include="Entities\DatabaseSaveResult.cs" />
+    <Compile Include="Entities\DeathReasonOfAbsenceEntity.cs" />
+    <Compile Include="Entities\DependentEntity.cs" />
+    <Compile Include="Entities\DutyROTAEntity.cs" />
+    <Compile Include="Entities\EmergencyContactEntity.cs" />
+    <Compile Include="Entities\EmployeeAbsentEntity.cs" />
+    <Compile Include="Entities\EmployeeAttendanceEntity.cs" />
+    <Compile Include="Entities\EmployeeDetail.cs" />
+    <Compile Include="Entities\DILEntity.cs" />
+    <Compile Include="Entities\EmployeeDirectoryEntity.cs" />
+    <Compile Include="Entities\FireTeamMember.cs" />
+    <Compile Include="Entities\LeaveEntity.cs" />
+    <Compile Include="Entities\MasterShiftPatternEntity.cs" />
+    <Compile Include="Entities\OvertimeBudgetEntity.cs" />
+    <Compile Include="Entities\PunctualityEntity.cs" />
+    <Compile Include="Entities\ReasonOfAbsenceEntity.cs" />
+    <Compile Include="Entities\RelativeType.cs" />
+    <Compile Include="Entities\RoutineHistoryEntity.cs" />
+    <Compile Include="Entities\ServiceLogDetail.cs" />
+    <Compile Include="Entities\ShiftPatternEntity.cs" />
+    <Compile Include="Entities\ShiftProjectionEntity.cs" />
+    <Compile Include="Entities\SystemValueEntity.cs" />
+    <Compile Include="Entities\TASFormEntity.cs" />
+    <Compile Include="Entities\TASJDEComparisonEntity.cs" />
+    <Compile Include="Entities\TrainingRecordEntity.cs" />
+    <Compile Include="Entities\UDCEntity.cs" />
+    <Compile Include="Entities\UserDefinedCodes.cs" />
+    <Compile Include="Entities\UserFormAccessEntity.cs" />
+    <Compile Include="Entities\VisitorPassEntity.cs" />
+    <Compile Include="Entities\VisitorSwipeEntity.cs" />
+    <Compile Include="Entities\WFTransActivityEntity.cs" />
+    <Compile Include="Entities\WorkflowEmailDeliveryEntity.cs" />
+    <Compile Include="Helpers\BLHelper.cs" />
+    <Compile Include="Helpers\DataService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GARMCO.AMS.TAS.DAL\GARMCO.AMS.TAS.DAL.csproj">
+      <Project>{72296836-603d-4317-8d7b-7da1b4423810}</Project>
+      <Name>GARMCO.AMS.TAS.DAL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

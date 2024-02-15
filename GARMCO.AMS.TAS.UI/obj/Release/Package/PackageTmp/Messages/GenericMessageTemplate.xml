@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<message>
+  &lt;b&gt;Note:&lt;/b&gt; This is an auto-generated email, please do not reply.&lt;br /&gt; &lt;br /&gt; &lt;br /&gt;
+  Dear {0},
+  &lt;br /&gt;
+  &lt;br /&gt;
+
+  {1}
+
+  &lt;br /&gt;
+  &lt;br /&gt;
+
+  You may view the request by clicking &lt;A href="{2}"&gt;here&lt;/A&gt; or through the &lt;b&gt;Time and Attendance System&lt;/b&gt; site.
+  
+  &lt;br /&gt;
+  &lt;br /&gt;
+  &lt;br /&gt;
+  
+  Regards,
+  &lt;br /&gt;
+
+  &lt;b&gt;{3}&lt;/b&gt;
+</message>

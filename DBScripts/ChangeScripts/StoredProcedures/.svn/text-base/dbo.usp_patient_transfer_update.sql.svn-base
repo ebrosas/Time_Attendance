@@ -1,0 +1,56 @@
+IF OBJECT_ID('dbo.usp_patient_transfer_update') IS NOT NULL
+	DROP PROCEDURE [dbo].[usp_patient_transfer_update]
+GO
+
+CREATE PROCEDURE [dbo].[usp_patient_transfer_update]
+(
+	 @patient_transfer_id int
+	,@claim_id varchar(12)	
+	,@transfer_date datetime
+	,@system_bed_id int
+	,@system_room_id int
+	,@system_ward_id int
+	,@user_id varchar(20)		
+)
+AS
+
+/*********************************************************************************
+*	Revision History
+*
+*	Name: [usp_patient_transfer_update]
+*	Description: Inserts a patient bed transfer record
+*
+*	Date:		Author:		Ref#:	Comments:
+*	10/26/10	EBrosas		7429	Change SP call from usp_audit_logging to usp_audit_logging_new.
+*	06/22/10	RFernando	6073	Added room in update
+*	01/13/10	RFernando	N/A		Created.
+*
+**********************************************************************************/
+
+DECLARE @current_date DATETIME
+SET @current_date = GETDATE()
+
+UPDATE [dbo].[Patient_Transfer]
+SET
+	 claim_id = @claim_id
+	,transfer_date = @transfer_date
+	,system_bed_id = @system_bed_id
+	,system_room_id = @system_room_id
+	,system_ward_id = @system_ward_id
+	,update_date = @system_ward_id
+	,update_user = @user_id
+WHERE
+	patient_transfer_id = @patient_transfer_id 
+
+EXEC usp_audit_logging_new 
+	 @patient_transfer_id
+	,@claim_id
+	,'Patient_Transfer'
+	,'Update'
+	,@current_date
+	,@user_id
+	,'CF_Manage'
+
+GO
+
+
